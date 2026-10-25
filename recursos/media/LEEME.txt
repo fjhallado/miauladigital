@@ -1,0 +1,1 @@
+Coloca aquí imágenes, vídeos, archivos PDF y otros recursos locales. Ejemplo: ../recursos/media/imagen.jpg desde las páginas de asignatura.

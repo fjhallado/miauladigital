@@ -1,0 +1,13 @@
+Mi Aula Digital V1.3
+
+Abre index.html para acceder a la web y editor.html para actualizarla.
+
+En el editor:
+- Selecciona una asignatura y elige Actividad interactiva para incorporar nuevas páginas mediante enlaces o rutas locales.
+- En Otros recursos, crea fichas de materiales gratuitos o enlaces externos para recursos de pago.
+- Pulsa Descargar datos.js actualizado y sustituye el archivo anterior en la web publicada.
+- Si incorporas una actividad HTML local, copia también su carpeta dentro de recursos/ y utiliza una ruta relativa desde la carpeta asignaturas, por ejemplo ../recursos/nueva-actividad/index.html.
+
+Los materiales de pago no se cobran ni se desbloquean desde esta web: la compra y entrega deberán hacerse en una plataforma externa adecuada.
+
+No publiques editor.html en un sitio público: no tiene acceso protegido.

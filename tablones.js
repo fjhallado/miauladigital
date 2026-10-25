@@ -1,0 +1,9 @@
+"use strict";
+const zone=document.querySelector('[data-board]');
+if(zone){
+ const board=zone.dataset.board, data=window.AULA_TABLONES||{}, items=board==='general'?(data.general||[]):((data.asignaturas||{})[board]||[]);
+ const list=zone.querySelector('.board-posts');const note=zone.querySelector('.board-empty');
+ if(items.length)note.hidden=true;
+ items.forEach(m=>{const article=document.createElement('article');article.className='board-post';const h=document.createElement('strong');h.textContent=m.alias||'Visitante';const t=document.createElement('time');t.textContent=m.fecha||'';const p=document.createElement('p');p.textContent=m.texto||'';article.append(h,t,p);list.append(article)});
+ const f=zone.querySelector('form');f.addEventListener('submit',e=>{e.preventDefault();const alias=f.elements.alias.value.trim()||'Visitante',texto=f.elements.mensaje.value.trim();if(!texto)return;const mail=(window.AULA_CONFIG||{}).correoContacto||'';const tema=board==='general'?'Tablón general': 'Tablón '+document.title;const subject='Mi Aula Digital · '+tema;const body='Alias (opcional): '+alias+'\nSección: '+tema+'\n\nMensaje para revisión:\n'+texto;const uri='mailto:'+encodeURIComponent(mail)+'?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(body);if(!mail){const temp=document.createElement('textarea');temp.value=subject+'\n'+body;document.body.append(temp);temp.select();try{document.execCommand('copy')}catch(_){}temp.remove();zone.querySelector('.board-status').textContent='Falta configurar un correo de destino. Hemos intentado copiar el mensaje: envíalo al profesor por Teams.';return;}window.location.href=uri;zone.querySelector('.board-status').textContent='Se ha abierto tu aplicación de correo. Comprueba que se haya enviado. El mensaje solo aparecerá aquí si el profesor lo publica.';});
+}

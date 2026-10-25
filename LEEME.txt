@@ -1,0 +1,20 @@
+MI AULA DIGITAL - VERSIÓN EDITABLE
+Autor: Francisco José Hallado Fernández
+
+CÓMO AÑADIR CONTENIDOS SIN PROGRAMAR
+1. Descomprime el ZIP.
+2. Abre editor.html en Chrome o Edge (solo el profesor).
+3. Selecciona una asignatura; añade unidades o recursos con enlace.
+4. Pulsa «Descargar datos.js actualizado».
+5. Sustituye el archivo datos.js original de esta carpeta por el descargado.
+6. Abre index.html para comprobar las nuevas unidades y actividades.
+7. Si la web está publicada en GitHub Pages, sube el nuevo datos.js al mismo lugar y publica los cambios.
+
+IMPORTANTE
+- El editor no cambia los archivos directamente ni sincroniza con OneDrive o GitHub.
+- Los cambios se pierden si cierras la página sin descargar datos.js.
+- Si quieres editar de nuevo, abre editor.html junto con el último datos.js actualizado.
+- No publiques editor.html ni editor.js: no tienen autenticación de profesor.
+- Para los alumnos bastan index.html, asignaturas/, recursos/, datos.js, app.js, estilos.css y fondo_aula_digital.png.
+- Los enlaces de recursos externos precisan Internet; la web y los recursos locales pueden abrirse sin conexión.
+- Puedes alojar la web en GitHub Pages. OneDrive no siempre ejecuta HTML directamente.

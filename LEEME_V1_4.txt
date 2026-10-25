@@ -1,0 +1,14 @@
+MI AULA DIGITAL V1.4
+
+Editor mejorado: crear, editar, ordenar y eliminar unidades y recursos; miniaturas, vídeos, documentos PDF, recursos interactivos; exportación de datos.js y copia JSON.
+
+1. Abre editor.html en el navegador.
+2. Añade o edita contenidos. Para recursos locales, copia previamente los archivos en recursos/media/.
+3. Los enlaces desde una asignatura son ../recursos/media/nombre.pdf, ../recursos/media/foto.jpg, etc.
+4. Descarga datos.js actualizado y reemplaza el archivo anterior junto a index.html.
+5. Si la web está publicada, sube datos.js y los archivos nuevos al alojamiento.
+6. Mantén el editor en tu ordenador y NO lo publiques. No es un panel protegido por contraseña.
+7. La web no carga ni almacena archivos directamente desde el editor, ni sincroniza cambios automáticamente.
+8. Exporta un respaldo JSON periódicamente.
+
+Autor: Francisco José Hallado Fernández.

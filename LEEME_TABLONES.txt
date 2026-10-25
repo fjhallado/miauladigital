@@ -1,0 +1,10 @@
+MI AULA DIGITAL · TABLONES Y CONTACTO
+
+1. Abre index.html y entra en cualquier asignatura para ver su tablón.
+2. Puedes configurar tu dirección de contacto en config.js (campo correoContacto). Sin correo configurado no podrán enviarse mensajes desde la web; se invita a usar Teams.
+3. Los formularios usan la aplicación de correo del alumno. NO hay publicación automática ni almacenamiento en un servidor. El alumno debe pulsar ENVIAR en su aplicación de correo.
+4. Si apruebas un mensaje, abre editor.html > Publicar mensajes revisados, selecciona el tablón y escribe una versión sin datos personales.
+5. Descarga datos.js y reemplaza el archivo antiguo en la web publicada. Puedes quitar mensajes desde el mismo editor.
+6. No publiques nombres completos, correos, grupos ni datos de menores, y no distribuyas editor.html ni editor.js a los alumnos.
+7. Para recibir y mostrar comentarios automáticamente a todos se necesita un servidor y un sistema de moderación y protección antispam. Esta versión estática evita esa dependencia y prioriza revisión previa.
+8. Las páginas acerca.html y contacto.html se enlazan desde el menú.
