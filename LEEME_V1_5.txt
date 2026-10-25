@@ -1,0 +1,6 @@
+MI AULA DIGITAL V1.5
+- Tarjetas visuales para las unidades, con imagen y descripción editables desde editor.html.
+- Ejemplo: Números naturales de Matemáticas 1.º ESO.
+- Contador debajo de autoría: VISITAS DE ESTE NAVEGADOR. NO es un contador global entre usuarios.
+- Un contador global requiere servicio externo o backend, configuración de privacidad y consentimiento si corresponde. No se inventan cifras ni se transmiten datos.
+- Para publicar: sustituir los archivos web, incluyendo contador.js y recursos/media/numeros-naturales.svg. No subir editor.html ni editor.js.

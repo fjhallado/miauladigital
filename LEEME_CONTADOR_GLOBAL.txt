@@ -1,0 +1,12 @@
+MI AULA DIGITAL — VERSIÓN 1.6 | CONTADOR GLOBAL
+
+1. Publica TODOS los archivos de esta carpeta en GitHub Pages (sin la carpeta raíz adicional).
+2. El pie de cada página mostrará la misma cifra de visitas acumuladas.
+3. Se cuenta una visita por sesión de pestaña/navegador; actualizar o cambiar de sección en la misma sesión no vuelve a sumar.
+4. Al abrir el HTML directamente desde el ordenador (file://) el contador no se activa ni suma pruebas.
+5. El servicio externo es Abacus: https://abacus.jasoncameron.dev/ . Gratuito y sin registro al preparar esta versión, sujeto a disponibilidad futura.
+6. La cifra NO es el número exacto de visitantes únicos ni tiene protección fuerte frente a manipulaciones o tráfico automatizado.
+7. El proveedor externo recibe solicitudes de conexión: revisa el aviso legal antes de publicar.
+8. No se necesita clave API ni modificar el editor.
+
+ARCHIVOS ACTUALIZADOS: contador.js, textos de los pies de las páginas y aviso-legal.html.

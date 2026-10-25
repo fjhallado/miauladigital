@@ -8,7 +8,7 @@ window.AULA_MATERIAS = [
     "desc": "Números, operaciones, álgebra y geometría",
     "resources": [],
     "units": [
-      "Números naturales",
+      {"title":"Números naturales","description":"Operaciones, potencias y problemas. Encuentra aquí teoría, vídeos y actividades de repaso.","image":"../recursos/media/numeros-naturales.svg"},
       "Divisibilidad",
       "Fracciones y decimales",
       "Álgebra",

@@ -15,3 +15,14 @@
 
 /* V1.4: miniaturas de recursos */
 .resource-thumb{width:100%;max-height:205px;object-fit:cover;border-radius:10px;border:1px solid #4b668a}.resource-unit{color:#a9c8ec;font-weight:650}.resource{overflow:hidden}
+
+/* V1.5: portadas visuales */
+.units{display:grid;grid-template-columns:repeat(auto-fit,minmax(245px,1fr));gap:18px}
+.unit-card{padding:0;overflow:hidden;display:flex;flex-direction:column;background:rgba(18,35,65,.93);border:1px solid #3a5f94;border-radius:18px}
+.unit-cover{width:100%;aspect-ratio:2.05;object-fit:cover;display:block;background:#223963}
+.unit-body{padding:18px;display:flex;flex-direction:column;gap:11px;flex:1}
+.unit-body h3{margin:0;color:#edf4ff;font-size:1.1rem}
+.unit-body p{color:#c6d9ef;font-size:.91rem;line-height:1.5;margin:0}
+.unit-resource-count{font-size:.82rem;color:#94bbef;margin-top:auto}
+.unit-body a{font-size:.85rem;color:#8ecbff;font-weight:700}
+.visit-counter{display:block;margin-top:7px;color:#b4d6fb;font-size:.82rem}
