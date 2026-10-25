@@ -26,3 +26,16 @@
 .unit-resource-count{font-size:.82rem;color:#94bbef;margin-top:auto}
 .unit-body a{font-size:.85rem;color:#8ecbff;font-weight:700}
 .visit-counter{display:block;margin-top:7px;color:#b4d6fb;font-size:.82rem}
+
+/* V1.7: páginas por unidad didáctica */
+.unit-link{display:inline-block;padding:10px 14px;border:1px solid #5787c3;background:#234570;border-radius:10px;color:#fff!important;text-decoration:none!important;align-self:start;margin-top:8px}
+.unit-link:hover,.unit-link:focus-visible{background:#3363a1}
+.topic-cover{max-height:280px;overflow:hidden;border-radius:18px;border:1px solid #3b5b83;margin:18px 0 30px}
+.topic-cover img{width:100%;max-height:280px;object-fit:cover;display:block}
+.topic-groups{display:grid;gap:22px}
+.topic-group{padding:18px 20px;background:rgba(11,28,52,.83);border:1px solid #324c72;border-radius:16px}
+.topic-group h3{font-size:1.25rem;margin:0 0 18px;color:#eef5ff}
+.topic-empty{color:#b4c4e0;font-size:.92rem;margin:0}
+
+/* Matemáticas: unidades visuales organizadas por trimestre */
+.trimester-heading{grid-column:1/-1;margin:17px 0 0;padding:16px 20px 14px;border-bottom:2px solid #537caf;background:rgba(10,29,58,.83);border-radius:12px 12px 0 0}.trimester-heading h3{font-size:1.3rem;margin:0;color:white}.trimester-heading p{margin:5px 0 0;color:#bdd2f3;font-size:.9rem}.unit-card.term-2{border-color:#7a577f}.unit-card.term-3{border-color:#437d76}.unit-card:hover{transform:translateY(-3px);border-color:#87c1ff;transition:transform .18s,border-color .18s}

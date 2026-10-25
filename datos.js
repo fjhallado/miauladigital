@@ -6,13 +6,64 @@ window.AULA_MATERIAS = [
     "glyph": "∑",
     "tone": "math",
     "desc": "Números, operaciones, álgebra y geometría",
-    "resources": [],
+    "resources": [
+      {
+        "type": "Ficha PDF",
+        "title": "Ficha de potencias",
+        "description": "Ejercicios para practicar las propiedades de las potencias, cálculo y operaciones. Ficha adaptada a Mi Aula Digital.",
+        "url": "../recursos/matematicas-1eso/potencias.pdf",
+        "unit": "Números naturales"
+      }
+    ],
     "units": [
-      {"title":"Números naturales","description":"Operaciones, potencias y problemas. Encuentra aquí teoría, vídeos y actividades de repaso.","image":"../recursos/media/numeros-naturales.svg"},
-      "Divisibilidad",
-      "Fracciones y decimales",
-      "Álgebra",
-      "Geometría"
+      {
+        "title": "Números naturales",
+        "description": "Operaciones con números naturales, potencias y resolución de problemas.",
+        "trimester": 1,
+        "image": "../recursos/media/matematicas-tema-01.png"
+      },
+      {
+        "title": "Múltiplos y divisores",
+        "description": "Criterios de divisibilidad y cálculo de múltiplos y divisores.",
+        "trimester": 1,
+        "image": "../recursos/media/matematicas-tema-02.png"
+      },
+      {
+        "title": "Números primos",
+        "description": "Números primos, compuestos y descomposición factorial.",
+        "trimester": 1,
+        "image": "../recursos/media/matematicas-tema-03.png"
+      },
+      {
+        "title": "Máximo común divisor y mínimo común múltiplo",
+        "description": "Cálculo del MCD y mcm y sus aplicaciones en problemas.",
+        "trimester": 1,
+        "image": "../recursos/media/matematicas-tema-04.png"
+      },
+      {
+        "title": "Números enteros",
+        "description": "Números positivos y negativos, representación y operaciones.",
+        "trimester": 1,
+        "image": "../recursos/media/matematicas-tema-05.png"
+      },
+      {
+        "title": "Introducción a la geometría en el plano",
+        "description": "Puntos, rectas, segmentos y figuras geométricas.",
+        "trimester": 1,
+        "image": "../recursos/media/matematicas-tema-06.png"
+      },
+      {
+        "title": "Ángulos y su clasificación",
+        "description": "Medida, clasificación y operaciones con ángulos.",
+        "trimester": 1,
+        "image": "../recursos/media/matematicas-tema-07.png"
+      },
+      {
+        "title": "Mediatriz y bisectriz",
+        "description": "Construcción y propiedades de la mediatriz y la bisectriz.",
+        "trimester": 1,
+        "image": "../recursos/media/matematicas-tema-08.png"
+      }
     ]
   },
   {
@@ -38,7 +89,14 @@ window.AULA_MATERIAS = [
     "glyph": "⚗",
     "tone": "fyq",
     "desc": "Observa, experimenta y descubre la materia",
-    "resources": [{"type":"Actividad interactiva · 2.º ESO", "title":"Tabla periódica interactiva", "description":"Explora los elementos y practica símbolos y nombres. Recurso complementario de 2.º ESO.", "url":"../recursos/tabla-periodica/index.html"}],
+    "resources": [
+      {
+        "type": "Actividad interactiva · 2.º ESO",
+        "title": "Tabla periódica interactiva",
+        "description": "Explora los elementos y practica símbolos y nombres. Recurso complementario de 2.º ESO.",
+        "url": "../recursos/tabla-periodica/index.html"
+      }
+    ],
     "units": [
       "El método científico",
       "Magnitudes y unidades",

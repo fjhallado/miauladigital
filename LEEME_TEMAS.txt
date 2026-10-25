@@ -1,0 +1,7 @@
+V1.7 - PÁGINAS POR TEMA
+1. Entra en una asignatura y pulsa «Entrar en el tema».
+2. Desde editor.html crea materiales y selecciona la unidad correspondiente.
+3. Descarga datos.js, sustitúyelo en la web y sube los archivos locales nuevos.
+4. La página tema.html es común a TODAS las unidades y no debes editarla para añadir nuevos temas.
+5. Se incluye la ficha Potencias en recursos/matematicas-1eso/potencias.pdf, vinculada a Números naturales.
+6. No subas editor.html ni editor.js al servidor público.
