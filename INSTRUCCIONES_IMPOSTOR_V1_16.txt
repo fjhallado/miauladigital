@@ -1,0 +1,15 @@
+MI AULA DIGITAL V1.16 — EL IMPOSTOR
+
+El ZIP incluye el juego ORIGINAL entregado en classroom-impostor-main.zip (Express + Socket.IO), sin reescribir sus reglas.
+
+PUBLICAR MI AULA DIGITAL EN GITHUB PAGES:
+- Publica los archivos de la web normalmente, incluidos juegos.html, juegos/impostor.html y config-juegos.js.
+- NO subas editor.html, editor.js ni la carpeta SERVIDOR_IMPOSTOR_NO_SUBIR_A_GITHUB_PAGES al sitio web público.
+
+PUBLICAR EL JUEGO ORIGINAL:
+1. Aloja por separado el contenido de SERVIDOR_IMPOSTOR_NO_SUBIR_A_GITHUB_PAGES en un servicio compatible con Node.js/WebSockets, por ejemplo Render (Web Service).
+2. Comando de instalación: npm install; comando de arranque: npm start.
+3. Cuando obtengas tu URL pública HTTPS, cópiala entre comillas en config-juegos.js: window.AULA_JUEGOS = { impostorUrl: "https://TU-DOMINIO" };
+4. Publica el config-juegos.js actualizado en GitHub Pages.
+
+IMPORTANTE: GitHub Pages por sí solo no permite alojar salas ni Socket.IO; el enlace solo se activará después del despliegue. El README_GOOGLE_LOGIN.md del repositorio original menciona Google Login, pero la implementación entregada no contiene autenticación Google: no hay que anunciar esta característica ni registrar datos identificativos de menores sin autorización.

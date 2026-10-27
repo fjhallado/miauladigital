@@ -1,2 +1,3 @@
-Mi Aula Digital - Versión 1.12
-Matemáticas 1.º ESO: únicamente los 8 temas del primer trimestre con sus imágenes originales aprobadas. Resto de la web conservado.
+MI AULA DIGITAL — V1.24
+27 de octubre de 2026
+El reto de números primos solo pide una cantidad de números, sin mostrar los números objetivo. Acepta cualquier combinación de primos entre 2 y 100. Se elimina el botón para revelar soluciones y se añade versión al script para evitar caché.

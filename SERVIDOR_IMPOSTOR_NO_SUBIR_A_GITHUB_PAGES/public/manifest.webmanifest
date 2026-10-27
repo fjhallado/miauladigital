@@ -1,0 +1,21 @@
+{
+  "name": "Impostor • Aula",
+  "short_name": "Impostor",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#050712",
+  "theme_color": "#050712",
+  "description": "Juego del impostor para el aula. El host crea sala y los jugadores reciben rol.",
+  "icons": [
+    {
+      "src": "/assets/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/assets/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

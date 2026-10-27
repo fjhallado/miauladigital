@@ -13,6 +13,34 @@ window.AULA_MATERIAS = [
         "description": "Ejercicios para practicar las propiedades de las potencias, cálculo y operaciones. Ficha adaptada a Mi Aula Digital.",
         "url": "../recursos/matematicas-1eso/potencias.pdf",
         "unit": "Números naturales"
+      },
+      {
+        "type": "Apuntes y teoría",
+        "title": "Tema 2 · Múltiplos y divisores: teoría",
+        "description": "Apuntes completos adaptados al tema: múltiplos, tabla pitagórica, propiedades, divisores y procedimiento para hallarlos.",
+        "url": "../recursos/matematicas-1eso/multiplos-divisores/teoria.html",
+        "unit": "Múltiplos y divisores"
+      },
+      {
+        "type": "Actividad interactiva",
+        "title": "Retos de múltiplos y divisores",
+        "description": "25 preguntas autocorregibles y herramientas para calcular múltiplos y divisores. Elige rondas de 5, 10 o 15 preguntas.",
+        "url": "../recursos/matematicas-1eso/multiplos-divisores/index.html",
+        "unit": "Múltiplos y divisores"
+      },
+      {
+        "type": "Apuntes y teoría",
+        "title": "Tema 3 · Los números primos: apuntes",
+        "description": "Primos y compuestos, criba de Eratóstenes, factores primos, divisores y criterios de divisibilidad.",
+        "url": "../recursos/matematicas-1eso/numeros-primos/teoria.html",
+        "unit": "Números primos"
+      },
+      {
+        "type": "Actividad interactiva",
+        "title": "Retos de números primos",
+        "description": "Criba interactiva, comprobador de primos, factorización y ejercicios autocorregibles.",
+        "url": "../recursos/matematicas-1eso/numeros-primos/index.html",
+        "unit": "Números primos"
       }
     ],
     "units": [

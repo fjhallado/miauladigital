@@ -1,0 +1,491 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Impostor • Aula</title>
+<style>
+  :root{
+    --card: rgba(255,255,255,.08);
+    --stroke: rgba(255,255,255,.14);
+    --text: rgba(255,255,255,.92);
+    --muted: rgba(255,255,255,.68);
+    --shadow: 0 18px 60px rgba(0,0,0,.55);
+    --radius: 18px;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial;
+    color:var(--text);
+    min-height:100vh;
+    background:
+      radial-gradient(900px 600px at 10% 10%, rgba(34,211,238,.18), transparent 60%),
+      radial-gradient(900px 600px at 90% 20%, rgba(251,113,133,.16), transparent 60%),
+      radial-gradient(900px 600px at 40% 100%, rgba(34,197,94,.10), transparent 60%),
+      linear-gradient(180deg, rgba(5,7,18,.68), rgba(5,7,18,.90)),
+      url('/assets/bg.png');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    overflow-x:hidden;
+  }
+  .stars{position:fixed; inset:0; opacity:.45; pointer-events:none;
+    background-image:
+      radial-gradient(2px 2px at 20px 30px, rgba(255,255,255,.35), transparent 60%),
+      radial-gradient(1px 1px at 130px 80px, rgba(255,255,255,.22), transparent 60%),
+      radial-gradient(1px 1px at 260px 140px, rgba(255,255,255,.18), transparent 60%),
+      radial-gradient(2px 2px at 420px 200px, rgba(255,255,255,.28), transparent 60%),
+      radial-gradient(1px 1px at 560px 260px, rgba(255,255,255,.20), transparent 60%);
+  }
+  .wrap{max-width:980px;margin:0 auto;padding:26px 16px 60px;position:relative}
+  header{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;flex-wrap:wrap}
+  .brand{display:flex;align-items:center;gap:12px;}
+  .logo{width:44px;height:44px;border-radius:14px;background: linear-gradient(180deg, rgba(34,211,238,.95), rgba(99,102,241,.85));
+    box-shadow: 0 12px 40px rgba(34,211,238,.15);display:grid;place-items:center;font-weight:900;}
+  h1{margin:0;font-size:clamp(28px,3vw,42px);letter-spacing:.2px}
+  .subtitle{margin:8px 0 0;color:var(--muted);max-width:70ch}
+  .pill{display:inline-flex;align-items:center;gap:8px;background: rgba(255,255,255,.08);border: 1px solid var(--stroke);
+    padding:8px 12px;border-radius:999px;color: var(--muted);}
+  .card{background: linear-gradient(180deg, var(--card), rgba(255,255,255,.05));border: 1px solid var(--stroke);
+    border-radius: var(--radius);box-shadow: var(--shadow);padding:18px;backdrop-filter: blur(12px);}
+  .panel{margin-top:18px;display:grid;grid-template-columns: 1fr;gap:16px;}
+  .menuGrid{display:grid;grid-template-columns: 1fr 1fr;gap:16px;margin-top:12px;}
+  .bigBtn{padding:18px 16px;border-radius: 18px;border:1px solid rgba(255,255,255,.14);cursor:pointer;color: var(--text);
+    background: rgba(255,255,255,.06);transition: transform .08s ease, filter .12s ease;text-align:left;}
+  .bigBtn:hover{filter: brightness(1.06)}
+  .bigBtn:active{transform: translateY(1px)}
+  .bigBtn .t{font-weight:900;font-size:18px;margin:0 0 6px}
+  .bigBtn .d{margin:0;color:var(--muted);line-height:1.35}
+  label{display:block;font-weight:800;margin:12px 0 6px;color:rgba(255,255,255,.88)}
+  input{width:100%;padding:12px 12px;border-radius: 14px;border: 1px solid rgba(255,255,255,.18);background: rgba(10,14,28,.55);
+    color: var(--text);font-size:16px;outline:none;}
+  input::placeholder{color:rgba(255,255,255,.52)}
+  input:focus{border-color: rgba(34,211,238,.55);box-shadow: 0 0 0 4px rgba(34,211,238,.16);}
+  button{width:100%;padding:12px 14px;border-radius: 14px;border: 1px solid rgba(255,255,255,.14);cursor:pointer;color:#061019;
+    font-weight:950;font-size:16px;background: linear-gradient(180deg, rgba(34,211,238,.95), rgba(99,102,241,.85));
+    transition: transform .08s ease, filter .12s ease;margin-top:12px;}
+  button:hover{filter: brightness(1.05)}
+  button:active{transform: translateY(1px)}
+  .ghost{background: rgba(255,255,255,.08);color: var(--text);border: 1px solid rgba(255,255,255,.18);}
+  .danger{background: linear-gradient(180deg, rgba(239,68,68,.95), rgba(190,18,60,.85));color:#fff;}
+  .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+  .hidden{display:none}
+  .err{color:#fecaca;font-weight:900;margin-top:10px}
+  .code{font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;font-weight: 950;letter-spacing: 2px;}
+  .lobbyTop{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center;}
+  .chipRow{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+  .chip{display:inline-flex;align-items:center;gap:8px;padding:8px 10px;border-radius:999px;border:1px solid rgba(255,255,255,.16);
+    background: rgba(255,255,255,.06);color: rgba(255,255,255,.90);}
+  .dot{width:10px;height:10px;border-radius:999px;background: rgba(34,197,94,.95);box-shadow:0 0 0 4px rgba(34,197,94,.14)}
+  .center{text-align:center}
+  .roleIcon{
+    width:120px;height:120px;border-radius:28px;display:grid;place-items:center;
+    margin: 10px auto 6px;border:1px solid rgba(255,255,255,.14);
+    background: rgba(255,255,255,.06);box-shadow: 0 18px 60px rgba(0,0,0,.35);
+    font-size:64px;
+  }
+  .roleIcon.impostor{background: rgba(239,68,68,.18);border-color: rgba(239,68,68,.35);}
+  .roleIcon.crewmate{background: rgba(34,197,94,.14);border-color: rgba(34,197,94,.30);}
+  .roleTitle{font-weight:1000;letter-spacing:.6px;margin: 8px 0 0;font-size: 22px;}
+  .revealWord{font-size: clamp(44px, 6.5vw, 80px);font-weight: 1000;letter-spacing:.6px;margin: 10px 0 6px;}
+  .impostorText{color: rgba(254,202,202,.98); text-shadow:0 14px 50px rgba(239,68,68,.22)}
+  .normalText{color: rgba(167,243,208,.95); text-shadow:0 14px 50px rgba(34,197,94,.16)}
+  @media (max-width: 860px){ .menuGrid{grid-template-columns: 1fr;} }
+
+  .barRow{display:flex;align-items:center;gap:10px;margin:10px 0;}
+  .barName{width:160px;max-width:45%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:rgba(255,255,255,.9);font-weight:900}
+  .barTrack{flex:1;height:16px;border-radius:999px;background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.12);overflow:hidden}
+  .barFill{height:100%;border-radius:999px;background:linear-gradient(90deg, rgba(34,211,238,.95), rgba(99,102,241,.85));width:0%}
+  .barCount{width:64px;text-align:right;color:rgba(255,255,255,.75);font-weight:900}
+
+</style>
+
+<link rel="manifest" href="/manifest.webmanifest">
+<meta name="theme-color" content="#050712">
+<link rel="apple-touch-icon" href="/assets/icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+</head>
+<body>
+<div class="stars"></div>
+<div class="wrap">
+  <header>
+    <div class="brand">
+      <div class="logo">🛰️</div>
+      <div>
+        <h1>Impostor • Aula</h1>
+        <div class="subtitle">Al iniciar la partida, cada jugador ve su rol (☠️ impostor / 🟢 tripulante).</div>
+      </div>
+    </div>
+    <span class="pill">Incrustable en Google Sites</span>
+  </header>
+
+  <section id="screen-home" class="panel">
+    <div id="home-menu" class="card">
+      <h2 style="margin:0 0 10px">Elige opción</h2>
+      <div class="menuGrid">
+        <div class="bigBtn" id="goCreate">
+          <div class="t">👑 Crear sala (Host)</div>
+          <p class="d">Crea la sala y escribe la palabra. (No juegas).</p>
+        </div>
+        <div class="bigBtn" id="goJoin">
+          <div class="t">👥 Unirse a sala</div>
+          <p class="d">Entra con el código del host y tu nombre.</p>
+        </div>
+      </div>
+    </div>
+
+    <div id="home-create" class="card hidden">
+      <div class="row" style="justify-content:space-between">
+        <h2 style="margin:0">👑 Crear sala</h2>
+        <button class="ghost" id="back1" style="width:auto;margin-top:0">← Volver</button>
+      </div>
+      <label>Tu nombre</label>
+      <input id="hostName" placeholder="Ej: Paco" autocomplete="off">
+      <label>Palabra secreta</label>
+      <input id="secretWord" placeholder="Ej: Estructuras" autocomplete="off">
+      <button id="btnCreate">Crear</button>
+      <div id="createErr" class="err"></div>
+    </div>
+
+    <div id="home-join" class="card hidden">
+      <div class="row" style="justify-content:space-between">
+        <h2 style="margin:0">👥 Unirse</h2>
+        <button class="ghost" id="back2" style="width:auto;margin-top:0">← Volver</button>
+      </div>
+      <label>Código</label>
+      <input id="joinCode" placeholder="Ej: A9K3ZQ" autocomplete="off">
+      <label>Tu nombre</label>
+      <input id="joinName" placeholder="Ej: Lucía" autocomplete="off">
+      <button class="ghost" id="btnJoin">Entrar</button>
+      <div id="joinErr" class="err"></div>
+    </div>
+  </section>
+
+  <section id="screen-lobby" class="panel hidden">
+    <div class="card">
+      <div class="lobbyTop">
+        <div class="row">
+          <span class="pill">Sala</span>
+          <span class="pill code" id="roomCode">------</span>
+          <span class="pill" id="roomMeta">Jugadores: 0</span>
+        </div>
+        <div class="row">
+          <button class="ghost" id="btnCopy" style="width:auto;margin-top:0">Copiar código</button>
+          <button class="danger" id="btnLeave" style="width:auto;margin-top:0">Salir</button>
+        </div>
+      </div>
+
+      <div style="margin-top:14px">
+        <p class="subtitle" style="margin:0">Host: <b id="hostLabel">-</b></p>
+        <div id="players" class="chipRow"></div>
+      </div>
+
+      <div id="hostArea" class="hidden" style="margin-top:16px">
+        <button id="btnStart">Empezar (elige impostor)</button>
+        <button class="ghost" id="btnOpenVote">Abrir votación</button>
+        <div id="hostErr" class="err"></div>
+        <p class="subtitle" style="margin:10px 0 0">Mínimo 3 jugadores (sin contar al host).</p>
+        <div id="hostStartedInfo" class="subtitle" style="margin-top:10px"></div>
+      </div>
+
+      <div id="waitArea" style="margin-top:16px">
+        <p class="subtitle">⏳ Espera… el host iniciará cuando estéis listos.</p>
+        <button class="ghost hidden" id="btnGoVote">Ir a votación</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="screen-reveal" class="panel hidden">
+    <div class="card center">
+      <div class="row" style="justify-content:center">
+        <span class="pill">Sala</span>
+        <span class="pill code" id="revealCode">------</span>
+      </div>
+
+      <h2 id="revealName" style="margin:12px 0 0">🧩</h2>
+
+      <div id="roleIcon" class="roleIcon">?</div>
+      <div id="roleTitle" class="roleTitle">ROL</div>
+
+      <div id="revealWord" class="revealWord">—</div>
+      <p id="hint" class="subtitle" style="margin:0"></p>
+
+      <button class="ghost" id="backLobby">Volver al lobby</button>
+      <button class="danger" id="leave2">Salir</button>
+    </div>
+  </section>
+</div>
+
+
+  <section id="screen-vote" class="panel hidden">
+    <div class="card">
+      <div class="lobbyTop">
+        <div class="row">
+          <span class="pill">Votación</span>
+          <span class="pill code" id="voteCode">------</span>
+          <span class="pill" id="voteMeta">Votos: 0</span>
+        </div>
+        <div class="row">
+          <button class="ghost" id="backFromVote" style="width:auto;margin-top:0">← Volver</button>
+          <button class="danger" id="leaveVote" style="width:auto;margin-top:0">Salir</button>
+        </div>
+      </div>
+
+      <p class="subtitle" style="margin:14px 0 0">Elige quién crees que es el impostor:</p>
+      <div id="voteList" class="chipRow"></div>
+      <div id="voteErr" class="err"></div>
+
+      <div style="margin-top:16px">
+        <p class="subtitle" style="margin:0 0 10px">Resultados (más votado arriba):</p>
+        <div id="voteChart"></div>
+      </div>
+
+      <div id="hostVoteControls" class="hidden" style="margin-top:16px">
+        <button class="ghost" id="btnCloseVote">Cerrar votación</button>
+      </div>
+    </div>
+  </section>
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+  const socket = io();
+  let currentCode = null;
+  let isHost = false;
+  let currentScreen = "home"; // home | lobby | reveal | vote
+  const $ = (id) => document.getElementById(id);
+
+  function show(screenId){
+    ["screen-home","screen-lobby","screen-reveal","screen-vote"].forEach(id => $(id).classList.add("hidden"));
+    $(screenId).classList.remove("hidden");
+    currentScreen = (screenId === "screen-home") ? "home" :
+      (screenId === "screen-lobby" ? "lobby" :
+      (screenId === "screen-reveal" ? "reveal" : "vote"));
+  }
+  function showHome(view){
+    $("home-menu").classList.toggle("hidden", view !== "menu");
+    $("home-create").classList.toggle("hidden", view !== "create");
+    $("home-join").classList.toggle("hidden", view !== "join");
+    $("createErr").textContent = "";
+    $("joinErr").textContent = "";
+  }
+
+  $("goCreate").onclick = () => showHome("create");
+  $("goJoin").onclick = () => showHome("join");
+  $("back1").onclick = () => showHome("menu");
+  $("back2").onclick = () => showHome("menu");
+  showHome("menu");
+
+  $("btnCreate").onclick = () => {
+    $("createErr").textContent = "";
+    socket.emit("create_room", { hostName: $("hostName").value.trim(), word: $("secretWord").value.trim() }, (res) => {
+      if (!res?.ok) return $("createErr").textContent = res?.error || "Error";
+      currentCode = res.code;
+      isHost = true;
+      show("screen-lobby");
+    });
+  };
+
+  $("btnJoin").onclick = () => {
+    $("joinErr").textContent = "";
+    const code = $("joinCode").value.trim().toUpperCase();
+    const name = $("joinName").value.trim();
+    socket.emit("join_room", { code, name }, (res) => {
+      if (!res?.ok) return $("joinErr").textContent = res?.error || "Error";
+      currentCode = code;
+      isHost = false;
+      show("screen-lobby");
+    });
+  };
+
+  function renderPlayers(list){
+    const box = $("players");
+    box.innerHTML = "";
+    list.forEach(n => {
+      const chip = document.createElement("div");
+      chip.className = "chip";
+      chip.innerHTML = `<span class="dot"></span><span>${n}</span>`;
+      box.appendChild(chip);
+    });
+  }
+
+  socket.on("room_update", (state) => {
+    if (!state) return;
+    currentCode = state.code;
+    $("roomCode").textContent = state.code;
+    $("roomMeta").textContent = `Jugadores: ${state.playerCount}`;
+    $("hostLabel").textContent = state.hostName;
+    renderPlayers((state.players||[]).map(p=>p.name));
+
+    $("hostArea").classList.toggle("hidden", !isHost);
+    $("waitArea").classList.toggle("hidden", isHost);
+
+    // FIX CLAVE: no volver al lobby si estás viendo el rol
+    if (currentScreen !== "reveal" && currentScreen !== "vote") show("screen-lobby");
+  });
+
+  $("btnStart").onclick = () => {
+    $("hostErr").textContent = "";
+    socket.emit("start_game", { code: currentCode }, (res) => {
+      if (!res?.ok) $("hostErr").textContent = res?.error || "Error";
+    });
+  };
+
+
+  // --- VOTACIÓN ---
+  $("btnOpenVote").onclick = () => {
+    $("hostErr").textContent = "";
+    socket.emit("open_vote", { code: currentCode }, (res) => {
+      if (!res?.ok) $("hostErr").textContent = res?.error || "Error";
+    });
+  };
+
+  $("btnGoVote").onclick = () => {
+    show("screen-vote");
+  };
+
+  $("backFromVote").onclick = () => show("screen-lobby");
+  $("leaveVote").onclick = leave;
+  $("btnCloseVote").onclick = () => socket.emit("close_vote", { code: currentCode });
+
+  function renderVoteList(players){
+    const box = $("voteList");
+    box.innerHTML = "";
+    players.forEach(p => {
+      const chip = document.createElement("div");
+      chip.className = "chip";
+      chip.style.cursor = isHost ? "default" : "pointer";
+      chip.innerHTML = `<span class="dot"></span><span>${p.name}</span>`;
+      if (!isHost) {
+        chip.onclick = () => {
+          $("voteErr").textContent = "";
+          socket.emit("cast_vote", { code: currentCode, targetToken: p.token }, (res) => {
+            if (!res?.ok) $("voteErr").textContent = res?.error || "Error";
+          });
+        };
+      }
+      box.appendChild(chip);
+    });
+  }
+
+  function renderChart(players, counts){
+    const items = players.map(p => ({...p, c: (counts[p.token] || 0)}))
+      .sort((a,b)=> (b.c - a.c) || a.name.localeCompare(b.name));
+    const total = Math.max(1, items.reduce((s,x)=> s+x.c, 0));
+    const chart = $("voteChart");
+    chart.innerHTML = "";
+    items.forEach(it => {
+      const row = document.createElement("div");
+      row.className = "barRow";
+      const pct = Math.round((it.c / total) * 100);
+      row.innerHTML = `
+        <div class="barName">${it.name}</div>
+        <div class="barTrack"><div class="barFill" style="width:${pct}%"></div></div>
+        <div class="barCount">${it.c}</div>
+      `;
+      chart.appendChild(row);
+    });
+  }
+
+  socket.on("vote_open", (data) => {
+    $("voteCode").textContent = data.code;
+    $("voteMeta").textContent = `Votos: ${data.totalVotes}`;
+    $("btnGoVote").classList.remove("hidden");
+    $("hostVoteControls").classList.toggle("hidden", !isHost);
+    renderVoteList(data.players);
+    renderChart(data.players, data.counts);
+    show("screen-vote");
+  });
+
+  socket.on("vote_update", (data) => {
+    $("voteCode").textContent = data.code;
+    $("voteMeta").textContent = `Votos: ${data.totalVotes}`;
+    $("btnGoVote").classList.remove("hidden");
+    renderVoteList(data.players);
+    renderChart(data.players, data.counts);
+  });
+
+  socket.on("vote_closed", (data) => {
+    $("voteMeta").textContent = `Votos: ${data.totalVotes} (cerrada)`;
+    renderChart(data.players, data.counts);
+  });
+
+
+
+  socket.on("host_started", ({ code, playerCount }) => {
+    $("hostStartedInfo").textContent = `✅ Ronda iniciada en ${code}. Jugadores en partida: ${playerCount}. (Tú no participas)`;
+  });
+
+  $("btnCopy").onclick = async () => {
+    try{
+      await navigator.clipboard.writeText(currentCode || "");
+      $("btnCopy").textContent = "¡Copiado!";
+      setTimeout(()=> $("btnCopy").textContent = "Copiar código", 900);
+    } catch(e){
+      alert("No se pudo copiar. Copia manualmente: " + (currentCode||""));
+    }
+  };
+
+  function leave(){
+    if (currentCode) socket.emit("leave_room", { code: currentCode });
+    currentCode = null;
+    isHost = false;
+    currentScreen = "home";
+    showHome("menu");
+    show("screen-home");
+    $("btnGoVote").classList.add("hidden");
+    $("voteErr").textContent="";
+  }
+  $("btnLeave").onclick = leave;
+  $("leave2").onclick = leave;
+  $("backLobby").onclick = () => show("screen-lobby");
+
+  socket.on("reveal", ({ code, name, role, shown }) => {
+    $("revealCode").textContent = code;
+    $("revealName").textContent = "🧩 " + name;
+
+    const icon = $("roleIcon");
+    const title = $("roleTitle");
+    icon.classList.remove("impostor","crewmate");
+
+    if (role === "IMPOSTOR") {
+      icon.textContent = "☠️";
+      icon.classList.add("impostor");
+      title.textContent = "IMPOSTOR";
+      title.classList.add("impostorText");
+      title.classList.remove("normalText");
+    } else {
+      icon.textContent = "🟢";
+      icon.classList.add("crewmate");
+      title.textContent = "TRIPULANTE";
+      title.classList.add("normalText");
+      title.classList.remove("impostorText");
+    }
+
+    const w = $("revealWord");
+    w.textContent = shown;
+    w.classList.remove("impostorText","normalText");
+    w.classList.add(role === "IMPOSTOR" ? "impostorText" : "normalText");
+
+    $("hint").textContent = (role === "IMPOSTOR") ? "Eres el impostor. Disimula 😈" : "Di la palabra sin delatarte.";
+    show("screen-reveal");
+  });
+
+  socket.on("room_closed", () => {
+    alert("La sala se cerró (salió el host).");
+    leave();
+  });
+</script>
+
+<script>
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+      navigator.serviceWorker.register("/sw.js").catch(()=>{});
+    });
+  }
+</script>
+
+</body>
+</html>
