@@ -30,7 +30,14 @@ function initProjectsAndAutocomplete(){
  function del(){let id=list.value;if(!projects[id]){message('Selecciona un proyecto guardado');return}if(!confirm('¿Eliminar el proyecto «'+projects[id].name+'» de este navegador?'))return;delete projects[id];if(id===currentId)currentId='';storageWrite(KEY,JSON.stringify(projects));refresh();message('Proyecto eliminado')}
  function exportIt(){let x=snapshot();let payload={type:'mi-aula-digital-tic2',version:1,...x};let blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});let u=URL.createObjectURL(blob),a=document.createElement('a');a.href=u;a.download=(x.name.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9_-]+/g,'-').slice(0,45)||'proyecto')+'.json';a.click();setTimeout(()=>URL.revokeObjectURL(u),1000);message('Copia del proyecto exportada')}
  async function importIt(file){if(!file)return;try{if(file.size>1500000)throw Error('El archivo supera 1,5 MB');let x=JSON.parse(await file.text());if(x.type!=='mi-aula-digital-tic2'||typeof x.html!=='string'||typeof x.css!=='string')throw Error('Archivo de proyecto no válido');if(x.html.length>600000||x.css.length>300000)throw Error('Proyecto demasiado grande');if(!confirm('¿Abrir el proyecto importado y sustituir el código visible?'))return;currentId='';name.value=(x.name||'Proyecto importado').slice(0,65);h.value=x.html;c.value=x.css;render();saveDraft();message('Proyecto importado. Pulsa Guardar proyecto para añadirlo a la lista.')}catch(e){message('No se pudo importar: '+e.message)}}
- $('saveProject').onclick=save;$('openProject').onclick=()=>open(list.value);$('deleteProject').onclick=del;
+ $('saveProject').onclick=save;
+ $('openProject').onclick=()=>{const id=list.value;read();open(id)};
+ $('deleteProject').onclick=()=>{const id=list.value;read();list.value=id;del()};
+ // Seleccionar un proyecto lo abre inmediatamente, en cualquiera de las dos vistas.
+ list.addEventListener('change',()=>{if(list.value){read();open(list.value)}});
+ // Cierra Archivo al pulsar fuera del desplegable o Escape.
+ const fileMenu=document.querySelector('details.tool-dropdown');
+ if(fileMenu){document.addEventListener('pointerdown',event=>{if(fileMenu.open&&!fileMenu.contains(event.target))fileMenu.open=false});document.addEventListener('keydown',event=>{if(event.key==='Escape'&&fileMenu.open){fileMenu.open=false;fileMenu.querySelector('summary')?.focus()}})};
  $('exportProject').onclick=exportIt;$('importProject').onclick=()=>$('projectFile').click();$('projectFile').onchange=e=>{let f=e.target.files&&e.target.files[0];e.target.value='';importIt(f)};
  name.addEventListener('input',onEdit);h.addEventListener('input',onEdit);c.addEventListener('input',onEdit);
  document.addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='s'){e.preventDefault();save()}});

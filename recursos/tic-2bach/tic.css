@@ -36,3 +36,44 @@
 
 /* V1.42: evitar recortar encabezados; fondo luminoso uniforme */
 .lesson-thumb,.lesson-banner{object-fit:contain;object-position:center;background:#07142b}
+
+/* V1.4.5: ocultar de forma fiable los controles del desplegable al cerrarlo */
+.tool-dropdown:not([open]) > .drop-content{display:none!important}
+
+/* Panel discreto de retos de programación */
+.practice-random{margin:12px 0 18px;padding:18px 22px;border:1px solid #4b8bcf;border-radius:14px;background:linear-gradient(110deg,#102e55,#17264f);color:#f4f9ff;box-shadow:0 8px 25px #0003}
+.practice-random[hidden]{display:none}
+.practice-random h3{margin:7px 0 10px;font-size:1.15rem}
+.practice-random p{line-height:1.6;margin:0 0 10px}
+.practice-random small{color:#b8d8fa}
+.practice-kicker{color:#73d5ff;font-weight:800;font-size:.73rem;letter-spacing:.09em}
+.practice-trigger{white-space:nowrap}
+
+/* V1.4.9 · Barra compacta, modo práctica y espacio completo */
+.organized-toolbar{gap:7px;flex-wrap:nowrap;align-items:center}
+.organized-toolbar .tool-group{flex-wrap:nowrap;gap:6px;min-width:0}
+.organized-toolbar .tool-primary{flex:1;min-width:0}
+.organized-toolbar .btn,.organized-toolbar .tool-dropdown>summary{font-size:12px;padding:7px 9px;white-space:nowrap;line-height:1.35}
+.organized-toolbar select#sample{min-width:135px;max-width:240px;flex:1;width:100%;overflow:hidden;text-overflow:ellipsis}
+.organized-toolbar #openFullScreen{font-size:20px;line-height:1;width:37px;height:34px;display:inline-flex;align-items:center;justify-content:center;padding:0;font-weight:750}
+.organized-toolbar .status{flex-basis:auto;font-size:11px;min-width:0;max-width:160px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.organized-toolbar #backToLessons[hidden],.organized-toolbar #sample[hidden],.organized-toolbar #load[hidden]{display:none!important}
+.random-practice-mode .organized-toolbar #sample,.random-practice-mode .organized-toolbar #load{display:none!important}
+.random-practice-mode #backToLessons{display:inline-flex}
+.practice-random{border:1px solid #5b9ad9;border-radius:11px;padding:10px 15px;margin:5px 0 12px;background:#153665}
+.practice-random h3{margin:2px 0;font-size:16px}.practice-random p{margin:4px 0;font-size:13px}
+.practice-random small{font-size:11px}.practice-kicker{font-size:10px;color:#93e6ff;font-weight:700;letter-spacing:.08em}
+.full-workspace{height:100dvh;min-height:0;overflow:hidden}
+.full-workspace .sitehead,.full-workspace .hero,.full-workspace .foot{display:none!important}
+.full-workspace .wrap{padding:8px;flex:1;min-height:0;height:100dvh}
+.full-workspace .panel{padding:10px;min-height:0;height:100%;overflow:hidden}
+.full-workspace .toolbar{margin:0 0 8px;flex-shrink:0;overflow:visible;max-height:none}
+.full-workspace .three{flex:1;min-height:0;grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(0,1.2fr);grid-template-rows:minmax(0,1fr)}
+.full-workspace .three>div{min-height:0;overflow:hidden}
+.full-workspace .editor-wrap{flex:1;min-height:0}
+.full-workspace .editor-wrap textarea,.full-workspace .editor-wrap textarea.syntax-input{height:100%;min-height:0}
+.full-workspace #preview{min-height:0;height:100%;flex:1}
+.full-workspace .editor-hint{display:none}
+.full-workspace .practice-random{flex-shrink:0}
+@media(max-width:1020px){.organized-toolbar{flex-wrap:wrap}.organized-toolbar .status{display:none}.full-workspace .three{grid-template-columns:1fr 1fr;grid-template-rows:minmax(0,1fr) minmax(0,1fr)}.full-workspace .preview-panel{grid-column:1/-1}}
+@media(max-width:650px){.full-workspace{height:auto;overflow:auto}.full-workspace .wrap{height:auto}.full-workspace .panel{height:auto;overflow:visible}.full-workspace .three{display:flex;flex-direction:column}.full-workspace .three>div{height:340px;min-height:340px}.full-workspace .preview-panel{height:420px;min-height:420px}.organized-toolbar,.organized-toolbar .tool-group{flex-wrap:wrap}}
