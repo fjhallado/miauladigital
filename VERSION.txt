@@ -1,1 +1,2 @@
-Mi Aula Digital V1.39 · Reinicio del examen protegido por contraseña orientativa y archivo local de intentos. ATENCIÓN: no es un sistema seguro anti-suplantación, el código cliente y almacenamiento local son accesibles.
+Mi Aula Digital · Versión 1.4.4
+Cambio menor: menú Archivo al principio de ambas barras del laboratorio TIC II.

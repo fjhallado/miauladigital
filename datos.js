@@ -309,44 +309,10 @@ window.AULA_MATERIAS = [
     ],
     "units": [
       {
-        "title": "Configuración inicial HTML",
-        "description": "Estructura y configuración de un documento HTML: DOCTYPE, html, head, meta, title, body y enlace CSS.",
-        "trimester": 1
-      },
-      {
-        "title": "Encabezados, párrafos y listas",
-        "description": "Organización de contenidos con títulos, párrafos, énfasis, saltos y listas ordenadas o no ordenadas.",
-        "trimester": 1
-      },
-      {
-        "title": "Enlaces y navegación",
-        "description": "Enlaces entre páginas y secciones mediante a, href, id y nav.",
-        "trimester": 1
-      },
-      {
-        "title": "Imágenes y rutas de archivos",
-        "description": "Inserción de fotografías con img, src, alt y dimensiones; organización de carpetas.",
-        "trimester": 1
-      },
-      {
-        "title": "Tablas HTML",
-        "description": "Filas, celdas, encabezados, caption y agrupaciones thead y tbody.",
-        "trimester": 1
-      },
-      {
-        "title": "Formularios HTML",
-        "description": "Recogida de información con form, label, input, textarea, select y button.",
-        "trimester": 1
-      },
-      {
-        "title": "HTML semántico",
-        "description": "Estructura de páginas mediante header, nav, main, section, article, aside y footer.",
-        "trimester": 2
-      },
-      {
-        "title": "CSS: estilos y diseño",
-        "description": "Conectar estilos, selectores, color, tipografía, fondos, márgenes, padding y cajas.",
-        "trimester": 2
+        "title": "Programación HTML y CSS2",
+        "description": "Curso de programación web: ocho apartados de HTML y CSS, con apuntes, ejemplos y laboratorio interactivo.",
+        "trimester": 1,
+        "image": "../recursos/tic-2bach/banner-curso.svg"
       }
     ]
   }
