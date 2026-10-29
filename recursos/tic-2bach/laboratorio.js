@@ -1,4 +1,18 @@
-(()=>{'use strict';const $=id=>document.getElementById(id),s=$('sample'),h=$('htmlcode'),c=$('csscode'),frame=$('preview'),msg=$('status');for(const lesson of TIC_LECCIONES){let opt=document.createElement('option');opt.value=lesson.id;opt.textContent=lesson.id+'. '+lesson.title;s.append(opt)}function load(n){const item=TIC_LECCIONES.find(x=>x.id===Number(n));if(!item)return;h.value=item.example;c.value=item.css;s.value=String(item.id);render();msg.textContent='Ejemplo cargado: '+item.title}function render(){let raw=h.value,style=c.value;const safeStyle=style.replace(/<\/style/gi,'<\\/style');const css='<style>'+safeStyle+'</style>';let doc=/<!doctype|<html[\s>]/i.test(raw)?raw.replace(/<\/head>/i,css+'</head>'): '<!doctype html><html lang="es"><head><meta charset="utf-8">'+css+'</head><body>'+raw+'</body></html>';frame.srcdoc=doc;msg.textContent='Vista previa actualizada'}$('load').onclick=()=>load(s.value);$('run').onclick=render;$('clear').onclick=()=>{h.value='';c.value='';frame.srcdoc='';msg.textContent='Editor limpio'};$('download').onclick=()=>{let source=h.value;const stylesheet='<style>\n'+c.value.replace(/<\/style/gi,'<\\/style')+'\n</style>';if(/<\/head>/i.test(source))source=source.replace(/<\/head>/i,stylesheet+'</head>');else source='<!doctype html><html lang="es"><head><meta charset="utf-8">'+stylesheet+'</head><body>'+source+'</body></html>';let blob=new Blob([source],{type:'text/html;charset=utf-8'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='mi-practica-tic-ii.html';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)};let selected=Number(new URLSearchParams(location.search).get('ejemplo'));load(TIC_LECCIONES.some(x=>x.id===selected)?selected:1);initProjectsAndAutocomplete()
+(()=>{'use strict';const $=id=>document.getElementById(id),s=$('sample'),h=$('htmlcode'),c=$('csscode'),frame=$('preview'),msg=$('status');for(const lesson of TIC_LECCIONES){let opt=document.createElement('option');opt.value=lesson.id;opt.textContent=lesson.id+'. '+lesson.title;s.append(opt)}function load(n){const item=TIC_LECCIONES.find(x=>x.id===Number(n));if(!item)return;h.value=item.example;c.value=item.css;s.value=String(item.id);render();h.dispatchEvent(new Event('input',{bubbles:true}));c.dispatchEvent(new Event('input',{bubbles:true}));msg.textContent='Lección '+item.id+' cargada: '+item.title}
+function documentForPreview(){
+ const raw=h.value,style=c.value;
+ const safeStyle=style.replace(/<\/style/gi,'<\\/style');
+ const css='<style id="tic-preview-styles">\n'+safeStyle+'\n</style>';
+ if(/<\/head\s*>/i.test(raw))return raw.replace(/<\/head\s*>/i,()=>css+'</head>');
+ if(/<head(?:\s[^>]*)?>/i.test(raw))return raw.replace(/<head(?:\s[^>]*)?>/i,match=>match+css);
+ if(/<html(?:\s[^>]*)?>/i.test(raw))return raw.replace(/<html(?:\s[^>]*)?>/i,match=>match+'<head><meta charset="utf-8">'+css+'</head>');
+ return '<!doctype html><html lang="es"><head><meta charset="utf-8">'+css+'</head><body>'+raw+'</body></html>';
+}
+function render(){frame.srcdoc=documentForPreview();msg.textContent='Vista previa actualizada'}
+s.addEventListener('change',()=>load(s.value));
+$('load').onclick=()=>load(s.value);
+$('run').onclick=render;
+$('clear').onclick=()=>{h.value='';c.value='';frame.srcdoc='';msg.textContent='Editor limpio'};$('download').onclick=()=>{let source=documentForPreview();let blob=new Blob([source],{type:'text/html;charset=utf-8'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='mi-practica-tic-ii.html';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)};let selected=Number(new URLSearchParams(location.search).get('ejemplo'));load(TIC_LECCIONES.some(x=>x.id===selected)?selected:1);initProjectsAndAutocomplete()
 function initProjectsAndAutocomplete(){
  const KEY='mi-aula-digital-tic2-proyectos-v1', DRAFT='mi-aula-digital-tic2-borrador-v1';
  const name=$('projectName'),list=$('savedProjects'),suggest=$('tagSuggestions');
