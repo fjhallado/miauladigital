@@ -1,2 +1,1 @@
-Mi Aula Digital · Versión 1.4.4
-Cambio menor: menú Archivo al principio de ambas barras del laboratorio TIC II.
+Mi Aula Digital 1.4.9 · Laboratorio compacto, ejercicio aleatorio sin selector y editor de tres paneles a pantalla completa.

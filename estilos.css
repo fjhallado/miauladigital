@@ -78,3 +78,19 @@ body{background-color:#08153b;background-attachment:fixed;background-position:ce
 .unit-cover{width:100%;height:auto;aspect-ratio:1200/310;object-fit:contain;object-position:center;background:#071328}
 body:has(.unit-card) .units{grid-template-columns:repeat(2,minmax(0,1fr))}
 @media(max-width:670px){body:has(.unit-card) .units{grid-template-columns:1fr}}
+
+/* V1.4.6: las portadas de Tecnología 1º ESO ocupan el ancho íntegro de la tarjeta, a escala natural, sin recorte ni barras laterales. */
+body[data-course="tecnologia-1eso"] .unit-card .unit-cover{display:block;width:100%;height:auto;max-height:none;aspect-ratio:auto;object-fit:contain;object-position:center;background:transparent;}
+
+/* V1.4.7: imágenes aprobadas sin editar, encajadas a escala proporcional. */
+body[data-course="tecnologia-1eso"] .unit-card .unit-cover{display:block;width:100%;height:auto!important;aspect-ratio:3/1!important;object-fit:contain!important;max-height:none!important;background:transparent;}
+.topic-cover.technology-cover{height:auto!important;max-height:none!important;aspect-ratio:auto!important;overflow:visible;}
+.topic-cover.technology-cover img{display:block;width:100%;height:auto!important;aspect-ratio:3/1!important;max-height:none!important;object-fit:contain!important;}
+
+/* 1.4.8: las carátulas de Matemáticas vuelven a rellenar su cabecera.
+   No aplicar esta regla a Tecnología, cuyas ilustraciones se muestran completas. */
+body[data-course="matematicas-1eso"] .unit-card .unit-cover {
+ display:block; width:100%; height:160px; max-height:none;
+ aspect-ratio:auto; object-fit:cover; object-position:center;
+ background:#102446;
+}
