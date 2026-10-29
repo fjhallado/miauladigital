@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Modo examen · TIC II | Mi Aula Digital</title><link rel="stylesheet" href="tic.css">
+<style>
+body.exam-mode{background:#081528;color:#f0f5ff;margin:0;font-family:system-ui,Arial,sans-serif}
+.exambar{display:flex;align-items:center;gap:12px;justify-content:space-between;background:#0e2446;border-bottom:1px solid #365887;padding:10px 18px;flex-wrap:wrap}
+.exambar strong{color:white}.timer{font-size:1.7rem;font-weight:800;font-variant-numeric:tabular-nums;color:#7fe2ff}
+.timer.warning{color:#ffac79}.examactions{display:flex;gap:8px;flex-wrap:wrap}
+.exam-btn{border:1px solid #5779ae;background:#203b65;color:white;padding:9px 13px;border-radius:9px;cursor:pointer;font-weight:650}
+.exam-btn:disabled{opacity:.5;cursor:default}.exam-btn.primary{background:#226fc5}
+.exam-notice{background:#132e50;border-bottom:1px solid #365887;padding:10px 18px;color:#d2e5fb;font-size:.9rem;line-height:1.5}
+.exam-layout{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;padding:12px;height:calc(100dvh - 162px);min-height:380px}
+.exam-pane{display:flex;flex-direction:column;min-width:0;background:#101e36;border:1px solid #355176;border-radius:12px;overflow:hidden}
+.exam-pane h2{margin:0;padding:10px 13px;font-size:.95rem;color:#d8eaff;border-bottom:1px solid #355176}
+.exam-pane textarea{flex:1;width:100%;height:100%;resize:none;border:0;outline:0;background:#0b172b;color:#e4f3ff;padding:14px;font:14px/1.6 ui-monospace,SFMono-Regular,Consolas,monospace;tab-size:2;box-sizing:border-box}
+.exam-pane iframe{flex:1;width:100%;background:white;border:0}
+.exam-start{max-width:640px;margin:7vh auto;padding:28px;background:#142b4a;border:1px solid #5274a5;border-radius:18px}
+.exam-start h1{margin-top:0}.exam-start input{width:100%;box-sizing:border-box;padding:12px;font-size:1rem;border-radius:9px;border:1px solid #91add1;margin:10px 0 18px}
+.exam-start p,.exam-start li{line-height:1.55}.exam-msg{font-size:.87rem;color:#b4d0ee;min-height:1.3em}
+@media(max-width:850px){.exam-layout{grid-template-columns:1fr;height:auto}.exam-pane{height:320px}.exam-pane:last-child{height:380px}}
+</style></head>
+<body class="exam-mode">
+<div id="startScreen" class="exam-start">
+<h1>Examen práctico de HTML y CSS</h1>
+<p>Duración: <strong>50 minutos</strong>. Se abrirán tres paneles: HTML, CSS y resultado. Se bloquean los pegados y se registran avisos al salir de la pestaña, pero <strong>esta web no impide abrir otras aplicaciones o consultar apuntes</strong>.</p>
+<p>El trabajo se guarda temporalmente en este navegador. Al terminar debes descargar el archivo de entrega y facilitárselo al profesor. No borres los datos del navegador durante el examen.</p>
+<label for="student">Identificador del alumno (el indicado por el profesor)</label>
+<input id="student" maxlength="80" autocomplete="off" required placeholder="Identificador">
+<button id="startExam" class="exam-btn primary">Comenzar examen de 50 minutos</button> <button id="resetFromStart" class="exam-btn" type="button">Reiniciar examen (profesor)</button>
+<p class="exam-msg" id="initialMsg" role="status"></p><p class="exam-msg">Historial de intentos: se conserva localmente en este navegador y se incluye en el archivo descargado. No es un registro oculto ni seguro frente a manipulaciones.</p>
+</div>
+<div id="examScreen" hidden>
+<div class="exambar"><div><strong>Mi Aula Digital · TIC II · Modo examen</strong><div class="exam-msg" id="studentLabel"></div></div>
+<div class="timer" id="timer" aria-live="off">50:00</div><div class="examactions">
+<button class="exam-btn" id="execute">▶ Ejecutar</button>
+<button class="exam-btn" id="fullscreen">⛶ Pantalla completa</button>
+<button class="exam-btn primary" id="finish">Finalizar y descargar entrega</button><button class="exam-btn" id="resetExam" type="button">Reiniciar examen (profesor)</button>
+</div></div>
+<div class="exam-notice"><span id="examState">Examen en curso</span> · Pegado bloqueado en el editor · <span id="alerts">0 avisos</span> de cambio de ventana o intentos de pegado. Los avisos son orientativos, no una prueba de uso de recursos externos.</div>
+<div class="exam-layout">
+<section class="exam-pane"><h2>index.html · HTML</h2><textarea id="html" spellcheck="false" autocomplete="off" autocapitalize="off" aria-label="Editor HTML"></textarea></section>
+<section class="exam-pane"><h2>estilos.css · CSS</h2><textarea id="css" spellcheck="false" autocomplete="off" autocapitalize="off" aria-label="Editor CSS"></textarea></section>
+<section class="exam-pane"><h2>Resultado de la programación</h2><iframe id="preview" title="Vista previa del examen" sandbox="allow-scripts allow-forms"></iframe></section>
+</div></div>
+<script src="examen.js"></script></body></html>

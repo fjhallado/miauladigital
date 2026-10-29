@@ -1,0 +1,1 @@
+{"title": "Imágenes y rutas de archivos", "html": "<h1>Galería</h1>\n<img src=\"https://placehold.co/400x220/234567/ffffff?text=Imagen\"\n     alt=\"Imagen de ejemplo\" width=\"400\">\n<p>Las imágenes se enlazan mediante una ruta.</p>", "css": "body{font-family:Arial,sans-serif;padding:22px} img{max-width:100%;height:auto;border-radius:12px;display:block}"}
