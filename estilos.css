@@ -69,3 +69,5 @@
 .game-card .game-visual svg{width:74px;height:74px;position:relative;filter:drop-shadow(0 0 12px #7ec7ff66)}
 .game-card .game-visual.chemistry{background:linear-gradient(120deg,#0d4d70,#292c80,#4c246d)}
 .game-card .game-visual.geometry{background:linear-gradient(120deg,#113866,#19458a,#542a8e)}
+
+.news-megaphone{width:112px;height:110px;object-fit:contain;flex:none;filter:drop-shadow(0 0 14px #399bfb88)}.news-head{display:flex;align-items:center;gap:20px;flex-wrap:wrap}.news-head>div{flex:1;min-width:225px}@media(max-width:540px){.news-megaphone{width:68px;height:68px}}

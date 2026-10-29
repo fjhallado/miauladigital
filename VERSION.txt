@@ -1,2 +1,1 @@
-MI AULA DIGITAL V1.36
-Laboratorio TIC II: guardado de proyectos en navegador, borrador automático, importación/exportación JSON, sugerencias de etiquetas y autocierre HTML.
+Mi Aula Digital V1.39 · Reinicio del examen protegido por contraseña orientativa y archivo local de intentos. ATENCIÓN: no es un sistema seguro anti-suplantación, el código cliente y almacenamiento local son accesibles.
