@@ -100,14 +100,35 @@ window.AULA_MATERIAS = [
     "grade": "1.º ESO",
     "glyph": "⚙",
     "tone": "tec",
-    "desc": "Diseña, construye y resuelve retos tecnológicos",
-    "resources": [],
+    "desc": "Aprende a diseñar, representar y construir soluciones tecnológicas",
+    "resources": [
+      {
+        "type": "Actividad interactiva",
+        "title": "Laboratorio de vistas isométricas y diédricas",
+        "description": "Construye figuras en isométrico y relaciónalas con su alzado, planta y perfil. Practica con las herramientas de dibujo, la órbita y la representación de vistas.",
+        "url": "../recursos/tecnologia-1eso/laboratorio-vistas/index.html",
+        "unit": "Expresión y comunicación técnica"
+      }
+    ],
     "units": [
-      "Proceso tecnológico",
-      "Dibujo técnico",
-      "Estructuras",
-      "Mecanismos",
-      "Electricidad"
+      {
+        "title": "Proceso tecnológico",
+        "description": "Identifica necesidades, plantea soluciones, planifica y desarrolla proyectos tecnológicos siguiendo sus fases.",
+        "image": "../recursos/media/tecnologia-1eso-tema-01-miniatura.png",
+        "trimester": 1
+      },
+      {
+        "title": "Expresión y comunicación técnica",
+        "description": "Interpreta croquis, bocetos, escalas y vistas de piezas. Aprende a representar objetos mediante dibujo técnico.",
+        "image": "../recursos/media/tecnologia-1eso-tema-02-miniatura.png",
+        "trimester": 1
+      },
+      {
+        "title": "Materiales de uso técnico",
+        "description": "Conoce los materiales más utilizados, sus propiedades, usos y criterios para elegirlos de manera responsable.",
+        "image": "../recursos/media/tecnologia-1eso-tema-03-miniatura.png",
+        "trimester": 1
+      }
     ]
   },
   {
@@ -172,13 +193,161 @@ window.AULA_MATERIAS = [
     "glyph": "</>",
     "tone": "tic2",
     "desc": "Diseña y programa tus propias páginas web",
-    "resources": [],
+    "resources": [
+      {
+        "type": "Apuntes y teoría",
+        "title": "Lección 1 · Configuración inicial HTML",
+        "description": "Estructura y configuración de un documento HTML: DOCTYPE, html, head, meta, title, body y enlace CSS.",
+        "url": "../recursos/tic-2bach/leccion.html?tema=1",
+        "unit": "Configuración inicial HTML"
+      },
+      {
+        "type": "Apuntes y teoría",
+        "title": "Lección 2 · Encabezados, párrafos y listas",
+        "description": "Organización de contenidos con títulos, párrafos, énfasis, saltos y listas ordenadas o no ordenadas.",
+        "url": "../recursos/tic-2bach/leccion.html?tema=2",
+        "unit": "Encabezados, párrafos y listas"
+      },
+      {
+        "type": "Apuntes y teoría",
+        "title": "Lección 3 · Enlaces y navegación",
+        "description": "Enlaces entre páginas y secciones mediante a, href, id y nav.",
+        "url": "../recursos/tic-2bach/leccion.html?tema=3",
+        "unit": "Enlaces y navegación"
+      },
+      {
+        "type": "Apuntes y teoría",
+        "title": "Lección 4 · Imágenes y rutas de archivos",
+        "description": "Inserción de fotografías con img, src, alt y dimensiones; organización de carpetas.",
+        "url": "../recursos/tic-2bach/leccion.html?tema=4",
+        "unit": "Imágenes y rutas de archivos"
+      },
+      {
+        "type": "Apuntes y teoría",
+        "title": "Lección 5 · Tablas HTML",
+        "description": "Filas, celdas, encabezados, caption y agrupaciones thead y tbody.",
+        "url": "../recursos/tic-2bach/leccion.html?tema=5",
+        "unit": "Tablas HTML"
+      },
+      {
+        "type": "Apuntes y teoría",
+        "title": "Lección 6 · Formularios HTML",
+        "description": "Recogida de información con form, label, input, textarea, select y button.",
+        "url": "../recursos/tic-2bach/leccion.html?tema=6",
+        "unit": "Formularios HTML"
+      },
+      {
+        "type": "Apuntes y teoría",
+        "title": "Lección 7 · HTML semántico",
+        "description": "Estructura de páginas mediante header, nav, main, section, article, aside y footer.",
+        "url": "../recursos/tic-2bach/leccion.html?tema=7",
+        "unit": "HTML semántico"
+      },
+      {
+        "type": "Apuntes y teoría",
+        "title": "Lección 8 · CSS: estilos y diseño",
+        "description": "Conectar estilos, selectores, color, tipografía, fondos, márgenes, padding y cajas.",
+        "url": "../recursos/tic-2bach/leccion.html?tema=8",
+        "unit": "CSS: estilos y diseño"
+      },
+      {
+        "type": "Actividad interactiva",
+        "title": "Laboratorio HTML y CSS · Configuración inicial HTML",
+        "description": "Escribe y ejecuta HTML y CSS en el navegador. Incluye el ejemplo de esta lección.",
+        "url": "../recursos/tic-2bach/laboratorio.html?ejemplo=1",
+        "unit": "Configuración inicial HTML"
+      },
+      {
+        "type": "Actividad interactiva",
+        "title": "Laboratorio HTML y CSS · Encabezados, párrafos y listas",
+        "description": "Escribe y ejecuta HTML y CSS en el navegador. Incluye el ejemplo de esta lección.",
+        "url": "../recursos/tic-2bach/laboratorio.html?ejemplo=2",
+        "unit": "Encabezados, párrafos y listas"
+      },
+      {
+        "type": "Actividad interactiva",
+        "title": "Laboratorio HTML y CSS · Enlaces y navegación",
+        "description": "Escribe y ejecuta HTML y CSS en el navegador. Incluye el ejemplo de esta lección.",
+        "url": "../recursos/tic-2bach/laboratorio.html?ejemplo=3",
+        "unit": "Enlaces y navegación"
+      },
+      {
+        "type": "Actividad interactiva",
+        "title": "Laboratorio HTML y CSS · Imágenes y rutas de archivos",
+        "description": "Escribe y ejecuta HTML y CSS en el navegador. Incluye el ejemplo de esta lección.",
+        "url": "../recursos/tic-2bach/laboratorio.html?ejemplo=4",
+        "unit": "Imágenes y rutas de archivos"
+      },
+      {
+        "type": "Actividad interactiva",
+        "title": "Laboratorio HTML y CSS · Tablas HTML",
+        "description": "Escribe y ejecuta HTML y CSS en el navegador. Incluye el ejemplo de esta lección.",
+        "url": "../recursos/tic-2bach/laboratorio.html?ejemplo=5",
+        "unit": "Tablas HTML"
+      },
+      {
+        "type": "Actividad interactiva",
+        "title": "Laboratorio HTML y CSS · Formularios HTML",
+        "description": "Escribe y ejecuta HTML y CSS en el navegador. Incluye el ejemplo de esta lección.",
+        "url": "../recursos/tic-2bach/laboratorio.html?ejemplo=6",
+        "unit": "Formularios HTML"
+      },
+      {
+        "type": "Actividad interactiva",
+        "title": "Laboratorio HTML y CSS · HTML semántico",
+        "description": "Escribe y ejecuta HTML y CSS en el navegador. Incluye el ejemplo de esta lección.",
+        "url": "../recursos/tic-2bach/laboratorio.html?ejemplo=7",
+        "unit": "HTML semántico"
+      },
+      {
+        "type": "Actividad interactiva",
+        "title": "Laboratorio HTML y CSS · CSS: estilos y diseño",
+        "description": "Escribe y ejecuta HTML y CSS en el navegador. Incluye el ejemplo de esta lección.",
+        "url": "../recursos/tic-2bach/laboratorio.html?ejemplo=8",
+        "unit": "CSS: estilos y diseño"
+      }
+    ],
     "units": [
-      "Estructura HTML",
-      "Estilos CSS",
-      "Enlaces y navegación",
-      "Formularios y tablas",
-      "Proyecto web"
+      {
+        "title": "Configuración inicial HTML",
+        "description": "Estructura y configuración de un documento HTML: DOCTYPE, html, head, meta, title, body y enlace CSS.",
+        "trimester": 1
+      },
+      {
+        "title": "Encabezados, párrafos y listas",
+        "description": "Organización de contenidos con títulos, párrafos, énfasis, saltos y listas ordenadas o no ordenadas.",
+        "trimester": 1
+      },
+      {
+        "title": "Enlaces y navegación",
+        "description": "Enlaces entre páginas y secciones mediante a, href, id y nav.",
+        "trimester": 1
+      },
+      {
+        "title": "Imágenes y rutas de archivos",
+        "description": "Inserción de fotografías con img, src, alt y dimensiones; organización de carpetas.",
+        "trimester": 1
+      },
+      {
+        "title": "Tablas HTML",
+        "description": "Filas, celdas, encabezados, caption y agrupaciones thead y tbody.",
+        "trimester": 1
+      },
+      {
+        "title": "Formularios HTML",
+        "description": "Recogida de información con form, label, input, textarea, select y button.",
+        "trimester": 1
+      },
+      {
+        "title": "HTML semántico",
+        "description": "Estructura de páginas mediante header, nav, main, section, article, aside y footer.",
+        "trimester": 2
+      },
+      {
+        "title": "CSS: estilos y diseño",
+        "description": "Conectar estilos, selectores, color, tipografía, fondos, márgenes, padding y cajas.",
+        "trimester": 2
+      }
     ]
   }
 ];

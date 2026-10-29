@@ -1,0 +1,1 @@
+Nuevas miniaturas para las tres unidades de Tecnología 1.º ESO. Archivo de datos actualizado: datos.js. Archivos nuevos: recursos/media/tecnologia-1eso-tema-01-miniatura.png, 02-miniatura.png, 03-miniatura.png. Para actualizar GitHub Pages basta con sustituir datos.js y subir las tres imágenes. No subas el editor ni las carpetas privadas del servidor.

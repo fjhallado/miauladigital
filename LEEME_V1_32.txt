@@ -1,0 +1,6 @@
+V1.32 · CAMBIOS
+1. Tres banners de Tecnología 1.º ESO procedentes de la imagen entregada.
+2. Encabezados a anchura completa, altura automática, sin deformaciones.
+3. Juegos y retos: accesos directos a Tabla periódica y Laboratorio de vistas V19.
+4. Se mantienen los demás contenidos de V1.31.
+IMPORTANTE: No publicar editor.html ni editor.js ni la carpeta privada del servidor del impostor.

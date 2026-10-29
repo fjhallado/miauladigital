@@ -1,0 +1,5 @@
+Mi Aula Digital V1.29
+- Se elimina el aviso antiguo de primera versión en la página de inicio.
+- Las portadas de los tres temas de Tecnología 1.º ESO se muestran en su resolución nativa en páginas interiores, sin estiramiento ni recorte.
+- Se conservan sus imágenes y todos los demás recursos.
+- Mantener editor.html y editor.js fuera de GitHub Pages.

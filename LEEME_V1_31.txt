@@ -1,0 +1,1 @@
+V1.31: cabeceras de los temas 1, 2 y 3 de Tecnología, en recursos/media/tecnologia-1eso-tema-01-cabecera.png a -03-cabecera.png. Se actualizan tema.js y estilos.css. El resto de la web permanece intacto. No subir editor.html/editor.js ni servidor del Impostor como contenido público.

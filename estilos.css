@@ -42,3 +42,30 @@
 
 /* Juegos educativos V1.15 */
 .game-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,420px));gap:22px}.game-card{background:rgba(18,35,65,.94);border:1px solid #46699a;border-radius:20px;overflow:hidden}.game-visual{aspect-ratio:2.05;display:flex;align-items:center;justify-content:space-around;font-size:4rem;font-weight:900;color:#9bcfff;background:linear-gradient(120deg,#193b79,#452876);position:relative}.game-visual::before{content:"";position:absolute;inset:0;background:linear-gradient(transparent 97%,#87baff24 97%),linear-gradient(90deg,transparent 97%,#87baff24 97%);background-size:38px 38px}.game-visual span{position:relative}.game-detail{padding:23px}.game-detail h2{margin:10px 0;color:white}.game-detail p{color:#c5d8f3;line-height:1.6}.game-pending{display:inline-block;padding:11px 14px;background:#253754;border:1px solid #44628b;border-radius:10px;color:#d0def2;font-size:.87rem}
+/* Mi Aula Digital V1.25: presentación y novedades */
+.branding-role{font-size:.68rem!important;line-height:1.35;max-width:320px}
+.news-section{padding:10px 0 32px}.news-head{display:flex;justify-content:space-between;align-items:center;gap:18px;margin-bottom:18px}.news-head h2{font-size:clamp(1.45rem,3vw,2rem);margin:8px 0}.news-head p{color:#bcd0ec;margin:0;line-height:1.55}.news-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px}.news-item{background:linear-gradient(140deg,rgba(26,54,94,.96),rgba(31,35,83,.92));border:1px solid #4a6594;border-radius:15px;padding:19px;min-width:0}.news-item small{color:#90cfff;font-weight:750;font-size:.77rem}.news-item h3{font-size:1.07rem;margin:11px 0}.news-item h3 a:hover{text-decoration:underline}.news-item p{font-size:.9rem;color:#c2d5f1;line-height:1.55;margin:0}.news-head button[hidden]{display:none!important}
+@media(max-width:850px){.news-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.news-head{align-items:flex-start}}@media(max-width:560px){.news-grid{grid-template-columns:1fr}.news-head{flex-direction:column}.branding-role{font-size:.67rem!important}}
+
+/* V1.26: encabezado compacto y legible */
+.branding{flex-shrink:0}.branding strong{font-size:1.08rem}.branding small{margin-top:2px;line-height:1.26}.branding-role{font-size:.74rem!important;max-width:none!important}.header-row{gap:14px}.header-nav{gap:5px}.header-nav a{padding:8px 9px;font-size:.83rem}@media(max-width:850px){.branding{flex-shrink:1}}
+
+/* V1.29: show approved Tecnología cover artwork at native resolution,
+   without enlarging or cropping low-resolution source images. */
+.topic-cover.technology-cover{width:min(100%,685px);max-height:none;margin:18px auto 30px;overflow:hidden;}
+.topic-cover.technology-cover img{width:100%;height:auto;max-height:none;object-fit:contain;image-rendering:auto;}
+
+/* V1.30: encabezado interior uniforme para Tecnología y Matemáticas */
+.topic-cover.technology-cover{width:100%;max-width:none;max-height:280px;margin:18px 0 30px;aspect-ratio:1200/290}
+.topic-cover.technology-cover img{display:block;width:100%;height:100%;max-height:280px;object-fit:cover}
+
+/* V1.31 · cabeceras ilustradas de Tecnología, mismo formato en los tres temas */
+.topic-cover.technology-cover{width:100%;max-width:none;aspect-ratio:2000/485;max-height:none;overflow:hidden;margin:18px 0 30px}
+.topic-cover.technology-cover img{width:100%;height:100%;max-height:none;object-fit:contain;display:block}
+
+/* V1.32 · Banners originales sin deformación, proporción natural y sin recortes */
+.topic-cover.technology-cover{width:100%;max-width:1160px;aspect-ratio:auto!important;max-height:none!important;overflow:visible;margin:18px auto 30px;border:0;background:transparent}
+.topic-cover.technology-cover img{display:block;width:100%;height:auto!important;max-height:none!important;aspect-ratio:auto!important;object-fit:contain!important;image-rendering:auto;border-radius:14px}
+.game-card .game-visual svg{width:74px;height:74px;position:relative;filter:drop-shadow(0 0 12px #7ec7ff66)}
+.game-card .game-visual.chemistry{background:linear-gradient(120deg,#0d4d70,#292c80,#4c246d)}
+.game-card .game-visual.geometry{background:linear-gradient(120deg,#113866,#19458a,#542a8e)}

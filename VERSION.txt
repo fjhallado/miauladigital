@@ -1,3 +1,2 @@
-MI AULA DIGITAL — V1.24
-27 de octubre de 2026
-El reto de números primos solo pide una cantidad de números, sin mostrar los números objetivo. Acepta cualquier combinación de primos entre 2 y 100. Se elimina el botón para revelar soluciones y se añade versión al script para evitar caché.
+MI AULA DIGITAL V1.36
+Laboratorio TIC II: guardado de proyectos en navegador, borrador automático, importación/exportación JSON, sugerencias de etiquetas y autocierre HTML.

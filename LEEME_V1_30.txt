@@ -1,0 +1,1 @@
+V1.30. Encabezados interiores de los tres temas de Tecnología en SVG vectorial 1200 × 290, con título solamente, mismo formato que Matemáticas. Miniaturas de tarjetas originales conservadas. Subir tema.js, estilos.css y los tres SVG a GitHub.

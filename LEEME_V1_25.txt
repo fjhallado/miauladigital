@@ -1,0 +1,12 @@
+MI AULA DIGITAL · VERSIÓN 1.25
+
+NOVEDADES:
+- Tecnología 1.º ESO: tres primeras unidades, con portadas nuevas.
+- Tema 2: laboratorio de vistas HTML autónomo en recursos/tecnologia-1eso/laboratorio-vistas/index.html
+- Portada: presentación del autor, noticia destacadas tras botones de bienvenida.
+- Edita novedades.js para añadir o quitar noticias; al subir el archivo actualizado a GitHub Pages los cambios se publican.
+
+PUBLICACIÓN:
+Sube el contenido del ZIP salvo editor.html, editor.js y carpeta SERVIDOR_IMPOSTOR_NO_SUBIR_A_GITHUB_PAGES.
+No hace falta servidor adicional para laboratorio de vistas; es un HTML autocontenido.
+El juego multijugador El impostor sigue necesitando su servidor independiente.

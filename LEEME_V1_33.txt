@@ -1,0 +1,3 @@
+Mi Aula Digital V1.33
+Cambio único: botón «Vista inicial · Alzado» en el modo Práctica del Laboratorio de vistas. Restaura orientación isométrica original y zoom a 100 % sin modificar la figura ni las vistas dibujadas.
+Para actualizar V1.32, sustituir recursos/tecnologia-1eso/laboratorio-vistas/index.html.

@@ -1,0 +1,4 @@
+Mi Aula Digital V1.35 — TIC II
+Se añaden ocho lecciones HTML/CSS adaptadas del curso de apuntes previo, con ejemplos y actividades, y un laboratorio local editable con vista previa y descarga.
+Acceso: asignaturas/TIC II > tema > Apuntes o Actividades interactivas. Indice directo: recursos/tic-2bach/index.html.
+No subir editor.html, editor.js ni SERVIDOR_IMPOSTOR_NO_SUBIR_A_GITHUB_PAGES a la web pública.

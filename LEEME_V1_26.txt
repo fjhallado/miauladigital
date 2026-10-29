@@ -1,0 +1,4 @@
+V1.26: publicar todo el contenido excepto editor.html, editor.js, copias de seguridad y SERVIDOR_IMPOSTOR_NO_SUBIR_A_GITHUB_PAGES.
+Tecnología 1 ESO: 3 tarjetas con ilustraciones tipo blueprint en recursos/media.
+El Tema 2 enlaza a recursos/tecnologia-1eso/laboratorio-vistas/index.html, actualizado desde V19: mantiene catálogo local y exportación/importación.
+Novedades: para agregar avisos modificar novedades.js.
