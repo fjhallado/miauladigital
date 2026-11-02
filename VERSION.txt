@@ -1,1 +1,1 @@
-Mi Aula Digital 1.4.9 · Laboratorio compacto, ejercicio aleatorio sin selector y editor de tres paneles a pantalla completa.
+Mi Aula Digital 1.4.10: ejercicios aleatorios desde cero y soluciones opcionales.
