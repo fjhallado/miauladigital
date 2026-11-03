@@ -61,3 +61,6 @@ body{background:linear-gradient(rgba(5,12,28,.84),rgba(5,12,28,.9)),url("../../f
 
 /* Copyright integrado */
 .copyright-note{display:flex;flex-basis:100%;gap:12px 22px;align-items:center;flex-wrap:wrap;font-size:.83rem;color:#c3d4ef}.copyright-note a{color:#9bceff;text-decoration:underline}
+
+/* V1.4.11: las series inferiores se seleccionan expresamente y las familias de los grupos son visibles */
+.series-selection{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin:15px 0 0;padding:14px 16px;border:1px solid #bca6d2;border-radius:12px;background:#f5effa}.series-selection legend{font-size:13px;font-weight:800;color:#523271;padding:0 6px}.series-selection .choice{display:inline-flex;align-items:center;gap:8px;background:#fff;padding:9px 12px;border:1px solid #e0d4eb;border-radius:9px;cursor:pointer;font-size:13px}.series-selection .choice input{accent-color:#6b37a0}.series-selection[hidden]{display:none}
