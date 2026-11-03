@@ -64,3 +64,68 @@ body{background:linear-gradient(rgba(5,12,28,.84),rgba(5,12,28,.9)),url("../../f
 
 /* V1.4.11: las series inferiores se seleccionan expresamente y las familias de los grupos son visibles */
 .series-selection{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin:15px 0 0;padding:14px 16px;border:1px solid #bca6d2;border-radius:12px;background:#f5effa}.series-selection legend{font-size:13px;font-weight:800;color:#523271;padding:0 6px}.series-selection .choice{display:inline-flex;align-items:center;gap:8px;background:#fff;padding:9px 12px;border:1px solid #e0d4eb;border-radius:9px;cursor:pointer;font-size:13px}.series-selection .choice input{accent-color:#6b37a0}.series-selection[hidden]{display:none}
+
+
+/* V1.4.12 · Series inferiores: tema oscuro consistente con los 18 grupos */
+#series-seleccion.series-selection {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  margin: 18px 0 2px;
+  padding: 16px 14px 13px;
+  border: 1px solid #395e84;
+  border-radius: 12px;
+  background: rgba(7, 24, 45, .70);
+  color: #eaf3ff;
+}
+#series-seleccion.series-selection legend {
+  max-width: 100%;
+  padding: 0 9px;
+  color: #b9d9ff;
+  font-size: 13px;
+  font-weight: 750;
+  line-height: 1.4;
+  white-space: normal;
+}
+#series-seleccion.series-selection .choice {
+  display: inline-flex;
+  flex: 0 1 auto;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  min-height: 48px;
+  padding: 10px 16px;
+  border: 1px solid #3c6087;
+  border-radius: 9px;
+  background: #0b203a;
+  color: #eaf3ff;
+  font-size: 13px;
+  font-weight: 550;
+  line-height: 1.4;
+  cursor: pointer;
+}
+#series-seleccion.series-selection .choice span { color: inherit; }
+#series-seleccion.series-selection .choice input {
+  flex-shrink: 0;
+  margin: 0;
+  width: 18px;
+  height: 18px;
+  accent-color: #67bdff;
+}
+#series-seleccion.series-selection .choice:hover,
+#series-seleccion.series-selection .choice:focus-within {
+  border-color: #85bdf6;
+  background: #153657;
+}
+#series-seleccion.series-selection .choice:has(input:checked) {
+  background: #204974;
+  border-color: #86c7ff;
+  color: #ffffff;
+}
+#series-seleccion[hidden] { display: none !important; }
+@media (max-width: 600px) {
+  #series-seleccion.series-selection { align-items: stretch; }
+  #series-seleccion.series-selection .choice { flex: 1 1 220px; }
+}
