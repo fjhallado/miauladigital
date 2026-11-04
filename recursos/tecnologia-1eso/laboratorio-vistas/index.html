@@ -1,6 +1,6 @@
 <!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Laboratorio de vistas · V18</title><style>
 :root{font-family:system-ui,Segoe UI,Arial;color:#1e3148;background:#edf3fa}*{box-sizing:border-box}body{margin:0}header{background:#142b46;color:white;padding:15px 22px}header h1{font-size:21px;margin:0}header p{margin:4px 0 0;color:#b8d1e7;font-size:13px}main{padding:14px;max-width:1500px;margin:auto}.toolbar,.panel{background:white;border:1px solid #d7e2ef;border-radius:13px;padding:13px;margin-bottom:12px}.toolbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap}button,select{font:inherit;font-size:13px;padding:9px 11px;border-radius:8px;border:1px solid #c1d1e2;background:#f4f7fb;color:#193750;cursor:pointer}button.active{background:#235889;color:white}button:hover{filter:brightness(.96)}label{font-size:13px}input[type=range]{max-width:100px;vertical-align:middle}.layout{display:grid;grid-template-columns:minmax(350px,1.4fr) minmax(320px,1fr);gap:12px}.panel h2{font-size:15px;margin:0 0 10px}.canvaswrap{position:relative;background:#f7faff;border:1px solid #dce8f5;border-radius:10px;overflow:hidden}canvas{width:100%;height:100%;display:block;touch-action:none}.iso{height:490px}.views{display:grid;grid-template-columns:1fr 1fr;gap:9px}.view{height:213px}.viewtitle{font-size:12px;font-weight:700;margin:0 0 5px}.hint{font-size:12px;color:#60758a;line-height:1.5;margin:10px 0 0}.legend{display:flex;flex-wrap:wrap;gap:12px;font-size:12px}.legend span{display:flex;align-items:center;gap:5px}.swatch{width:14px;height:14px;border-radius:3px;display:inline-block}.notice{font-size:13px;background:#eef5ff;border-radius:8px;padding:10px;color:#345574;margin-top:10px}@media(max-width:850px){.layout{grid-template-columns:1fr}.iso{height:360px}.view{height:180px}}@media(max-width:400px){.views{grid-template-columns:1fr}.view{height:200px}}
-body.practice .buildonly{display:none}body.practice .practonly{display:block}body:not(.practice) .practonly{display:none}.practice-tools{display:flex;gap:7px;flex-wrap:wrap;align-items:center;margin:0 0 10px}.practice-tools button.active{background:#235889;color:white}.practice-tools input{vertical-align:middle}.view.practiceview{height:250px}.score{font-weight:700;color:#28567c;margin:10px 0}.toolbar .separator{height:27px;border-left:1px solid #cbd8e5;margin:0 3px} .viewtop{display:flex;justify-content:space-between;align-items:center} .viewtop small{color:#61758b}
+body.practice .buildonly{display:none}body.practice .practonly{display:block}body:not(.practice) .practonly{display:none}.practice-tools{display:flex;gap:7px;flex-wrap:wrap;align-items:center;margin:0 0 10px}.practice-tools button.active{background:#235889;color:white}.practice-tools input{vertical-align:middle}.view.practiceview{height:250px}.score{font-weight:700;color:#28567c;margin:10px 0}.toolbar .separator{height:27px;border-left:1px solid #cbd8e5;margin:0 3px} .viewtop{display:flex;justify-content:space-between;align-items:center} .viewtop small{color:#61758b} body.practice #showSolution{opacity:.72;pointer-events:none} body.practice #showSolution.active{opacity:.72}
 .practice-tools .icon-tool{width:43px;height:40px;display:inline-grid;place-items:center;font-size:21px;font-weight:600;padding:0;line-height:1;transition:background .14s ease}
 .practice-tools .icon-tool:focus-visible{outline:3px solid #69a8ec;outline-offset:2px}
 
@@ -77,23 +77,337 @@ label{color:#e2eeff}.score{color:#a1d7ff}
 .aula-lab-title>a{color:#fff;text-decoration:none;border:1px solid #7ca7db;border-radius:9px;padding:9px 12px;font-size:13px;font-weight:700}
 .aula-lab-title>a:hover{background:#244976}
 @media(max-width:950px){.aula-header-row{flex-direction:column;align-items:flex-start}.aula-header-nav a{font-size:12px;padding:6px}}
-</style></head><body><header class="aula-site-header"><div class="aula-header-row"><a class="aula-branding" href="../../../index.html"><strong>Mi Aula Digital</strong><small>Francisco José Hallado Fernández</small><small>Profesor de ESO y Bachillerato</small></a><nav class="aula-header-nav" aria-label="Navegación principal"><a href="../../../index.html">Inicio</a><a href="../../../index.html#asignaturas">Asignaturas</a><a href="../../../index.html#funcionamiento">Cómo funciona</a><a href="../../../juegos.html">Juegos</a><a href="../../../index.html#tablon">Tablón</a><a href="../../../acerca.html">¿Qué es?</a><a href="../../../contacto.html">Contacto</a><a href="../../../otros-recursos.html">Otros recursos</a></nav></div></header><div class="aula-lab-title"><div><span>TECNOLOGÍA · 1.º ESO · TEMA 2</span><h1>Laboratorio de vistas <small>V19</small></h1><p>Diseña piezas isométricas y relaciona las vistas de alzado, planta y perfil.</p></div><a href="../../../tema.html?asignatura=tecnologia-1eso&amp;unidad=Expresi%C3%B3n%20y%20comunicaci%C3%B3n%20t%C3%A9cnica">← Volver al tema 2</a></div><main><div class="toolbar"><button id="constructionTab" class="active tabbutton">▤ Construcción</button><button id="practiceTab" class="tabbutton">✎ Práctica</button><button id="resetPracticeView" class="practonly" type="button" title="Volver al ángulo inicial de la pieza y centrarla" aria-label="Restablecer orientación inicial de la figura">⟲ Vista inicial · Alzado</button><span class="separator"></span><label>Cuadrícula <select id="size"><option value="3">3 × 3</option><option value="4" selected>4 × 4</option><option value="5">5 × 5</option></select></label><span class="buildonly build-tools" role="group" aria-label="Herramientas de construcción"><button id="add" class="active icon-tool" title="Añadir un cubo" aria-label="Añadir un cubo">✎</button><button id="erase" class="icon-tool" title="Borrar un cubo" aria-label="Borrar un cubo">⌫</button><button id="random" class="icon-tool" title="Generar figura aleatoria" aria-label="Generar figura aleatoria">⚄</button><button id="clear" class="icon-tool" title="Vaciar la construcción" aria-label="Vaciar construcción">▧</button><button id="saveDesign" class="icon-tool" title="Guardar figura en el catálogo" aria-label="Guardar figura en el catálogo">▣</button><button id="reset" class="icon-tool" title="Centrar figura y ajustar zoom sin cambiar el ángulo" aria-label="Centrar vista">⊞</button></span><label>Zoom <input id="zoom" type="range" min="55" max="190" value="100"> <span id="zoomval">100%</span></label><label><input id="hidden" type="checkbox"> Aristas ocultas 3D</label></div><div class="layout"><section class="panel"><h2><span class="heading-icon">◇</span> Figura isométrica</h2><div class="canvaswrap iso"><canvas id="iso"></canvas></div><p class="hint"><b>Lápiz:</b> pulsa una casilla de la cuadrícula o la cara superior de una columna para añadir un cubo. En modo borrar, pulsa una cara de la pieza para retirar el cubo seleccionado. <b>Orbitar:</b> arrastra la figura en la dirección que quieras girarla, con el ratón o un dedo, sin seleccionar ninguna herramienta especial. Un toque breve añade o borra. <b>Zoom:</b> rueda del ratón o pellizco con dos dedos.</p></section><section class="panel"><h2 id="viewHeading"><span class="heading-icon">▦</span> Vistas diédricas vinculadas</h2><div class="practonly"><div class="practice-tools"><button id="solidPen" class="active icon-tool" title="Lápiz: línea continua" aria-label="Lápiz: línea continua">✎</button><button id="dashPen" class="icon-tool" title="Lápiz: línea discontinua" aria-label="Lápiz: línea discontinua">┄</button><button id="rubber" class="icon-tool" title="Borrar una línea" aria-label="Borrar una línea">⌫</button><button id="clearPractice" class="icon-tool" title="Limpiar todo el dibujo" aria-label="Limpiar todo el dibujo">▧</button><button id="showSolution" class="icon-tool" title="Mostrar solución" aria-label="Mostrar solución">◉</button><button id="checkPractice" class="icon-tool" title="Comprobar las vistas" aria-label="Comprobar las vistas">✓</button></div><p class="hint" style="margin:0 0 10px">Si giras la figura y pierdes la orientación del alzado, pulsa «⟲ Vista inicial · Alzado» para recuperar el ángulo original. Traza desde un vértice a otro, pulsando y arrastrando o tocando dos vértices. Las líneas se ajustan a la cuadrícula. Las líneas visibles son <b>continuas</b>; usa la herramienta discontinua para las aristas ocultas.</p><div id="resultPractice" class="score" aria-live="polite"></div></div><div class="legend"><span><i class="swatch" style="background:#eb7182"></i> Alzado · frontal</span><span><i class="swatch" style="background:#4c9ce9"></i> Planta · superior</span><span><i class="swatch" style="background:#ecc344"></i> Perfil · derecho</span></div><div class="views" style="margin-top:10px"><div><p class="viewtitle">Alzado</p><div class="canvaswrap view"><canvas id="front"></canvas></div></div><div><p class="viewtitle">Perfil derecho</p><div class="canvaswrap view"><canvas id="side"></canvas></div></div><div><p class="viewtitle">Planta</p><div class="canvaswrap view"><canvas id="top"></canvas></div></div><div class="buildonly"><p class="viewtitle">Instrucciones</p><div class="notice">Dibuja pulsando o arrastrando en una cuadrícula diédrica. Cada casilla añadida o borrada modifica el volumen y actualiza las otras vistas. Se representan las siluetas y los cambios de profundidad, no las divisiones artificiales de cubos.</div></div></div><p class="hint buildonly">En las vistas, las líneas oscuras son aristas visibles. Los rellenos son claros para mantener la cuadrícula. Las casillas de una vista son proyecciones de volumen: una misma proyección puede corresponder a varios cubos.</p></section></div><div class="panel buildonly"><b>Importante sobre la reconstrucción:</b> al dibujar en una vista diédrica, una línea por sí sola no define un sólido único. Esta versión interpreta el dibujo de casillas como adición o retirada de volumen siguiendo una dirección de proyección. Para representar rampas, agujeros cilíndricos o reconstruir sólidos a partir de tres contornos arbitrarios se necesitará un editor geométrico más avanzado.</div><section class="panel catalog-panel buildonly" aria-label="Catálogo personal de figuras"><div class="catalog-head"><div><h2 style="margin:0">▣ Catálogo de figuras</h2><p class="hint" style="margin:4px 0 0">Guarda tus diseños para reutilizarlos como ejercicios. Se almacenan en este navegador.</p></div><div class="catalog-actions"><button id="exportCatalog" title="Descargar copia de todas las figuras" aria-label="Exportar catálogo">⇩ Exportar</button><button id="importCatalog" title="Importar un catálogo desde un archivo JSON" aria-label="Importar catálogo">⇧ Importar</button><input type="file" id="importFile" accept=".json,application/json"></div></div><div id="catalogStatus" class="catalog-status" aria-live="polite"></div><div id="catalogGrid" class="catalog-grid"></div></section></main><div class="laboratorio-footer">Mi Aula Digital · Francisco José Hallado Fernández · Profesor ESO y Bachillerato</div><script>
-(()=>{'use strict';let isoOrigin=[2,2,1],N=4,mode='add',yaw=Math.PI/4,elev=.56,zoom=1,hidden=false,vox=new Set(),isoFaces=[],baseTiles=[],viewRects={},appMode='construction',pen='solid',solution=false,drawings={front:[],side:[],top:[]},practiceStart=null;const $=id=>document.getElementById(id),key=(x,y,z)=>`${x},${y},${z}`,has=(x,y,z)=>vox.has(key(x,y,z)),inb=(x,y,z)=>x>=0&&x<N&&y>=0&&y<N&&z>=0&&z<N;function set(x,y,z,v){if(!inb(x,y,z))return;v?vox.add(key(x,y,z)):vox.delete(key(x,y,z))}function init(){vox.clear();for(let x=0;x<3;x++)for(let y=0;y<2;y++)set(x,y,0,true);set(1,1,1,true);set(2,1,1,true);draw()}
+canvas#iso{cursor:crosshair}canvas#iso:active{cursor:grabbing}</style></head><body><header class="aula-site-header"><div class="aula-header-row"><a class="aula-branding" href="../../../index.html"><strong>Mi Aula Digital</strong><small>Francisco José Hallado Fernández</small><small>Profesor de ESO y Bachillerato</small></a><nav class="aula-header-nav" aria-label="Navegación principal"><a href="../../../index.html">Inicio</a><a href="../../../index.html#asignaturas">Asignaturas</a><a href="../../../index.html#funcionamiento">Cómo funciona</a><a href="../../../laboratorio.html">Laboratorio</a><a href="../../../index.html#tablon">Tablón</a><a href="../../../acerca.html">¿Qué es?</a><a href="../../../contacto.html">Contacto</a><a href="../../../otros-recursos.html">Otros recursos</a></nav></div></header><div class="aula-lab-title"><div><span>TECNOLOGÍA · 1.º ESO · TEMA 2</span><h1>Laboratorio de vistas <small>V1.4.28</small></h1><p>Diseña piezas isométricas y relaciona las vistas de alzado, planta y perfil.</p></div><a href="../../../tema.html?asignatura=tecnologia-1eso&amp;unidad=Expresi%C3%B3n%20y%20comunicaci%C3%B3n%20t%C3%A9cnica">← Volver al tema 2</a></div><main><div class="toolbar"><button id="constructionTab" class="active tabbutton">▤ Construcción</button><button id="practiceTab" class="tabbutton">✎ Reconstrucción</button><button id="resetPracticeView" class="practonly" type="button" title="Volver al ángulo inicial de la pieza y centrarla" aria-label="Restablecer orientación inicial de la figura">⟲ Vista inicial</button><span class="separator"></span><label>Cuadrícula <select id="size"><option value="3">3 × 3</option><option value="4" selected>4 × 4</option><option value="5">5 × 5</option></select></label><span class="buildonly build-tools" role="group" aria-label="Herramientas de construcción"><button id="add" class="active icon-tool" title="Añadir un cubo" aria-label="Añadir un cubo">▣</button><button id="ramp" class="icon-tool" title="Poner rampa sobre la cara superior" aria-label="Colocar rampa">◢</button><button id="paintFace" class="icon-tool" title="Colorear caras de la pieza" aria-label="Colorear caras">🎨</button><button id="isoPen" class="icon-tool" title="Lápiz 3D: mueve el ratón y el programa detecta el eje X, Y o Z" aria-label="Lápiz isométrico">✎</button><button id="undoIso" class="icon-tool" title="Deshacer la última línea o cara dibujada con lápiz" aria-label="Deshacer trazo isométrico">↶</button><button id="erase" class="icon-tool" title="Borrar un cubo" aria-label="Borrar un cubo">⌫</button><button id="random" class="icon-tool" title="Generar figura aleatoria" aria-label="Generar figura aleatoria">⚄</button><button id="clear" class="icon-tool" title="Vaciar la construcción" aria-label="Vaciar construcción">▧</button><button id="saveDesign" class="icon-tool" title="Guardar figura en el catálogo" aria-label="Guardar figura en el catálogo">▣</button><button id="reset" class="icon-tool" title="Centrar figura y ajustar zoom sin cambiar el ángulo" aria-label="Centrar vista">⊞</button></span><label id="paintControls" class="buildonly" style="display:none;align-items:center;gap:8px" title="Color de las caras"><span>Color</span><input id="faceColor" type="color" value="#2db6e8" style="width:41px;height:35px;padding:3px;border:1px solid #7ba9db;background:#193c68;border-radius:6px;cursor:pointer"><button id="clearFaceColors" type="button" title="Quitar todos los colores personalizados">Restablecer colores</button></label><span id="axisDrawTools" class="buildonly" style="display:none;align-items:center;gap:7px;flex-wrap:wrap" role="group" aria-label="Lápiz de inferencia de ejes"><button id="axisOrigin" type="button" title="Reiniciar el trazo desde el origen">⌖ Origen</button><button id="axisClose" type="button" title="Cerrar el contorno de la cara">◇ Cerrar cara</button><span id="axisPosition" aria-live="polite" style="font-size:12px;color:#bcd9f8">Punto: origen</span><span id="axisHint" style="font-size:12px;color:#91d9ff">Clic: dibujar desde el vértice · Arrastrar: girar la figura</span></span><label class="buildonly" id="rampDirectionLabel" style="display:none">Pendiente <select id="rampDirection"><option value="x+">X →</option><option value="x-">X ←</option><option value="y+">Y ↑</option><option value="y-">Y ↓</option></select></label><label>Zoom <input id="zoom" type="range" min="55" max="190" value="100"> <span id="zoomval">100%</span></label><label><input id="hidden" type="checkbox" checked> Aristas ocultas 3D</label></div><div class="layout"><section class="panel"><h2><span class="heading-icon">◇</span> Figura isométrica · Cubos, rampas y lápiz</h2><div class="canvaswrap iso"><canvas id="iso"></canvas></div><p class="hint"><b>Cubo:</b> pulsa una casilla o cara para añadir volumen. <b>Rampa:</b> selecciona su dirección y pulsa la cara superior de la pieza. <b>Colorear caras:</b> pulsa 🎨, elige un color y haz clic sobre una cara del volumen o una superficie dibujada con el lápiz. Puedes girar la pieza para acceder a todas sus caras. <b>Lápiz isométrico:</b> se muestran los tres ejes grandes desde el origen (X rojo, Y amarillo, Z azul). Mueve el ratón o lápiz desde el punto naranja: los ejes X e Y parten orientados hacia el observador y el eje detectado se ilumina con una línea de previsualización. Haz clic para dibujar; repite para continuar desde el último vértice. Pulsa «Origen» para comenzar desde el origen, o acerca el lápiz a cualquier vértice de la malla 3D invisible para empezar o conectar líneas. El punto detectado se ilumina sin mostrar la nube completa. Las caras se cierran automáticamente al llegar a otra arista compatible; «Cerrar cara» sigue disponible como opción manual. Para girar la figura y sus ejes, <b>arrastra el ratón directamente</b> sobre el dibujo, incluso con el lápiz seleccionado; los clics cortos dibujan. No necesitas un botón de órbita. <b>Botón derecho con el lápiz:</b> suelta el vértice activo para iniciar un trazo independiente. No hay botones de coordenadas ni nubes de puntos. Las aristas situadas detrás del volumen se dibujan discontinuas, y las visibles se muestran continuas. En modo borrar, pulsa una cara de la pieza para retirar el cubo seleccionado. <b>Orbitar:</b> arrastra la figura en la dirección que quieras girarla, con el ratón o un dedo, sin seleccionar ninguna herramienta especial. Un toque breve añade o borra. <b>Zoom:</b> rueda del ratón o pellizco con dos dedos.</p></section><section class="panel"><h2 id="viewHeading"><span class="heading-icon">▦</span> Vistas diédricas vinculadas</h2><div class="practonly"><div class="practice-tools"><button id="solidPen" class="active icon-tool" title="Lápiz: línea continua" aria-label="Lápiz: línea continua">✎</button><button id="dashPen" class="icon-tool" title="Lápiz: línea discontinua" aria-label="Lápiz: línea discontinua">┄</button><button id="rubber" class="icon-tool" title="Borrar una línea" aria-label="Borrar una línea">⌫</button><button id="clearPractice" class="icon-tool" title="Limpiar todo el dibujo" aria-label="Limpiar todo el dibujo">▧</button><button id="showSolution" class="icon-tool" title="Reconstrucción automática en tiempo real" aria-label="Reconstrucción automática en tiempo real">◈</button><button id="checkPractice" class="icon-tool" title="Vaciar y volver a empezar" aria-label="Vaciar y volver a empezar">↺</button></div><p class="hint" style="margin:0 0 10px">Dibuja directamente en alzado, planta y perfil. El alzado se interpreta mirando la cara frontal de la vista isométrica, sin inversión izquierda-derecha. Cada vez que añadas o borres una arista, la vista 3D se reconstruirá en tiempo real. Traza entre vértices de la cuadrícula; también puedes usar diagonales para empezar a definir rampas. Las líneas visibles son <b>continuas</b>; usa la herramienta discontinua para las aristas ocultas.</p><div id="resultPractice" class="score" aria-live="polite"></div></div><div class="legend"><span><i class="swatch" style="background:#eb7182"></i> Alzado · frontal</span><span><i class="swatch" style="background:#4c9ce9"></i> Planta · superior</span><span><i class="swatch" style="background:#ecc344"></i> Perfil · derecho</span></div><div class="views" style="margin-top:10px"><div><p class="viewtitle">Alzado</p><div class="canvaswrap view"><canvas id="front"></canvas></div></div><div><p class="viewtitle">Perfil derecho</p><div class="canvaswrap view"><canvas id="side"></canvas></div></div><div><p class="viewtitle">Planta</p><div class="canvaswrap view"><canvas id="top"></canvas></div></div><div class="buildonly"><p class="viewtitle">Instrucciones</p><div class="notice">Pulsa una casilla del alzado, planta o perfil para añadir o borrar volumen. Las tres vistas se calculan sobre la misma pieza 3D, sin líneas auxiliares entre superficies coplanarias. Las figuras aleatorias tienen columnas macizas, sin cubos flotantes.</div></div></div><p class="hint buildonly">En reconstrucción, la figura 3D se genera a partir de lo que dibujes en las vistas. Las caras exteriores se muestran limpias, sin cuadrículas internas visibles cuando forman una misma superficie.</p></section></div><div class="panel buildonly"><b>Importante sobre la reconstrucción:</b> una línea aislada no define un sólido único. Esta versión interpreta el dibujo de casillas como adición o retirada de volumen siguiendo una dirección de proyección. Para representar rampas, agujeros cilíndricos o reconstruir sólidos a partir de tres contornos arbitrarios se necesitará un editor geométrico más avanzado.</div><section class="panel catalog-panel buildonly" aria-label="Catálogo personal de figuras"><div class="catalog-head"><div><h2 style="margin:0">▣ Catálogo de figuras</h2><p class="hint" style="margin:4px 0 0">Guarda tus diseños para reutilizarlos como ejercicios. Se almacenan en este navegador.</p></div><div class="catalog-actions"><button id="exportCatalog" title="Descargar copia de todas las figuras" aria-label="Exportar catálogo">⇩ Exportar</button><button id="importCatalog" title="Importar un catálogo desde un archivo JSON" aria-label="Importar catálogo">⇧ Importar</button><input type="file" id="importFile" accept=".json,application/json"></div></div><div id="catalogStatus" class="catalog-status" aria-live="polite"></div><div id="catalogGrid" class="catalog-grid"></div></section></main><div class="laboratorio-footer">Mi Aula Digital · Francisco José Hallado Fernández · Profesor ESO y Bachillerato</div><script>
+(()=>{'use strict';let isoOrigin=[2,2,1],isoScale=45,N=4,mode='add',yaw=3*Math.PI/4,elev=.56,zoom=1,hidden=true,faceColors={},sketchColors={},meshHit=null,vox=new Set(),isoFaces=[],baseTiles=[],viewRects={},appMode='construction',pen='solid',ramps=new Map(),isoLines=[],isoPolys=[],isoPath=[],isoPending=null,axisHover=null,axisPointer=null,lastPencilAnchor=null,solution=false,drawings={front:[],side:[],top:[]},practiceStart=null,constructionBackup=null,constructionRampsBackup=null,cameraBackup=null;const $=id=>document.getElementById(id),key=(x,y,z)=>`${x},${y},${z}`,has=(x,y,z)=>vox.has(key(x,y,z)),inb=(x,y,z)=>x>=0&&x<N&&y>=0&&y<N&&z>=0&&z<N;function set(x,y,z,v){if(!inb(x,y,z))return;v?vox.add(key(x,y,z)):vox.delete(key(x,y,z));if(!v)ramps.delete(rampKey(x,y,z))}function init(){vox.clear();for(let x=0;x<3;x++)for(let y=0;y<2;y++)set(x,y,0,true);set(1,1,1,true);set(2,1,1,true);draw()}
 // Fixed spatial orientation: front = -Y (red), right profile = +X (yellow), plan = +Z (blue).
 // Opposite faces are neutral so orbiting never falsely identifies a rear/left/bottom face as one of these three projections.
 const faceDefs=[{d:[1,0,0],c:'#edc448'},{d:[-1,0,0],c:'#a2b2c7'},{d:[0,-1,0],c:'#eb7383'},{d:[0,1,0],c:'#889cb3'},{d:[0,0,1],c:'#64a9ed'},{d:[0,0,-1],c:'#6d7e96'}];function corners(x,y,z,d){let [a,b,c]=d;if(a===1)return [[x+1,y,z],[x+1,y+1,z],[x+1,y+1,z+1],[x+1,y,z+1]];if(a===-1)return [[x,y,z],[x,y,z+1],[x,y+1,z+1],[x,y+1,z]];if(b===-1)return [[x,y,z],[x+1,y,z],[x+1,y,z+1],[x,y,z+1]];if(b===1)return [[x,y+1,z],[x,y+1,z+1],[x+1,y+1,z+1],[x+1,y+1,z]];if(c===1)return [[x,y,z+1],[x+1,y,z+1],[x+1,y+1,z+1],[x,y+1,z+1]];return [[x,y,z],[x,y+1,z],[x+1,y+1,z],[x+1,y,z]]}
 function camera(){return [Math.sin(yaw)*Math.cos(elev),-Math.cos(yaw)*Math.cos(elev),Math.sin(elev)]}function dot(a,b){return a.reduce((s,n,i)=>s+n*b[i],0)}function project(p,W,H,scale){let [x,y,z]=p.map((a,i)=>a-isoOrigin[i]);return [W/2+(x*Math.cos(yaw)+y*Math.sin(yaw))*scale,H/2+((x*Math.sin(yaw)-y*Math.cos(yaw))*Math.sin(elev)-z*Math.cos(elev))*scale]}function depth(p){return dot(p,camera())}function fit(canvas){let r=canvas.getBoundingClientRect();let w=Math.max(100,Math.round(r.width)),h=Math.max(100,Math.round(r.height)),d=Math.min(2,window.devicePixelRatio||1);if(canvas.width!==w*d||canvas.height!==h*d){canvas.width=w*d;canvas.height=h*d}let g=canvas.getContext('2d');g.setTransform(d,0,0,d,0,0);return [g,w,h]}
 function polygon(g,pts,fill,stroke){g.beginPath();pts.forEach((p,i)=>i?g.lineTo(...p):g.moveTo(...p));g.closePath();if(fill){g.fillStyle=fill;g.fill()}if(stroke){g.strokeStyle=stroke;g.lineWidth=1;g.stroke()}}
+// V1.4.16 · Rampas y trazado isométrico integrados en el espacio original.
+const rampKey=(x,y,z)=>key(x,y,z);
+const cubeTop=(x,y)=>{for(let z=N-1;z>=0;z--)if(has(x,y,z))return z;return -1};
+function columnHeights(x,y){let top=cubeTop(x,y);if(top<0)return [0,0,0,0];let h=top+1,dir=ramps.get(rampKey(x,y,top));if(!dir)return[h,h,h,h];let lo=top;return {'x+':[lo,h,h,lo],'x-':[h,lo,lo,h],'y+':[lo,lo,h,h],'y-':[h,h,lo,lo]}[dir]||[h,h,h,h]}
+function rampMeshFaces(){const faces=[];let ownerX=0,ownerY=0;const color={top:'#69b5f5',front:'#8fa3c6',side:'#e6bd47',back:'#eb7889',left:'#9aafc6'};
+function add(pts,c){if(pts.length>=3){let u=pts[1].map((v,i)=>v-pts[0][i]),v=pts[2].map((n,i)=>n-pts[0][i]),normal=[u[1]*v[2]-u[2]*v[1],u[2]*v[0]-u[0]*v[2],u[0]*v[1]-u[1]*v[0]],len=Math.hypot(...normal)||1;faces.push({pts,c,owner:{x:ownerX,y:ownerY},kind:c===color.top?'top':'side',normal:normal.map(n=>n/len)})}}
+for(let y=0;y<N;y++)for(let x=0;x<N;x++){ownerX=x;ownerY=y;
+ let hs=columnHeights(x,y);if(!hs.some(h=>h>0))continue;
+ let xy=[[x,y],[x+1,y],[x+1,y+1],[x,y+1]];
+ let top=xy.map((p,i)=>[...p,hs[i]]);
+ // Four corners always lie on a plane for an axis-aligned ramp, so one unbroken top face.
+ add(top,color.top);
+ // Complete solid: preserve its lower face for camera rotations below the horizon.
+ add([[x,y,0],[x,y+1,0],[x+1,y+1,0],[x+1,y,0]],'#7585a4');
+ for(let i=0;i<4;i++){
+  let j=(i+1)%4, pos=[ [x,y-1],[x+1,y],[x,y+1],[x-1,y] ][i], nx=pos[0],ny=pos[1];
+  let nHs=nx>=0&&ny>=0&&nx<N&&ny<N?columnHeights(nx,ny):[0,0,0,0];
+  let ni=[ [3,2],[0,3],[1,0],[2,1] ][i], z1=hs[i],z2=hs[j], b1=nHs[ni[0]],b2=nHs[ni[1]];
+  // Side face visible only where this column rises above its neighbour.
+  let d1=z1-b1,d2=z2-b2;
+  if(d1<=.00001&&d2<=.00001)continue;
+  let A=xy[i],B=xy[j];
+  if(d1>0&&d2>0)add([[...A,b1],[...B,b2],[...B,z2],[...A,z1]], [color.front,color.side,color.back,color.left][i]);
+  else if(d1>0){let t=d1/(d1-d2),C=[A[0]+(B[0]-A[0])*t,A[1]+(B[1]-A[1])*t,b1+(b2-b1)*t];add([[...A,b1],C,[...A,z1]],[color.front,color.side,color.back,color.left][i]);}
+  else{let t=d1/(d1-d2),C=[A[0]+(B[0]-A[0])*t,A[1]+(B[1]-A[1])*t,b1+(b2-b1)*t];add([C,[...B,b2],[...B,z2]],[color.front,color.side,color.back,color.left][i]);}
+ }
+}
+return faces;
+}
+function facePaintKey(f){const n=f.normal.map(v=>Math.abs(v)<.00001?0:Math.round(v*10000)/10000),offset=Math.round(dot(n,f.pts[0])*10000)/10000;return n.join(',')+'@'+offset}
+function sketchPaintKey(pts){return pts.map(p=>p.join(',')).sort().join('|')}
+function paintAt(px,py){
+ const cv=$('iso'),r=cv.getBoundingClientRect();
+ // Faces constructed by the pencil are visually on top of the model.
+ let origin=isoOrigin.slice(),scale=isoScale;
+ for(let i=isoPolys.length-1;i>=0;i--){let poly=isoPolys[i],points=poly.map(p=>project(p,r.width,r.height,scale));if(pointInPoly([px,py],points)){sketchColors[sketchPaintKey(poly)]=$('faceColor').value;draw();return}}
+ if(!meshHit)return;
+ let x=Math.floor(px*meshHit.ratio),y=Math.floor(py*meshHit.ratio);
+ if(x<0||y<0||x>=meshHit.width||y>=meshHit.height)return;
+ let id=meshHit.ids[y*meshHit.width+x];if(id<0)return;
+ faceColors[facePaintKey(meshHit.faces[id])]=$('faceColor').value;draw();
+}
+function paintMeshIso(cv,g,w,h){let active=[];for(let y=0;y<N;y++)for(let x=0;x<N;x++)if(columnHeights(x,y).some(h=>h>0))active.push([x,y]);let minx=active.length?Math.min(...active.map(p=>p[0])):0,miny=active.length?Math.min(...active.map(p=>p[1])):0,maxx=active.length?Math.max(...active.map(p=>p[0]+1)):N,maxy=active.length?Math.max(...active.map(p=>p[1]+1)):N;let maxH=0;for(let y=0;y<N;y++)for(let x=0;x<N;x++)maxH=Math.max(maxH,...columnHeights(x,y));maxH=Math.max(1,maxH);isoOrigin=(mode==='pencil')?[N/2,N/2,N/2]:[(minx+maxx)/2,(miny+maxy)/2,maxH/2];if(mode==='pencil'){minx=0;miny=0;maxx=N;maxy=N;maxH=N}let sc=Math.min(w-45,h-45)*.90/Math.hypot(Math.max(1,maxx-minx),Math.max(1,maxy-miny),maxH)*zoom,P=p=>project(p,w,h,sc),cam=camera(),depthP=p=>dot(p,cam);isoScale=sc;
+baseTiles=[];
+for(let x=0;x<N;x++)for(let y=0;y<N;y++){let pts=[[x,y,0],[x+1,y,0],[x+1,y+1,0],[x,y+1,0]].map(P);baseTiles.push({x,y,pts});if(mode!=='pencil')polygon(g,pts,null,'#d4e2f3')}
+// Every visible face and edge is depth-tested against one shared 3D model.
+// A painter's algorithm sorted by face-centre is not reliable for complex staircases.
+const allMeshFaces=rampMeshFaces();
+const visibleFaces=allMeshFaces.filter(f=>dot(f.normal,cam)>1e-5);
+const rasterScale=1.45,rw=Math.max(1,Math.round(w*rasterScale)),rh=Math.max(1,Math.round(h*rasterScale));
+const zbuf=new Float32Array(rw*rh);zbuf.fill(-Infinity);
+const pixelColors=new Uint8ClampedArray(rw*rh*4),faceIds=new Int32Array(rw*rh);faceIds.fill(-1);
+const bg=[247,250,255],colors={};
+for(const face of allMeshFaces){if(!colors[face.c]){let h=face.c.slice(1);colors[face.c]=[parseInt(h.slice(0,2),16),parseInt(h.slice(2,4),16),parseInt(h.slice(4,6),16)]}}
+for(let i=0;i<rw*rh;i++){let p=i*4;pixelColors[p]=bg[0];pixelColors[p+1]=bg[1];pixelColors[p+2]=bg[2];pixelColors[p+3]=255}
+const projected=allMeshFaces.map((f,id)=>({...f,id,xy:f.pts.map(p=>P(p).map(v=>v*rasterScale)),depths:f.pts.map(depthP)}));
+meshHit={width:rw,height:rh,ratio:rasterScale,ids:faceIds,faces:allMeshFaces};
+function rasterTri(a,b,c,da,db,dc,color,faceId){
+ const den=(b[1]-c[1])*(a[0]-c[0])+(c[0]-b[0])*(a[1]-c[1]);if(Math.abs(den)<.000001)return;
+ const minx=Math.max(0,Math.floor(Math.min(a[0],b[0],c[0]))),maxx=Math.min(rw-1,Math.ceil(Math.max(a[0],b[0],c[0])));
+ const miny=Math.max(0,Math.floor(Math.min(a[1],b[1],c[1]))),maxy=Math.min(rh-1,Math.ceil(Math.max(a[1],b[1],c[1])));
+ const inv=1/den;
+ for(let y=miny;y<=maxy;y++)for(let x=minx;x<=maxx;x++){
+  const px=x+.5,py=y+.5,u=((b[1]-c[1])*(px-c[0])+(c[0]-b[0])*(py-c[1]))*inv,
+   v=((c[1]-a[1])*(px-c[0])+(a[0]-c[0])*(py-c[1]))*inv,t=1-u-v;
+  if(u<-.000001||v<-.000001||t<-.000001)continue;
+  const index=y*rw+x,zd=u*da+v*db+t*dc;if(zd<zbuf[index]+.000001)continue;
+  zbuf[index]=zd;faceIds[index]=faceId;let k=index*4;pixelColors[k]=color[0];pixelColors[k+1]=color[1];pixelColors[k+2]=color[2];
+ }
+}
+for(const f of projected){
+ let assigned=faceColors[facePaintKey(f)];let col=colors[f.c];
+ if(assigned&&/^#[0-9a-fA-F]{6}$/.test(assigned))col=[1,3,5].map(i=>parseInt(assigned.slice(i,i+2),16));
+ for(let t=1;t<f.pts.length-1;t++)rasterTri(f.xy[0],f.xy[t],f.xy[t+1],f.depths[0],f.depths[t],f.depths[t+1],col,f.id)
+}
+const raster=document.createElement('canvas');raster.width=rw;raster.height=rh;
+const rg=raster.getContext('2d');rg.putImageData(new ImageData(pixelColors,rw,rh),0,0);
+g.drawImage(raster,0,0,w,h);
+const vsub=(a,b)=>a.map((v,i)=>v-b[i]);
+function coplanar(f,q){return Math.abs(dot(f.normal,q.normal))>.9999&&Math.abs(dot(f.normal,vsub(q.pts[0],f.pts[0])))<.0001}
+function onEdge(a,b,p){let d=vsub(b,a),length=dot(d,d);if(length<.0000001)return null;
+ let t=dot(vsub(p,a),d)/length;if(t<-.00001||t>1.00001)return null;
+ let at=a.map((v,i)=>v+t*d[i]);return Math.hypot(...vsub(p,at))<.0001?Math.max(0,Math.min(1,t)):null}
+function segmentsOfEdge(f,a,b){let cuts=[0,1];for(const q of allMeshFaces){if(q===f||!coplanar(f,q))continue;for(const p of q.pts){let t=onEdge(a,b,p);if(t!==null)cuts.push(t)}}
+ cuts.sort((x,y)=>x-y);let unique=cuts.filter((v,i)=>i===0||v-cuts[i-1]>.00001),segments=[];
+ for(let i=0;i<unique.length-1;i++){
+  let t0=unique[i],t1=unique[i+1];if(t1-t0<.00001)continue;
+  let mid=a.map((v,j)=>v+(b[j]-v)*(t0+t1)/2);
+  let interior=allMeshFaces.some(q=>q!==f&&coplanar(f,q)&&q.pts.some((v,j)=>onEdge(v,q.pts[(j+1)%q.pts.length],mid)!==null));
+  if(!interior)segments.push({a:a.map((v,j)=>v+(b[j]-v)*t0),b:a.map((v,j)=>v+(b[j]-v)*t1)});
+ }return segments}
+// Depth-test the geometric edge against the real projected triangles, rather than
+// the nine neighbouring pixels of a low-resolution buffer. This avoids the
+// ragged broken contours that appeared while orbiting the model.
+const frontTris=[];
+for(const f of projected){
+ if(dot(f.normal,cam)<-1e-5)continue;
+ for(let i=1;i<f.xy.length-1;i++){
+  let a=f.xy[0],b=f.xy[i],c=f.xy[i+1],da=f.depths[0],db=f.depths[i],dc=f.depths[i+1];
+  const den=(b[1]-c[1])*(a[0]-c[0])+(c[0]-b[0])*(a[1]-c[1]);if(Math.abs(den)<1e-8)continue;
+  frontTris.push({a,b,c,da,db,dc,den,minx:Math.min(a[0],b[0],c[0])-.6,maxx:Math.max(a[0],b[0],c[0])+.6,miny:Math.min(a[1],b[1],c[1])-.6,maxy:Math.max(a[1],b[1],c[1])+.6})
+ }
+}
+function edgeHidden(point){
+ let screen=P(point).map(v=>v*rasterScale),x=screen[0],y=screen[1],d=depthP(point);
+ for(const t of frontTris){
+  if(x<t.minx||x>t.maxx||y<t.miny||y>t.maxy)continue;
+  let u=((t.b[1]-t.c[1])*(x-t.c[0])+(t.c[0]-t.b[0])*(y-t.c[1]))/t.den;
+  let v=((t.c[1]-t.a[1])*(x-t.c[0])+(t.a[0]-t.c[0])*(y-t.c[1]))/t.den;
+  let q=1-u-v;
+  if(u<-.0002||v<-.0002||q<-.0002)continue;
+  let faceDepth=u*t.da+v*t.db+q*t.dc;
+  if(faceDepth>d+.009)return true;
+ }return false;
+}
+const visibleSegments=[],hiddenSegments=[],seenEdges=new Set();isoFaces=[];
+for(const f of visibleFaces){
+ const faceScreen=f.pts.map(P);isoFaces.push({x:f.owner.x,y:f.owner.y,z:cubeTop(f.owner.x,f.owner.y),d:f.kind==='top'?[0,0,1]:f.normal.map(v=>Math.abs(v)>.5?Math.sign(v):0),screen:faceScreen});
+}
+for(const f of allMeshFaces){
+ for(let i=0;i<f.pts.length;i++)for(let seg of segmentsOfEdge(f,f.pts[i],f.pts[(i+1)%f.pts.length])){
+  let aa=seg.a.map(v=>Math.round(v*1000)).join(','),bb=seg.b.map(v=>Math.round(v*1000)).join(',');let id=aa<bb?aa+'|'+bb:bb+'|'+aa;if(seenEdges.has(id))continue;seenEdges.add(id);
+  let A=P(seg.a),B=P(seg.b),length=Math.hypot(B[0]-A[0],B[1]-A[1]);
+  let steps=Math.max(4,Math.min(100,Math.ceil(length/4)));
+  const states=[];
+  for(let j=0;j<steps;j++){let t=(j+.5)/steps,p=seg.a.map((v,k)=>v+(seg.b[k]-v)*t);states.push(edgeHidden(p))}
+  // Ignore 1-step visibility blips from grazing or near-tangent projections.
+  for(let j=1;j<steps-1;j++)if(states[j-1]===states[j+1]&&states[j]!==states[j-1])states[j]=states[j-1];
+  const portions=[];let first=0,state=states[0];
+  for(let j=1;j<=steps;j++)if(j===steps||states[j]!==state){portions.push({a:seg.a.map((v,k)=>v+(seg.b[k]-v)*(first/steps)),b:seg.a.map((v,k)=>v+(seg.b[k]-v)*(j/steps)),hide:state});first=j;state=states[j]}
+  for(const part of portions)(part.hide?hiddenSegments:visibleSegments).push(part);
+ }
+}
+// Hidden edges first: fine dashed strokes. Visible outlines are drawn last and clean.
+function strokeEdgeSegments(segments,dashed){
+ g.save();g.lineCap=dashed?'butt':'round';g.lineJoin='round';g.lineWidth=dashed?1.15:1.55;
+ g.strokeStyle=dashed?'rgba(83,107,134,.8)':'#243d55';g.setLineDash(dashed?[5,4]:[]);
+ for(const seg of segments){let a=P(seg.a),b=P(seg.b);g.beginPath();g.moveTo(...a);g.lineTo(...b);g.stroke()}
+ g.restore();
+}
+if(hidden)strokeEdgeSegments(hiddenSegments,true);
+strokeEdgeSegments(visibleSegments,false);
+paintIsoSketch(g,P,sc);
+}
+function paintIsoSketch(g,P,sc){
+ if(mode==='pencil'){
+ function drawPlaneGrid(makeLine,color){g.save();g.strokeStyle=color;g.lineWidth=.85;g.globalAlpha=.38;g.lineCap='round';for(let i=0;i<=N;i++){let segs=makeLine(i);for(const seg of segs){let a=P(seg[0]),b=P(seg[1]);g.beginPath();g.moveTo(...a);g.lineTo(...b);g.stroke()}}g.restore()}
+ drawPlaneGrid(i=>[[[0,i,0],[0,i,N]],[[0,0,i],[0,N,i]]],'#d87c8b');
+ drawPlaneGrid(i=>[[[i,0,0],[i,0,N]],[[0,0,i],[N,0,i]]],'#d7b256');
+ drawPlaneGrid(i=>[[[i,0,0],[i,N,0]],[[0,i,0],[N,i,0]]],'#7fb8ee');
+ }
+ for(let face of isoPolys){let pts=face.map(P);polygon(g,pts,sketchColors[sketchPaintKey(face)]||'rgba(51,170,231,.40)',null)}
+ // Determine whether a hand-drawn line is covered by the model or by another
+ // hand-drawn face. A hidden part is dashed; visible portions remain continuous.
+ const coverTris=[];
+ const addFaceTriangles=points=>{if(points.length<3)return;
+  let v=points.map(P),ds=points.map(depth);
+  for(let j=1;j<points.length-1;j++){let a=v[0],b=v[j],c=v[j+1],da=ds[0],db=ds[j],dc=ds[j+1];
+   let det=(b[1]-c[1])*(a[0]-c[0])+(c[0]-b[0])*(a[1]-c[1]);
+   if(Math.abs(det)<.000001)continue;
+   coverTris.push({a,b,c,da,db,dc,det,minx:Math.min(a[0],b[0],c[0])-.5,maxx:Math.max(a[0],b[0],c[0])+.5,miny:Math.min(a[1],b[1],c[1])-.5,maxy:Math.max(a[1],b[1],c[1])+.5})
+  }
+ };
+ for(const f of rampMeshFaces())addFaceTriangles(f.pts);
+ for(const f of isoPolys)addFaceTriangles(f);
+ function sketchHidden(p){let screen=P(p),x=screen[0],y=screen[1],z=depth(p);
+  for(const t of coverTris){if(x<t.minx||x>t.maxx||y<t.miny||y>t.maxy)continue;
+   let u=((t.b[1]-t.c[1])*(x-t.c[0])+(t.c[0]-t.b[0])*(y-t.c[1]))/t.det;
+   let v=((t.c[1]-t.a[1])*(x-t.c[0])+(t.a[0]-t.c[0])*(y-t.c[1]))/t.det,w=1-u-v;
+   if(u<-.0002||v<-.0002||w<-.0002)continue;
+   if(u*t.da+v*t.db+w*t.dc>z+.009)return true
+  }return false
+ }
+ for(const line of isoLines){let A=P(line.a),B=P(line.b),len=Math.hypot(B[0]-A[0],B[1]-A[1]);let steps=Math.max(2,Math.min(110,Math.ceil(len/3))),states=[];
+  for(let j=0;j<steps;j++){let t=(j+.5)/steps,p=line.a.map((v,k)=>v+(line.b[k]-v)*t);states.push(sketchHidden(p))}
+  for(let j=1;j<steps-1;j++)if(states[j-1]===states[j+1])states[j]=states[j-1];
+  const portions=[];let start=0,hide=states[0];for(let j=1;j<=steps;j++)if(j===steps||states[j]!==hide){portions.push([start/steps,j/steps,hide]);start=j;hide=states[j]}
+  g.save();g.lineCap='round';for(const [t0,t1,occluded] of portions){if(occluded&&!hidden)continue;
+   g.strokeStyle=occluded?'#61788e':'#254461';g.lineWidth=occluded?1.25:2.35;g.setLineDash(occluded?[5,4]:[]);
+   g.beginPath();g.moveTo(A[0]+(B[0]-A[0])*t0,A[1]+(B[1]-A[1])*t0);g.lineTo(A[0]+(B[0]-A[0])*t1,A[1]+(B[1]-A[1])*t1);g.stroke()}
+  g.restore();
+ }
+ if(mode!=='pencil')return;
+ // Three large axes from the origin. X and Y start oriented hacia el observador.
+ const origin=P([0,0,0]);
+ const axes=[{dir:[1,0,0],name:'X',color:'#df5269'},{dir:[0,1,0],name:'Y',color:'#d1a025'},{dir:[0,0,1],name:'Z',color:'#248be6'}];
+ g.save();g.lineCap='round';g.lineJoin='round';g.font='bold 13px system-ui';
+ for(const a of axes){let p=P(a.dir.map(n=>n*N));g.beginPath();g.moveTo(...origin);g.lineTo(...p);g.strokeStyle=a.color;g.lineWidth=2.8;g.stroke();g.fillStyle=a.color;g.fillText(a.name,p[0]+(p[0]<origin[0]?-13:7),p[1]+(p[1]<origin[1]?-7:13))}
+ g.fillStyle='#ef8a2b';g.beginPath();g.arc(...origin,5,0,Math.PI*2);g.fill();
+ const anchor=isoPending||[0,0,0],a=P(anchor);if(isoPending){g.fillStyle='#fa922b';g.beginPath();g.arc(...a,6,0,Math.PI*2);g.fill();g.strokeStyle='#fff';g.lineWidth=1.6;g.stroke();}
+ if(axisHover){let b=P(axisHover.point);if(isoPending){g.beginPath();g.moveTo(...a);g.lineTo(...b);g.strokeStyle=axisHover.color;g.lineWidth=axisHover.kind==='snap'?2.5:4;g.stroke()}g.fillStyle=axisHover.color;g.beginPath();g.arc(...b,6,0,Math.PI*2);g.fill();g.strokeStyle='#ffffff';g.lineWidth=1.3;g.stroke();g.font='bold 12px system-ui';g.fillText(axisHover.kind==='snap'?'Vértice ('+axisHover.point.join(',')+')':axisHover.label+' · '+axisHover.units,b[0]+9,b[1]-9)}
+ g.restore();
+}
+// Infer the drawing direction from the cursor relative to the active vertex.
+// The candidate must stay on one of the three Cartesian axes: no ambiguous 3-D picking.
+function inferIsoAxis(px,py){let cv=$('iso'),r=cv.getBoundingClientRect(),anchor=isoPending||[0,0,0],A=project(anchor,r.width,r.height,isoScale);
+ let best=null,score=Infinity;
+ const axes=[{i:0,name:'X',color:'#df5269'},{i:1,name:'Y',color:'#d1a025'},{i:2,name:'Z',color:'#248be6'}];
+ for(const axis of axes)for(const sign of [-1,1]){let max=sign>0?N-anchor[axis.i]:anchor[axis.i];if(max<=0)continue;let end=anchor.slice();end[axis.i]+=sign;let B=project(end,r.width,r.height,isoScale);let ux=B[0]-A[0],uy=B[1]-A[1],len=Math.hypot(ux,uy);if(len<.5)continue;let dx=px-A[0],dy=py-A[1],t=(dx*ux+dy*uy)/(len*len);if(t<.3)continue;let units=Math.max(1,Math.min(max,Math.round(t)));let target=anchor.slice();target[axis.i]+=sign*units;let Q=project(target,r.width,r.height,isoScale);let perpendicular=Math.abs(dx*uy-dy*ux)/len;let cursorDist=Math.hypot(px-Q[0],py-Q[1]);let cost=perpendicular+cursorDist*.28;
+ if(cost<score){score=cost;best={point:target,color:axis.color,label:axis.name+(sign>0?'+':'−'),units,score}}}
+ return best&&best.score<Math.max(20,Math.min(38,isoScale*.6))?best:null
+}
+
+// Malla de referencia tridimensional INVISIBLE: todos los nodos enteros en X/Y/Z.
+// Selecciona por proximidad en pantalla; en solapamientos, prioriza anclajes
+// ya dibujados, continuidad del último trazo y profundidad hacia la cámara.
+function nearestIsoVertex(px,py,w,h){
+ let best=null,bestScore=Infinity,scale=Math.max(8,isoScale),radius=Math.max(11,Math.min(19,scale*.46));
+ let explicit=new Set(['0,0,0']);
+ for(const l of isoLines){explicit.add(l.a.join(','));explicit.add(l.b.join(','))}
+ for(const face of isoPolys)for(const point of face)explicit.add(point.join(','));
+ if(isoPending)explicit.add(isoPending.join(','));
+ const cameraDir=camera();
+ for(let z=0;z<=N;z++)for(let y=0;y<=N;y++)for(let x=0;x<=N;x++){
+  let p=[x,y,z],sp=project(p,w,h,isoScale),distance=Math.hypot(sp[0]-px,sp[1]-py);
+  if(distance>radius)continue;
+  let score=distance;
+  if(explicit.has(p.join(',')))score-=4;
+  if(isoPending){let dd=Math.hypot(x-isoPending[0],y-isoPending[1],z-isoPending[2]);score+=Math.min(3,dd*.4);if(dd<.001)score+=4}
+  // Prefer the frontmost of nodes that are practically superposed in projection.
+  score-=dot(p,cameraDir)*.015;
+  if(score<bestScore){bestScore=score;best={point:p,score,kind:'snap',label:'Vértice',color:'#13a879',units:0}}
+ }
+ return best;
+}
+function inferIsoTarget(px,py){let cv=$('iso'),r=cv.getBoundingClientRect(),node=nearestIsoVertex(px,py,r.width,r.height);
+ let axis=isoPending?inferIsoAxis(px,py):null;
+ // Genuine nearby vertices should override inferred parallel axis; otherwise keep
+ // predictable SketchUp-style axis inference for drawing away from a vertex.
+ if(node&&(!axis||node.score<Math.min(8,Math.max(4,isoScale*.18))))return node;
+ return axis||node;
+}
+function updateAxisPosition(){let n=$('axisPosition');if(n)n.textContent=isoPending?'Punto: ('+isoPending.join(', ')+')':'Punto: sin seleccionar'}
+function samePoint(a,b){return a.length===b.length&&a.every((v,i)=>v===b[i])}
+function edgeId(a,b){let ka=a.join(','),kb=b.join(',');return ka<kb?ka+'|'+kb:kb+'|'+ka}
+function uniquePushLine(a,b){if(!isoLines.some(l=>samePoint(l.a,a)&&samePoint(l.b,b)||samePoint(l.a,b)&&samePoint(l.b,a)))isoLines.push({a:a.slice(),b:b.slice()})}
+function constantPlaneAxis(points){for(let axis=0;axis<3;axis++){let v=points[0][axis];if(points.every(p=>p[axis]===v))return {axis,value:v}}return null}
+function isAxisAligned(a,b){let dif=0;for(let i=0;i<3;i++)if(a[i]!==b[i])dif++;return dif===1}
+function planeOfPoints(points){
+ for(let i=0;i<points.length-2;i++)for(let j=i+1;j<points.length-1;j++)for(let k=j+1;k<points.length;k++){
+  let a=points[i],u=points[j].map((v,n)=>v-a[n]),v=points[k].map((q,n)=>q-a[n]);
+  let n=[u[1]*v[2]-u[2]*v[1],u[2]*v[0]-u[0]*v[2],u[0]*v[1]-u[1]*v[0]];
+  let size=Math.hypot(...n);if(size<.000001)continue;
+  n=n.map(t=>t/size);let d=dot(n,a);
+  if(points.every(pt=>Math.abs(dot(n,pt)-d)<.00001))return {n,d};
+ }return null
+}
+function inPlane(p,plane){return Math.abs(dot(plane.n,p)-plane.d)<.00001}
+function buildPlaneGraph(plane){
+ const adj=new Map(),edges=[],edgeSeen=new Set(),nodes=new Map();
+ const addNode=p=>{if(p&&inPlane(p,plane))nodes.set(p.join(','),p.slice())};
+ const addEdge=(a,b)=>{if(!a||!b||samePoint(a,b)||!inPlane(a,plane)||!inPlane(b,plane))return;
+  let id=edgeId(a,b);if(!edgeSeen.has(id)){edges.push([a.slice(),b.slice()]);edgeSeen.add(id)};addNode(a);addNode(b)};
+ for(const p of isoPath)addNode(p);
+ for(const l of isoLines){addNode(l.a);addNode(l.b);addEdge(l.a,l.b)}
+ for(const face of isoPolys)for(let j=0;j<face.length;j++)addEdge(face[j],face[(j+1)%face.length]);
+ // Another face can supply the missing border even if that face is in a different plane.
+ for(const face of rampMeshFaces())for(let j=0;j<face.pts.length;j++)addEdge(face.pts[j],face.pts[(j+1)%face.pts.length]);
+ const connect=(a,b)=>{let ak=a.join(','),bk=b.join(',');if(!adj.has(ak))adj.set(ak,[]);if(!adj.has(bk))adj.set(bk,[]);if(!adj.get(ak).some(p=>samePoint(p,b)))adj.get(ak).push(b.slice());if(!adj.get(bk).some(p=>samePoint(p,a)))adj.get(bk).push(a.slice())};
+ // Split existing geometric edges when a new sketch vertex touches their middle.
+ for(const [a,b] of edges){let d=b.map((v,i)=>v-a[i]),dd=dot(d,d);
+  let cuts=[[0,a],[1,b]];
+  for(const p of nodes.values()){let v=p.map((q,i)=>q-a[i]),t=dot(v,d)/dd;
+   if(t>0.00001&&t<.99999&&Math.hypot(...v.map((q,i)=>q-t*d[i]))<.00001)cuts.push([t,p])}
+  cuts.sort((x,y)=>x[0]-y[0]);for(let j=0;j<cuts.length-1;j++)connect(cuts[j][1],cuts[j+1][1]);
+ }
+ return adj;
+}
+function findPlanePath(start,end,plane,blocked){
+ let graph=buildPlaneGraph(plane),goal=end.join(','),queue=[start.slice()],seen=new Set([start.join(',')]),prev=new Map();
+ while(queue.length){let cur=queue.shift(),ck=cur.join(',');if(ck===goal)break;
+  for(const nxt of graph.get(ck)||[]){let id=edgeId(cur,nxt),nk=nxt.join(',');if(blocked.has(id)||seen.has(nk))continue;
+   seen.add(nk);prev.set(nk,cur.slice());queue.push(nxt.slice())}}
+ if(!seen.has(goal))return null;let path=[end.slice()],k=goal;
+ while(k!==start.join(',')){let p=prev.get(k);if(!p)return null;path.push(p.slice());k=p.join(',')}return path.reverse();
+}
+function storeIsoFace(face){
+ if(face.length<3)return false;let clean=[];
+ for(const p of face){if(!clean.length||!samePoint(clean[clean.length-1],p))clean.push(p.slice())}
+ if(clean.length>1&&samePoint(clean[0],clean[clean.length-1]))clean.pop();
+ const plane=planeOfPoints(clean);if(!plane)return false;
+ if(isoPolys.some(old=>sketchPaintKey(old)===sketchPaintKey(clean)))return false;
+ isoPolys.push(clean);return true;
+}
+function tryAutoCloseFace(){
+ if(isoPath.length<3)return false;
+ const plane=planeOfPoints(isoPath);if(!plane)return false;
+ let start=isoPath[0],end=isoPath[isoPath.length-1],blocked=new Set();
+ for(let i=0;i<isoPath.length-1;i++)blocked.add(edgeId(isoPath[i],isoPath[i+1]));
+ let path=findPlanePath(end,start,plane,blocked);
+ if(!path||path.length<2)return false;
+ let full=isoPath.map(p=>p.slice());for(let i=1;i<path.length;i++)full.push(path[i].slice());
+ if(storeIsoFace(full)){isoPending=null;isoPath=[];updateAxisPosition();draw();return true}
+ return false;
+}
+function finishIsoFace(){
+ if(isoPath.length>=3){let first=isoPath[0],last=isoPath[isoPath.length-1];
+ if(!samePoint(last,first))uniquePushLine(last,first);
+ storeIsoFace(isoPath)
+ }
+ isoPending=null;isoPath=[];updateAxisPosition();draw()
+}
+function commitIsoPoint(p){
+ if(!isoPending){isoPending=p.slice();isoPath=[p.slice()];updateAxisPosition();draw();return}
+ if(samePoint(p,isoPending))return;
+ if(isoPath.length>=3&&samePoint(p,isoPath[0])){finishIsoFace();return}
+ uniquePushLine(isoPending,p);
+ isoPath.push(p.slice());isoPending=p.slice();updateAxisPosition();
+ if(tryAutoCloseFace())return;
+ draw()
+}
+function isoDrawPoint(px,py){let cv=$('iso'),r=cv.getBoundingClientRect(),p=nearestIsoVertex(px,py,r.width,r.height);if(p)commitIsoPoint(p)}
+function axisStep(dir){if(!isoPending)commitIsoPoint([0,0,0]);const delta={"x+":[1,0,0],"x-":[-1,0,0],"y+":[0,1,0],"y-":[0,-1,0],"z+":[0,0,1],"z-":[0,0,-1]}[dir];if(!delta)return;const p=isoPending.map((v,i)=>v+delta[i]);if(p.some(v=>v<0||v>N)){const n=$('axisPosition');if(n)n.textContent='Límite de la cuadrícula: '+isoPending.join(', ');return}commitIsoPoint(p)}
 function drawIso(){let cv=$('iso'),[g,w,h]=fit(cv);g.clearRect(0,0,w,h);g.fillStyle='#f7faff';g.fillRect(0,0,w,h);let cubeCoords=[...vox].map(k=>k.split(',').map(Number));
 let bounds=cubeCoords.length?cubeCoords.reduce((b,p)=>{for(let i=0;i<3;i++){b[0][i]=Math.min(b[0][i],p[i]);b[1][i]=Math.max(b[1][i],p[i]+1)}return b},[[Infinity,Infinity,Infinity],[-Infinity,-Infinity,-Infinity]]):[[0,0,0],[N,N,1]];
+if(mode==='pencil')bounds=[[0,0,0],[N,N,N]];
 isoOrigin=bounds[0].map((v,i)=>(v+bounds[1][i])/2);
 // Fixed orthographic scale: use the rotation-invariant bounding sphere instead of
 // refitting the rotated 2-D bounding box at every pointer movement. This keeps
 // the 3-D object's center at the viewport center and prevents orbit-induced zoom.
 const dx=bounds[1][0]-bounds[0][0],dy=bounds[1][1]-bounds[0][1],dz=bounds[1][2]-bounds[0][2];
 const diameter=Math.max(1,Math.hypot(dx,dy,dz));
-const sc=Math.max(1,Math.min(w-55,h-55))*.90/diameter*zoom;
-let P=p=>project(p,w,h,sc),cam=camera();baseTiles=[];for(let x=0;x<N;x++)for(let y=0;y<N;y++){let pts=[[x,y,0],[x+1,y,0],[x+1,y+1,0],[x,y+1,0]].map(P);baseTiles.push({x,y,pts});polygon(g,pts,null,'#d1deef')}let faces=[];for(let k of vox){let [x,y,z]=k.split(',').map(Number);for(let f of faceDefs){let [dx,dy,dz]=f.d;if(has(x+dx,y+dy,z+dz))continue;let pts=corners(x,y,z,f.d),visible=dot(f.d,cam)>1e-5;faces.push({x,y,z,d:f.d,pts,visible,color:f.c,depth:depth([x+.5+dx*.5,y+.5+dy*.5,z+.5+dz*.5])})}}faces.sort((a,b)=>a.depth-b.depth);isoFaces=[];
+const sc=Math.max(1,Math.min(w-55,h-55))*.90/diameter*zoom;isoScale=sc;
+let P=p=>project(p,w,h,sc),cam=camera();isoScale=sc;paintMeshIso(cv,g,w,h);return; // The SAME mesh drives 3D and dihedral projections for cubes and ramps.baseTiles=[];for(let x=0;x<N;x++)for(let y=0;y<N;y++){let pts=[[x,y,0],[x+1,y,0],[x+1,y+1,0],[x,y+1,0]].map(P);baseTiles.push({x,y,pts});if(mode!=='pencil'&&!vox.size)polygon(g,pts,null,'#d1deef')}let faces=[];for(let k of vox){let [x,y,z]=k.split(',').map(Number);for(let f of faceDefs){let [dx,dy,dz]=f.d;if(has(x+dx,y+dy,z+dz))continue;let pts=corners(x,y,z,f.d),visible=dot(f.d,cam)>1e-5;faces.push({x,y,z,d:f.d,pts,visible,color:f.c,depth:depth([x+.5+dx*.5,y+.5+dy*.5,z+.5+dz*.5])})}}faces.sort((a,b)=>a.depth-b.depth);isoFaces=[];
 // Painter rendering: draw each exterior face and its real contour in a single depth pass.
 // Front faces cover all color and stroke from faces behind them. Never fragment visible strokes.
 for(let f of faces){if(!f.visible)continue;
@@ -104,7 +418,7 @@ for(let f of faces){if(!f.visible)continue;
   const a=f.pts[i],b=f.pts[(i+1)%4];
   // Adjacent coplanar exterior faces are a single flat surface, not separate tiles.
   const adjoining=faces.some(q=>q!==f&&q.visible&&q.d.every((v,j)=>v===f.d[j])&&q.pts.some(p=>p.every((v,j)=>Math.abs(v-a[j])<.001))&&q.pts.some(p=>p.every((v,j)=>Math.abs(v-b[j])<.001)));
-  if(adjoining)continue;
+  if(adjoining){let pa=P(a),pb=P(b);g.strokeStyle=f.color;g.lineWidth=1;g.beginPath();g.moveTo(...pa);g.lineTo(...pb);g.stroke();g.strokeStyle='#23394e';g.lineWidth=1.65;continue;}
   let pa=P(a),pb=P(b);g.beginPath();g.moveTo(...pa);g.lineTo(...pb);g.stroke();
  }
  g.restore();
@@ -154,49 +468,203 @@ if(hidden){
   strokePart();
  }
  g.restore();
-}}
+}
+paintIsoSketch(g,P,sc);
+}
 
-function getPix(x,y,z,type){if(type==='front')return[x,z];if(type==='side')return[y,z];return[x,y]}function ray(type,a,b){let arr=[];for(let t=0;t<N;t++){let xyz=type==='front'?[a,t,b]:type==='side'?[t,a,b]:[a,b,t];arr.push(xyz)}return arr}function drawnAt(type,a,b){return ray(type,a,b).some(p=>has(...p))}function viewFaceDepth(type,a,b){let rr=ray(type,a,b).filter(p=>has(...p));if(!rr.length)return -1;if(type==='front')return Math.min(...rr.map(p=>p[1]));if(type==='side')return Math.max(...rr.map(p=>p[0]));return Math.max(...rr.map(p=>p[2]))}function drawView(type){let cv=$(type),[g,w,h]=fit(cv);g.clearRect(0,0,w,h);g.fillStyle='#f8fbff';g.fillRect(0,0,w,h);let cell=Math.min((w-35)/N,(h-30)/N),ox=(w-N*cell)/2,oy=(h-N*cell)/2;viewRects[type]={cell,ox,oy};let fill={front:'rgba(235,115,131,.22)',side:'rgba(237,196,72,.25)',top:'rgba(100,169,237,.23)'}[type];for(let a=0;a<N;a++)for(let b=0;b<N;b++){if((appMode==='construction'||solution)&&drawnAt(type,a,b)){let yy=N-1-b;g.fillStyle=fill;g.fillRect(ox+a*cell,oy+yy*cell,cell,cell)}}g.strokeStyle='#cbdbeb';g.lineWidth=1;for(let i=0;i<=N;i++){g.beginPath();g.moveTo(ox+i*cell,oy);g.lineTo(ox+i*cell,oy+N*cell);g.moveTo(ox,oy+i*cell);g.lineTo(ox+N*cell,oy+i*cell);g.stroke()}
-// Trace only physical silhouette or a genuine change in depth of visible volume.
-if(appMode==='construction'||solution)for(let a=0;a<N;a++)for(let b=0;b<N;b++){if(!drawnAt(type,a,b))continue;let dep=viewFaceDepth(type,a,b),yy=N-1-b,x=ox+a*cell,y=oy+yy*cell;let neigh=[[-1,0, x,y,x,y+cell],[1,0,x+cell,y,x+cell,y+cell],[0,-1,x,y+cell,x+cell,y+cell],[0,1,x,y,x+cell,y]];for(let [da,db,x1,y1,x2,y2] of neigh){let nb=b+db,na=a+da;let empty=!drawnAt(type,na,nb);let dif=!empty&&viewFaceDepth(type,na,nb)!==dep;if(!empty&&!dif)continue;g.strokeStyle='#21394f';g.lineWidth=empty?2:1.65;g.beginPath();g.moveTo(x1,y1);g.lineTo(x2,y2);g.stroke()}}
-if(appMode==='practice'){for(let line of drawings[type]){paintPracticeLine(g,line,ox,oy,cell)} if(practiceStart&&practiceStart.type===type){let a=practiceStart;g.fillStyle='#e87933';g.beginPath();g.arc(ox+a.x*cell,oy+a.y*cell,4,0,Math.PI*2);g.fill()}}
+function getPix(x,y,z,type){if(type==='front')return[N-1-x,z];if(type==='side')return[y,z];return[x,y]}function ray(type,a,b){let arr=[];for(let t=0;t<N;t++){let xyz=type==='front'?[N-1-a,t,b]:type==='side'?[t,a,b]:[a,b,t];arr.push(xyz)}return arr}function drawnAt(type,a,b){return ray(type,a,b).some(p=>has(...p))}function viewFaceDepth(type,a,b){let rr=ray(type,a,b).filter(p=>has(...p));if(!rr.length)return -1;if(type==='front')return Math.max(...rr.map(p=>p[1]));if(type==='side')return Math.max(...rr.map(p=>p[0]));return Math.max(...rr.map(p=>p[2]))}function viewProjection(type,p){let [x,y,z]=p;return type==='front'?[N-x,N-z]:type==='side'?[y,N-z]:[x,N-y]}
+function viewDepth(type,p){return type==='front'?p[1]:type==='side'?p[0]:p[2]}
+function drawView(type){
+ let cv=$(type),[g,w,h]=fit(cv);g.clearRect(0,0,w,h);g.fillStyle='#f8fbff';g.fillRect(0,0,w,h);
+ let cell=Math.min((w-35)/N,(h-30)/N),ox=(w-N*cell)/2,oy=(h-N*cell)/2;
+ viewRects[type]={cell,ox,oy};
+ g.strokeStyle='#cbdbeb';g.lineWidth=.75;
+ for(let i=0;i<=N;i++){g.beginPath();g.moveTo(ox+i*cell,oy);g.lineTo(ox+i*cell,oy+N*cell);g.moveTo(ox,oy+i*cell);g.lineTo(ox+N*cell,oy+i*cell);g.stroke()}
+ // The mesh is the SAME mesh rendered by the isometric view; no voxel-projection shortcut.
+ // Use a small orthographic Z-buffer so sloped surfaces and obscured edges agree.
+ if(appMode==='construction'||solution){
+ let faces=rampMeshFaces(),M=N*52,screen=Array.from({length:M*M},()=>null),C=cell*N/M;
+ function pointTri(px,py,a,b,c){let det=(b[1]-c[1])*(a[0]-c[0])+(c[0]-b[0])*(a[1]-c[1]);if(Math.abs(det)<1e-9)return null;
+  let u=((b[1]-c[1])*(px-c[0])+(c[0]-b[0])*(py-c[1]))/det;
+  let v=((c[1]-a[1])*(px-c[0])+(a[0]-c[0])*(py-c[1]))/det;
+  let w=1-u-v;return u>=-1e-7&&v>=-1e-7&&w>=-1e-7?[u,v,w]:null}
+ let camera=type==='front'?[0,1,0]:type==='side'?[1,0,0]:[0,0,1];
+ for(let f of faces){let dir=dot(f.normal,camera);if(dir<.000001)continue;
+ let projected=f.pts.map(p=>viewProjection(type,p));
+ let depths=f.pts.map(p=>viewDepth(type,p));
+ let center=f.pts[0],plane=dot(f.normal,center),sig=f.normal.map(v=>Math.round(v*1000)).join(',')+'|'+Math.round(plane*1000);
+ let minx=Math.max(0,Math.floor(Math.min(...projected.map(a=>a[0]))*M/N)),maxx=Math.min(M-1,Math.ceil(Math.max(...projected.map(a=>a[0]))*M/N));
+ let miny=Math.max(0,Math.floor(Math.min(...projected.map(a=>a[1]))*M/N)),maxy=Math.min(M-1,Math.ceil(Math.max(...projected.map(a=>a[1]))*M/N));
+ for(let iy=miny;iy<=maxy;iy++)for(let ix=minx;ix<=maxx;ix++){
+  let px=(ix+.5)*N/M,py=(iy+.5)*N/M,tri=null,indices=null;
+  for(let k=1;k<f.pts.length-1;k++){
+   let hit=pointTri(px,py,projected[0],projected[k],projected[k+1]);
+   if(hit){tri=hit;indices=[0,k,k+1];break}}
+  if(!tri)continue;
+  let depth=tri.reduce((s,v,j)=>s+v*depths[indices[j]],0),i=iy*M+ix;
+  if(!screen[i]||depth>screen[i].d+1e-6)screen[i]={d:depth,plane:sig};
+ }
+ }
+ // A plane is one continuous face even when it comprises many neighboring cells.
+ let tint={front:'#dbeaf9',side:'#f8efcb',top:'#dcebf9'}[type];g.fillStyle=tint;
+ for(let y=0;y<M;y++){
+  let run=-1;for(let x=0;x<=M;x++){
+   let yes=x<M&&screen[y*M+x]!==null;
+   if(yes&&run===-1)run=x;
+   if(!yes&&run!==-1){g.fillRect(ox+run*C,oy+y*C,(x-run)*C,C+.3);run=-1}
+  }
+ }
+ g.strokeStyle='#203c56';g.lineWidth=1.65;g.lineCap='butt';g.lineJoin='miter';g.beginPath();
+ // Compare each boundary between adjacent pixels, INCLUDING the top and left edges.
+ // The previous pass only checked occupied pixels against right/down, losing upper contours.
+ const plane=(x,y)=>x>=0&&x<M&&y>=0&&y<M?screen[y*M+x]:null;
+ const changes=(a,b)=>{if(!a&&!b)return false;if(!a||!b)return true;return a.plane!==b.plane};
+ for(let y=0;y<=M;y++){
+  let run=-1;for(let x=0;x<=M;x++){
+   let active=x<M&&changes(plane(x,y-1),plane(x,y));
+   if(active&&run<0)run=x;
+   if(!active&&run>=0){let py=oy+y*C;g.moveTo(ox+run*C,py);g.lineTo(ox+x*C,py);run=-1}
+  }
+ }
+ for(let x=0;x<=M;x++){
+  let run=-1;for(let y=0;y<=M;y++){
+   let active=y<M&&changes(plane(x-1,y),plane(x,y));
+   if(active&&run<0)run=y;
+   if(!active&&run>=0){let px=ox+x*C;g.moveTo(px,oy+run*C);g.lineTo(px,oy+y*C);run=-1}
+  }
+ }
+ g.stroke();
+ }
+ if(appMode==='practice'){for(let line of drawings[type])paintPracticeLine(g,line,ox,oy,cell);if(practiceStart&&practiceStart.type===type){let a=practiceStart;g.fillStyle='#e87933';g.beginPath();g.arc(ox+a.x*cell,oy+a.y*cell,4,0,Math.PI*2);g.fill()}}
 }
 function paintPracticeLine(g,l,ox,oy,cell){g.save();g.strokeStyle=l.dash?'#b35d37':'#1c344a';g.lineWidth=2.5;g.setLineDash(l.dash?[7,5]:[]);g.beginPath();g.moveTo(ox+l.x1*cell,oy+l.y1*cell);g.lineTo(ox+l.x2*cell,oy+l.y2*cell);g.stroke();g.restore()}
+// V1.4.28: project silhouettes, NOT every solid stroke. Internal edges must not remove cells.
+// Rasterize strokes as barriers and flood-fill from outside. An internal divider does not
+// affect the exterior silhouette; an incomplete contour does not enclose any area.
+function sketchMask(type){
+ const R=20,margin=3,W=N*R+margin*2+1,H=W,wall=new Uint8Array(W*H),outside=new Uint8Array(W*H);
+ const ix=x=>Math.round(x*R)+margin,iy=y=>Math.round(y*R)+margin;
+ for(const seg of drawings[type]){
+  if(seg.dash)continue;
+  const x1=ix(seg.x1),y1=iy(seg.y1),x2=ix(seg.x2),y2=iy(seg.y2);
+  const steps=Math.max(1,Math.ceil(Math.hypot(x2-x1,y2-y1)*3));
+  for(let k=0;k<=steps;k++){
+   const x=Math.round(x1+(x2-x1)*k/steps),y=Math.round(y1+(y2-y1)*k/steps);
+   for(let dy=-1;dy<=1;dy++)for(let dx=-1;dx<=1;dx++){
+    const xx=x+dx,yy=y+dy;if(xx>=0&&xx<W&&yy>=0&&yy<H)wall[yy*W+xx]=1;
+   }
+  }
+ }
+ const q=new Int32Array(W*H);let head=0,tail=1;q[0]=0;outside[0]=1;
+ while(head<tail){let id=q[head++],x=id%W,y=(id/W)|0;
+  if(x>0){let j=id-1;if(!wall[j]&&!outside[j]){outside[j]=1;q[tail++]=j}}
+  if(x+1<W){let j=id+1;if(!wall[j]&&!outside[j]){outside[j]=1;q[tail++]=j}}
+  if(y>0){let j=id-W;if(!wall[j]&&!outside[j]){outside[j]=1;q[tail++]=j}}
+  if(y+1<H){let j=id+W;if(!wall[j]&&!outside[j]){outside[j]=1;q[tail++]=j}}
+ }
+ let count=0;const cells=new Uint8Array(N*N);
+ for(let y=0;y<N;y++)for(let x=0;x<N;x++){
+  let px=ix(x+.5),py=iy(y+.5),id=py*W+px;
+  if(!wall[id]&&!outside[id]){cells[y*N+x]=1;count++}
+ }
+ return {cells,count,contains:(x,y)=>{
+  let a=Math.floor(x),b=Math.floor(y);return a>=0&&a<N&&b>=0&&b<N&&!!cells[b*N+a];
+ }};
+}
+function rebuildPracticeModel(){
+ if(appMode!=='practice')return;
+ let masks={};for(let type of ['front','side','top'])masks[type]=sketchMask(type);
+ const available=['front','side','top'].filter(t=>masks[t].count>0);
+ if(available.length<2){
+  // Preserve the last well-defined construction while a new view is being drawn.
+  $('resultPractice').textContent='Cierra las siluetas de al menos dos vistas. Las líneas interiores no modifican el contorno.';
+  draw();return;
+ }
+ const next=new Set();let count=0;
+ for(let y=0;y<N;y++)for(let x=0;x<N;x++)for(let z=0;z<N;z++){
+  // The front is viewed from +Y; its screen horizontal goes from world X high to low.
+  const tests={front:[N-x-.5,N-z-.5],side:[y+.5,N-z-.5],top:[x+.5,N-y-.5]};
+  if(available.every(t=>masks[t].contains(...tests[t]))){next.add(key(x,y,z));count++}
+ }
+ vox=next;
+ $('resultPractice').textContent=count?'Reconstrucción 3D en tiempo real · '+count+' cubos aproximados. Las divisiones interiores no restan volumen.':'Las vistas cerradas no delimitan un volumen común. Revisa su alineación.';
+ draw();
+}
 function draw(){drawIso();for(let type of ['front','top','side'])drawView(type)}function pointInPoly(p,pts){let odd=false;for(let i=0,j=pts.length-1;i<pts.length;j=i++){let a=pts[i],b=pts[j];if((a[1]>p[1])!==(b[1]>p[1])&&(p[0]<(b[0]-a[0])*(p[1]-a[1])/(b[1]-a[1])+a[0]))odd=!odd}return odd}
-function isoEdit(px,py){let face=[...isoFaces].reverse().find(f=>pointInPoly([px,py],f.screen));if(mode==='erase'){if(face){set(face.x,face.y,face.z,false);draw()}return}if(face){if(face.d[2]===1){set(face.x,face.y,face.z+1,true)}else{let x=face.x+face.d[0],y=face.y+face.d[1],z=face.z+face.d[2];set(x,y,z,true)}draw();return}let tile=baseTiles.find(t=>pointInPoly([px,py],t.pts));if(tile){let z=0;while(z<N&&has(tile.x,tile.y,z))z++;set(tile.x,tile.y,z,true);draw()}}
+function isoEdit(px,py){if(mode==='paint'){paintAt(px,py);return}if(mode==='pencil'){let found=inferIsoTarget(px,py);if(found){commitIsoPoint(found.point);axisHover=null}return}let face=[...isoFaces].reverse().find(f=>pointInPoly([px,py],f.screen));if(mode==='ramp'){let tile=baseTiles.find(t=>pointInPoly([px,py],t.pts));if(!tile){let cv=$('iso'),r=cv.getBoundingClientRect(),sc=Math.min(r.width-45,r.height-45)*.75/Math.hypot(N,N,Math.max(1,N))*zoom;let best=null,dist=999;for(let x=0;x<N;x++)for(let y=0;y<N;y++){let top=Math.max(0,cubeTop(x,y)+1),scr=project([x+.5,y+.5,top],r.width,r.height,sc),d=Math.hypot(scr[0]-px,scr[1]-py);if(d<dist){dist=d;best={x,y}}}if(dist<75)tile=best}if(face)tile={x:face.x,y:face.y};if(tile){let {x,y}=tile,z=cubeTop(x,y);if(z<0){z=0;set(x,y,z,true)}ramps.set(rampKey(x,y,z),$('rampDirection').value);draw()}return}if(mode==='erase'){if(face){set(face.x,face.y,face.z,false);ramps.delete(rampKey(face.x,face.y,face.z));draw()}return}if(face){if(face.d[2]===1){ramps.delete(rampKey(face.x,face.y,face.z));set(face.x,face.y,face.z+1,true)}else{let x=face.x+face.d[0],y=face.y+face.d[1],z=face.z+face.d[2];set(x,y,z,true)}draw();return}let tile=baseTiles.find(t=>pointInPoly([px,py],t.pts));if(tile){let z=0;while(z<N&&has(tile.x,tile.y,z))z++;set(tile.x,tile.y,z,true);draw()}}
 function ptView(type,e){let cv=$(type),r=cv.getBoundingClientRect(),rect=viewRects[type];if(!rect)return null;let x=Math.round((e.clientX-r.left-rect.ox)/rect.cell),y=Math.round((e.clientY-r.top-rect.oy)/rect.cell);return x>=0&&x<=N&&y>=0&&y<=N?{x,y}:null}
-let pDown={};for(let type of ['front','side','top']){let cv=$(type);cv.addEventListener('pointerdown',e=>{if(appMode!=='practice')return;let pt=ptView(type,e);if(!pt)return;pDown[type]={...pt};cv.setPointerCapture(e.pointerId);e.stopImmediatePropagation() },true);cv.addEventListener('pointermove',e=>{if(appMode==='practice')e.stopImmediatePropagation()},true);cv.addEventListener('pointerup',e=>{if(appMode!=='practice')return;let end=ptView(type,e),start=pDown[type];delete pDown[type];if(!end||!start)return;if(pen==='erase'){let mid={x:(start.x+end.x)/2,y:(start.y+end.y)/2};drawings[type]=drawings[type].filter(l=>{let ax=l.x2-l.x1,ay=l.y2-l.y1,t=Math.max(0,Math.min(1,((mid.x-l.x1)*ax+(mid.y-l.y1)*ay)/(ax*ax+ay*ay||1)));return Math.hypot(mid.x-l.x1-t*ax,mid.y-l.y1-t*ay)>.35});}else{if(start.x===end.x&&start.y===end.y){if(practiceStart?.type===type){start=practiceStart;practiceStart=null}else{practiceStart={type,...start};draw();return}} if(start.x!==end.x||start.y!==end.y){let x1=start.x,y1=start.y,x2=end.x,y2=end.y;drawings[type].push({x1,y1,x2,y2,dash:pen==='dash'})}}$('resultPractice').textContent='';draw();e.stopImmediatePropagation()},true)}
+let pDown={};for(let type of ['front','side','top']){let cv=$(type);cv.addEventListener('pointerdown',e=>{if(appMode!=='practice')return;let pt=ptView(type,e);if(!pt)return;pDown[type]={...pt};cv.setPointerCapture(e.pointerId);e.stopImmediatePropagation() },true);cv.addEventListener('pointermove',e=>{if(appMode==='practice')e.stopImmediatePropagation()},true);cv.addEventListener('pointerup',e=>{if(appMode!=='practice')return;let end=ptView(type,e),start=pDown[type];delete pDown[type];if(!end||!start)return;if(pen==='erase'){let mid={x:(start.x+end.x)/2,y:(start.y+end.y)/2};drawings[type]=drawings[type].filter(l=>{let ax=l.x2-l.x1,ay=l.y2-l.y1,t=Math.max(0,Math.min(1,((mid.x-l.x1)*ax+(mid.y-l.y1)*ay)/(ax*ax+ay*ay||1)));return Math.hypot(mid.x-l.x1-t*ax,mid.y-l.y1-t*ay)>.35});}else{if(start.x===end.x&&start.y===end.y){if(practiceStart?.type===type){start=practiceStart;practiceStart=null}else{practiceStart={type,...start};draw();return}} if(start.x!==end.x||start.y!==end.y){let x1=start.x,y1=start.y,x2=end.x,y2=end.y;drawings[type].push({x1,y1,x2,y2,dash:pen==='dash'})}}rebuildPracticeModel();e.stopImmediatePropagation()},true)}
 function practiceTool(tool){pen=tool;for(let [id,val] of [['solidPen','solid'],['dashPen','dash'],['rubber','erase']])$(id).classList.toggle('active',val===pen)}
-$('solidPen').onclick=()=>practiceTool('solid');$('dashPen').onclick=()=>practiceTool('dash');$('rubber').onclick=()=>practiceTool('erase');$('clearPractice').onclick=()=>{drawings={front:[],side:[],top:[]};practiceStart=null;$('resultPractice').textContent='';draw()};$('showSolution').onclick=()=>{solution=!solution;$('showSolution').title=solution?'Ocultar solución':'Mostrar solución';$('showSolution').setAttribute('aria-label',$('showSolution').title);draw()};
+$('solidPen').onclick=()=>practiceTool('solid');$('dashPen').onclick=()=>practiceTool('dash');$('rubber').onclick=()=>practiceTool('erase');$('clearPractice').onclick=()=>{drawings={front:[],side:[],top:[]};practiceStart=null;$('resultPractice').textContent='Dibuja alzado, planta y perfil para comenzar una nueva reconstrucción.';rebuildPracticeModel()};$('showSolution').onclick=()=>{};
 function expectedSegments(type){let segments=[];function add(a,b,c,d){let k=[a,b,c,d].join(',');if(!segments.some(s=>s.key===k))segments.push({key:k,a,b,c,d})}for(let a=0;a<N;a++)for(let b=0;b<N;b++){if(!drawnAt(type,a,b))continue;let dep=viewFaceDepth(type,a,b);let y=N-1-b;let edges=[[-1,0,a,y,a,y+1],[1,0,a+1,y,a+1,y+1],[0,-1,a,y+1,a+1,y+1],[0,1,a,y,a+1,y]];for(let [da,db,x1,y1,x2,y2] of edges){let nb=b+db,na=a+da;if(!drawnAt(type,na,nb)||viewFaceDepth(type,na,nb)!==dep)add(x1,y1,x2,y2)}}return segments}
 function lineKey(x1,y1,x2,y2){return [[x1,y1],[x2,y2]].sort((a,b)=>a[0]-b[0]||a[1]-b[1]).map(p=>p.join(':')).join('|')}
-$('checkPractice').onclick=()=>{let right=0,total=0;for(let type of ['front','side','top']){let expected=new Set(expectedSegments(type).map(s=>lineKey(s.a,s.b,s.c,s.d)));total+=expected.size;let got=new Set();for(let l of drawings[type]){if(l.dash)continue;let dx=l.x2-l.x1,dy=l.y2-l.y1,steps=Math.max(Math.abs(dx),Math.abs(dy));if((dx!==0&&dy!==0)||steps===0)continue;for(let i=0;i<steps;i++){let x=l.x1+dx*i/steps,y=l.y1+dy*i/steps,x2=l.x1+dx*(i+1)/steps,y2=l.y1+dy*(i+1)/steps;got.add(lineKey(x,y,x2,y2))}}for(let k of got)if(expected.has(k))right++;}let pct=Math.round(100*right/Math.max(1,total));$('resultPractice').textContent=`Coincidencias de aristas visibles: ${right} de ${total} (${pct}%). Comprueba también visualmente las aristas ocultas.`};
-function resetOriginalOrientation(){yaw=Math.PI/4;elev=.56;zoom=1;updateZoom();draw()}$('resetPracticeView').onclick=resetOriginalOrientation;
-function setAppMode(v){appMode=v;document.body.classList.toggle('practice',v==='practice');$('constructionTab').classList.toggle('active',v==='construction');$('practiceTab').classList.toggle('active',v==='practice');$('viewHeading').innerHTML=v==='practice'?'<span class="heading-icon">✎</span> Práctica: dibuja las vistas diédricas':'<span class="heading-icon">▦</span> Vistas diédricas vinculadas';draw()}$('constructionTab').onclick=()=>setAppMode('construction');$('practiceTab').onclick=()=>setAppMode('practice');
-let dragging=false,lastView='';for(let type of ['front','side','top']){let cv=$(type);function edit(e){if(appMode==='practice')return;let r=cv.getBoundingClientRect(),{cell,ox,oy}=viewRects[type],a=Math.floor((e.clientX-r.left-ox)/cell),b0=Math.floor((e.clientY-r.top-oy)/cell),b=N-1-b0;if(a<0||a>=N||b<0||b>=N)return;let hash=`${type}${a}${b}`;if(hash===lastView)return;lastView=hash;let arr=ray(type,a,b),exists=arr.filter(p=>has(...p));if(mode==='erase'){for(let p of exists)set(...p,false)}else if(!exists.length){let p=type==='front'?[a,0,b]:type==='side'?[N-1,a,b]:[a,b,0];set(...p,true)}else{let p=type==='front'?[a,Math.max(0,Math.min(...exists.map(v=>v[1]))-1),b]:type==='side'?[Math.min(N-1,Math.max(...exists.map(v=>v[0]))+1),a,b]:[a,b,Math.min(N-1,Math.max(...exists.map(v=>v[2]))+1)];set(...p,true)}draw()}cv.addEventListener('pointerdown',e=>{cv.setPointerCapture(e.pointerId);dragging=true;lastView='';edit(e)});cv.addEventListener('pointermove',e=>{if(dragging&&e.buttons)edit(e)});cv.addEventListener('pointerup',()=>dragging=false);cv.addEventListener('pointercancel',()=>dragging=false)}
+$('checkPractice').onclick=()=>{drawings={front:[],side:[],top:[]};practiceStart=null;rebuildPracticeModel()};
+function resetOriginalOrientation(){yaw=appMode==='practice'?2.80:3*Math.PI/4;elev=.56;zoom=1;updateZoom();draw()}$('resetPracticeView').onclick=resetOriginalOrientation;
+function setAppMode(v){if(v===appMode&&v==='practice'){rebuildPracticeModel();return}if(v==='practice'){cameraBackup={yaw,elev,zoom};yaw=2.80;elev=.56;constructionBackup=[...vox];constructionRampsBackup=new Map(ramps);vox.clear();ramps.clear();$('resultPractice').textContent=drawings.front.length||drawings.side.length||drawings.top.length?'Reconstrucción 3D en tiempo real activada.':'Dibuja directamente en las vistas y la figura 3D se irá formando.';}else if(appMode==='practice'&&constructionBackup){vox=new Set(constructionBackup);ramps=new Map(constructionRampsBackup||[]);if(cameraBackup){({yaw,elev,zoom}=cameraBackup);cameraBackup=null;updateZoom()}}appMode=v;document.body.classList.toggle('practice',v==='practice');$('constructionTab').classList.toggle('active',v==='construction');$('practiceTab').classList.toggle('active',v==='practice');$('viewHeading').innerHTML=v==='practice'?'<span class="heading-icon">✎</span> Reconstrucción: dibuja las vistas diédricas':'<span class="heading-icon">▦</span> Vistas diédricas vinculadas';if(v==='practice')rebuildPracticeModel();else draw()}$('constructionTab').onclick=()=>setAppMode('construction');$('practiceTab').onclick=()=>setAppMode('practice');
+let dragging=false,lastView='';for(let type of ['front','side','top']){let cv=$(type);function edit(e){if(appMode==='practice')return;let r=cv.getBoundingClientRect(),{cell,ox,oy}=viewRects[type],a=Math.floor((e.clientX-r.left-ox)/cell),b0=Math.floor((e.clientY-r.top-oy)/cell),b=N-1-b0;if(a<0||a>=N||b<0||b>=N)return;let hash=`${type}${a}${b}`;if(hash===lastView)return;lastView=hash;let arr=ray(type,a,b),exists=arr.filter(p=>has(...p));if(mode==='erase'){for(let p of exists)set(...p,false)}else if(!exists.length){let p=type==='front'?[N-1-a,N-1,b]:type==='side'?[N-1,a,b]:[a,b,0];set(...p,true)}else{let p=type==='front'?[N-1-a,Math.min(N-1,Math.max(...exists.map(v=>v[1]))+1),b]:type==='side'?[Math.min(N-1,Math.max(...exists.map(v=>v[0]))+1),a,b]:[a,b,Math.min(N-1,Math.max(...exists.map(v=>v[2]))+1)];set(...p,true)}draw()}cv.addEventListener('pointerdown',e=>{cv.setPointerCapture(e.pointerId);dragging=true;lastView='';edit(e)});cv.addEventListener('pointermove',e=>{if(dragging&&e.buttons)edit(e)});cv.addEventListener('pointerup',()=>dragging=false);cv.addEventListener('pointercancel',()=>dragging=false)}
 let points=new Map(),gestureMoved=false,pinchDist=0,pinchCenter=null;let cv=$('iso');
 function xy(e){let r=cv.getBoundingClientRect();return[e.clientX-r.left,e.clientY-r.top]}
 function updateZoom(){zoom=Math.max(.55,Math.min(1.9,zoom));$('zoom').value=Math.round(zoom*100);$('zoomval').textContent=`${Math.round(zoom*100)}%`}
 // Click/tap edits; any deliberate single-finger/mouse drag orbits the solid.
 // The angles use inverted pointer deltas so the object follows the drag direction.
-cv.addEventListener('pointerdown',e=>{e.preventDefault();cv.setPointerCapture(e.pointerId);let p=xy(e);points.set(e.pointerId,{p,start:p});if(points.size===1){gestureMoved=false;pinchDist=0;pinchCenter=null}else{gestureMoved=true;let ps=[...points.values()].map(v=>v.p);pinchDist=Math.hypot(ps[0][0]-ps[1][0],ps[0][1]-ps[1][1]);pinchCenter=[(ps[0][0]+ps[1][0])/2,(ps[0][1]+ps[1][1])/2]}});
-cv.addEventListener('pointermove',e=>{let state=points.get(e.pointerId);if(!state)return;e.preventDefault();let p=xy(e),old=state.p;state.p=p;
+cv.addEventListener('pointerdown',e=>{e.preventDefault();if(e.button===2&&mode==='pencil'&&appMode==='construction'){isoPending=null;isoPath=[];axisHover=null;axisPointer=null;updateAxisPosition();draw();return}if(mode==='pencil'&&appMode==='construction'&&!e.altKey&&e.button!==2){cv.setPointerCapture(e.pointerId);let p=xy(e);axisPointer={id:e.pointerId,start:p,last:p,orbiting:false,candidate:axisHover||inferIsoTarget(...p)};axisHover=axisPointer.candidate;draw();return}cv.setPointerCapture(e.pointerId);let p=xy(e);points.set(e.pointerId,{p,start:p});if(points.size===1){gestureMoved=false;pinchDist=0;pinchCenter=null}else{gestureMoved=true;let ps=[...points.values()].map(v=>v.p);pinchDist=Math.hypot(ps[0][0]-ps[1][0],ps[0][1]-ps[1][1]);pinchCenter=[(ps[0][0]+ps[1][0])/2,(ps[0][1]+ps[1][1])/2]}});
+cv.addEventListener('pointermove',e=>{
+if(mode==='pencil'&&appMode==='construction'&&!points.size){
+  const p=xy(e);
+  if(axisPointer&&axisPointer.id===e.pointerId){
+   const a=axisPointer;
+   if(!a.orbiting&&Math.hypot(p[0]-a.start[0],p[1]-a.start[1])>7){a.orbiting=true;axisHover=null}
+   if(a.orbiting){yaw-=(p[0]-a.last[0])*.012;elev=Math.max(-1.3,Math.min(1.3,elev+(p[1]-a.last[1])*.009));a.last=p;draw()}
+   e.preventDefault();return;
+  }
+  let n=inferIsoTarget(...p);
+  if((n?.point.join(',')||'')!==(axisHover?.point.join(',')||'')){axisHover=n;draw()}
+  if(e.pointerType==='mouse')return;
+}
+let state=points.get(e.pointerId);if(!state)return;e.preventDefault();let p=xy(e),old=state.p;state.p=p;
 if(points.size>=2){let ps=[...points.values()].slice(0,2).map(v=>v.p),d=Math.hypot(ps[0][0]-ps[1][0],ps[0][1]-ps[1][1]),center=[(ps[0][0]+ps[1][0])/2,(ps[0][1]+ps[1][1])/2];if(pinchDist>0)zoom*=d/pinchDist;if(pinchCenter){yaw-=(center[0]-pinchCenter[0])*.012;elev=Math.max(-1.3,Math.min(1.3,elev+(center[1]-pinchCenter[1])*.009))}pinchDist=d;pinchCenter=center;updateZoom();draw();return}
 if(Math.hypot(p[0]-state.start[0],p[1]-state.start[1])>5)gestureMoved=true;
 if(gestureMoved){yaw-=(p[0]-old[0])*.012;elev=Math.max(-1.3,Math.min(1.3,elev+(p[1]-old[1])*.009));draw()}});
-cv.addEventListener('pointerup',e=>{let state=points.get(e.pointerId),p=xy(e);points.delete(e.pointerId);if(points.size<2){pinchDist=0;pinchCenter=null}if(state&&points.size===0){if(appMode==='construction'&&!gestureMoved&&Math.hypot(p[0]-state.start[0],p[1]-state.start[1])<8)isoEdit(...p);gestureMoved=false}});
-cv.addEventListener('pointercancel',e=>{points.delete(e.pointerId);pinchDist=0;pinchCenter=null;gestureMoved=false});
-cv.addEventListener('wheel',e=>{e.preventDefault();zoom*=e.deltaY>0?.91:1.09;updateZoom();draw()},{passive:false});
-function modeSet(m){mode=m;for(let s of ['add','erase'])$(s).classList.toggle('active',s===m)}for(let m of ['add','erase'])$(m).onclick=()=>modeSet(m);$('size').onchange=e=>{N=+e.target.value;vox=new Set([...vox].filter(s=>s.split(',').every(v=>+v<N)));draw()};$('hidden').onchange=e=>{hidden=e.target.checked;draw()};$('zoom').oninput=e=>{zoom=+e.target.value/100;$('zoomval').textContent=e.target.value+'%';draw()};$('clear').onclick=()=>{vox.clear();draw()};$('reset').onclick=()=>{zoom=1;$('zoom').value=100;$('zoomval').textContent='100%';draw()};$('random').onclick=()=>{vox.clear();let x=Math.floor(Math.random()*N),y=Math.floor(Math.random()*N),z=0,n=N*3+Math.floor(Math.random()*N*3);for(let i=0;i<n;i++){set(x,y,z,true);let dirs=[[1,0,0],[-1,0,0],[0,1,0],[0,-1,0],[0,0,1],[0,0,-1]],opts=dirs.map(d=>[x+d[0],y+d[1],z+d[2]]).filter(p=>inb(...p));let p=opts[Math.floor(Math.random()*opts.length)];[x,y,z]=p}draw()};
+cv.addEventListener('pointerup',e=>{if(axisPointer&&axisPointer.id===e.pointerId){let a=axisPointer,p=xy(e),n=a.orbiting?null:(inferIsoTarget(...p)||a.candidate);axisPointer=null;if(n){commitIsoPoint(n.point)}axisHover=null;draw();return}let state=points.get(e.pointerId),p=xy(e);points.delete(e.pointerId);if(points.size<2){pinchDist=0;pinchCenter=null}if(state&&points.size===0){if(appMode==='construction'&&mode!=='orbit'&&!gestureMoved&&Math.hypot(p[0]-state.start[0],p[1]-state.start[1])<8)isoEdit(...p);gestureMoved=false}});
+cv.addEventListener('pointercancel',e=>{axisPointer=null;axisHover=null;points.delete(e.pointerId);pinchDist=0;pinchCenter=null;gestureMoved=false});
+cv.addEventListener('contextmenu',e=>{if(mode==='pencil'){e.preventDefault();isoPending=null;isoPath=[];axisHover=null;axisPointer=null;updateAxisPosition();draw()}});cv.addEventListener('wheel',e=>{e.preventDefault();zoom*=e.deltaY>0?.91:1.09;updateZoom();draw()},{passive:false});
+function modeSet(m){
+ mode=m;for(let id of ['add','erase','ramp','isoPen','paintFace'])$(id).classList.toggle('active',id===m||(id==='isoPen'&&m==='pencil')||(id==='paintFace'&&m==='paint'));
+ $('rampDirectionLabel').style.display=m==='ramp'?'inline-flex':'none';
+ $('axisDrawTools').style.display=m==='pencil'?'inline-flex':'none';
+ $('paintControls').style.display=m==='paint'?'inline-flex':'none';
+ axisHover=null;axisPointer=null;
+ // Keep the active stroke when moving between Pencil and Orbit.
+ updateAxisPosition();draw()
+}
+for(let m of ['add','erase','ramp'])$(m).onclick=()=>modeSet(m);
+$('isoPen').onclick=()=>modeSet('pencil');$('paintFace').onclick=()=>modeSet('paint');$('clearFaceColors').onclick=()=>{faceColors={};sketchColors={};draw()};
+
+$('axisOrigin').onclick=()=>{isoPending=[0,0,0];isoPath=[[0,0,0]];axisHover=null;updateAxisPosition();draw()};$('axisClose').onclick=finishIsoFace;$('undoIso').onclick=()=>{if(isoPending){isoPending=null;isoPath=[]}else if(isoPolys.length)isoPolys.pop();if(isoLines.length)isoLines.pop();updateAxisPosition();draw()};$('size').onchange=e=>{faceColors={};sketchColors={};N=+e.target.value;ramps.clear();isoLines=[];isoPolys=[];isoPending=null;isoPath=[];vox=new Set([...vox].filter(s=>s.split(',').every(v=>+v<N)));draw()};$('hidden').onchange=e=>{hidden=e.target.checked;draw()};$('zoom').oninput=e=>{zoom=+e.target.value/100;$('zoomval').textContent=e.target.value+'%';draw()};$('clear').onclick=()=>{faceColors={};sketchColors={};vox.clear();ramps.clear();isoLines=[];isoPolys=[];isoPending=null;isoPath=[];draw()};$('reset').onclick=()=>{zoom=1;$('zoom').value=100;$('zoomval').textContent='100%';draw()};$('random').onclick=()=>{
+ faceColors={};sketchColors={};vox.clear();ramps.clear();isoLines=[];isoPolys=[];isoPending=null;isoPath=[];
+ // Make connected, supported stacks. Every volume voxel exists in the single
+ // solid that the isometric canvas and all three orthographic views project.
+ let heights=Array.from({length:N*N},()=>0),x=Math.floor(Math.random()*N),y=Math.floor(Math.random()*N),active=[[x,y]];
+ heights[y*N+x]=1;
+ const steps=6+Math.floor(Math.random()*(N*N+N));
+ for(let i=0;i<steps;i++){
+  let seed=active[Math.floor(Math.random()*active.length)],dirs=[[0,0],[1,0],[-1,0],[0,1],[0,-1]],d=dirs[Math.floor(Math.random()*dirs.length)];
+  let nx=seed[0]+d[0],ny=seed[1]+d[1];if(nx<0||ny<0||nx>=N||ny>=N)continue;
+  let index=ny*N+nx;if(!heights[index]){heights[index]=1;active.push([nx,ny])}
+  else if(heights[index]<N&&Math.random()<.68)heights[index]++;
+ }
+ for(let cy=0;cy<N;cy++)for(let cx=0;cx<N;cx++)for(let z=0;z<heights[cy*N+cx];z++)set(cx,cy,z,true);
+ draw()
+};
 const CATALOG_KEY='mi_aula_digital_vistas_catalogo_v1';let catalog=[];
 function catalogMessage(msg){$('catalogStatus').textContent=msg}
-function safeCatalogItem(it){if(!it||typeof it!=='object'||typeof it.name!=='string'||!Number.isInteger(it.n)||it.n<3||it.n>5||!Array.isArray(it.vox))return null;let valid=it.vox.filter(v=>typeof v==='string'&&/^\d,\d,\d$/.test(v)&&v.split(',').every(c=>+c<it.n));if(!valid.length)return null;return {id:String(it.id||Date.now()),name:it.name.slice(0,70),n:it.n,vox:[...new Set(valid)],thumb:typeof it.thumb==='string'&&it.thumb.startsWith('data:image/')&&it.thumb.length<150000?it.thumb:'',saved:typeof it.saved==='string'?it.saved:''}}
+function safeCatalogItem(it){if(!it||typeof it!=='object'||typeof it.name!=='string'||!Number.isInteger(it.n)||it.n<3||it.n>5||!Array.isArray(it.vox))return null;let valid=it.vox.filter(v=>typeof v==='string'&&/^\d,\d,\d$/.test(v)&&v.split(',').every(c=>+c<it.n));if(!valid.length&&!Array.isArray(it.isoLines))return null;return {id:String(it.id||Date.now()),name:it.name.slice(0,70),n:it.n,vox:[...new Set(valid)],ramps:Array.isArray(it.ramps)?it.ramps.filter(r=>Array.isArray(r)&&r.length===2&&typeof r[0]==='string'&&['x+','x-','y+','y-'].includes(r[1])):[],isoLines:Array.isArray(it.isoLines)?it.isoLines.slice(0,300):[],isoPolys:Array.isArray(it.isoPolys)?it.isoPolys.slice(0,100):[],faceColors:it.faceColors&&typeof it.faceColors==='object'?it.faceColors:{},sketchColors:it.sketchColors&&typeof it.sketchColors==='object'?it.sketchColors:{},thumb:typeof it.thumb==='string'&&it.thumb.startsWith('data:image/')&&it.thumb.length<150000?it.thumb:'',saved:typeof it.saved==='string'?it.saved:''}}
 function readCatalog(){try{const old=JSON.parse(localStorage.getItem(CATALOG_KEY)||'[]');catalog=Array.isArray(old)?old.map(safeCatalogItem).filter(Boolean).slice(0,100):[]}catch(e){catalog=[];catalogMessage('No se ha podido leer el catálogo guardado.')}}
 function persistCatalog(){try{localStorage.setItem(CATALOG_KEY,JSON.stringify(catalog));return true}catch(e){catalogMessage('No se pudo guardar en este navegador. Exporta una copia para conservar las figuras.');return false}}
 function thumb(){try{const src=$('iso'),c=document.createElement('canvas');c.width=280;c.height=190;const ctx=c.getContext('2d');ctx.fillStyle='#f7faff';ctx.fillRect(0,0,c.width,c.height);let k=Math.min(c.width/src.width,c.height/src.height);ctx.drawImage(src,(c.width-src.width*k)/2,(c.height-src.height*k)/2,src.width*k,src.height*k);return c.toDataURL('image/jpeg',.76)}catch(e){return ''}}
 function renderCatalog(){let root=$('catalogGrid');root.replaceChildren();if(!catalog.length){let p=document.createElement('p');p.className='catalog-empty';p.textContent='Todavía no has guardado figuras. Construye una y pulsa ▣ en la barra superior.';root.append(p);return}for(let item of catalog){let card=document.createElement('article');card.className='catalog-card';let img=document.createElement('img');img.className='catalog-thumb';img.alt='Vista isométrica de '+item.name;if(item.thumb)img.src=item.thumb;let body=document.createElement('div');body.className='catalog-content';let title=document.createElement('strong');title.textContent=item.name;let meta=document.createElement('small');meta.textContent=`${item.n} × ${item.n} · ${item.vox.length} cubos`;let actions=document.createElement('div');actions.className='catalog-buttons';let build=document.createElement('button');build.textContent='Editar';build.title='Cargar esta figura en Construcción';build.onclick=()=>loadDesign(item,false);let practice=document.createElement('button');practice.textContent='Practicar';practice.title='Abrir esta figura en modo Práctica';practice.onclick=()=>loadDesign(item,true);let del=document.createElement('button');del.textContent='🗑';del.title='Eliminar esta figura del catálogo';del.setAttribute('aria-label','Eliminar '+item.name);del.onclick=()=>{if(!confirm('¿Eliminar «'+item.name+'» del catálogo?'))return;catalog=catalog.filter(x=>x.id!==item.id);persistCatalog();renderCatalog()};actions.append(build,practice,del);body.append(title,meta,actions);card.append(img,body);root.append(card)}}
-function loadDesign(item,practice){N=item.n;$('size').value=String(N);vox=new Set(item.vox);yaw=Math.PI/4;elev=.56;zoom=1;updateZoom();drawings={front:[],side:[],top:[]};practiceStart=null;solution=false;$('showSolution').classList.remove('active');$('resultPractice').textContent='';setAppMode(practice?'practice':'construction');catalogMessage('Figura «'+item.name+'» cargada'+(practice?' para practicar.':'.'))}
-$('saveDesign').onclick=()=>{if(!vox.size){catalogMessage('Primero dibuja una figura antes de guardarla.');return}let proposed='Figura '+(catalog.length+1),name=prompt('Nombre para guardar la figura:',proposed);if(name===null)return;name=name.trim().slice(0,70);if(!name){catalogMessage('Indica un nombre para guardar la figura.');return}let item={id:String(Date.now())+'_'+Math.random().toString(36).slice(2,7),name,n:N,vox:[...vox],thumb:thumb(),saved:new Date().toISOString()};catalog.unshift(item);if(!persistCatalog()){catalog.shift();return}renderCatalog();catalogMessage('«'+name+'» guardada. Puedes cargarla o practicar cuando quieras.')};
+function loadDesign(item,practice){N=item.n;$('size').value=String(N);vox=new Set(item.vox);ramps=new Map(item.ramps||[]);isoLines=item.isoLines||[];isoPolys=item.isoPolys||[];faceColors=item.faceColors||{};sketchColors=item.sketchColors||{};isoPending=null;isoPath=[];yaw=3*Math.PI/4;elev=.56;zoom=1;updateZoom();drawings={front:[],side:[],top:[]};practiceStart=null;solution=false;$('showSolution').classList.remove('active');$('resultPractice').textContent='';setAppMode(practice?'practice':'construction');catalogMessage('Figura «'+item.name+'» cargada'+(practice?' para practicar.':'.'))}
+$('saveDesign').onclick=()=>{if(!vox.size&&!isoLines.length){catalogMessage('Primero dibuja una figura antes de guardarla.');return}let proposed='Figura '+(catalog.length+1),name=prompt('Nombre para guardar la figura:',proposed);if(name===null)return;name=name.trim().slice(0,70);if(!name){catalogMessage('Indica un nombre para guardar la figura.');return}let item={id:String(Date.now())+'_'+Math.random().toString(36).slice(2,7),name,n:N,vox:[...vox],ramps:[...ramps],isoLines,isoPolys,faceColors,sketchColors,thumb:thumb(),saved:new Date().toISOString()};catalog.unshift(item);if(!persistCatalog()){catalog.shift();return}renderCatalog();catalogMessage('«'+name+'» guardada. Puedes cargarla o practicar cuando quieras.')};
 $('exportCatalog').onclick=()=>{let blob=new Blob([JSON.stringify({format:'mi-aula-digital-vistas',version:1,figuras:catalog},null,2)],{type:'application/json'});let url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='catalogo_figuras_mi_aula_digital.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)};
 $('importCatalog').onclick=()=>$('importFile').click();$('importFile').onchange=async e=>{let file=e.target.files?.[0];e.target.value='';if(!file)return;try{if(file.size>3000000)throw Error('Archivo demasiado grande');let parsed=JSON.parse(await file.text()),input=Array.isArray(parsed)?parsed:parsed?.figuras;if(!Array.isArray(input))throw Error('Formato de catálogo no reconocido');let added=0;for(let raw of input.slice(0,100)){let item=safeCatalogItem(raw);if(!item)continue;if(catalog.some(i=>i.id===item.id))item.id=String(Date.now())+'_'+Math.random().toString(36).slice(2);catalog.push(item);added++}catalog=catalog.slice(0,100);persistCatalog();renderCatalog();catalogMessage('Importadas '+added+' figuras.')}catch(err){catalogMessage('No se pudo importar: '+err.message)}};
 readCatalog();renderCatalog();
