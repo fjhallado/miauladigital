@@ -1,0 +1,9 @@
+Mi Aula Digital V1.4.28 · Corrección interna del laboratorio de vistas 3D
+
+- Reconstrucción: las vistas se interpretan por su silueta exterior cerrada, no por todas las aristas continuas indistintamente.
+- Al dibujar la planta, una línea de profundidad interior no elimina una columna de la figura.
+- Si el contorno de una vista todavía está abierto, no se utiliza para recortar la pieza.
+- En Reconstrucción la cámara parte de una orientación más frontal para facilitar la comparación izquierda-derecha entre el alzado y la figura 3D. Se puede orbitar y al volver a Construcción se restaura la cámara anterior.
+- La cara frontal (+Y) queda identificada cromáticamente en el renderizado, coherente con el lado desde el que se calcula el alzado.
+
+No se publica esta corrección en Novedades.

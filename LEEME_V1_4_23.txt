@@ -1,0 +1,7 @@
+V1.4.23 · Mejoras técnicas del laboratorio de vistas
+
+- Nuevo botón ⟳ Orbitar: permite girar la figura y los ejes en la zona principal de Construcción sin perder el último trazo.
+- Lápiz: admite iniciar una línea desde cualquiera de los vértices de una malla tridimensional invisible de (N+1)³ puntos.
+- Ajuste por proximidad: al pasar cerca de un punto se destaca temporalmente, sin mostrar todos los puntos de la cuadrícula.
+- Dibujo: conserva las inferencias de X, Y y Z y permite conectar desde vértices de diferentes alturas.
+- Solo se modificó el laboratorio, sin entradas en Novedades para los alumnos.

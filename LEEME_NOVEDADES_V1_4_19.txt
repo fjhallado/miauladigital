@@ -1,0 +1,1 @@
+V1.4.19: Laboratorio de dibujo. Se recuperan aristas superiores de las vistas diédricas; se ocultan todas las cuadrículas y nubes de puntos del lápiz 3D; nuevos controles X±, Y± y Z± para trazar un segmento desde el punto activo y cerrar una cara. Se conserva la construcción de cubos, rampas, catálogo y órbita.

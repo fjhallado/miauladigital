@@ -1,0 +1,6 @@
+V1.4.18
+- Cuadrícula de dibujo isométrico sin selector manual de altura.
+- El punto se determina con cercanía espacial, favoreciendo continuidad del trazo.
+- Alzado, planta y perfil se calculan a partir de la misma malla usada por el sólido 3D.
+- Las caras coplanarias no generan aristas internas.
+- La reconstrucción desde vistas sigue siendo aproximada.

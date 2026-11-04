@@ -1,0 +1,12 @@
+Mi Aula Digital · V1.4.26
+
+Novedades técnicas del laboratorio de vistas:
+- El lápiz cierra caras planas cuando la arista que falta ya está dibujada, incluso cuando dicha arista pertenece a otra cara de un plano perpendicular o inclinado.
+- Las aristas del modelo cubos/rampas pueden servir como lado de cierre de las caras dibujadas con el lápiz.
+- Las aristas tapadas por superficies pasan a representarse como líneas discontinuas, y los contornos visibles quedan continuos.
+- La prueba de profundidad se realiza sobre las caras geométricas en vez de emplear el máximo de los píxeles vecinos; se reducen los cortes y trazos irregulares al girar.
+- Mayor resolución de la representación de superficies y orden de dibujo mejorado para evitar que la cuadrícula auxiliar atraviese caras terminadas.
+- La casilla «Aristas ocultas 3D» aparece marcada por defecto, pero permite desactivarlas.
+
+Solo cambia: recursos/tecnologia-1eso/laboratorio-vistas/index.html
+No se crea aviso en «Novedades y nuevos recursos» por tratarse de mejoras internas.

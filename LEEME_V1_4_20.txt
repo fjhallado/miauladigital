@@ -1,0 +1,1 @@
+Nuevo lápiz tipo SketchUp: ejes XYZ grandes, detección contextual del eje, previsualización, clic o arrastre para dibujar. Alt+arrastre o botón derecho para orbitar. Archivo de GitHub modificado: recursos/tecnologia-1eso/laboratorio-vistas/index.html.

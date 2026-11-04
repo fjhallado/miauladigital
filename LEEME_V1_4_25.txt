@@ -1,0 +1,1 @@
+V1.4.25: Se añade herramienta 🎨 para colorear superficies con selector de color; clic derecho en modo lápiz libera el punto activo. Sin novedades públicas para los alumnos.

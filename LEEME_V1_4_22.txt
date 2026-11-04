@@ -1,0 +1,5 @@
+Mi Aula Digital V1.4.22
+- Se corrigen las figuras aleatorias con columnas macizas y conexión de base.
+- La vista isométrica usa prueba de profundidad por píxel y oculta caras y aristas tapadas.
+- Alzado, planta y perfil se mantienen calculados desde la misma geometría que la vista 3D.
+- Se conservan lápiz, rampas, catálogo y navegación.

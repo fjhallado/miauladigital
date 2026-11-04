@@ -1,0 +1,26 @@
+Mi Aula Digital 1.4.13 — Laboratorio de vistas 3D avanzado
+
+NUEVOS ARCHIVOS:
+recursos/tecnologia-1eso/laboratorio-vistas/avanzado.html
+recursos/tecnologia-1eso/laboratorio-vistas/avanzado.css
+recursos/tecnologia-1eso/laboratorio-vistas/avanzado.js
+
+MODIFICADO:
+recursos/tecnologia-1eso/laboratorio-vistas/index.html (enlace al nuevo laboratorio)
+
+FUNCIONALIDADES DEL PROTOTIPO:
+- Construcción por celdas sobre la planta: cubos, incremento de altura, rampas de cuatro orientaciones, borrador.
+- Proyecciones dibujadas de alzado, planta y perfil y modelo 3D orbitable.
+- Dibujo de aristas sobre cuadrícula con lápiz, diagonales, línea discontinua y borrador.
+- Propuesta volumétrica aproximada a partir de siluetas cerradas en dos o tres vistas. Puede generar varias soluciones compatibles; no es una reconstrucción exacta general.
+- Ejemplos, guardado local de figuras, exportación e importación JSON.
+- El laboratorio V19 anterior queda intacto (salvo por el enlace).
+
+LIMITACIONES CONOCIDAS DE ESTA PRIMERA VERSIÓN:
+- Los modelos se basan en columnas sobre una cuadrícula y rampas superiores, no en sólidos CAD arbitrarios ni huecos interiores.
+- La representación de vistas y aristas es inicial; pueden mostrarse líneas internas de división entre piezas y no se calculan todas las aristas ocultas.
+- La reconstrucción por vistas aplica una intersección de siluetas y una detección simple de algunas diagonales; puede proponer un sólido distinto al imaginado.
+- Conviene probar y corregir iterativamente las vistas y el comportamiento visual sobre casos de prueba.
+
+INSTALACIÓN:
+Si se parte de V1.4.12, añade los tres archivos avanzado.* y sustituye el index.html del laboratorio original para mostrar el acceso.

@@ -1,0 +1,7 @@
+Mi Aula Digital · V1.4.24
+
+- Corrección del lápiz 3D: al hacer clic se confirma el mismo punto invisible que se resalta en pantalla. Permite iniciar el trazado fuera de los ejes.
+- Rotación con ratón: un clic corto fija vértices; arrastrar gira la pieza y los ejes directamente, sin botón de órbita. Sigue funcionando el zoom.
+- Representación 3D: el z-buffer utiliza todas las caras del sólido, incluida la inferior, para determinar la visibilidad, mientras las aristas se dibujan únicamente cuando son exteriores y visibles.
+- Se conserva el generador aleatorio, las rampas, el dibujo de vistas y el catálogo.
+- No se incluye ninguna notificación para alumnos: es una mejora técnica.

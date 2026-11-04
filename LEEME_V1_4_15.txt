@@ -1,0 +1,3 @@
+Mi Aula Digital V1.4.15. En el laboratorio de tabla periódica, sección PRACTICA, se incorpora el reto 3 «Coloca el elemento».
+Selecciona grupos, series y cantidad; pulsa comenzar y elige el lugar del símbolo en la tabla vacía. Los fallos permiten reintentar, los aciertos permanecen y al final se presenta un resumen.
+Para actualizar desde V1.4.14 sustituir recursos/tabla-periodica/index.html y recursos/tabla-periodica/estilos.css; añadir recursos/tabla-periodica/reto-ubicacion.js.

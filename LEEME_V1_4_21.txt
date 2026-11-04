@@ -1,0 +1,8 @@
+Mi Aula Digital · Novedades V1.4.21
+
+- Laboratorio de vistas 3D:
+  * Orientación inicial revisada: los ejes X e Y salen hacia el observador y Z se mantiene vertical.
+  * Se conserva la rotación libre de la figura (Alt + arrastrar o botón derecho en modo lápiz; arrastre normal en el resto de modos).
+  * Se añade una cuadrícula fina de referencia en los tres planos coordenados (XY, XZ e YZ) cuando se usa el lápiz isométrico.
+  * Mejora del lápiz: si al dibujar una cara se alcanza una arista coplanar existente, la cara se cierra automáticamente sin necesidad de recorrer todo el contorno manualmente.
+  * Actualizada la ayuda en pantalla para reflejar la nueva orientación.

@@ -1,0 +1,4 @@
+V1.4.17
+- Corrige aristas internas entre caras coplanarias en el modelo con rampas, incluyendo bordes parcialmente compartidos.
+- Herramienta lápiz: presenta la nube completa de vértices (N+1)^3, en todos los niveles; altura elegida resaltada para seleccionar sin ambigüedad.
+- Sin cambios en el menú Laboratorio ni las actividades existentes.

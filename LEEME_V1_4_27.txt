@@ -1,0 +1,6 @@
+Corrección interna V1.4.27
+- Alzado: se ajusta el sentido horizontal de las coordenadas X a la orientación inicial de la cámara (+Y, +X).
+- La reconstrucción interpreta el alzado sin reflejar izquierda y derecha en la vista isométrica.
+- La construcción y las vistas vinculadas usan el mismo mapeo frontal.
+- Los datos de rampas de la construcción se aíslan durante la reconstrucción y se restauran al salir.
+- Esta corrección NO se publica en Novedades.

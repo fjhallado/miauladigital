@@ -1,0 +1,11 @@
+Mi Aula Digital · V1.4.14
+
+Cambios principales:
+- El laboratorio clásico de vistas integra ahora un modo de Reconstrucción dentro de la misma pantalla, sin salir a otro entorno.
+- Al dibujar aristas en alzado, planta y perfil, la vista 3D se actualiza automáticamente en tiempo real.
+- Se ha mantenido la apariencia limpia de las caras exteriores para evitar cuadrículas internas visibles cuando una superficie queda formada.
+- Se conserva el modo de Construcción clásico y se restaura al salir del modo de Reconstrucción.
+
+Notas:
+- La reconstrucción sigue siendo aproximada y depende de contornos cerrados en al menos dos vistas.
+- Las diagonales ya pueden usarse como base para el siguiente refinado de rampas.
