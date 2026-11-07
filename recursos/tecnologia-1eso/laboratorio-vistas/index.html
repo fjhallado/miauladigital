@@ -77,7 +77,7 @@ label{color:#e2eeff}.score{color:#a1d7ff}
 .aula-lab-title>a{color:#fff;text-decoration:none;border:1px solid #7ca7db;border-radius:9px;padding:9px 12px;font-size:13px;font-weight:700}
 .aula-lab-title>a:hover{background:#244976}
 @media(max-width:950px){.aula-header-row{flex-direction:column;align-items:flex-start}.aula-header-nav a{font-size:12px;padding:6px}}
-canvas#iso{cursor:crosshair}canvas#iso:active{cursor:grabbing}</style></head><body><header class="aula-site-header"><div class="aula-header-row"><a class="aula-branding" href="../../../index.html"><strong>Mi Aula Digital</strong><small>Francisco José Hallado Fernández</small><small>Profesor de ESO y Bachillerato</small></a><nav class="aula-header-nav" aria-label="Navegación principal"><a href="../../../index.html">Inicio</a><a href="../../../index.html#asignaturas">Asignaturas</a><a href="../../../index.html#funcionamiento">Cómo funciona</a><a href="../../../laboratorio.html">Laboratorio</a><a href="../../../index.html#tablon">Tablón</a><a href="../../../acerca.html">¿Qué es?</a><a href="../../../contacto.html">Contacto</a><a href="../../../otros-recursos.html">Otros recursos</a></nav></div></header><div class="aula-lab-title"><div><span>TECNOLOGÍA · 1.º ESO · TEMA 2</span><h1>Laboratorio de vistas <small>V1.4.28</small></h1><p>Diseña piezas isométricas y relaciona las vistas de alzado, planta y perfil.</p></div><a href="../../../tema.html?asignatura=tecnologia-1eso&amp;unidad=Expresi%C3%B3n%20y%20comunicaci%C3%B3n%20t%C3%A9cnica">← Volver al tema 2</a></div><main><div class="toolbar"><button id="constructionTab" class="active tabbutton">▤ Construcción</button><button id="practiceTab" class="tabbutton">✎ Reconstrucción</button><button id="resetPracticeView" class="practonly" type="button" title="Volver al ángulo inicial de la pieza y centrarla" aria-label="Restablecer orientación inicial de la figura">⟲ Vista inicial</button><span class="separator"></span><label>Cuadrícula <select id="size"><option value="3">3 × 3</option><option value="4" selected>4 × 4</option><option value="5">5 × 5</option></select></label><span class="buildonly build-tools" role="group" aria-label="Herramientas de construcción"><button id="add" class="active icon-tool" title="Añadir un cubo" aria-label="Añadir un cubo">▣</button><button id="ramp" class="icon-tool" title="Poner rampa sobre la cara superior" aria-label="Colocar rampa">◢</button><button id="paintFace" class="icon-tool" title="Colorear caras de la pieza" aria-label="Colorear caras">🎨</button><button id="isoPen" class="icon-tool" title="Lápiz 3D: mueve el ratón y el programa detecta el eje X, Y o Z" aria-label="Lápiz isométrico">✎</button><button id="undoIso" class="icon-tool" title="Deshacer la última línea o cara dibujada con lápiz" aria-label="Deshacer trazo isométrico">↶</button><button id="erase" class="icon-tool" title="Borrar un cubo" aria-label="Borrar un cubo">⌫</button><button id="random" class="icon-tool" title="Generar figura aleatoria" aria-label="Generar figura aleatoria">⚄</button><button id="clear" class="icon-tool" title="Vaciar la construcción" aria-label="Vaciar construcción">▧</button><button id="saveDesign" class="icon-tool" title="Guardar figura en el catálogo" aria-label="Guardar figura en el catálogo">▣</button><button id="reset" class="icon-tool" title="Centrar figura y ajustar zoom sin cambiar el ángulo" aria-label="Centrar vista">⊞</button></span><label id="paintControls" class="buildonly" style="display:none;align-items:center;gap:8px" title="Color de las caras"><span>Color</span><input id="faceColor" type="color" value="#2db6e8" style="width:41px;height:35px;padding:3px;border:1px solid #7ba9db;background:#193c68;border-radius:6px;cursor:pointer"><button id="clearFaceColors" type="button" title="Quitar todos los colores personalizados">Restablecer colores</button></label><span id="axisDrawTools" class="buildonly" style="display:none;align-items:center;gap:7px;flex-wrap:wrap" role="group" aria-label="Lápiz de inferencia de ejes"><button id="axisOrigin" type="button" title="Reiniciar el trazo desde el origen">⌖ Origen</button><button id="axisClose" type="button" title="Cerrar el contorno de la cara">◇ Cerrar cara</button><span id="axisPosition" aria-live="polite" style="font-size:12px;color:#bcd9f8">Punto: origen</span><span id="axisHint" style="font-size:12px;color:#91d9ff">Clic: dibujar desde el vértice · Arrastrar: girar la figura</span></span><label class="buildonly" id="rampDirectionLabel" style="display:none">Pendiente <select id="rampDirection"><option value="x+">X →</option><option value="x-">X ←</option><option value="y+">Y ↑</option><option value="y-">Y ↓</option></select></label><label>Zoom <input id="zoom" type="range" min="55" max="190" value="100"> <span id="zoomval">100%</span></label><label><input id="hidden" type="checkbox" checked> Aristas ocultas 3D</label></div><div class="layout"><section class="panel"><h2><span class="heading-icon">◇</span> Figura isométrica · Cubos, rampas y lápiz</h2><div class="canvaswrap iso"><canvas id="iso"></canvas></div><p class="hint"><b>Cubo:</b> pulsa una casilla o cara para añadir volumen. <b>Rampa:</b> selecciona su dirección y pulsa la cara superior de la pieza. <b>Colorear caras:</b> pulsa 🎨, elige un color y haz clic sobre una cara del volumen o una superficie dibujada con el lápiz. Puedes girar la pieza para acceder a todas sus caras. <b>Lápiz isométrico:</b> se muestran los tres ejes grandes desde el origen (X rojo, Y amarillo, Z azul). Mueve el ratón o lápiz desde el punto naranja: los ejes X e Y parten orientados hacia el observador y el eje detectado se ilumina con una línea de previsualización. Haz clic para dibujar; repite para continuar desde el último vértice. Pulsa «Origen» para comenzar desde el origen, o acerca el lápiz a cualquier vértice de la malla 3D invisible para empezar o conectar líneas. El punto detectado se ilumina sin mostrar la nube completa. Las caras se cierran automáticamente al llegar a otra arista compatible; «Cerrar cara» sigue disponible como opción manual. Para girar la figura y sus ejes, <b>arrastra el ratón directamente</b> sobre el dibujo, incluso con el lápiz seleccionado; los clics cortos dibujan. No necesitas un botón de órbita. <b>Botón derecho con el lápiz:</b> suelta el vértice activo para iniciar un trazo independiente. No hay botones de coordenadas ni nubes de puntos. Las aristas situadas detrás del volumen se dibujan discontinuas, y las visibles se muestran continuas. En modo borrar, pulsa una cara de la pieza para retirar el cubo seleccionado. <b>Orbitar:</b> arrastra la figura en la dirección que quieras girarla, con el ratón o un dedo, sin seleccionar ninguna herramienta especial. Un toque breve añade o borra. <b>Zoom:</b> rueda del ratón o pellizco con dos dedos.</p></section><section class="panel"><h2 id="viewHeading"><span class="heading-icon">▦</span> Vistas diédricas vinculadas</h2><div class="practonly"><div class="practice-tools"><button id="solidPen" class="active icon-tool" title="Lápiz: línea continua" aria-label="Lápiz: línea continua">✎</button><button id="dashPen" class="icon-tool" title="Lápiz: línea discontinua" aria-label="Lápiz: línea discontinua">┄</button><button id="rubber" class="icon-tool" title="Borrar una línea" aria-label="Borrar una línea">⌫</button><button id="clearPractice" class="icon-tool" title="Limpiar todo el dibujo" aria-label="Limpiar todo el dibujo">▧</button><button id="showSolution" class="icon-tool" title="Reconstrucción automática en tiempo real" aria-label="Reconstrucción automática en tiempo real">◈</button><button id="checkPractice" class="icon-tool" title="Vaciar y volver a empezar" aria-label="Vaciar y volver a empezar">↺</button></div><p class="hint" style="margin:0 0 10px">Dibuja directamente en alzado, planta y perfil. El alzado se interpreta mirando la cara frontal de la vista isométrica, sin inversión izquierda-derecha. Cada vez que añadas o borres una arista, la vista 3D se reconstruirá en tiempo real. Traza entre vértices de la cuadrícula; también puedes usar diagonales para empezar a definir rampas. Las líneas visibles son <b>continuas</b>; usa la herramienta discontinua para las aristas ocultas.</p><div id="resultPractice" class="score" aria-live="polite"></div></div><div class="legend"><span><i class="swatch" style="background:#eb7182"></i> Alzado · frontal</span><span><i class="swatch" style="background:#4c9ce9"></i> Planta · superior</span><span><i class="swatch" style="background:#ecc344"></i> Perfil · derecho</span></div><div class="views" style="margin-top:10px"><div><p class="viewtitle">Alzado</p><div class="canvaswrap view"><canvas id="front"></canvas></div></div><div><p class="viewtitle">Perfil derecho</p><div class="canvaswrap view"><canvas id="side"></canvas></div></div><div><p class="viewtitle">Planta</p><div class="canvaswrap view"><canvas id="top"></canvas></div></div><div class="buildonly"><p class="viewtitle">Instrucciones</p><div class="notice">Pulsa una casilla del alzado, planta o perfil para añadir o borrar volumen. Las tres vistas se calculan sobre la misma pieza 3D, sin líneas auxiliares entre superficies coplanarias. Las figuras aleatorias tienen columnas macizas, sin cubos flotantes.</div></div></div><p class="hint buildonly">En reconstrucción, la figura 3D se genera a partir de lo que dibujes en las vistas. Las caras exteriores se muestran limpias, sin cuadrículas internas visibles cuando forman una misma superficie.</p></section></div><div class="panel buildonly"><b>Importante sobre la reconstrucción:</b> una línea aislada no define un sólido único. Esta versión interpreta el dibujo de casillas como adición o retirada de volumen siguiendo una dirección de proyección. Para representar rampas, agujeros cilíndricos o reconstruir sólidos a partir de tres contornos arbitrarios se necesitará un editor geométrico más avanzado.</div><section class="panel catalog-panel buildonly" aria-label="Catálogo personal de figuras"><div class="catalog-head"><div><h2 style="margin:0">▣ Catálogo de figuras</h2><p class="hint" style="margin:4px 0 0">Guarda tus diseños para reutilizarlos como ejercicios. Se almacenan en este navegador.</p></div><div class="catalog-actions"><button id="exportCatalog" title="Descargar copia de todas las figuras" aria-label="Exportar catálogo">⇩ Exportar</button><button id="importCatalog" title="Importar un catálogo desde un archivo JSON" aria-label="Importar catálogo">⇧ Importar</button><input type="file" id="importFile" accept=".json,application/json"></div></div><div id="catalogStatus" class="catalog-status" aria-live="polite"></div><div id="catalogGrid" class="catalog-grid"></div></section></main><div class="laboratorio-footer">Mi Aula Digital · Francisco José Hallado Fernández · Profesor ESO y Bachillerato</div><script>
+canvas#iso{cursor:crosshair}canvas#iso:active{cursor:grabbing}</style></head><body><header class="aula-site-header"><div class="aula-header-row"><a class="aula-branding" href="../../../index.html"><strong>Mi Aula Digital</strong><small>Francisco José Hallado Fernández</small><small>Profesor de ESO y Bachillerato</small></a><nav class="aula-header-nav" aria-label="Navegación principal"><a href="../../../index.html">Inicio</a><a href="../../../index.html#asignaturas">Asignaturas</a><a href="../../../index.html#funcionamiento">Cómo funciona</a><a href="../../../laboratorio.html">Laboratorio</a><a href="../../../index.html#tablon">Tablón</a><a href="../../../acerca.html">¿Qué es?</a><a href="../../../contacto.html">Contacto</a><a href="../../../otros-recursos.html">Otros recursos</a></nav></div></header><div class="aula-lab-title"><div><span>TECNOLOGÍA · 1.º ESO · TEMA 2</span><h1>Laboratorio de vistas <small>V1.4.44</small></h1><p>Diseña piezas isométricas y relaciona las vistas de alzado, planta y perfil izquierdo.</p></div><a href="../../../tema.html?asignatura=tecnologia-1eso&amp;unidad=Expresi%C3%B3n%20y%20comunicaci%C3%B3n%20t%C3%A9cnica">← Volver al tema 2</a></div><main><div class="toolbar"><button id="constructionTab" class="active tabbutton">▤ Construcción</button><button id="practiceTab" class="tabbutton">✎ Reconstrucción</button><button id="resetPracticeView" class="practonly" type="button" title="Volver al ángulo inicial de la pieza y centrarla" aria-label="Restablecer orientación inicial de la figura">⟲ Vista inicial</button><span class="separator"></span><label>Cuadrícula <select id="size"><option value="3">3 × 3</option><option value="4" selected>4 × 4</option><option value="5">5 × 5</option></select></label><span class="buildonly build-tools" role="group" aria-label="Herramientas de construcción"><button id="add" class="active icon-tool" title="Añadir un cubo" aria-label="Añadir un cubo">▣</button><button id="ramp" class="icon-tool" title="Poner rampa sobre la cara superior" aria-label="Colocar rampa">◢</button><button id="paintFace" class="icon-tool" title="Colorear caras de la pieza" aria-label="Colorear caras">🎨</button><button id="isoPen" class="icon-tool" title="Lápiz 3D: mueve el ratón y el programa detecta el eje X, Y o Z" aria-label="Lápiz isométrico">✎</button><button id="undoIso" class="icon-tool" title="Deshacer la última línea o cara dibujada con lápiz" aria-label="Deshacer trazo isométrico">↶</button><button id="erase" class="icon-tool" title="Borrar un cubo" aria-label="Borrar un cubo">⌫</button><button id="random" class="icon-tool" title="Generar figura aleatoria" aria-label="Generar figura aleatoria">⚄</button><button id="clear" class="icon-tool" title="Vaciar la construcción" aria-label="Vaciar construcción">▧</button><button id="saveDesign" class="icon-tool" title="Guardar figura en el catálogo" aria-label="Guardar figura en el catálogo">▣</button><button id="reset" class="icon-tool" title="Centrar figura y ajustar zoom sin cambiar el ángulo" aria-label="Centrar vista">⊞</button></span><label id="paintControls" class="buildonly" style="display:none;align-items:center;gap:8px" title="Color de las caras"><span>Color</span><input id="faceColor" type="color" value="#2db6e8" style="width:41px;height:35px;padding:3px;border:1px solid #7ba9db;background:#193c68;border-radius:6px;cursor:pointer"><button id="clearFaceColors" type="button" title="Quitar todos los colores personalizados">Restablecer colores</button></label><span id="axisDrawTools" class="buildonly" style="display:none;align-items:center;gap:7px;flex-wrap:wrap" role="group" aria-label="Lápiz de inferencia de ejes"><button id="axisOrigin" type="button" title="Reiniciar el trazo desde el origen">⌖ Origen</button><button id="axisClose" type="button" title="Cerrar el contorno de la cara">◇ Cerrar cara</button><span id="axisPosition" aria-live="polite" style="font-size:12px;color:#bcd9f8">Punto: origen</span><span id="axisHint" style="font-size:12px;color:#91d9ff">Clic: dibujar desde el vértice · Arrastrar: girar la figura</span></span><label class="buildonly" id="rampDirectionLabel" style="display:none">Pendiente <select id="rampDirection"><option value="x+">X →</option><option value="x-">X ←</option><option value="y+">Y ↑</option><option value="y-">Y ↓</option></select></label><label>Zoom <input id="zoom" type="range" min="55" max="190" value="100"> <span id="zoomval">100%</span></label><label><input id="hidden" type="checkbox" checked> Aristas ocultas 3D</label></div><div class="layout"><section class="panel"><h2><span class="heading-icon">◇</span> Figura isométrica · Cubos, rampas y lápiz</h2><div class="canvaswrap iso"><canvas id="iso"></canvas></div><p class="hint"><b>Cubo:</b> pulsa una casilla o cara para añadir volumen. <b>Rampa:</b> selecciona su dirección y pulsa la cara superior de la pieza. <b>Colorear caras:</b> pulsa 🎨, elige un color y haz clic sobre una cara del volumen o una superficie dibujada con el lápiz. Puedes girar la pieza para acceder a todas sus caras. <b>Lápiz isométrico:</b> se muestran los tres ejes grandes desde el origen (X rojo, Y amarillo, Z azul). Mueve el ratón o lápiz desde el punto naranja: los ejes X e Y parten orientados hacia el observador y el eje detectado se ilumina con una línea de previsualización. Haz clic para dibujar; repite para continuar desde el último vértice. Pulsa «Origen» para comenzar desde el origen, o acerca el lápiz a cualquier vértice de la malla 3D invisible para empezar o conectar líneas. El punto detectado se ilumina sin mostrar la nube completa. Las caras se cierran automáticamente al llegar a otra arista compatible; «Cerrar cara» sigue disponible como opción manual. Para girar la figura y sus ejes, <b>arrastra el ratón directamente</b> sobre el dibujo, incluso con el lápiz seleccionado; los clics cortos dibujan. No necesitas un botón de órbita. <b>Botón derecho con el lápiz:</b> suelta el vértice activo para iniciar un trazo independiente. No hay botones de coordenadas ni nubes de puntos. Las aristas situadas detrás del volumen se dibujan discontinuas, y las visibles se muestran continuas. En modo borrar, pulsa una cara de la pieza para retirar el cubo seleccionado. <b>Orbitar:</b> arrastra la figura en la dirección que quieras girarla, con el ratón o un dedo, sin seleccionar ninguna herramienta especial. Un toque breve añade o borra. <b>Zoom:</b> rueda del ratón o pellizco con dos dedos.</p></section><section class="panel"><h2 id="viewHeading"><span class="heading-icon">▦</span> Vistas diédricas vinculadas</h2><div class="practonly"><div class="practice-tools"><button id="solidPen" class="active icon-tool" title="Lápiz: línea continua" aria-label="Lápiz: línea continua">✎</button><button id="dashPen" class="icon-tool" title="Lápiz: línea discontinua" aria-label="Lápiz: línea discontinua">┄</button><button id="rubber" class="icon-tool" title="Borrar una línea" aria-label="Borrar una línea">⌫</button><button id="clearPractice" class="icon-tool" title="Limpiar todo el dibujo" aria-label="Limpiar todo el dibujo">▧</button><button id="showSolution" class="icon-tool" title="Reconstrucción automática en tiempo real" aria-label="Reconstrucción automática en tiempo real">◈</button><button id="checkPractice" class="icon-tool" title="Vaciar y volver a empezar" aria-label="Vaciar y volver a empezar">↺</button></div><p class="hint" style="margin:0 0 10px">Dibuja directamente en alzado, planta y perfil izquierdo. El alzado se interpreta mirando la cara frontal de la vista isométrica, Cada vez que añadas o borres una arista, la vista 3D se reconstruirá en tiempo real. Traza entre vértices de la cuadrícula; también puedes usar diagonales para empezar a definir rampas. Las líneas visibles son <b>continuas</b>; usa la herramienta discontinua para las aristas ocultas.</p><div id="resultPractice" class="score" aria-live="polite"></div></div><div class="legend"><span><i class="swatch" style="background:#eb7182"></i> Alzado · frontal</span><span><i class="swatch" style="background:#4c9ce9"></i> Planta · superior</span><span><i class="swatch" style="background:#ecc344"></i> Perfil · izquierdo</span></div><div class="views" style="margin-top:10px"><div><p class="viewtitle">Alzado</p><div class="canvaswrap view"><canvas id="front"></canvas></div></div><div><p class="viewtitle">Perfil izquierdo</p><div class="canvaswrap view"><canvas id="side"></canvas></div></div><div><p class="viewtitle">Planta</p><div class="canvaswrap view"><canvas id="top"></canvas></div></div><div class="buildonly"><p class="viewtitle">Instrucciones</p><div class="notice">Pulsa una casilla del alzado, planta o perfil para añadir o borrar volumen. Las tres vistas se calculan sobre la misma pieza 3D, sin líneas auxiliares entre superficies coplanarias. Sistema europeo (primer diedro): alzado desde la cara derecha de la figura isométrica, perfil izquierdo a la derecha del alzado y planta debajo. Las aristas no visibles se representan mediante líneas discontinuas. Las figuras aleatorias tienen columnas macizas, sin cubos flotantes.</div></div></div><p class="hint buildonly">En reconstrucción, la figura 3D se genera a partir de lo que dibujes en las vistas. Las caras exteriores se muestran limpias, sin cuadrículas internas visibles cuando forman una misma superficie.</p></section></div><div class="panel buildonly"><b>Importante sobre la reconstrucción:</b> una línea aislada no define un sólido único. Esta versión interpreta el dibujo de casillas como adición o retirada de volumen siguiendo una dirección de proyección. Para representar rampas, agujeros cilíndricos o reconstruir sólidos a partir de tres contornos arbitrarios se necesitará un editor geométrico más avanzado.</div><section class="panel catalog-panel buildonly" aria-label="Catálogo personal de figuras"><div class="catalog-head"><div><h2 style="margin:0">▣ Catálogo de figuras</h2><p class="hint" style="margin:4px 0 0">Guarda tus diseños para reutilizarlos como ejercicios. Se almacenan en este navegador.</p></div><div class="catalog-actions"><button id="exportCatalog" title="Descargar copia de todas las figuras" aria-label="Exportar catálogo">⇩ Exportar</button><button id="importCatalog" title="Importar un catálogo desde un archivo JSON" aria-label="Importar catálogo">⇧ Importar</button><input type="file" id="importFile" accept=".json,application/json"></div></div><div id="catalogStatus" class="catalog-status" aria-live="polite"></div><div id="catalogGrid" class="catalog-grid"></div></section></main><div class="laboratorio-footer">Mi Aula Digital · Francisco José Hallado Fernández · Profesor ESO y Bachillerato</div><script>
 (()=>{'use strict';let isoOrigin=[2,2,1],isoScale=45,N=4,mode='add',yaw=3*Math.PI/4,elev=.56,zoom=1,hidden=true,faceColors={},sketchColors={},meshHit=null,vox=new Set(),isoFaces=[],baseTiles=[],viewRects={},appMode='construction',pen='solid',ramps=new Map(),isoLines=[],isoPolys=[],isoPath=[],isoPending=null,axisHover=null,axisPointer=null,lastPencilAnchor=null,solution=false,drawings={front:[],side:[],top:[]},practiceStart=null,constructionBackup=null,constructionRampsBackup=null,cameraBackup=null;const $=id=>document.getElementById(id),key=(x,y,z)=>`${x},${y},${z}`,has=(x,y,z)=>vox.has(key(x,y,z)),inb=(x,y,z)=>x>=0&&x<N&&y>=0&&y<N&&z>=0&&z<N;function set(x,y,z,v){if(!inb(x,y,z))return;v?vox.add(key(x,y,z)):vox.delete(key(x,y,z));if(!v)ramps.delete(rampKey(x,y,z))}function init(){vox.clear();for(let x=0;x<3;x++)for(let y=0;y<2;y++)set(x,y,0,true);set(1,1,1,true);set(2,1,1,true);draw()}
 // Fixed spatial orientation: front = -Y (red), right profile = +X (yellow), plan = +Z (blue).
 // Opposite faces are neutral so orbiting never falsely identifies a rear/left/bottom face as one of these three projections.
@@ -472,7 +472,7 @@ if(hidden){
 paintIsoSketch(g,P,sc);
 }
 
-function getPix(x,y,z,type){if(type==='front')return[N-1-x,z];if(type==='side')return[y,z];return[x,y]}function ray(type,a,b){let arr=[];for(let t=0;t<N;t++){let xyz=type==='front'?[N-1-a,t,b]:type==='side'?[t,a,b]:[a,b,t];arr.push(xyz)}return arr}function drawnAt(type,a,b){return ray(type,a,b).some(p=>has(...p))}function viewFaceDepth(type,a,b){let rr=ray(type,a,b).filter(p=>has(...p));if(!rr.length)return -1;if(type==='front')return Math.max(...rr.map(p=>p[1]));if(type==='side')return Math.max(...rr.map(p=>p[0]));return Math.max(...rr.map(p=>p[2]))}function viewProjection(type,p){let [x,y,z]=p;return type==='front'?[N-x,N-z]:type==='side'?[y,N-z]:[x,N-y]}
+function getPix(x,y,z,type){if(type==='front')return[N-1-x,z];if(type==='side')return[y,z];return[N-1-x,y]}function ray(type,a,b){let arr=[];for(let t=0;t<N;t++){let xyz=type==='front'?[N-1-a,t,b]:type==='side'?[t,a,b]:[N-1-a,N-1-b,t];arr.push(xyz)}return arr}function drawnAt(type,a,b){return ray(type,a,b).some(p=>has(...p))}function viewFaceDepth(type,a,b){let rr=ray(type,a,b).filter(p=>has(...p));if(!rr.length)return -1;if(type==='front')return Math.max(...rr.map(p=>p[1]));if(type==='side')return Math.max(...rr.map(p=>p[0]));return Math.max(...rr.map(p=>p[2]))}function viewProjection(type,p){let [x,y,z]=p;return type==='front'?[N-x,N-z]:type==='side'?[y,N-z]:[N-x,y]}
 function viewDepth(type,p){return type==='front'?p[1]:type==='side'?p[0]:p[2]}
 function drawView(type){
  let cv=$(type),[g,w,h]=fit(cv);g.clearRect(0,0,w,h);g.fillStyle='#f8fbff';g.fillRect(0,0,w,h);
@@ -505,8 +505,42 @@ function drawView(type){
   if(!screen[i]||depth>screen[i].d+1e-6)screen[i]={d:depth,plane:sig};
  }
  }
+ // Show projected hidden edges of the SAME 3D surface mesh. Lines in the solid
+ // are continuous; occluded physical edges become dashed. Coplanar internal
+ // construction seams are never drawn.
+ const drawnEdges=[];
+ const edgeCandidate=(a,b)=>{
+  let vv=b.map((q,i)=>q-a[i]),length=Math.hypot(...vv);
+  if(length<1e-7)return false;
+  // Shared edges of adjacent coplanar mesh tiles are not real edges.
+  let matching=[];
+  const ptOnSeg=(p,u,v)=>{
+   let dv=v.map((q,i)=>q-u[i]),dd=dv.reduce((q,t)=>q+t*t,0);if(dd<1e-10)return false;
+   let t=p.reduce((q,x,i)=>q+(x-u[i])*dv[i],0)/dd;
+   if(t<-1e-4||t>1.0001)return false;
+   return Math.hypot(...p.map((x,i)=>x-u[i]-t*dv[i]))<1e-4;
+  };
+  let mid=a.map((v,i)=>(v+b[i])/2);
+  for(const f of faces){for(let i=0;i<f.pts.length;i++){
+   let p=f.pts[i],q=f.pts[(i+1)%f.pts.length];
+   if(ptOnSeg(mid,p,q))matching.push(f);
+  }}
+  if(matching.length>1&&matching.every(f=>Math.abs(dot(f.normal,matching[0].normal))>.9999))return false;
+  return true;
+ };
+ const edgeKey=(a,b)=>{
+  let aa=a.map(n=>Math.round(n*10000)).join(','),bb=b.map(n=>Math.round(n*10000)).join(',');
+  return aa<bb?aa+'|'+bb:bb+'|'+aa;
+ };
+ const uniqueEdges=new Set();
+ for(const f of faces)for(let i=0;i<f.pts.length;i++){
+  let a=f.pts[i],b=f.pts[(i+1)%f.pts.length],id=edgeKey(a,b);
+  if(uniqueEdges.has(id))continue;uniqueEdges.add(id);
+  if(!edgeCandidate(a,b))continue;drawnEdges.push({a,b});
+ }
+
  // A plane is one continuous face even when it comprises many neighboring cells.
- let tint={front:'#dbeaf9',side:'#f8efcb',top:'#dcebf9'}[type];g.fillStyle=tint;
+ let tint={front:'#f8d6dc',side:'#f8efcb',top:'#dcebf9'}[type];g.fillStyle=tint;
  for(let y=0;y<M;y++){
   let run=-1;for(let x=0;x<=M;x++){
    let yes=x<M&&screen[y*M+x]!==null;
@@ -514,26 +548,125 @@ function drawView(type){
    if(!yes&&run!==-1){g.fillRect(ox+run*C,oy+y*C,(x-run)*C,C+.3);run=-1}
   }
  }
- g.strokeStyle='#203c56';g.lineWidth=1.65;g.lineCap='butt';g.lineJoin='miter';g.beginPath();
- // Compare each boundary between adjacent pixels, INCLUDING the top and left edges.
- // The previous pass only checked occupied pixels against right/down, losing upper contours.
+ // Derive continuous visible contours from the nearest projected faces.
+ // Keep them as paths until AFTER all hidden lines are painted, so a continuous
+ // visible edge can never be overpainted by a rear dashed edge.
  const plane=(x,y)=>x>=0&&x<M&&y>=0&&y<M?screen[y*M+x]:null;
  const changes=(a,b)=>{if(!a&&!b)return false;if(!a||!b)return true;return a.plane!==b.plane};
+ const visibleContours=[];
  for(let y=0;y<=M;y++){
-  let run=-1;for(let x=0;x<=M;x++){
+  let run=-1;
+  for(let x=0;x<=M;x++){
    let active=x<M&&changes(plane(x,y-1),plane(x,y));
    if(active&&run<0)run=x;
-   if(!active&&run>=0){let py=oy+y*C;g.moveTo(ox+run*C,py);g.lineTo(ox+x*C,py);run=-1}
+   if(!active&&run>=0){visibleContours.push([[ox+run*C,oy+y*C],[ox+x*C,oy+y*C]]);run=-1}
   }
  }
  for(let x=0;x<=M;x++){
-  let run=-1;for(let y=0;y<=M;y++){
+  let run=-1;
+  for(let y=0;y<=M;y++){
    let active=y<M&&changes(plane(x-1,y),plane(x,y));
    if(active&&run<0)run=y;
-   if(!active&&run>=0){let px=ox+x*C;g.moveTo(px,oy+run*C);g.lineTo(px,oy+y*C);run=-1}
+   if(!active&&run>=0){visibleContours.push([[ox+x*C,oy+run*C],[ox+x*C,oy+y*C]]);run=-1}
   }
  }
- g.stroke();
+
+ // Project every physical edge just once, then determine the single nearest
+ // owner of each 2-D span. Two different rear edges may have exactly the same
+ // orthographic projection, but they must NEVER produce two dashed strokes.
+ const allProjectedEdges=drawnEdges.map((e,id)=>({
+  id,a:e.a,b:e.b,A:viewProjection(type,e.a),B:viewProjection(type,e.b),
+  da:viewDepth(type,e.a),db:viewDepth(type,e.b)
+ })).filter(e=>Math.hypot(e.B[0]-e.A[0],e.B[1]-e.A[1])>1e-7);
+ const sub2=(a,b)=>[a[0]-b[0],a[1]-b[1]];
+ const dot2=(a,b)=>a[0]*b[0]+a[1]*b[1];
+ const cross2=(a,b)=>a[0]*b[1]-a[1]*b[0];
+ const pointOnSegment2=(p,e)=>{
+  const v=sub2(e.B,e.A),d2=dot2(v,v);
+  if(d2<1e-10)return null;
+  const w=sub2(p,e.A),t=dot2(w,v)/d2;
+  if(t<-.00001||t>1.00001||Math.abs(cross2(w,v))>1e-5*Math.sqrt(d2))return null;
+  return Math.max(0,Math.min(1,t));
+ };
+ const depthOnEdge=(e,p)=>{
+  let t=pointOnSegment2(p,e);
+  return t===null?null:e.da+(e.db-e.da)*t;
+ };
+ const occludedEdgePoint=p=>{
+  let uv=viewProjection(type,p),ix=Math.floor(uv[0]*M/N),iy=Math.floor(uv[1]*M/N);
+  if(ix<0||iy<0||ix>=M||iy>=M)return false;
+  const node=screen[iy*M+ix];
+  return !!node&&node.d>viewDepth(type,p)+.012;
+ };
+ const hiddenStrokeParts=[];
+ for(const e of allProjectedEdges){
+  let direction=sub2(e.B,e.A),lenSq=dot2(direction,direction);
+  let cuts=[0,1];
+  // Split a segment precisely where a co-projected segment starts or ends.
+  // The closest owner can change there even if the full edges differ in length.
+  for(const other of allProjectedEdges){
+   if(other.id===e.id)continue;
+   const odir=sub2(other.B,other.A);
+   if(Math.abs(cross2(direction,odir))>1e-6*Math.sqrt(lenSq*dot2(odir,odir)))continue;
+   const t0=pointOnSegment2(other.A,e),t1=pointOnSegment2(other.B,e);
+   if(t0!==null)cuts.push(t0);
+   if(t1!==null)cuts.push(t1);
+  }
+  // Subdivide the non-overlapping intervals to resolve changes in surface
+  // visibility without drawing tiny interleaved, overlapping dash fragments.
+  cuts.sort((a,b)=>a-b);
+  cuts=cuts.filter((t,i)=>i===0||t-cuts[i-1]>1e-6);
+  for(let k=0;k<cuts.length-1;k++){
+   const begin=cuts[k],end=cuts[k+1];
+   if(end-begin<1e-5)continue;
+   const screenLength=Math.sqrt(lenSq)*(end-begin)*cell;
+   const samples=Math.max(1,Math.ceil(screenLength/2.5));
+   let groupStart=-1;
+   const at=t=>[e.A[0]+direction[0]*t,e.A[1]+direction[1]*t];
+   const point3=t=>e.a.map((v,i)=>v+(e.b[i]-v)*t);
+   for(let j=0;j<=samples;j++){
+    let draw=false;
+    if(j<samples){
+     const t=begin+(end-begin)*(j+.5)/samples,p=at(t),d=e.da+(e.db-e.da)*t;
+     // If two hidden edges project to the same point, draw only the one
+     // closest to the viewer. Resolve exact-depth ties deterministically.
+     let owner=true;
+     for(const other of allProjectedEdges){
+      if(other.id===e.id)continue;
+      const od=depthOnEdge(other,p);
+      if(od===null)continue;
+      if(od>d+.00001||(Math.abs(od-d)<=.00001&&other.id<e.id)){
+       owner=false;break;
+      }
+     }
+     draw=owner&&occludedEdgePoint(point3(t));
+    }
+    if(draw&&groupStart<0)groupStart=j;
+    if((!draw||j===samples)&&groupStart>=0){
+     const t0=begin+(end-begin)*groupStart/samples;
+     const t1=begin+(end-begin)*j/samples;
+     if(t1-t0>1e-5)hiddenStrokeParts.push({from:at(t0),to:at(t1),axisOrigin:at(0),dir:direction});
+     groupStart=-1;
+    }
+   }
+  }
+ }
+ // Render hidden lines exactly once. A stable dash phase prevents a repeated
+ // dash from appearing continuous when the edge is split into small pieces.
+ g.save();g.strokeStyle='#5f748a';g.lineWidth=1.20;g.lineCap='butt';g.lineJoin='miter';g.setLineDash([5,4]);
+ for(const part of hiddenStrokeParts){
+  const a=part.from,b=part.to;
+  const startDistance=Math.hypot(a[0]-part.axisOrigin[0],a[1]-part.axisOrigin[1])*cell;
+  g.lineDashOffset=-startDistance;
+  g.beginPath();g.moveTo(ox+a[0]*cell,oy+a[1]*cell);g.lineTo(ox+b[0]*cell,oy+b[1]*cell);g.stroke();
+ }
+ g.restore();
+ // Visible edges win over hidden ones when their projections coincide.
+ g.save();g.setLineDash([]);g.strokeStyle='#203c56';g.lineWidth=1.7;
+ g.lineCap='butt';g.lineJoin='miter';g.beginPath();
+ for(const [a,b] of visibleContours){g.moveTo(a[0],a[1]);g.lineTo(b[0],b[1]);}
+ g.stroke();g.restore();
+
  }
  if(appMode==='practice'){for(let line of drawings[type])paintPracticeLine(g,line,ox,oy,cell);if(practiceStart&&practiceStart.type===type){let a=practiceStart;g.fillStyle='#e87933';g.beginPath();g.arc(ox+a.x*cell,oy+a.y*cell,4,0,Math.PI*2);g.fill()}}
 }
@@ -583,7 +716,7 @@ function rebuildPracticeModel(){
  const next=new Set();let count=0;
  for(let y=0;y<N;y++)for(let x=0;x<N;x++)for(let z=0;z<N;z++){
   // The front is viewed from +Y; its screen horizontal goes from world X high to low.
-  const tests={front:[N-x-.5,N-z-.5],side:[y+.5,N-z-.5],top:[x+.5,N-y-.5]};
+  const tests={front:[N-x-.5,N-z-.5],side:[y+.5,N-z-.5],top:[N-x-.5,y+.5]};
   if(available.every(t=>masks[t].contains(...tests[t]))){next.add(key(x,y,z));count++}
  }
  vox=next;
@@ -595,13 +728,13 @@ function isoEdit(px,py){if(mode==='paint'){paintAt(px,py);return}if(mode==='penc
 function ptView(type,e){let cv=$(type),r=cv.getBoundingClientRect(),rect=viewRects[type];if(!rect)return null;let x=Math.round((e.clientX-r.left-rect.ox)/rect.cell),y=Math.round((e.clientY-r.top-rect.oy)/rect.cell);return x>=0&&x<=N&&y>=0&&y<=N?{x,y}:null}
 let pDown={};for(let type of ['front','side','top']){let cv=$(type);cv.addEventListener('pointerdown',e=>{if(appMode!=='practice')return;let pt=ptView(type,e);if(!pt)return;pDown[type]={...pt};cv.setPointerCapture(e.pointerId);e.stopImmediatePropagation() },true);cv.addEventListener('pointermove',e=>{if(appMode==='practice')e.stopImmediatePropagation()},true);cv.addEventListener('pointerup',e=>{if(appMode!=='practice')return;let end=ptView(type,e),start=pDown[type];delete pDown[type];if(!end||!start)return;if(pen==='erase'){let mid={x:(start.x+end.x)/2,y:(start.y+end.y)/2};drawings[type]=drawings[type].filter(l=>{let ax=l.x2-l.x1,ay=l.y2-l.y1,t=Math.max(0,Math.min(1,((mid.x-l.x1)*ax+(mid.y-l.y1)*ay)/(ax*ax+ay*ay||1)));return Math.hypot(mid.x-l.x1-t*ax,mid.y-l.y1-t*ay)>.35});}else{if(start.x===end.x&&start.y===end.y){if(practiceStart?.type===type){start=practiceStart;practiceStart=null}else{practiceStart={type,...start};draw();return}} if(start.x!==end.x||start.y!==end.y){let x1=start.x,y1=start.y,x2=end.x,y2=end.y;drawings[type].push({x1,y1,x2,y2,dash:pen==='dash'})}}rebuildPracticeModel();e.stopImmediatePropagation()},true)}
 function practiceTool(tool){pen=tool;for(let [id,val] of [['solidPen','solid'],['dashPen','dash'],['rubber','erase']])$(id).classList.toggle('active',val===pen)}
-$('solidPen').onclick=()=>practiceTool('solid');$('dashPen').onclick=()=>practiceTool('dash');$('rubber').onclick=()=>practiceTool('erase');$('clearPractice').onclick=()=>{drawings={front:[],side:[],top:[]};practiceStart=null;$('resultPractice').textContent='Dibuja alzado, planta y perfil para comenzar una nueva reconstrucción.';rebuildPracticeModel()};$('showSolution').onclick=()=>{};
+$('solidPen').onclick=()=>practiceTool('solid');$('dashPen').onclick=()=>practiceTool('dash');$('rubber').onclick=()=>practiceTool('erase');$('clearPractice').onclick=()=>{drawings={front:[],side:[],top:[]};practiceStart=null;$('resultPractice').textContent='Dibuja alzado, planta y perfil izquierdo para comenzar una nueva reconstrucción.';rebuildPracticeModel()};$('showSolution').onclick=()=>{};
 function expectedSegments(type){let segments=[];function add(a,b,c,d){let k=[a,b,c,d].join(',');if(!segments.some(s=>s.key===k))segments.push({key:k,a,b,c,d})}for(let a=0;a<N;a++)for(let b=0;b<N;b++){if(!drawnAt(type,a,b))continue;let dep=viewFaceDepth(type,a,b);let y=N-1-b;let edges=[[-1,0,a,y,a,y+1],[1,0,a+1,y,a+1,y+1],[0,-1,a,y+1,a+1,y+1],[0,1,a,y,a+1,y]];for(let [da,db,x1,y1,x2,y2] of edges){let nb=b+db,na=a+da;if(!drawnAt(type,na,nb)||viewFaceDepth(type,na,nb)!==dep)add(x1,y1,x2,y2)}}return segments}
 function lineKey(x1,y1,x2,y2){return [[x1,y1],[x2,y2]].sort((a,b)=>a[0]-b[0]||a[1]-b[1]).map(p=>p.join(':')).join('|')}
 $('checkPractice').onclick=()=>{drawings={front:[],side:[],top:[]};practiceStart=null;rebuildPracticeModel()};
 function resetOriginalOrientation(){yaw=appMode==='practice'?2.80:3*Math.PI/4;elev=.56;zoom=1;updateZoom();draw()}$('resetPracticeView').onclick=resetOriginalOrientation;
 function setAppMode(v){if(v===appMode&&v==='practice'){rebuildPracticeModel();return}if(v==='practice'){cameraBackup={yaw,elev,zoom};yaw=2.80;elev=.56;constructionBackup=[...vox];constructionRampsBackup=new Map(ramps);vox.clear();ramps.clear();$('resultPractice').textContent=drawings.front.length||drawings.side.length||drawings.top.length?'Reconstrucción 3D en tiempo real activada.':'Dibuja directamente en las vistas y la figura 3D se irá formando.';}else if(appMode==='practice'&&constructionBackup){vox=new Set(constructionBackup);ramps=new Map(constructionRampsBackup||[]);if(cameraBackup){({yaw,elev,zoom}=cameraBackup);cameraBackup=null;updateZoom()}}appMode=v;document.body.classList.toggle('practice',v==='practice');$('constructionTab').classList.toggle('active',v==='construction');$('practiceTab').classList.toggle('active',v==='practice');$('viewHeading').innerHTML=v==='practice'?'<span class="heading-icon">✎</span> Reconstrucción: dibuja las vistas diédricas':'<span class="heading-icon">▦</span> Vistas diédricas vinculadas';if(v==='practice')rebuildPracticeModel();else draw()}$('constructionTab').onclick=()=>setAppMode('construction');$('practiceTab').onclick=()=>setAppMode('practice');
-let dragging=false,lastView='';for(let type of ['front','side','top']){let cv=$(type);function edit(e){if(appMode==='practice')return;let r=cv.getBoundingClientRect(),{cell,ox,oy}=viewRects[type],a=Math.floor((e.clientX-r.left-ox)/cell),b0=Math.floor((e.clientY-r.top-oy)/cell),b=N-1-b0;if(a<0||a>=N||b<0||b>=N)return;let hash=`${type}${a}${b}`;if(hash===lastView)return;lastView=hash;let arr=ray(type,a,b),exists=arr.filter(p=>has(...p));if(mode==='erase'){for(let p of exists)set(...p,false)}else if(!exists.length){let p=type==='front'?[N-1-a,N-1,b]:type==='side'?[N-1,a,b]:[a,b,0];set(...p,true)}else{let p=type==='front'?[N-1-a,Math.min(N-1,Math.max(...exists.map(v=>v[1]))+1),b]:type==='side'?[Math.min(N-1,Math.max(...exists.map(v=>v[0]))+1),a,b]:[a,b,Math.min(N-1,Math.max(...exists.map(v=>v[2]))+1)];set(...p,true)}draw()}cv.addEventListener('pointerdown',e=>{cv.setPointerCapture(e.pointerId);dragging=true;lastView='';edit(e)});cv.addEventListener('pointermove',e=>{if(dragging&&e.buttons)edit(e)});cv.addEventListener('pointerup',()=>dragging=false);cv.addEventListener('pointercancel',()=>dragging=false)}
+let dragging=false,lastView='';for(let type of ['front','side','top']){let cv=$(type);function edit(e){if(appMode==='practice')return;let r=cv.getBoundingClientRect(),{cell,ox,oy}=viewRects[type],a=Math.floor((e.clientX-r.left-ox)/cell),b0=Math.floor((e.clientY-r.top-oy)/cell),b=N-1-b0;if(a<0||a>=N||b<0||b>=N)return;let hash=`${type}${a}${b}`;if(hash===lastView)return;lastView=hash;let arr=ray(type,a,b),exists=arr.filter(p=>has(...p));if(mode==='erase'){for(let p of exists)set(...p,false)}else if(!exists.length){let p=type==='front'?[N-1-a,N-1,b]:type==='side'?[N-1,a,b]:[N-1-a,N-1-b,0];set(...p,true)}else{let p=type==='front'?[N-1-a,Math.min(N-1,Math.max(...exists.map(v=>v[1]))+1),b]:type==='side'?[Math.min(N-1,Math.max(...exists.map(v=>v[0]))+1),a,b]:[N-1-a,N-1-b,Math.min(N-1,Math.max(...exists.map(v=>v[2]))+1)];set(...p,true)}draw()}cv.addEventListener('pointerdown',e=>{cv.setPointerCapture(e.pointerId);dragging=true;lastView='';edit(e)});cv.addEventListener('pointermove',e=>{if(dragging&&e.buttons)edit(e)});cv.addEventListener('pointerup',()=>dragging=false);cv.addEventListener('pointercancel',()=>dragging=false)}
 let points=new Map(),gestureMoved=false,pinchDist=0,pinchCenter=null;let cv=$('iso');
 function xy(e){let r=cv.getBoundingClientRect();return[e.clientX-r.left,e.clientY-r.top]}
 function updateZoom(){zoom=Math.max(.55,Math.min(1.9,zoom));$('zoom').value=Math.round(zoom*100);$('zoomval').textContent=`${Math.round(zoom*100)}%`}
