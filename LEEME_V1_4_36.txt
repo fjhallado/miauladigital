@@ -1,0 +1,2 @@
+Mi Aula Digital V1.4.36 — Corrección visual de FactorLab.
+Se ha corregido la cancelación de unidades también en el conversor libre inferior de la pestaña Aprende. Ahora parte sin tachar; dispone de botón de tachar y marca ambas unidades de cada pareja en amarillo, nunca los números. Volumen rosa; masa azul. Se han comprobado 49 combinaciones de unidades y nueve ejemplos mediante pruebas de lógica. No se modifica Novedades.

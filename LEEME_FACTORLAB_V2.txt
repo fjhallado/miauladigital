@@ -1,0 +1,9 @@
+FactorLab V2 - Ejemplos de conversión compuesta y práctica visual.
+
+- Ejemplos resueltos de masa y volumen.
+- Juego de selección y colocación de factores mediante ratón, dedo o teclado.
+- Cancelación de unidades por parejas.
+- Resultado numérico con autocorrección.
+- El reto de diez preguntas de la versión anterior sigue disponible.
+
+GitHub desde V1.4.29: sustituir recursos/fisica-quimica-2eso/conversiones-compuestas/index.html y añadir recursos/fisica-quimica-2eso/conversiones-compuestas/factorlab-v2.js.

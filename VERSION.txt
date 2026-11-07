@@ -1,2 +1,1 @@
-Mi Aula Digital · V1.4.28
-Reconstrucción diédrica: siluetas cerradas aisladas de líneas interiores, sin pérdida artificial de casillas al dibujar la planta; identificación coherente del plano frontal con la cara del observador.
+Mi Aula Digital V1.4.44

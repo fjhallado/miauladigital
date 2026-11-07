@@ -1,0 +1,2 @@
+Mi Aula Digital V1.4.44
+Planta: ejes horizontal y vertical alineados con el alzado rojo y su observador. Proyección, edición y reconstrucción usan una sola correspondencia. Sin otros cambios ni novedades.

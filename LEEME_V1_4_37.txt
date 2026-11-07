@@ -1,0 +1,4 @@
+CAMBIO V1.4.37
+Solo cambia: recursos/tecnologia-1eso/laboratorio-vistas/index.html
+Sistema europeo (primer diedro): alzado desde +Y (cara derecha en la vista isométrica inicial), perfil izquierdo desde +X a la derecha del alzado, planta desde +Z debajo del alzado. Las aristas ocultas se pintan encima del relleno para que sean visibles. La figura 3D se conserva intacta.
+No se añade una noticia al tablón.

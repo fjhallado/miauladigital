@@ -1,0 +1,10 @@
+Mi Aula Digital · FactorLab V1.4.32
+
+1. Todos los símbolos de masa comparten el azul, tanto originales como de destino y en factores.
+2. Todos los símbolos de volumen comparten el rosa, tanto originales como de destino y en factores.
+3. En los pasos resueltos solo se tachan unidades, NO números. Los coeficientes siguen apareciendo íntegros.
+4. Sin cambios en la corrección ni en el reto; sin notificación para alumnos por este ajuste.
+
+Archivos afectados en GitHub:
+- recursos/fisica-quimica-2eso/conversiones-compuestas/index.html
+- recursos/fisica-quimica-2eso/conversiones-compuestas/factorlab-v2.js

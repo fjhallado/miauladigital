@@ -144,6 +144,12 @@ window.AULA_MATERIAS = [
         "title": "Tabla periódica interactiva",
         "description": "Explora los elementos y practica símbolos y nombres. Recurso complementario de 2.º ESO.",
         "url": "../recursos/tabla-periodica/index.html"
+      },
+      {
+        "type": "Laboratorio interactivo · 2.º ESO",
+        "title": "FactorLab · Cambios de unidades compuestas y densidad",
+        "description": "Aprende a convertir g/cm³, kg/m³ y g/L colocando los factores de conversión. Incluye teoría, práctica guiada y reto autocorregible.",
+        "url": "../recursos/fisica-quimica-2eso/conversiones-compuestas/index.html"
       }
     ],
     "units": [

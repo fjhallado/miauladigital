@@ -1,0 +1,1 @@
+V1.4.43: corregido el sentido vertical de la planta respecto al alzado rojo. Proyección top=[x,y]; alineadas las coordenadas de edición y reconstrucción. No se altera el alzado, perfil, 3D ni el cálculo de líneas ocultas.

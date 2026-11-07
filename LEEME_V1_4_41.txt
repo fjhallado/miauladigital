@@ -1,0 +1,1 @@
+V1.4.41: Corregida la correspondencia entre casilla de planta y vóxel 3D al añadir altura o volumen desde la planta. Las proyecciones y aristas ocultas de V1.4.40 se conservan. No se publica en Novedades.

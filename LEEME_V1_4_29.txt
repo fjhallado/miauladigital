@@ -1,0 +1,17 @@
+MI AULA DIGITAL · V1.4.29
+
+Nuevo recurso (se anuncia en Novedades por tratarse de un laboratorio nuevo):
+FactorLab · Conversión de unidades compuestas y densidad · Física y Química de 2.º ESO.
+
+Ruta: recursos/fisica-quimica-2eso/conversiones-compuestas/index.html
+
+Incluye:
+- Aprende: teoría visual, factores de conversión de masa y volumen, cálculo paso a paso.
+- Practica: escoger el factor correcto para cancelar g y cm³.
+- Reto: 10 preguntas aleatorias autocorregibles, puntuación local y explicación tras responder.
+- No recopila ni almacena datos personales, tampoco remite notas.
+
+Se ha integrado en laboratorio.html, en los recursos de Física y Química y en las Novedades por ser un laboratorio nuevo.
+
+Archivos editados: laboratorio.html, datos.js, novedades.js, VERSION.txt.
+Archivos añadidos: recursos/fisica-quimica-2eso/conversiones-compuestas/index.html y app.js, LEEME_V1_4_29.txt.

@@ -1,0 +1,5 @@
+V1.4.38
+- Corregida la orientación de vistas diédricas en laboratorio de vistas.
+- Alzado = cara roja (derecha de la isométrica).
+- Perfil izquierdo = cara amarilla, colocado a la derecha del alzado.
+- Planta alineada con el alzado.

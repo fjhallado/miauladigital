@@ -1,0 +1,4 @@
+V1.4.39
+- Ajustada la orientación de las vistas diédricas.
+- Alzado coloreado en rojo suave, perfil izquierdo en amarillo y planta en azul.
+- Mantenidas las aristas ocultas con línea discontinua.

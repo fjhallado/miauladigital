@@ -1,0 +1,2 @@
+Mi Aula Digital · V1.4.40
+Corrección del motor de las vistas diédricas. Se deduplican aristas ocultas coincidentes según profundidad; las líneas visibles prevalecen sobre las ocultas. La representación 3D y orientación de las tres vistas no han sido modificadas. No se han añadido notificaciones.
