@@ -1,0 +1,1 @@
+V1.4.45: El modo examen de TIC II inicia los editores HTML y CSS vacíos. Los intentos ya iniciados conservan su trabajo guardado; para comenzar un examen nuevo hay que utilizar el reinicio del profesor.

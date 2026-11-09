@@ -1,0 +1,3 @@
+Mi Aula Digital V1.4.48
+Examen de programación TIC II: hora de finalización introducida por el alumno, límite máximo de 2 horas y cuenta atrás persistente.
+GitHub: sustituir recursos/tic-2bach/examen.html y recursos/tic-2bach/examen.js

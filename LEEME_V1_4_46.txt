@@ -1,0 +1,5 @@
+V1.4.46 · TIC II Examen
+- El reinicio autorizado vacía el identificador de alumno anterior.
+- El inicio avisa si se intenta cambiar de nombre sin reiniciar.
+- Botón Ejecutar recarga vista previa con HTML y CSS y muestra estado.
+- Mantiene guardado de código, temporizador y entrega JSON.

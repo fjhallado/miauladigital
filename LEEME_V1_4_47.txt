@@ -1,0 +1,3 @@
+Mi Aula Digital V1.4.47
+Examen TIC II: colores sintácticos HTML/CSS, diálogo de contraseña oculto con botón para verla, copiar/pegar permitido para el identificador fjhallado.
+Archivos modificados: recursos/tic-2bach/examen.html, examen.js y nuevo examen-resaltado.js.
