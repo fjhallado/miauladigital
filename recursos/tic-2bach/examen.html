@@ -18,28 +18,55 @@ body.exam-mode{background:#081528;color:#f0f5ff;margin:0;font-family:system-ui,A
 .exam-start h1{margin-top:0}.exam-start input{width:100%;box-sizing:border-box;padding:12px;font-size:1rem;border-radius:9px;border:1px solid #91add1;margin:10px 0 18px}
 .exam-start p,.exam-start li{line-height:1.55}.exam-msg{font-size:.87rem;color:#b4d0ee;min-height:1.3em}
 @media(max-width:850px){.exam-layout{grid-template-columns:1fr;height:auto}.exam-pane{height:320px}.exam-pane:last-child{height:380px}}
+
+/* Coloreado de sintaxis: mismo esquema que el laboratorio HTML/CSS. */
+.exam-editor{position:relative;flex:1;min-height:0;overflow:hidden;background:#0b172b}
+.exam-editor textarea{position:absolute;z-index:2;inset:0;height:100%!important;width:100%!important;margin:0;resize:none;white-space:pre;overflow:auto;font:14px/1.6 ui-monospace,SFMono-Regular,Consolas,monospace;tab-size:2;letter-spacing:normal;border:0;border-radius:0;background:transparent!important;color:transparent!important;-webkit-text-fill-color:transparent;caret-color:#eaffff;padding:14px}
+.exam-editor textarea::selection{background:#4d80c566;-webkit-text-fill-color:transparent}
+.exam-editor .exam-syntax{position:absolute;z-index:1;inset:0;margin:0;padding:14px;white-space:pre;overflow:hidden;pointer-events:none;background:#0b172b;color:#e4f3ff;font:14px/1.6 ui-monospace,SFMono-Regular,Consolas,monospace;tab-size:2;letter-spacing:normal;box-sizing:border-box}
+.exam-syntax .syn-tag{color:#f077d6}.exam-syntax .syn-bracket{color:#81bfff}.exam-syntax .syn-attr{color:#7bdfff}.exam-syntax .syn-string{color:#f7ca79}.exam-syntax .syn-comment{color:#699882}.exam-syntax .syn-number{color:#b4f78e}
+.exam-reset-dialog{border:1px solid #6588b3;border-radius:16px;padding:25px;background:#122b4d;color:#f0f5ff;box-shadow:0 18px 70px #0009;width:min(420px,calc(100vw - 32px));max-width:100%;box-sizing:border-box}
+.exam-reset-dialog::backdrop{background:#020915bb}.exam-reset-dialog h2{margin:0 0 12px}.exam-reset-dialog p{color:#c4d8ef;line-height:1.5}
+.exam-reset-dialog label{display:block;font-weight:600;margin:12px 0 7px}
+.exam-password-row{display:flex;gap:7px;align-items:stretch}.exam-password-row input{flex:1;min-width:0;background:#f7faff;border:1px solid #84a6ca;color:#13253e;border-radius:8px;padding:10px;font-size:16px}
+.exam-password-row button{white-space:nowrap}.exam-dialog-actions{display:flex;justify-content:flex-end;flex-wrap:wrap;gap:9px;margin-top:17px}
 </style></head>
 <body class="exam-mode">
 <div id="startScreen" class="exam-start">
 <h1>Examen práctico de HTML y CSS</h1>
-<p>Duración: <strong>50 minutos</strong>. Se abrirán tres paneles: HTML, CSS y resultado. Se bloquean los pegados y se registran avisos al salir de la pestaña, pero <strong>esta web no impide abrir otras aplicaciones o consultar apuntes</strong>.</p>
+<p>Duración máxima: <strong>2 horas</strong>. Introduce la hora a la que debe terminar tu examen y el contador mostrará el tiempo restante hasta ese momento. Se abrirán tres paneles: HTML, CSS y resultado. Se bloquean los pegados para alumnos y se registran avisos al salir de la pestaña, pero <strong>esta web no impide abrir otras aplicaciones o consultar apuntes</strong>.</p>
 <p>El trabajo se guarda temporalmente en este navegador. Al terminar debes descargar el archivo de entrega y facilitárselo al profesor. No borres los datos del navegador durante el examen.</p>
 <label for="student">Identificador del alumno (el indicado por el profesor)</label>
 <input id="student" maxlength="80" autocomplete="off" required placeholder="Identificador">
-<button id="startExam" class="exam-btn primary">Comenzar examen de 50 minutos</button> <button id="resetFromStart" class="exam-btn" type="button">Reiniciar examen (profesor)</button>
+<label for="endTime" style="display:block;font-weight:650">Hora de finalización del examen</label>
+<input id="endTime" type="time" step="60" required aria-describedby="endTimeHelp">
+<p class="exam-msg" id="endTimeHelp" style="margin:-8px 0 16px">Indica la hora de finalización establecida por el profesor (máximo 2 horas desde el inicio). No podrás modificarla después de comenzar.</p>
+<button id="startExam" class="exam-btn primary">Comenzar examen</button> <button id="resetFromStart" class="exam-btn" type="button">Reiniciar examen (profesor)</button>
 <p class="exam-msg" id="initialMsg" role="status"></p><p class="exam-msg">Historial de intentos: se conserva localmente en este navegador y se incluye en el archivo descargado. No es un registro oculto ni seguro frente a manipulaciones.</p>
 </div>
 <div id="examScreen" hidden>
 <div class="exambar"><div><strong>Mi Aula Digital · TIC II · Modo examen</strong><div class="exam-msg" id="studentLabel"></div></div>
-<div class="timer" id="timer" aria-live="off">50:00</div><div class="examactions">
-<button class="exam-btn" id="execute">▶ Ejecutar</button>
+<div class="timer" id="timer" aria-live="off">120:00</div><div class="examactions">
+<button class="exam-btn" id="execute" type="button" title="Actualizar el resultado con el HTML y CSS actuales">▶ Ejecutar</button>
 <button class="exam-btn" id="fullscreen">⛶ Pantalla completa</button>
 <button class="exam-btn primary" id="finish">Finalizar y descargar entrega</button><button class="exam-btn" id="resetExam" type="button">Reiniciar examen (profesor)</button>
 </div></div>
-<div class="exam-notice"><span id="examState">Examen en curso</span> · Pegado bloqueado en el editor · <span id="alerts">0 avisos</span> de cambio de ventana o intentos de pegado. Los avisos son orientativos, no una prueba de uso de recursos externos.</div>
+<div class="exam-notice"><span id="examState">Examen en curso</span> · <span id="endTimeLabel">Hora de fin: —</span> · <span id="pasteStatus">Pegado bloqueado en el editor</span> · <span id="alerts">0 avisos</span> de cambio de ventana o intentos de pegado. Los avisos son orientativos, no una prueba de uso de recursos externos.</div>
 <div class="exam-layout">
-<section class="exam-pane"><h2>index.html · HTML</h2><textarea id="html" spellcheck="false" autocomplete="off" autocapitalize="off" aria-label="Editor HTML"></textarea></section>
-<section class="exam-pane"><h2>estilos.css · CSS</h2><textarea id="css" spellcheck="false" autocomplete="off" autocapitalize="off" aria-label="Editor CSS"></textarea></section>
-<section class="exam-pane"><h2>Resultado de la programación</h2><iframe id="preview" title="Vista previa del examen" sandbox="allow-scripts allow-forms"></iframe></section>
+<section class="exam-pane"><h2>index.html · HTML</h2><div class="exam-editor"><pre class="exam-syntax" id="htmlSyntax" aria-hidden="true"></pre><textarea id="html" spellcheck="false" autocomplete="off" autocapitalize="off" aria-label="Editor HTML"></textarea></div></section>
+<section class="exam-pane"><h2>estilos.css · CSS</h2><div class="exam-editor"><pre class="exam-syntax" id="cssSyntax" aria-hidden="true"></pre><textarea id="css" spellcheck="false" autocomplete="off" autocapitalize="off" aria-label="Editor CSS"></textarea></div></section>
+<section class="exam-pane"><h2>Resultado de la programación <span id="previewStatus" role="status" style="font-size:.75rem;font-weight:400;color:#83d6ff;margin-left:10px">Sin ejecutar</span></h2><iframe id="preview" title="Vista previa del examen" sandbox="allow-scripts allow-forms"></iframe></section>
 </div></div>
-<script src="examen.js"></script></body></html>
+
+<dialog id="resetDialog" class="exam-reset-dialog" aria-labelledby="resetTitle">
+<h2 id="resetTitle">Reiniciar examen · Profesor</h2>
+<p>Introduce la contraseña de reinicio. El intento anterior quedará archivado localmente.</p>
+<form id="resetPasswordForm" novalidate>
+<label for="resetPassword">Contraseña del profesor</label>
+<div class="exam-password-row"><input id="resetPassword" type="password" autocomplete="off" spellcheck="false" required><button class="exam-btn" type="button" id="toggleResetPassword" aria-pressed="false">Ver contraseña</button></div>
+<p class="exam-msg" id="resetError" role="alert"></p>
+<div class="exam-dialog-actions"><button class="exam-btn" type="button" id="cancelReset">Cancelar</button><button class="exam-btn primary" type="submit">Comprobar y reiniciar</button></div>
+</form>
+</dialog>
+<script src="examen-resaltado.js?v=1.4.47"></script>
+<script src="examen.js?v=1.4.48"></script></body></html>
