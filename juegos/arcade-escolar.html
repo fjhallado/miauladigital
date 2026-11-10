@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Mi Aula Digital · Arcade Escolar</title>
+<style>
+:root{color-scheme:dark;--bg:#081427;--panel:#112341;--line:#2b4567;--ink:#eef6ff;--muted:#a8c3e1;--cyan:#67e8f9;--gold:#ffcf70;--green:#79efb0;--pink:#ff86ac}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;font-family:system-ui,-apple-system,Segoe UI,sans-serif;background:radial-gradient(ellipse at 50% -20%,#225182 0,#081427 68%);color:var(--ink)}
+button{font:inherit;cursor:pointer;border:0}button:focus-visible{outline:3px solid var(--gold);outline-offset:3px}.wrap{width:min(1100px,calc(100% - 28px));margin:auto;padding:23px 0 40px}.eyebrow{text-transform:uppercase;letter-spacing:.19em;color:var(--cyan);font-size:.72rem;font-weight:800}.head{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}.brand h1{font-size:clamp(1.6rem,4vw,2.6rem);margin:5px 0 7px}.brand p{margin:0;color:var(--muted)}.pill{border:1px solid #375679;border-radius:999px;color:var(--muted);padding:8px 14px;font-size:.81rem}.games{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:15px;margin-top:27px}.game-card{background:linear-gradient(155deg,#183354,#0f213a);border:1px solid #365475;border-radius:20px;padding:18px;text-align:left;color:var(--ink);min-height:218px;display:flex;flex-direction:column;gap:8px;transition:transform .15s,border-color .15s}.game-card:hover{transform:translateY(-3px);border-color:var(--cyan)}.art{height:74px;display:grid;place-items:center;font-size:3.4rem;background:linear-gradient(120deg,#22496e,#1e3159);border-radius:13px;margin-bottom:3px}.game-card strong{font-size:1.1rem}.game-card span{color:var(--muted);font-size:.87rem;line-height:1.4}.game-card .playlabel{margin-top:auto;color:var(--cyan);font-weight:800}.shell{display:none;margin-top:22px;border:1px solid var(--line);border-radius:23px;background:#0e2038;overflow:hidden;box-shadow:0 20px 65px #0005}.shell.active{display:block}.shellbar{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:15px 17px;flex-wrap:wrap}.shellbar h2{margin:0;font-size:1.1rem}.stats{display:flex;gap:8px;flex-wrap:wrap}.stat{padding:7px 11px;background:#1c3653;border-radius:10px;font-size:.84rem}.stat b{color:var(--gold)}.actions{display:flex;gap:8px;flex-wrap:wrap}.btn{border-radius:10px;padding:9px 14px;background:#254b6d;color:white;font-weight:700}.btn.primary{background:#12b5c9;color:#062234}.btn:hover{filter:brightness(1.15)}.stage{position:relative;background:#071627}.stage canvas{display:block;width:100%;aspect-ratio:16/9;touch-action:none}.overlay{position:absolute;inset:0;display:grid;place-items:center;background:#071627cf;padding:18px;text-align:center}.overlay.hidden{display:none}.overlay-panel{background:#102a48;border:1px solid #45759c;border-radius:19px;padding:22px;max-width:460px;width:100%;box-shadow:0 12px 55px #0008}.overlay h3{font-size:clamp(1.4rem,3vw,2rem);margin:3px 0 10px}.overlay p{color:#c9dced;line-height:1.5}.touch{display:flex;align-items:center;justify-content:center;gap:9px;padding:11px;flex-wrap:wrap}.touch button{background:#21496c;border:1px solid #467392;color:#fff;border-radius:13px;min-width:68px;min-height:47px;font-size:1.25rem;font-weight:800;touch-action:none}.hint{padding:0 14px 13px;text-align:center;color:var(--muted);font-size:.85rem}.footer{text-align:center;margin-top:23px;color:#9db5ce;font-size:.84rem}.hidden{display:none!important}@media(max-width:660px){.games{grid-template-columns:1fr}.game-card{min-height:155px}.art{height:52px;font-size:2.5rem}.shellbar{align-items:flex-start}.stats{order:3;width:100%}}
+</style>
+</head>
+<body><main class="wrap">
+<header class="head"><div class="brand"><div class="eyebrow">Laboratorio · Juegos</div><h1>🎮 Arcade Escolar</h1><p>Cuatro minijuegos con poderes, retos y sorpresas para los recreos de Mi Aula Digital.</p></div><div><a href="../cafeteria.html" style="display:inline-block;color:#baf4ff;margin-right:14px">← Cafetería</a><span class="pill">HTML · Sin instalaciones · Móvil y PC</span></div></header>
+<section class="games" id="games" aria-label="Elegir minijuego">
+<button class="game-card" data-game="exam"><div class="art">🧑‍🏫📝</div><strong>¡Lluvia de exámenes!</strong><span>Defiende las entregas y recoge poderes: doble disparo, escudo, corazones y trampas.</span><span class="playlabel">▶ Jugar</span></button>
+<button class="game-card" data-game="recess"><div class="art">🎒⭐</div><strong>Recreo a contrarreloj</strong><span>Recoge estrellas, relojes extra y zapatillas veloces; cuidado con los charcos.</span><span class="playlabel">▶ Jugar</span></button>
+<button class="game-card" data-game="brick"><div class="art">🏓📚</div><strong>Rompeapuntes</strong><span>Rompe bloques y captura las mejoras que caen: regla ancha, pelota lenta y vidas.</span><span class="playlabel">▶ Jugar</span></button>
+<button class="game-card" data-game="ten"><div class="art">🎓💯</div><strong>¡A por el 10!</strong><span>Consigue un 10 esquivando ceros y negativos fugaces. Aparecen escudos protectores.</span><span class="playlabel">▶ Jugar</span></button>
+</section>
+<section class="shell" id="shell" aria-live="polite"><div class="shellbar"><h2 id="gameName">Juego</h2><div class="stats"><div class="stat">Puntos: <b id="score">0</b></div><div class="stat" id="extraStat">Vidas: <b id="extra">3</b></div><div class="stat">Récord: <b id="best">0</b></div></div><div class="actions"><button class="btn" id="pauseBtn">⏸ Pausa</button><button class="btn" id="menuBtn">← Juegos</button></div></div>
+<div class="stage"><canvas id="canvas" width="960" height="540" aria-label="Zona de juego"></canvas><div class="overlay" id="overlay"><div class="overlay-panel"><h3 id="overlayTitle">¡Preparados!</h3><p id="overlayText">Pulsa jugar para empezar.</p><button class="btn primary" id="startBtn">▶ Empezar</button></div></div></div>
+<div class="touch" id="touch"><button data-key="left" aria-label="Izquierda">◀</button><button data-key="up" aria-label="Arriba">▲</button><button data-key="down" aria-label="Abajo">▼</button><button data-key="right" aria-label="Derecha">▶</button><button data-key="fire" id="fireBtn">📝</button></div><div class="hint" id="hint">Usa el teclado o los botones táctiles.</div></section>
+<div class="footer">Mi Aula Digital · Juegos para aprender y divertirse · Compatible con dispositivos táctiles</div>
+</main>
+<script>
+(()=>{'use strict';
+const c=document.querySelector('#canvas'),ctx=c.getContext('2d'),W=c.width,H=c.height,overlay=document.querySelector('#overlay'),keys=new Set();let mode='',state=null,paused=true,raf=0,last=0,mouseX=null,chosen='';
+const $=s=>document.querySelector(s);const rnd=(a,b)=>Math.random()*(b-a)+a,clamp=(n,a,b)=>Math.max(a,Math.min(b,n));
+function rounded(x,y,w,h,r,fill){ctx.fillStyle=fill;ctx.beginPath();ctx.roundRect(x,y,w,h,r);ctx.fill()}
+function txt(s,x,y,size=22,color='#fff',align='center'){ctx.font=`700 ${size}px system-ui`;ctx.textAlign=align;ctx.fillStyle=color;ctx.fillText(s,x,y)}
+function update(){if(!state)return;$('#score').textContent=state.score;$('#extra').textContent=mode==='recess'?Math.ceil(state.time)+' s':mode==='ten'?state.grade+'/10':state.lives;$('#extraStat').firstChild.textContent=mode==='recess'?'Tiempo: ':mode==='ten'?'Nota: ':'Vidas: ';$('#best').textContent=Math.max(state.score,getBest());}
+function getBest(){try{return +(localStorage.getItem('mad-arcade-'+mode)||0)}catch{return 0}}
+function saveBest(){try{localStorage.setItem('mad-arcade-'+mode,String(Math.max(getBest(),state.score)))}catch{}}
+function panel(title,message,button='▶ Empezar'){paused=true;overlay.classList.remove('hidden');$('#overlayTitle').textContent=title;$('#overlayText').textContent=message;$('#startBtn').textContent=button;}
+function hidePanel(){paused=false;overlay.classList.add('hidden');last=performance.now()}
+function finish(win){saveBest();update();panel(win?'🏆 ¡Nivel superado!':'🎮 Fin de partida',`Has conseguido ${state.score} puntos. ¿Quieres intentarlo otra vez?`,'↻ Volver a jugar');chosen='restart'}
+function select(game){mode=game;state=null;chosen='new';keys.clear();mouseX=null;$('#games').classList.add('hidden');$('#shell').classList.add('active');$('#gameName').textContent=({exam:'📝 Lluvia de exámenes',recess:'⭐ Recreo a contrarreloj',brick:'📚 Rompeapuntes',ten:'🎓 ¡A por el 10!'})[game];$('#fireBtn').classList.toggle('hidden',game!=='exam');$('#hint').textContent=({exam:'A/D o ←/→ para moverte · Espacio para disparar · Recoge ❤️ ⚡ 🛡️ · Evita 💀',recess:'WASD o flechas · ⭐ +10 · ⏰ +5 s · 👟 velocidad · Evita 💧',brick:'Ratón, dedo o ←/→ · Atrapa mejoras ⬇️: ↔️ regla ancha, 🐢 pelota lenta, ❤️ vida',ten:'WASD o flechas · Los negativos duran 3 segundos · 🛡️ protege de un cero'})[game];$('#pauseBtn').textContent='⏸ Pausa';init();panel(({exam:'¡A corregir!',recess:'¡Hora del recreo!',brick:'¡A romper apuntes!',ten:'¡A por el 10!'})[game],({exam:'Dispara a las tareas, recoge ayudas ❤️ ⚡ 🛡️ y evita la trampa 💀. ¡Los poderes aparecen entre las entregas!',recess:'Recoge ⭐, consigue tiempo ⏰ y corre más con 👟. Evita los charcos 💧. Tienes 45 segundos.',brick:'Rompe los bloques. Algunos dejarán mejoras: regla ancha ↔️, pelota lenta 🐢 y vidas ❤️.',ten:'Recoge +1 y +2 para llegar a 10. Los −1 y −2 duran solo 3 s y restan nota, nunca vidas. ¡Busca el escudo 🛡️!'})[game]);update();}
+function init(){if(mode==='exam')state={score:0,lives:3,x:480,shots:[],fall:[],items:[],spawn:0,bonusSpawn:4,fire:0,elapsed:0,rapid:0,shield:0,combo:0};if(mode==='recess')state={score:0,lives:3,x:480,y:430,time:45,stars:[],puddles:[],extras:[],bonusSpawn:3,boost:0,spawn:0,inv:0};if(mode==='ten')state=newTenState(1,0,3);if(mode==='brick'){let blocks=[];const names=['MATES','FYQ','TIC','TECNO','HIST','LENGUA'];for(let row=0;row<5;row++)for(let col=0;col<10;col++)blocks.push({x:54+col*86,y:75+row*46,w:77,h:36,hp:row===0?2:1,name:names[(row+col)%names.length],hue:180+row*30});state={score:0,lives:3,x:480,ball:{x:480,y:350,vx:190,vy:-250,r:9},blocks,drops:[],wide:0,slow:0,trail:[],level:1}}}
+function bg(){ctx.fillStyle='#091c30';ctx.fillRect(0,0,W,H);ctx.strokeStyle='#183752';ctx.lineWidth=1;for(let x=0;x<W;x+=48){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke()}for(let y=0;y<H;y+=48){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke()}}
+function drawExam(dt){const s=state;bg();rounded(0,480,W,60,0,'#24516b');txt('PIZARRA DIGITAL  •  SALVA LAS ENTREGAS',480,31,19,'#9fdcf5');
+const dir=(keys.has('right')?1:0)-(keys.has('left')?1:0);s.x=clamp(mouseX??(s.x+dir*420*dt),40,920);s.fire-=dt;s.spawn-=dt;s.bonusSpawn-=dt;s.elapsed+=dt;s.rapid=Math.max(0,s.rapid-dt);s.shield=Math.max(0,s.shield-dt);
+if(keys.has('fire')&&s.fire<=0){const double=s.rapid>0;for(const off of(double?[-16,16]:[0]))s.shots.push({x:s.x+off,y:444});s.fire=double?.11:.24}
+if(s.spawn<=0){s.fall.push({x:rnd(30,930),y:-30,vy:rnd(70,115)+Math.min(140,s.elapsed*3),r:23});s.spawn=Math.max(.34,1.05-s.elapsed*.012)}
+if(s.bonusSpawn<=0){const type=['heart','rapid','shield','trap'][Math.floor(rnd(0,4))];s.items.push({type,x:rnd(55,905),y:-25,vy:rnd(80,120),life:8});s.bonusSpawn=rnd(4.5,7)}
+for(const a of s.shots)a.y-=590*dt;for(const f of s.fall)f.y+=f.vy*dt;for(const item of s.items){item.y+=item.vy*dt;item.life-=dt}
+for(let i=s.shots.length-1;i>=0;i--){const a=s.shots[i];if(a.y<-10){s.shots.splice(i,1);continue}let hit=false;for(let j=s.fall.length-1;j>=0;j--){const b=s.fall[j];if(Math.hypot(a.x-b.x,a.y-b.y)<27){s.fall.splice(j,1);s.shots.splice(i,1);s.score+=10;s.combo++;hit=true;break}}if(hit)continue}
+for(let j=s.fall.length-1;j>=0;j--)if(s.fall[j].y>485){s.fall.splice(j,1);s.combo=0;if(s.shield>0){s.shield=0}else{s.lives--;if(s.lives<=0){finish(false);return}}}
+for(let i=s.items.length-1;i>=0;i--){const item=s.items[i];if(item.life<=0||item.y>515){s.items.splice(i,1);continue}if(Math.abs(s.x-item.x)<44&&Math.abs(452-item.y)<40){s.items.splice(i,1);if(item.type==='heart')s.lives=Math.min(5,s.lives+1);if(item.type==='rapid')s.rapid=8;if(item.type==='shield')s.shield=10;if(item.type==='trap'){if(s.shield>0)s.shield=0;else s.lives--;}if(s.lives<=0){finish(false);return}}}
+for(const f of s.fall){rounded(f.x-24,f.y-23,48,44,7,'#ffd999');txt('📚',f.x,f.y+8,28)}for(const a of s.shots){rounded(a.x-11,a.y-15,22,29,3,'#e5f8ff');txt('✓',a.x,a.y+7,18,'#247c5a')}
+const emoji={heart:'❤️',rapid:'⚡',shield:'🛡️',trap:'💀'};for(const item of s.items){rounded(item.x-23,item.y-24,46,46,12,item.type==='trap'?'#b94a67':'#2b6483');txt(emoji[item.type],item.x,item.y+12,32)}
+if(s.shield>0){ctx.strokeStyle='#70efff';ctx.lineWidth=4;ctx.beginPath();ctx.arc(s.x,456,47,0,Math.PI*2);ctx.stroke()}
+rounded(s.x-35,435,70,47,11,'#2bb6c7');txt('🧑‍🏫',s.x,470,35);
+if(s.rapid>0)txt('⚡ DOBLE DISPARO '+Math.ceil(s.rapid)+'s',200,65,17,'#fce18b');if(s.shield>0)txt('🛡️ ESCUDO '+Math.ceil(s.shield)+'s',780,65,17,'#b9efff');if(s.combo>=3)txt('RACHA x'+s.combo,480,65,18,'#9af5ba');update()}
+function drawRecess(dt){const s=state;bg();rounded(0,0,W,70,0,'#194b72');rounded(0,470,W,70,0,'#315c66');txt('PATIO DEL COLEGIO',480,42,25,'#d1f4ff');
+const ax=(keys.has('right')?1:0)-(keys.has('left')?1:0),ay=(keys.has('down')?1:0)-(keys.has('up')?1:0),norm=Math.max(1,Math.hypot(ax,ay));s.boost=Math.max(0,s.boost-dt);s.x=clamp(s.x+ax/norm*(s.boost>0?450:300)*dt,30,930);s.y=clamp(s.y+ay/norm*(s.boost>0?450:300)*dt,105,445);s.time-=dt;s.spawn-=dt;s.bonusSpawn-=dt;s.inv=Math.max(0,s.inv-dt);
+if(s.spawn<=0){s.stars.push({x:rnd(45,915),y:rnd(112,447),life:6});if(Math.random()>.28)s.puddles.push({x:rnd(45,915),y:rnd(112,447),life:6});s.spawn=.76}
+if(s.bonusSpawn<=0){s.extras.push({x:rnd(50,910),y:rnd(120,440),type:Math.random()<.55?'clock':'shoe',life:5});s.bonusSpawn=rnd(5,8)}
+for(const item of [...s.stars,...s.puddles,...s.extras])item.life-=dt;s.stars=s.stars.filter(a=>a.life>0);s.puddles=s.puddles.filter(a=>a.life>0);s.extras=s.extras.filter(a=>a.life>0);
+for(let i=s.stars.length-1;i>=0;i--)if(Math.hypot(s.x-s.stars[i].x,s.y-s.stars[i].y)<37){s.stars.splice(i,1);s.score+=10}
+for(let i=s.extras.length-1;i>=0;i--)if(Math.hypot(s.x-s.extras[i].x,s.y-s.extras[i].y)<38){const item=s.extras.splice(i,1)[0];if(item.type==='clock')s.time+=5;else s.boost=7;s.score+=5}
+if(s.inv<=0)for(let i=s.puddles.length-1;i>=0;i--)if(Math.hypot(s.x-s.puddles[i].x,s.y-s.puddles[i].y)<34){s.puddles.splice(i,1);s.score=Math.max(0,s.score-15);s.inv=1.15;break}
+for(const f of s.stars)txt('⭐',f.x,f.y+12,35);for(const f of s.puddles)txt('💧',f.x,f.y+12,32);for(const f of s.extras)txt(f.type==='clock'?'⏰':'👟',f.x,f.y+12,36);
+if(s.inv===0||Math.floor(s.inv*10)%2===0)txt('🎒',s.x,s.y+15,44);if(s.boost>0)txt('👟 TURBO '+Math.ceil(s.boost)+'s',160,94,18,'#8cfcba');if(s.time<=0){s.time=0;finish(true);return}update()}
+function drawBrick(dt){const s=state;bg();txt('ROMPEAPUNTES · NIVEL '+s.level,480,33,22,'#b5eaf5');const dir=(keys.has('right')?1:0)-(keys.has('left')?1:0);s.wide=Math.max(0,s.wide-dt);s.slow=Math.max(0,s.slow-dt);const half=s.wide>0?112:75;
+s.x=clamp(mouseX??(s.x+dir*560*dt),half,960-half);const p=s.ball;let prevX=p.x,prevY=p.y;const factor=s.slow>0?.74:1;p.x+=p.vx*dt*factor;p.y+=p.vy*dt*factor;if(p.x<11){p.x=11;p.vx=Math.abs(p.vx)}if(p.x>949){p.x=949;p.vx=-Math.abs(p.vx)}if(p.y<51){p.y=51;p.vy=Math.abs(p.vy)}if(p.vy>0&&prevY<=470&&p.y>=470&&Math.abs(p.x-s.x)<half){p.y=469;p.vy=-Math.abs(p.vy);p.vx=clamp((p.x-s.x)*4.7,-430,430)}
+for(let i=s.blocks.length-1;i>=0;i--){const b=s.blocks[i];if(p.x+p.r>b.x&&p.x-p.r<b.x+b.w&&p.y+p.r>b.y&&p.y-p.r<b.y+b.h){const fromSide=prevX+p.r<=b.x||prevX-p.r>=b.x+b.w;if(fromSide)p.vx*=-1;else p.vy*=-1;b.hp--;if(!b.hp){s.blocks.splice(i,1);s.score+=10;if(Math.random()<.19)s.drops.push({x:b.x+b.w/2,y:b.y+b.h/2,type:['wide','slow','heart'][Math.floor(rnd(0,3))]})}else s.score+=3;break}}
+if(p.y>552){s.lives--;if(s.lives<=0){finish(false);return}s.ball={x:s.x,y:375,vx:rnd(-170,170),vy:-280,r:9}}
+for(const b of s.blocks){rounded(b.x,b.y,b.w,b.h,7,b.hp===2?'#d17d98':`hsl(${b.hue} 68% 48%)`);txt(b.name,b.x+b.w/2,b.y+24,11,'#fff')}
+for(let i=s.drops.length-1;i>=0;i--){const d=s.drops[i];d.y+=145*dt;if(d.y>530){s.drops.splice(i,1);continue}rounded(d.x-21,d.y-19,42,38,10,'#295e85');txt(d.type==='wide'?'↔️':d.type==='slow'?'🐢':'❤️',d.x,d.y+10,27);if(d.y>450&&d.y<509&&Math.abs(d.x-s.x)<half+14){s.drops.splice(i,1);if(d.type==='wide')s.wide=12;if(d.type==='slow')s.slow=10;if(d.type==='heart')s.lives=Math.min(5,s.lives+1);s.score+=20}}
+rounded(s.x-half,475,half*2,20,8,'#80e9f8');rounded(s.x-40,476,80,5,3,'#e7ffff');ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle='#ffe69a';ctx.shadowColor='#ffe69a';ctx.shadowBlur=17;ctx.fill();ctx.shadowBlur=0;
+if(s.wide>0)txt('↔️ REGLA XL '+Math.ceil(s.wide)+'s',180,43,15,'#c9fcff');if(s.slow>0)txt('🐢 CÁMARA LENTA '+Math.ceil(s.slow)+'s',760,43,15,'#f5e8a4');if(s.blocks.length===0){finish(true);return}update()}
+
+// ----- ¡A POR EL 10! -----
+function newTenState(level,score,lives){
+ const teachers=Array.from({length:Math.min(2+Math.floor((level-1)/2),6)},(_,i)=>({
+ x:150+i*155,y:110+(i%2)*70,vx:(i%2?-1:1)*(58+level*11),cool:rnd(.6,2.1),emoji:['👨‍🏫','👩‍🏫','🧑‍🏫'][i%3]
+ }));
+ return {level,score,lives,grade:0,x:480,y:430,teachers,zeros:[],pluses:[],spawn:.45,inv:1.8,seconds:0,particles:[],shield:0,shieldSpawn:rnd(8,13)};
+}
+function circleHit(a,b,rr){return Math.hypot(a.x-b.x,a.y-b.y)<rr}
+function addParticles(s,x,y,color){for(let i=0;i<11;i++)s.particles.push({x,y,vx:rnd(-135,135),vy:rnd(-170,50),life:rnd(.35,.8),color})}
+function drawTen(dt){
+ const s=state;s.seconds+=dt;bg();
+ // Patio escolar decorado
+ rounded(0,0,W,68,0,'#173855');rounded(0,488,W,52,0,'#2a5665');
+ rounded(28,82,95,91,10,'#173e5b');rounded(34,88,83,77,8,'#2a7392');
+ txt('AULA 1',76,120,17,'#e6f9ff');txt('📖',76,158,27);
+ rounded(832,82,100,91,10,'#173e5b');rounded(838,88,88,77,8,'#2a7392');txt('AULA 2',881,120,17,'#e6f9ff');txt('🔬',881,158,27);
+ for(let i=0;i<8;i++){rounded(i*128+16,260,62,8,3,'#1e4965')}
+ const ax=(keys.has('right')?1:0)-(keys.has('left')?1:0),ay=(keys.has('down')?1:0)-(keys.has('up')?1:0),n=Math.max(1,Math.hypot(ax,ay));
+ s.x=clamp(s.x+ax/n*320*dt,27,933);s.y=clamp(s.y+ay/n*320*dt,90,464);
+ s.inv=Math.max(0,s.inv-dt);s.spawn-=dt;s.shieldSpawn-=dt;if(s.shieldSpawn<=0){s.pluses.push({x:rnd(100,860),y:rnd(210,440),type:'shield',life:5,bob:0});s.shieldSpawn=rnd(11,16)}
+ if(s.spawn<=0){
+  // 70 % positivos y 30 % negativos; negativos fugaces de 3 s y sin daño a vidas.
+  const roll=Math.random(),type=roll<.13?-2:roll<.30?-1:roll<.48?2:1;
+  s.pluses.push({x:rnd(85,875),y:rnd(210,442),type,life:type<0?3:7,bob:rnd(0,6.3)});
+  s.spawn=Math.max(.48,1.32-s.level*.075)
+ }
+ for(const t of s.teachers){
+ t.x+=t.vx*dt;if(t.x<95||t.x>865){t.x=clamp(t.x,95,865);t.vx*=-1}
+ t.cool-=dt;if(t.cool<=0){const dx=s.x-t.x,dy=s.y-t.y,mag=Math.max(1,Math.hypot(dx,dy)),speed=165+s.level*19;
+ s.zeros.push({x:t.x,y:t.y+17,vx:dx/mag*speed,vy:dy/mag*speed,life:5});t.cool=rnd(Math.max(.5,1.7-s.level*.08),Math.max(.9,2.65-s.level*.1));}
+ rounded(t.x-30,t.y-38,60,66,12,'#1b4c77');txt(t.emoji,t.x,t.y+13,39);txt('PROFE',t.x,t.y-43,12,'#9bdff5');
+ }
+ for(let i=s.pluses.length-1;i>=0;i--){const p=s.pluses[i];p.life-=dt;p.bob+=dt*4;
+ if(p.life<=0){s.pluses.splice(i,1);continue}
+ const py=p.y+Math.sin(p.bob)*5,negative=typeof p.type==='number'&&p.type<0;
+ ctx.shadowBlur=16;ctx.shadowColor=negative?'#ff6684':'#50ecab';
+ rounded(p.x-24,py-24,48,48,13,negative?(p.type===-2?'#ff6489':'#ff91a8'):(p.type==='shield'?'#48b1d9':p.type===2?'#f7cc65':'#4be6a8'));ctx.shadowBlur=0;
+ txt(p.type==='shield'?'🛡️':p.type>0?'+'+p.type:String(p.type),p.x,py+10,28,negative?'#581329':'#07344a');
+ if(Math.hypot(s.x-p.x,s.y-py)<42){
+ if(p.type==='shield'){s.shield=1;s.score+=25}else{s.grade=clamp(s.grade+p.type,0,10);if(p.type>0)s.score+=p.type*100;}
+ s.pluses.splice(i,1);addParticles(s,p.x,py,negative?'#ff7194':'#78ffba');
+ if(s.grade>=10){saveBest();update();panel('🎉 ¡APROBADO!','Has conseguido un 10 en el nivel '+s.level+'. ¡Pasas al siguiente curso!','▶ Siguiente nivel');chosen='next';return}
+ }
+ }
+ for(let i=s.zeros.length-1;i>=0;i--){const z=s.zeros[i];z.x+=z.vx*dt;z.y+=z.vy*dt;z.life-=dt;
+ if(z.life<=0||z.x<-30||z.x>990||z.y<-30||z.y>575){s.zeros.splice(i,1);continue}
+ ctx.shadowBlur=14;ctx.shadowColor='#ff5578';ctx.fillStyle='#ff6684';ctx.beginPath();ctx.arc(z.x,z.y,21,0,Math.PI*2);ctx.fill();ctx.shadowBlur=0;txt('0',z.x,z.y+10,29,'#35122b');
+ if(s.inv<=0&&circleHit(s,z,33)){s.zeros.splice(i,1);if(s.shield>0){s.shield=0;s.inv=.65;addParticles(s,s.x,s.y,'#72e9ff');continue}s.lives--;s.inv=1.4;s.grade=Math.max(0,s.grade-1);addParticles(s,s.x,s.y,'#ff7194');
+ if(s.lives<=0){finish(false);return}}
+ }
+ for(let i=s.particles.length-1;i>=0;i--){const p=s.particles[i];p.x+=p.vx*dt;p.y+=p.vy*dt;p.vy+=280*dt;p.life-=dt;
+ if(p.life<=0){s.particles.splice(i,1);continue}ctx.globalAlpha=Math.min(1,p.life*2);ctx.fillStyle=p.color;ctx.fillRect(p.x,p.y,6,6);ctx.globalAlpha=1}
+ if(s.shield>0){ctx.strokeStyle='#74eaff';ctx.lineWidth=4;ctx.beginPath();ctx.arc(s.x,s.y,40,0,Math.PI*2);ctx.stroke()}if(s.inv<=0||Math.floor(s.inv*12)%2===0){ctx.shadowBlur=12;ctx.shadowColor='#86eaff';txt('🏃',s.x,s.y+16,48);ctx.shadowBlur=0}
+ rounded(344,13,272,42,11,'#173c56');rounded(351,20,Math.max(0,s.grade/10*258),28,7,'#5be0a8');
+ txt('NIVEL '+s.level,170,41,21,'#c5e9ff');txt('NOTA '+s.grade+'/10',480,43,21,'#fff');txt('❤️'.repeat(Math.max(0,s.lives)),796,42,27,'#fff');
+ update();
+}
+
+function tick(now){raf=requestAnimationFrame(tick);const dt=Math.min((now-last)/1000||0,.035);last=now;if(paused||!state)return; if(mode==='exam')drawExam(dt);if(mode==='recess')drawRecess(dt);if(mode==='brick')drawBrick(dt);if(mode==='ten')drawTen(dt)}
+function keyName(k){if(k==='ArrowLeft'||k==='a'||k==='A')return 'left';if(k==='ArrowRight'||k==='d'||k==='D')return 'right';if(k==='ArrowUp'||k==='w'||k==='W')return 'up';if(k==='ArrowDown'||k==='s'||k==='S')return 'down';if(k===' ')return 'fire';return null}
+document.addEventListener('keydown',e=>{const k=keyName(e.key);if(k&&mode){keys.add(k);e.preventDefault()}});document.addEventListener('keyup',e=>{const k=keyName(e.key);if(k)keys.delete(k)});window.addEventListener('blur',()=>{keys.clear();if(state&&!paused)panel('⏸ Pausa','El juego se ha detenido. Pulsa continuar para volver.','▶ Continuar')});
+document.querySelectorAll('[data-key]').forEach(b=>{const k=b.dataset.key;b.addEventListener('pointerdown',e=>{e.preventDefault();b.setPointerCapture(e.pointerId);keys.add(k)});const up=()=>keys.delete(k);b.addEventListener('pointerup',up);b.addEventListener('pointercancel',up);b.addEventListener('lostpointercapture',up)});
+c.addEventListener('pointermove',e=>{if(mode==='exam'||mode==='brick'){const r=c.getBoundingClientRect();mouseX=clamp((e.clientX-r.left)*W/r.width,40,920)}});c.addEventListener('pointerdown',e=>{if(mode==='exam'){const r=c.getBoundingClientRect();mouseX=clamp((e.clientX-r.left)*W/r.width,40,920);keys.add('fire')}});c.addEventListener('pointerup',()=>keys.delete('fire'));c.addEventListener('pointercancel',()=>keys.delete('fire'));
+document.querySelectorAll('[data-game]').forEach(b=>b.addEventListener('click',()=>select(b.dataset.game)));
+$('#startBtn').addEventListener('click',()=>{if(chosen==='restart'){init();chosen='';update()}else if(chosen==='next'&&mode==='ten'){state=newTenState(state.level+1,state.score,state.lives);chosen='';update()}hidePanel()});$('#pauseBtn').addEventListener('click',()=>{if(!state)return;if(paused){hidePanel();$('#pauseBtn').textContent='⏸ Pausa'}else{panel('⏸ En pausa','El juego está detenido.','▶ Continuar');chosen='resume';$('#pauseBtn').textContent='▶ Seguir'}});$('#menuBtn').addEventListener('click',()=>{paused=true;mode='';state=null;mouseX=null;keys.clear();$('#shell').classList.remove('active');$('#games').classList.remove('hidden')});
+// Accesos directos desde las tarjetas de Cafetería; fuera del bucle de animación.
+const juegosDesdeCafeteria = {aprobado:'ten', lluvia:'exam', rompeapuntes:'brick', recreo:'recess'};
+function abrirJuegoEnlazado(){
+  const elegido=juegosDesdeCafeteria[decodeURIComponent(window.location.hash.slice(1))];
+  if(elegido && elegido!==mode)select(elegido);
+}
+window.addEventListener('hashchange',abrirJuegoEnlazado);
+abrirJuegoEnlazado();
+raf=requestAnimationFrame(tick);
+})();
+</script></body></html>
