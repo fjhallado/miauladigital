@@ -1,0 +1,11 @@
+Mi Aula Digital V1.4.51 — Nueva sección Cafetería
+
+- Menú principal: Cafetería, accesible desde todas las páginas principales.
+- Página cafeteria.html con bienvenida y catálogo de minijuegos.
+- El impostor trasladado del índice Laboratorio a Cafetería; el juego conserva su URL original.
+- Inicio: nueva sección Cafetería y acceso directo.
+- juegos.html redirige ahora a cafeteria.html.
+- Área preparada para incorporar próximos minijuegos. No se han inventado enlaces a juegos inexistentes.
+- Sin cambios en los exámenes ni en los laboratorios.
+
+Archivos modificados/nuevos: index.html, cafeteria.html, juegos.html, laboratorio.html, estilos.css, resto de *.html principales (menú), VERSION.txt.

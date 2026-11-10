@@ -1,0 +1,3 @@
+V1.4.50 - Examen de tabla periódica en página independiente, con recuperación local, bloqueo de nuevos intentos y reinicio autorizado con contraseña del profesor.
+Actualiza recursos/tabla-periodica/index.html, examen.html (nuevo), examen-tabla.js y estilos.css.
+La protección es local al navegador: no sustituye un servidor seguro.

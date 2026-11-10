@@ -1,0 +1,1 @@
+V1.4.49 · Tabla periódica: nuevo examen mixto de símbolo, nombre y ubicación. Usa los grupos y series seleccionados. Descarga de resultados JSON y CSV. Sin cambios en los demás laboratorios ni en Novedades.

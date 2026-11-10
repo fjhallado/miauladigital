@@ -1,0 +1,2 @@
+V1.4.55 — Cambios solo en recursos/tabla-periodica/examen.html, examen-tabla.js e index.html.
+Al comenzar se oculta selección, solo se muestran preguntas y navegación de examen. Los cambios de pestaña se registran como avisos en el JSON. Si se abre la tabla de consulta en el mismo navegador mientras el examen está activo, se redirige al examen. El bloqueo no cubre otros navegadores/dispositivos ni resiste borrar el almacenamiento.

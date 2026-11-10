@@ -1,0 +1,1 @@
+V1.4.54: se restaura íntegramente el arcade original v3 y se añaden los accesos directos desde Cafetería fuera del bucle de juego. No se modifican los exámenes ni los laboratorios. Para actualizar V1.4.53: sustituir exclusivamente juegos/arcade-escolar.html.

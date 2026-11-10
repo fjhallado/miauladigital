@@ -1,0 +1,9 @@
+Mi Aula Digital v1.4.52
+
+Cambios:
+- Examen tabla periódica en página independiente sin tabla de consulta ni práctica. Acceso desde laboratorio en pestaña nueva; mantiene selección, guardado y reinicio del profesor.
+- Cafetería sin icono de café en la navegación; cuatro minijuegos escolares jugables en juegos/recreo.html.
+
+Advertencia: un navegador y GitHub Pages no pueden impedir con seguridad que un alumno consulte otras pestañas, fuentes HTML o dispositivos. Para vigilancia o control real se precisa entorno de examen administrado.
+
+Minijuegos recreados para esta versión; no se han recuperado sus archivos originales de otras sesiones.
