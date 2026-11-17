@@ -15,7 +15,16 @@ const identifySolutionBtn=document.createElement('button');identifySolutionBtn.i
 identifySolutionBtn.onclick=()=>{identifySol=!identifySol;window.MADViews160?.identifySolution(identifySol);identifySolutionBtn.textContent=identifySol?'✎ Volver a mi intento':'◈ Ver solución'};
 const isoSolutionBtn=document.createElement('button');isoSolutionBtn.type='button';isoSolutionBtn.id='isoSolution160';isoSolutionBtn.textContent='◈ Ver solución';let isoSol=false;
 
-for(const id of ['size','zoom']){const node=$(id);if(node){let label=node.closest('label');config.append(label)}}
+// The same grid selector is permanently visible for identification, drawing,
+// isometric pencil and free construction; do not hide it in the Identify sidebar.
+const gridControl=document.createElement('div');gridControl.id='globalGridControl';
+const chosenGrid=$('size');if(chosenGrid){
+ const label=chosenGrid.closest('label');label.firstChild.textContent='Cuadrícula general ';
+ gridControl.append(label);
+ const note=document.createElement('small');note.textContent='Mismo tamaño en alzado, planta, perfil y perspectiva isométrica';gridControl.append(note);
+ $('exerciseActions').parentElement.insertBefore(gridControl,$('exerciseActions'));
+}
+const zoomNode=$('zoom');if(zoomNode)config.append(zoomNode.closest('label'));
 const check=$('checkViewExercise');sidebar.insertBefore(check,config);
 // Make standard drawing tools part of the drawing panel rather than a detached top strip.
 const drawingTools=$('viewDrawingTools');right.insertBefore(drawingTools,right.querySelector('.views')||right.firstChild);
@@ -40,7 +49,7 @@ function isoDraw(){
  // Exact lattice grid: all boundary points coincide with the integer snapping nodes.
  const vertices=[[0,0,n],[n,0,n],[n,0,0],[n,n,0],[0,n,0],[0,n,n]].map(p=>P(...p));
  const edge=(a,b)=>{const A=P(...a),B=P(...b);g.beginPath();g.moveTo(...A);g.lineTo(...B);g.stroke()};
- g.strokeStyle='#9db5d0';g.lineWidth=1.15;g.setLineDash([4,4]);
+ g.strokeStyle='#a3bed8';g.lineWidth=1.05;g.setLineDash([4,5]);
  for(let i=0;i<=n;i++){
   edge([0,i,n],[n,i,n]);edge([i,0,n],[i,n,n]); // roof z=n
   edge([0,n,i],[n,n,i]);edge([i,n,0],[i,n,n]); // left visible y=n
@@ -69,7 +78,7 @@ function isoDraw(){
  g.lineJoin='round';g.lineCap='round';g.lineWidth=2.7;g.strokeStyle='#90344d';
  for(const [a,b,dash] of isoSegments){g.setLineDash(dash?[6,5]:[]);let A=P(a.x,a.y,a.z),B=P(b.x,b.y,b.z);g.beginPath();g.moveTo(...A);g.lineTo(...B);g.stroke()}g.setLineDash([]);
  if(isoStart){const A=P(isoStart.x,isoStart.y,isoStart.z);if(isoHover){const B=P(isoHover.x,isoHover.y,isoHover.z);g.setLineDash([5,4]);g.strokeStyle='#d88520';g.lineWidth=2.5;g.beginPath();g.moveTo(...A);g.lineTo(...B);g.stroke();g.setLineDash([])}g.fillStyle='#df8a12';g.beginPath();g.arc(...A,5,0,Math.PI*2);g.fill()}
- g.save();g.fillStyle='#24547e';g.font='bold 12px system-ui';for(let axis=0;axis<3;axis++){const at=t=>axis===0?P(t,0,0):axis===1?P(0,t,0):P(0,0,t);for(let t=0;t<n;t++){const A=at(t),B=at(t+1);g.beginPath();g.arc((A[0]+B[0])/2,(A[1]+B[1])/2,2.5,0,Math.PI*2);g.fill()}const end=at(n);g.fillText(['X','Y','Z'][axis]+': '+n+' cuadros',Math.max(8,Math.min(w-115,end[0]+8)),Math.max(39,Math.min(h-28,end[1]-8)))}g.restore();g.fillStyle='#536980';g.font='700 13px system-ui';g.fillText('ISOMÉTRICA · DIBUJA AQUÍ',16,25);
+ g.fillStyle='#536980';g.font='700 13px system-ui';g.fillText('ISOMÉTRICA · DIBUJA AQUÍ',16,25);g.textAlign='right';g.fillStyle='#4b708f';g.font='700 12px system-ui';g.fillText('Rejilla '+n+' × '+n+' × '+n,w-17,25);g.textAlign='left';
  g.fillStyle='#aa3948';g.fillText('← ALZADO',Math.max(12,w-125),h-17);
 }
 function distanceToSegment(p,a,b){const dx=b[0]-a[0],dy=b[1]-a[1],m=dx*dx+dy*dy||1,t=Math.max(0,Math.min(1,((p[0]-a[0])*dx+(p[1]-a[1])*dy)/m));return Math.hypot(p[0]-a[0]-dx*t,p[1]-a[1]-dy*t)}
@@ -134,7 +143,7 @@ const size=$('size');size.addEventListener('change',()=>{isoSegments=[];isoStart
 for(const b of document.querySelectorAll('[data-work]'))b.addEventListener('click',()=>{if(b.dataset.work==='isometric'){isoSegments=[];isoStart=null;isoSol=false;isoSolutionBtn.textContent='◈ Ver solución'}if(b.dataset.work==='identify'){identifySol=false;identifySolutionBtn.textContent='◈ Ver solución'}if(b.dataset.work!=='build')setPencil(false);requestAnimationFrame(()=>{if(b.dataset.work==='isometric')$('viewHeading').innerHTML='<span class="heading-icon">▦</span> Vistas diédricas de referencia';if(b.dataset.work==='build')$('viewHeading').innerHTML='<span class="heading-icon">▦</span> Construye sobre las vistas';if(b.dataset.work==='views')$('viewHeading').innerHTML='<span class="heading-icon">▦</span> Dibuja alzado, planta y perfil';isoDraw();refreshOverlays()})});
 $('newViewExercise').addEventListener('click',()=>{if(document.body.dataset.training==='isometric'){isoSegments=[];isoStart=null;isoSol=false;isoSolutionBtn.textContent='◈ Ver solución';requestAnimationFrame(isoDraw)}else if(document.body.dataset.training==='identify'){identifySol=false;identifySolutionBtn.textContent='◈ Ver solución'}});
 let pending=false;const observe=new ResizeObserver(()=>{if(pending)return;pending=true;requestAnimationFrame(()=>{pending=false;isoDraw();refreshOverlays()})});observe.observe(isoWrap);for(const c of Object.values(ov))observe.observe(c.parentElement);
-window.addEventListener('resize',()=>{isoDraw();refreshOverlays()});
+window.addEventListener('resize',()=>{isoDraw();refreshOverlays()});window.addEventListener('mad-grid-resize',()=>requestAnimationFrame(()=>{isoDraw();refreshOverlays()}));
 requestAnimationFrame(()=>{isoDraw();refreshOverlays()});
 window.addEventListener('load',()=>{requestAnimationFrame(()=>requestAnimationFrame(()=>{window.MADViews160?.refresh();isoDraw();refreshOverlays()}));if(document.fonts?.ready)document.fonts.ready.then(()=>{window.MADViews160?.refresh();isoDraw();refreshOverlays()})});
 })();
