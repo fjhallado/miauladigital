@@ -1,0 +1,1 @@
+V1.4.61: seis direcciones de caras en Identificar (+X como alzado ZY); línea oculta isométrica; cuadrícula centrada; reconstrucción volumétrica por intersección de tres siluetas cerradas. Nota: no todas las piezas se pueden determinar unívocamente a partir de las tres vistas, en tal caso editar con bloques. Archivos: index.html y redisenio-161.js.

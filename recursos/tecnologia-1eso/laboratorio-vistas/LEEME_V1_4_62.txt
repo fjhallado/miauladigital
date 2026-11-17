@@ -1,0 +1,4 @@
+Mi Aula Digital V1.4.62 — Ajustes de vistas.
+Identificación: solo alzado (+X, derecha), perfil izquierdo (+Y, izquierda) y planta (+Z, arriba).
+Cuadrícula isométrica: el plano lateral izquierdo ahora corresponde a y=N visible; trazos interiores contrastados.
+Desde V1.4.61 actualizar index.html y sustituir redisenio-161.js por redisenio-162.js.

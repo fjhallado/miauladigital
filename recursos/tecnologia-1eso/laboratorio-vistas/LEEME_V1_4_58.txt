@@ -1,0 +1,4 @@
+ACTUALIZACIÓN DE VISTAS V1.4.58
+Sustituye index.html y añade redisenio-158.js en esta misma carpeta.
+Cambios: panel lateral en Identificar; herramientas dentro de Vistas; cuadrícula isométrica fija y lápiz con previsualización; Construcción desde alzado, planta y perfil con bloques y líneas; pantalla completa.
+NOTA: En Construcción, los trazos del lápiz se proyectan sobre los planos de las vistas en el modelo 3D, mientras que los bloques añaden volumen. La coincidencia entre las tres vistas requiere criterio del alumno.

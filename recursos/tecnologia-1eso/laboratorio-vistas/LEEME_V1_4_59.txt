@@ -1,0 +1,12 @@
+MI AULA DIGITAL V1.4.59 - LABORATORIO DE VISTAS
+
+1. Dibujar vistas: barra vertical de herramientas a la derecha, cuadrículas mayores, lápiz de dos clics con previsualización de trazo y borrado de segmentos unitarios.
+2. Perspectiva isométrica: retícula uniforme de tres direcciones con clipping, grosor y tono optimizados; lápiz con previsualización y borrador por tramo.
+3. Construcción libre: se conserva la edición en las vistas y se rehabilita la órbita del visor 3D; inclinación superior aumentada sin tocar la proyección diédrica aprobada.
+4. La vista principal admite pantalla completa para reducir desplazamientos.
+
+ACTUALIZACIÓN INCREMENTAL DESDE V1.4.58
+- Sustituir: recursos/tecnologia-1eso/laboratorio-vistas/index.html
+- Añadir: recursos/tecnologia-1eso/laboratorio-vistas/redisenio-159.js
+
+Esta versión NO cambia las fórmulas de orientación de alzado, planta y perfil.

@@ -1,0 +1,6 @@
+V1.4.60
+- Identificar: evaluación contra todas las superficies relevantes, aviso de faltantes y botón Ver solución.
+- Dibujar vistas: cuadriculado cuadrado dimensionado por el mayor ancho/largo/alto de la figura y recentrado del sólido.
+- Isométrico: retícula geométricamente alineada con puntos de snap y botón Ver solución.
+- Construcción libre: lápiz encadena segmentos desde el último vértice seleccionado.
+Nota: lápiz de vistas añade trazos 3D, pero no genera por sí mismo sólidos cerrados.
