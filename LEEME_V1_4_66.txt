@@ -1,0 +1,6 @@
+Mi Aula Digital V1.4.66
+
+Cambios en el Laboratorio de Vistas > Ficha 1:
+- Coloreado por caras mediante clic en zonas cerradas, en lugar de pincel libre.
+- Nueva cuadrícula adicional para dibujar la perspectiva caballera.
+- Descarga PNG actualizada para incluir la caballera.

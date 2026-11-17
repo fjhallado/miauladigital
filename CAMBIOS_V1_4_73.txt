@@ -1,0 +1,1 @@
+Recorte automático de márgenes blancos para ampliar las 24 figuras; segmentación de caras a partir de contornos negros, separando la cuadrícula gris; clic más tolerante en los bordes. Es una mejora del coloreado de imágenes raster, no una reconstrucción vectorial geométrica exacta.

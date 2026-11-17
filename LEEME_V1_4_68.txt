@@ -1,0 +1,8 @@
+Mi Aula Digital · Versión 1.4.68
+
+Cambios realizados:
+- Ficha 1 del Laboratorio de Vistas: eliminada la cuadrícula de perspectiva caballera.
+- Ficha 1: reforzados los contornos de las caras vectoriales para mejorar su visibilidad y permitir colorearlas mejor.
+- Ficha 1: añadida una guía visual de referencia para contar cuadrados.
+- Ficha 1: corregida la exportación PNG para mostrar solo alzado, perfil izquierdo y planta.
+- Laboratorio avanzado: añadidos repintados diferidos y observación de cambios de tamaño para evitar deformaciones iniciales en la figura 3D al abrir la actividad.

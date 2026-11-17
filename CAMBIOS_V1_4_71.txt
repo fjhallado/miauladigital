@@ -1,0 +1,6 @@
+Versión 1.4.71
+- Sustituidas las 24 reconstrucciones aproximadas por las 24 imágenes individuales facilitadas por el profesor, con sus contornos y cuadrículas originales.
+- Coloreado de zonas mediante detección de regiones delimitadas por las líneas negras de las figuras.
+- Exportación PDF con nombre y apellidos, curso 1.º/3.º ESO, grupo A/B, vistas y copyright en dos líneas.
+- Catálogo actualizado con las imágenes originales.
+AVISO: El coloreado automático depende de que los contornos negros estén cerrados en las imágenes. No se ha completado una verificación visual de las 24 regiones en navegador.

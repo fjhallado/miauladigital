@@ -1,0 +1,1 @@
+V1.4.64: orientación isométrica y vistas, ejercicios de sólidos conectados con rampas ocasionales en Dibujar vistas, solución isométrica corregida. Actualizar index.html y redisenio-162.js.

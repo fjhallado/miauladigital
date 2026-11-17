@@ -1,0 +1,1 @@
+V1.4.80: recuperado trazado de caras original sin marcas ni retículas; contornos finos reconstruidos a partir de todos los lados de las caras. Cuadrícula diédrica configurable existente conservada. Limitación: la vectorización original no es un modelo 3D exacto.

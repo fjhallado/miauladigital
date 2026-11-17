@@ -1,0 +1,1 @@
+Contornos compartidos y dibujados una sola vez; cuadrículas locales en caras cuadriláteras, sin malla isométrica global. Se conserva coloreado por cara y exportación. LIMITACIÓN: las 24 geometrías de origen no han sido reconstruidas manualmente y algunas caras complejas pueden seguir sin coincidir con las imágenes originales.

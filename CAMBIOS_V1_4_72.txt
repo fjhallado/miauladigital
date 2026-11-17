@@ -1,0 +1,1 @@
+Corregido visor en blanco: imagen visible de inmediato, canvas solo cuando el coloreado esté preparado y mensaje de error de carga. Se mantienen las 24 imágenes y la exportación PDF.

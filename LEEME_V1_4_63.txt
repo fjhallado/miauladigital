@@ -1,0 +1,5 @@
+V1.4.63
+- Corregida la orientación de Identificar vistas: alzado = caras grises / vista derecha; perfil izquierdo = caras amarillas / vista izquierda.
+- Ajustadas las etiquetas y la ayuda textual para que coincidan con esa convención.
+- Mejorado el ajuste de la cuadrícula isométrica: los puntos de referencia ya alcanzan las tres caras visibles completas.
+- Archivos modificados: recursos/tecnologia-1eso/laboratorio-vistas/index.html y redisenio-162.js.

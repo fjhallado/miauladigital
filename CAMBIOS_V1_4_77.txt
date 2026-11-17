@@ -1,0 +1,1 @@
+Sin cuadrículas interiores: marcas cortas de medida sobre aristas. Caras SVG continuas sin trazo individual, contornos compartidos dibujados una vez, selección por cara conservada. Nota: la geometría aproximada de origen no ha sido reconstruida como sólido 3D exacto.

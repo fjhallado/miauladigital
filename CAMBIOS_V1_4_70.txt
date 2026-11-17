@@ -1,0 +1,1 @@
+V1.4.70: 24 SVG con contornos reforzados y cuadrícula tenue en caras. Exportación PDF A4 horizontal con nombre, lámina, figura, vistas y pie de copyright. El escudo puede cargarse desde el selector de la ficha. Pendiente verificar manualmente la fidelidad geométrica de las 24 figuras frente al PDF original.

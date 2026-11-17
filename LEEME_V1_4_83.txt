@@ -1,0 +1,1 @@
+V1.4.83: figuras originales sin SVG superpuestos. Relleno por regiones de la propia imagen, conservando las aristas. Imagen y máscaras incrustadas para uso sin servidor. PDF generado desde canvas limpio: no hay recursos externos que manchen el lienzo. Logo predeterminado también incrustado. Se conservan las tres vistas y los datos curso/grupo libres.

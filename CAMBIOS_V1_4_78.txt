@@ -1,0 +1,1 @@
+V1.4.78: vertices compartidos ajustados; aristas unicas y mas finas; reticula de lineas finas dentro de caras cuadrangulares, sin marcas. Conserva coloreado y PDF. Algunas caras no cuadrangulares necesitan modelado geometrico manual.

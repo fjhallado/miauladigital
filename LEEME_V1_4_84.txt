@@ -1,0 +1,13 @@
+Mi Aula Digital V1.4.84
+
+FICHA 1 del Laboratorio de Vistas:
+- Cuadrícula independiente para Alzado, Perfil izquierdo y Planta (2×2 a 12×12).
+- La selección queda guardada por figura y por vista.
+- Cambiar una cuadrícula borra únicamente sus propios trazos (las otras se conservan).
+- La exportación PDF respeta la cantidad de cuadrados diferente en cada vista.
+- Cajetín más compacto en la zona inferior derecha, con logo dentro de la última casilla.
+- Sin cambios en las 24 imágenes y su coloreado original.
+
+Desde V1.4.83 basta con sustituir:
+recursos/tecnologia-1eso/laboratorio-vistas/ficha-1.html
+recursos/tecnologia-1eso/laboratorio-vistas/ficha1/actividad.js

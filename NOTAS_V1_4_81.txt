@@ -1,0 +1,1 @@
+V1.4.81 - Corrección del dibujo de ficha 1\nSe superponen las aristas originales filtradas en una sola capa sin cuadrículas tenues y se amplía el relleno de las caras para reducir separaciones. No se han reconstruido todavía las 24 figuras como mallas 3D exactas.\n

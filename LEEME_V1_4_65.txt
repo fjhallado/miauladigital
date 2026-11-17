@@ -1,0 +1,9 @@
+MI AULA DIGITAL V1.4.65
+Nueva actividad en Laboratorio de Vistas: Ficha 1 · 24 figuras de nivel fácil.
+Contiene las 24 ilustraciones originales del PDF del usuario, seleccionables por galería; coloreado manual sobre la ilustración; cuadrículas independientes de alzado, perfil izquierdo y planta; trazo de aristas continuas y ocultas; borrado por tramos; guardado local y exportación a PNG.
+No convierte automáticamente las ilustraciones en modelos tridimensionales giratorios ni corrige automáticamente las respuestas; son ejercicios visuales digitalizados.
+Para actualizar desde V1.4.64:
+- sustituir recursos/tecnologia-1eso/laboratorio-vistas/index.html
+- añadir recursos/tecnologia-1eso/laboratorio-vistas/ficha-1.html
+- añadir toda la carpeta recursos/tecnologia-1eso/laboratorio-vistas/ficha1/ (24 PNG y actividad.js)
+Resto de funciones y archivos de Mi Aula Digital sin modificaciones intencionadas.
