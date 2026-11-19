@@ -14,6 +14,7 @@ const madridFields=new Intl.DateTimeFormat('en-CA',{
  hour:'2-digit',minute:'2-digit',hourCycle:'h23'
 });
 let timetableDirty=false,timetableKey='';
+let labFormDirty=false,labFormKey='';
 let commentPage=null,commentLoad=0;
 const commentDate=new Intl.DateTimeFormat('es-ES',{timeZone:'Europe/Madrid',dateStyle:'short',timeStyle:'short'});
 function dateField(at){
@@ -64,6 +65,21 @@ function renderTimetable(state,unavailable){
  if($('teacherScheduleInfo').textContent!==text)$('teacherScheduleInfo').textContent=text;
 }
 
+function renderLabDeadline(state,unavailable){
+ const lab=$('teacherLabTarget').value;
+ const deadline=state.labDeadlines[lab];
+ const key=JSON.stringify([lab,deadline]);
+ $('teacherLabFields').disabled=busy||unavailable||!api.remote;
+ $('teacherLabRemove').disabled=!deadline;
+ if(!labFormDirty&&labFormKey!==key){
+  $('teacherLabDeadline').value=deadline?dateField(deadline):'';
+  labFormKey=key;
+ }
+ const info=!deadline?'Abierto sin fecha límite.':api.now()>=deadline?
+  'Cerrado desde el '+api.dateLabel(deadline)+'.':'Abierto hasta el '+api.dateLabel(deadline)+'.';
+ if($('teacherLabInfo').textContent!==info)$('teacherLabInfo').textContent=info;
+}
+
 function message(text,error=false){
  const node=$('teacherStatus');
  node.textContent=text;
@@ -87,6 +103,7 @@ function render(){
  $('teacherLogout').disabled=busy;
  $('teacherComments').hidden=!api.remote;
  renderTimetable(state,unavailable);
+ renderLabDeadline(state,unavailable);
  $('teacherMode').textContent=api.remote?(unavailable?'Sin conexión con el servidor':'Sincronización entre ordenadores'):'Solo este navegador';
  $('teacherSecurityNote').textContent=api.remote?'Los cambios llegan al abrir las páginas y se comprueban cada 20 segundos mientras están abiertas.':'Conecta el servidor de control para reiniciar los intentos y gestionar la Cafetería desde todos los ordenadores.';
 }
@@ -140,6 +157,7 @@ async function save(path,method,body,success){
     throw Error(problem?.error||'No se pudo guardar en el servidor.');
    }
    if(path==='/schedules'){timetableDirty=false;timetableKey=''}
+   if(path==='/lab-deadlines'){labFormDirty=false;labFormKey=''}
    await api.refresh(true);
    message(api.error?'El servidor guardó el cambio. La consulta posterior ha fallado.':success,!!api.error);
   }else{
@@ -214,6 +232,25 @@ $('teacherCancelSchedule').addEventListener('click',()=>{
  if(!api.remote||api.error||busy)return;
  const target=$('teacherScheduleTarget').value;
  if(confirm('¿Quitar el horario programado?'))save('/schedules','PUT',{target,schedule:null},'Horario eliminado.');
+});
+$('teacherLabTarget').addEventListener('change',()=>{
+ labFormDirty=false;
+ render();
+});
+$('teacherLabDeadline').addEventListener('input',()=>{labFormDirty=true});
+$('teacherLabForm').addEventListener('submit',event=>{
+ event.preventDefault();
+ if(!api.remote||api.error||busy)return;
+ try{
+  const closesAt=readDateField($('teacherLabDeadline'));
+  const lab=$('teacherLabTarget').value;
+  save('/lab-deadlines','PUT',{lab,closesAt},'Fecha límite guardada.');
+ }catch(error){message(error.message,true)}
+});
+$('teacherLabRemove').addEventListener('click',()=>{
+ if(!api.remote||api.error||busy)return;
+ const lab=$('teacherLabTarget').value;
+ save('/lab-deadlines','PUT',{lab,closesAt:null},'Laboratorio abierto sin fecha límite.');
 });
 function commentQuery(){
  return new URLSearchParams({board:$('teacherCommentBoard').value,state:$('teacherCommentState').value});

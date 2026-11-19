@@ -4,7 +4,8 @@ const raw=(window.MAD_CONTROL_API||'').trim();
 const url=/^https?:\/\//i.test(raw)?raw.replace(/\/+$/,''):'';
 const LOCAL_KEY='mad-profesor-controles-v1';
 const DEFAULT_SCHEDULES={cafeteria:null,tic:null,periodica:null};
-const DEFAULT={gamesEnabled:true,examsUnlocked:false,commentsAutoPublish:false,examResets:{tic:0,periodica:0},schedules:DEFAULT_SCHEDULES};
+const DEFAULT_LAB_DEADLINES={periodica:null,factorlab:null,vistas:null,htmlcss:null};
+const DEFAULT={gamesEnabled:true,examsUnlocked:false,commentsAutoPublish:false,examResets:{tic:0,periodica:0},schedules:DEFAULT_SCHEDULES,labDeadlines:DEFAULT_LAB_DEADLINES};
 const madridDate=new Intl.DateTimeFormat('es-ES',{timeZone:'Europe/Madrid',dateStyle:'short',timeStyle:'short'});
 const madridTime=new Intl.DateTimeFormat('es-ES',{timeZone:'Europe/Madrid',hour:'2-digit',minute:'2-digit',hourCycle:'h23'});
 let clock=null,boundary=null;
@@ -22,14 +23,19 @@ function parse(value){
    schedules[key]=schedule;
   }
  }
- return {gamesEnabled:value?.gamesEnabled===true,examsUnlocked:value?.examsUnlocked===true,commentsAutoPublish:value?.commentsAutoPublish===true,examResets,schedules};
+ const labDeadlines={...DEFAULT_LAB_DEADLINES};
+ for(const lab of Object.keys(labDeadlines)){
+  const deadline=value?.labDeadlines?.[lab];
+  if(Number.isSafeInteger(deadline)&&deadline>0&&deadline<=8.64e15)labDeadlines[lab]=deadline;
+ }
+ return {gamesEnabled:value?.gamesEnabled===true,examsUnlocked:value?.examsUnlocked===true,commentsAutoPublish:value?.commentsAutoPublish===true,examResets,schedules,labDeadlines};
 }
 function readLocal(){try{return {...DEFAULT,...JSON.parse(localStorage.getItem(LOCAL_KEY)||'{}')}}catch(e){return {...DEFAULT}}}
 function notify(){
  clearTimeout(boundary);
  const current=now();
- const next=Math.min(...Object.values(status.schedules).filter(Boolean)
-  .flatMap(schedule=>[schedule.startsAt,schedule.endsAt]).filter(at=>at>current));
+ const schedules=Object.values(status.schedules).filter(Boolean).flatMap(schedule=>[schedule.startsAt,schedule.endsAt]);
+ const next=Math.min(...[...schedules,...Object.values(status.labDeadlines)].filter(at=>at>current));
  if(Number.isFinite(next))boundary=setTimeout(notify,Math.min(2147483647,Math.max(1,next-current+10)));
  window.dispatchEvent(new CustomEvent('mad-control-change',{detail:{...status,ready,error}}));observers.forEach(cb=>{try{cb({...status},ready,error)}catch(e){console.error(e)}})}
 let pending=null;
@@ -74,6 +80,16 @@ function gamesNotice(){
  if(schedule.mode==='closed')return 'La Cafetería reabre el '+dateLabel(schedule.endsAt)+'.';
  if(phase(schedule)==='before')return 'La Cafetería abre el '+dateLabel(schedule.startsAt)+'.';
  return 'El horario de apertura de la Cafetería ha terminado.';
+}
+function labAccess(lab){
+ const deadline=status.labDeadlines[lab];
+ if(deadline&&now()>=deadline){
+  return {allowed:false,expired:true,message:'El plazo de la práctica terminó el '+dateLabel(deadline)+'.'};
+ }
+ if(url&&(!ready||error)){
+  return {allowed:false,message:error?'No se pudo comprobar el plazo. Vuelve a intentarlo en unos segundos.':'Consultando el plazo de la práctica…'};
+ }
+ return {allowed:true,message:deadline?'Abierto hasta el '+dateLabel(deadline)+'.':''};
 }
 function examWindow(exam){
  const schedule=status.schedules[exam];
@@ -127,7 +143,7 @@ function markGameLinks(){
  const links=document.querySelectorAll('a[href*="cafeteria.html"],a[href*="juegos.html"],a[href*="juegos/"]');
  links.forEach(link=>{if(!gamesEnabled()){link.setAttribute('aria-disabled','true');link.style.opacity='.45';link.style.pointerEvents='none';link.title='Cafetería desactivada por el profesor'}else{link.removeAttribute('aria-disabled');link.style.opacity='';link.style.pointerEvents='';link.removeAttribute('title')}})
 }
-window.MAD_CONTROL={get url(){return url},get remote(){return !!url},get ready(){return ready},get error(){return error},get status(){return {...status}},gamesEnabled,examUnlimited:()=>ready&&status.examsUnlocked,refresh,onChange,examVersion,canResetExam,now,dateLabel,timeLabel,phase,examWindow,prepareAttempt,attemptNow,attemptDeadline,updateTiming,protectGames,markGameLinks,localUpdate(data){if(url)throw Error('La sincronización remota está activada');status=parse(data);localStorage.setItem(LOCAL_KEY,JSON.stringify(status));ready=true;notify();return status}};
+window.MAD_CONTROL={get url(){return url},get remote(){return !!url},get ready(){return ready},get error(){return error},get status(){return {...status}},gamesEnabled,examUnlimited:()=>ready&&status.examsUnlocked,refresh,onChange,examVersion,canResetExam,now,dateLabel,timeLabel,phase,labAccess,examWindow,prepareAttempt,attemptNow,attemptDeadline,updateTiming,protectGames,markGameLinks,localUpdate(data){if(url)throw Error('La sincronización remota está activada');status=parse(data);localStorage.setItem(LOCAL_KEY,JSON.stringify(status));ready=true;notify();return status}};
 window.addEventListener('storage',e=>{if(!url&&e.key===LOCAL_KEY)refresh()});
 window.addEventListener('focus',()=>{if(url)refresh()});
 window.addEventListener('pageshow',()=>{if(url)refresh()});

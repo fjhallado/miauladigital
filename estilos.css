@@ -109,3 +109,5 @@ body[data-course="matematicas-1eso"] .unit-card .unit-cover {
 .board-post strong{overflow-wrap:anywhere}
 .board-more{margin-top:12px}
 .board-more[hidden]{display:none}
+.lab-grid .lab-deadline{margin:0 0 12px;font-size:.9rem}
+.lab-grid .btn[aria-disabled="true"]{opacity:.55;cursor:default}
