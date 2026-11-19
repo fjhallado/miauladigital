@@ -4,7 +4,7 @@ const raw=(window.MAD_CONTROL_API||'').trim();
 const url=/^https?:\/\//i.test(raw)?raw.replace(/\/+$/,''):'';
 const LOCAL_KEY='mad-profesor-controles-v1';
 const DEFAULT_SCHEDULES={cafeteria:null,tic:null,periodica:null};
-const DEFAULT={gamesEnabled:true,examsUnlocked:false,examResets:{tic:0,periodica:0},schedules:DEFAULT_SCHEDULES};
+const DEFAULT={gamesEnabled:true,examsUnlocked:false,commentsAutoPublish:false,examResets:{tic:0,periodica:0},schedules:DEFAULT_SCHEDULES};
 const madridDate=new Intl.DateTimeFormat('es-ES',{timeZone:'Europe/Madrid',dateStyle:'short',timeStyle:'short'});
 const madridTime=new Intl.DateTimeFormat('es-ES',{timeZone:'Europe/Madrid',hour:'2-digit',minute:'2-digit',hourCycle:'h23'});
 let clock=null,boundary=null;
@@ -22,7 +22,7 @@ function parse(value){
    schedules[key]=schedule;
   }
  }
- return {gamesEnabled:value?.gamesEnabled===true,examsUnlocked:value?.examsUnlocked===true,examResets,schedules};
+ return {gamesEnabled:value?.gamesEnabled===true,examsUnlocked:value?.examsUnlocked===true,commentsAutoPublish:value?.commentsAutoPublish===true,examResets,schedules};
 }
 function readLocal(){try{return {...DEFAULT,...JSON.parse(localStorage.getItem(LOCAL_KEY)||'{}')}}catch(e){return {...DEFAULT}}}
 function notify(){

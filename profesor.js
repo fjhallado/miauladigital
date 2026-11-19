@@ -2,7 +2,7 @@
 'use strict';
 const $=id=>document.getElementById(id);
 const api=window.MAD_CONTROL;
-const fields={teacherGames:'gamesEnabled',teacherExams:'examsUnlocked'};
+const fields={teacherGames:'gamesEnabled',teacherExams:'examsUnlocked',teacherCommentsAuto:'commentsAutoPublish'};
 const examNames={tic:'Programación TIC II',periodica:'Tabla Periódica',both:'ambos exámenes'};
 const DIGEST='4f9d462ffeaf16ab189b3d7e2a6feb2394f7faa2246e94e1cb91c5321c1a47f6';
 const SALT='MiAulaDigital-Profesor-v1:';
@@ -14,6 +14,8 @@ const madridFields=new Intl.DateTimeFormat('en-CA',{
  hour:'2-digit',minute:'2-digit',hourCycle:'h23'
 });
 let timetableDirty=false,timetableKey='';
+let commentPage=null,commentLoad=0;
+const commentDate=new Intl.DateTimeFormat('es-ES',{timeZone:'Europe/Madrid',dateStyle:'short',timeStyle:'short'});
 function dateField(at){
  const parts=Object.fromEntries(madridFields.formatToParts(at).map(({type,value})=>[type,value]));
  return parts.year+'-'+parts.month+'-'+parts.day+'T'+parts.hour+':'+parts.minute;
@@ -83,6 +85,7 @@ function render(){
  }
  $('teacherReset').disabled=busy||unavailable||!api.remote;
  $('teacherLogout').disabled=busy;
+ $('teacherComments').hidden=!api.remote;
  renderTimetable(state,unavailable);
  $('teacherMode').textContent=api.remote?(unavailable?'Sin conexión con el servidor':'Sincronización entre ordenadores'):'Solo este navegador';
  $('teacherSecurityNote').textContent=api.remote?'Los cambios llegan al abrir las páginas y se comprueban cada 20 segundos mientras están abiertas.':'Conecta el servidor de control para reiniciar los intentos y gestionar la Cafetería desde todos los ordenadores.';
@@ -111,6 +114,7 @@ async function logIn(event){
  }finally{
   busy=false;
   render();
+  if(loggedIn&&api.remote)loadComments();
  }
 }
 function request(path,method,body){
@@ -153,6 +157,8 @@ async function save(path,method,body,success){
 function logout(){
  token='';
  loggedIn=false;
+ commentLoad++;
+ $('teacherCommentList').replaceChildren();
  sessionStorage.removeItem('mad-profesor-token');
  sessionStorage.removeItem('mad-profesor-local');
  $('teacherError').textContent='';
@@ -209,6 +215,81 @@ $('teacherCancelSchedule').addEventListener('click',()=>{
  const target=$('teacherScheduleTarget').value;
  if(confirm('¿Quitar el horario programado?'))save('/schedules','PUT',{target,schedule:null},'Horario eliminado.');
 });
+function commentQuery(){
+ return new URLSearchParams({board:$('teacherCommentBoard').value,state:$('teacherCommentState').value});
+}
+function commentAuth(response){
+ if(response.status!==401)return true;
+ logout();
+ $('teacherError').textContent='La sesión ha caducado. Vuelve a acceder.';
+ return false;
+}
+async function loadComments(append=false,notice=''){
+ if(!loggedIn||!api.remote)return;
+ const version=++commentLoad;
+ const query=commentQuery();
+ if(append&&commentPage)query.set('before',commentPage);
+ const list=$('teacherCommentList'), more=$('teacherCommentsMore'), feedback=$('teacherCommentStatus');
+ if(!append){list.replaceChildren();more.hidden=true}
+ more.disabled=true;
+ feedback.textContent='Cargando comentarios…';
+ try{
+  const result=await request('/comments/moderation?'+query,'GET');
+  if(version!==commentLoad||!commentAuth(result))return;
+  if(!result.ok)throw Error('No se pudieron cargar los comentarios.');
+  const data=await result.json();
+  if(version!==commentLoad)return;
+  list.append(...data.comments.map(comment=>commentCard(comment,query)));
+  commentPage=data.nextBefore;
+  more.hidden=!commentPage;
+  feedback.textContent=notice||(list.childElementCount?'':'No hay comentarios en esta sección.');
+ }catch(error){
+  if(version===commentLoad)feedback.textContent=error.message;
+ }finally{
+  if(version===commentLoad)more.disabled=false;
+ }
+}
+function commentCard(comment,query){
+ const card=document.createElement('article');
+ card.className='board-post';
+ const author=document.createElement('strong');
+ author.textContent=comment.alias;
+ const time=document.createElement('time');
+ time.dateTime=new Date(comment.createdAt).toISOString();
+ time.textContent=commentDate.format(comment.createdAt);
+ const body=document.createElement('p');
+ body.textContent=comment.texto;
+ const actions=document.createElement('div');
+ actions.className='teacher-actions';
+ const choices=query.get('state')==='pending'?[['Publicar','publish'],['Eliminar','remove']]:[['Eliminar','remove']];
+ for(const [label,action] of choices){
+  const button=document.createElement('button');
+  button.type='button';
+  button.textContent=label;
+  button.onclick=async()=>{
+   if(action==='remove'&&!confirm('¿Eliminar este comentario?'))return;
+   for(const child of actions.children)child.disabled=true;
+   try{
+    const result=await request('/comments/moderation?'+query,'PUT',{id:comment.id,action});
+    if(!commentAuth(result))return;
+    if(!result.ok)throw Error((await result.json()).error||'No se pudo actualizar el comentario.');
+    if(card.isConnected)await loadComments(false,action==='publish'?'Comentario publicado.':'Comentario eliminado.');
+   }catch(error){
+    $('teacherCommentStatus').textContent=error.message;
+   }finally{
+    for(const child of actions.children)child.disabled=false;
+   }
+  };
+  actions.append(button);
+ }
+ card.append(author,time,body,actions);
+ return card;
+}
+for(const id of ['teacherCommentBoard','teacherCommentState']){
+ $(id).addEventListener('change',()=>loadComments());
+}
+$('teacherCommentsRefresh').addEventListener('click',()=>loadComments());
+$('teacherCommentsMore').addEventListener('click',()=>loadComments(true));
 $('teacherLogout').addEventListener('click',logout);
 api.onChange(()=>{if(loggedIn&&!busy)render()});
 render();
