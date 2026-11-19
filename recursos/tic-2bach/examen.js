@@ -7,9 +7,9 @@ const KEY="mi-aula-digital-tic2-examen-v1", HISTORY_KEY="mi-aula-digital-tic2-ex
 const RESET_PASSWORD_DIGEST="4f9d462ffeaf16ab189b3d7e2a6feb2394f7faa2246e94e1cb91c5321c1a47f6";
 const SALT='MiAulaDigital-Profesor-v1:';
 async function verifyTeacherPassword(pass){const bytes=new TextEncoder().encode(SALT+pass);const raw=await crypto.subtle.digest('SHA-256',bytes);return [...new Uint8Array(raw)].map(v=>v.toString(16).padStart(2,'0')).join('')===RESET_PASSWORD_DIGEST;}
-let state=null,done=false,interval=null,stale=false;
+let state=null,done=false,interval=null,stale=false,starting=false;
 function history(){try{const h=JSON.parse(localStorage.getItem(HISTORY_KEY)||"[]");return Array.isArray(h)?h:[]}catch(e){return []}}
-function archive(reason){if(!state)return;const h=history();h.push({student:state.student,started:state.started,finished:state.finished||null,archivedAt:stamp(),archiveReason:reason,html:state.html||"",css:state.css||"",events:state.events||[]});try{localStorage.setItem(HISTORY_KEY,JSON.stringify(h))}catch(e){alert("El historial no se ha podido guardar (almacenamiento lleno). Descarga una copia antes de continuar.");throw e}}
+function archive(reason){if(!state)return;const h=history();h.push({student:state.student,started:state.started,finished:state.finished||null,timing:state.timing||null,archivedAt:stamp(),archiveReason:reason,html:state.html||"",css:state.css||"",events:state.events||[]});try{localStorage.setItem(HISTORY_KEY,JSON.stringify(h))}catch(e){alert("El historial no se ha podido guardar (almacenamiento lleno). Descarga una copia antes de continuar.");throw e}}
 function resetExam(){
  if(stale)return;
  if(control?.canResetExam(examId,state?.resetVersion)){
@@ -30,20 +30,20 @@ async function confirmReset(){
 }
 function performReset(reason){
  if(stale)return;
- if(!confirm("El examen actual quedará archivado localmente y podrás iniciar otro con una nueva hora de finalización. ¿Continuar?"))return;
+ if(!confirm("El examen actual quedará archivado localmente y podrás iniciar otro durante el horario de examen. ¿Continuar?"))return;
  if($("resetDialog").open)$("resetDialog").close();$("resetPassword").value="";
 try{archive(reason)}catch(e){return}
 if(interval){clearInterval(interval);interval=null}localStorage.removeItem(KEY);state=null;done=false;
 $("student").value="";$("endTime").value="";$("endTime").disabled=false;$("endTimeLabel").textContent="Hora de fin: —";$("studentLabel").textContent="";$("alerts").textContent="0 avisos";$("preview").srcdoc="";$("previewStatus").textContent="Sin ejecutar";
 $("html").readOnly=false;$("css").readOnly=false;$("execute").disabled=false;$("finish").textContent="Finalizar y descargar entrega";
 $("html").value="";$("css").value="";document.dispatchEvent(new Event("exam-code-refresh"));$("timer").textContent="120:00";$("examState").textContent="Examen en curso";$("initialMsg").textContent="Reinicio autorizado. El intento anterior queda archivado en este navegador.";
-$("startExam").textContent="Comenzar nuevo examen";$("startScreen").hidden=false;$("examScreen").hidden=true;updateResetFreedom();$("student").focus();
+$("startExam").textContent="Comenzar nuevo examen";$("startScreen").hidden=false;$("examScreen").hidden=true;updateExamAccess();$("student").focus();
 }
 const stamp=()=>new Date().toISOString();
 function persist(){if(!state||stale||$("examScreen").hidden)return;state.html=$("html").value;state.css=$("css").value;try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){$("examState").textContent="No se puede guardar localmente: descarga la entrega"}}
 function log(type){if(!state||state.finished)return;state.events.push({type,at:stamp()});$("alerts").textContent=state.events.length+" avisos";persist()}
 function boot(){let saved=null;try{saved=JSON.parse(localStorage.getItem(KEY)||"null")}catch(e){}
-if(saved&&saved.started&&saved.deadline){state=saved;$("student").value=saved.student||"";$("endTime").value=saved.endTime||localHHMM(saved.deadline);$("endTime").disabled=true;$("startExam").textContent="Continuar examen iniciado";$("initialMsg").textContent="Hay un examen previo en este navegador. La hora de finalización y la cuenta atrás no se pueden modificar."}
+if(saved&&saved.started&&saved.deadline){state=saved;$("student").value=saved.student||"";$("endTime").value=saved.endTime||deadlineLabel();$("endTime").disabled=true;$("startExam").textContent="Continuar examen iniciado";$("initialMsg").textContent="Hay un examen previo en este navegador. El tiempo del intento se conserva al volver a entrar."}
 }
 function localHHMM(timestamp){const d=new Date(timestamp);return String(d.getHours()).padStart(2,"0")+":"+String(d.getMinutes()).padStart(2,"0")}
 function computeEndTime(value, now){
@@ -58,35 +58,51 @@ function computeEndTime(value, now){
  return {deadline:end.getTime()};
 }
 function isTeacherTest(){return state?.student?.trim().toLowerCase()==="fjhallado"}
-async function begin(){if(stale)return;if(state&&$("student").value.trim()!==state.student){$("initialMsg").textContent="Ya existe un examen iniciado con otro nombre ("+state.student+"). Para cambiar de alumno, usa «Reiniciar examen (profesor)».";return}if(!state){let student=$("student").value.trim();if(!student){$("initialMsg").textContent="Introduce el identificador antes de comenzar.";return}
-const startButton=$("startExam");
- startButton.disabled=true;
- const resetVersion=control?await control.versionForNewAttempt(examId):0;
- startButton.disabled=false;
- if(stale)return;
- if(resetVersion===null){$("initialMsg").textContent="No se pudo consultar el servidor. Vuelve a pulsar «Comenzar» cuando se restablezca la conexión.";return}
- let now=Date.now(),endTime=$("endTime").value;
- const end=computeEndTime(endTime,now);
- if(end.error){$("initialMsg").textContent=end.error;return}
- state={student,started:stamp(),resetVersion,deadline:end.deadline,endTime,html:"",css:"",events:[],finished:false};
- $("endTime").disabled=true;
-}
+function clockNow(){return state?.timing?control.attemptNow(state.timing):Date.now()}
+function deadlineLabel(){return state.timing?control.timeLabel(state.deadline):localHHMM(state.deadline)}
+async function begin(){
+ if(stale||starting)return;
+ const student=$("student").value.trim();
+ if(state&&student!==state.student){
+  $("initialMsg").textContent="Ya existe un examen iniciado con otro nombre. Para cambiar de alumno, usa «Reiniciar examen (profesor)».";
+  return;
+ }
+ if(!state){
+  if(!student){$("initialMsg").textContent="Introduce el identificador antes de comenzar.";return}
+  starting=true;
+  updateExamAccess();
+  const attempt=control?await control.prepareAttempt(examId):{timing:null,resetVersion:0};
+  starting=false;
+  updateExamAccess();
+  if(stale)return;
+  if(attempt.error){$("initialMsg").textContent=attempt.error;return}
+  const {timing,resetVersion}=attempt;
+  const endTime=timing?'':$("endTime").value;
+  const end=timing?{deadline:control.attemptDeadline(timing)}:computeEndTime(endTime,Date.now());
+  if(end.error){$("initialMsg").textContent=end.error;return}
+  state={student,started:new Date(timing?control.attemptNow(timing):Date.now()).toISOString(),resetVersion,timing,deadline:end.deadline,endTime,html:"",css:"",events:[],finished:false};
+ }
 $("startScreen").hidden=true;$("examScreen").hidden=false;$("html").value=state.html||"";$("css").value=state.css||"";
 $("studentLabel").textContent="Alumno: "+state.student;
-$("endTime").value=state.endTime||localHHMM(state.deadline);
+$("endTime").value=state.endTime||deadlineLabel();
 $("endTime").disabled=true;
-$("endTimeLabel").textContent="Hora de fin: "+localHHMM(state.deadline);
+$("endTimeLabel").textContent="Hora de fin: "+deadlineLabel()+(state.timing?" (hora peninsular)":"");
 $("pasteStatus").textContent=isTeacherTest()?"Copiar y pegar habilitado (fjhallado)":"Pegado bloqueado en el editor";
 $("alerts").textContent=(state.events||[]).length+" avisos";
 if(state.finished){lock();$("examState").textContent="Examen finalizado. Descarga de nuevo tu entrega si hace falta.";}
-else{$("html").focus();tick();interval=setInterval(tick,500)}
+else if(!tick()){$("html").focus();interval=setInterval(tick,500)}
 $("preview").srcdoc="";$("previewStatus").textContent="Sin ejecutar";document.dispatchEvent(new Event("exam-code-refresh"));persist();updateResetFreedom();
 }
-function tick(){if(!state||state.finished)return;let ms=Math.max(0,state.deadline-Date.now()),s=Math.ceil(ms/1000);
-$("timer").textContent=String(Math.floor(s/60)).padStart(2,"0")+":"+String(s%60).padStart(2,"0");
-$("timer").classList.toggle("warning",s<=300);
-if(ms<=0)finish("tiempo agotado");}
-function lock(){done=true;$("html").readOnly=true;$("css").readOnly=true;$("execute").disabled=true;$("finish").textContent="Volver a descargar entrega";}
+function tick(){
+ if(!state||state.finished||$("examScreen").hidden)return false;
+ const ms=Math.max(0,state.deadline-clockNow()),s=Math.ceil(ms/1000);
+ $("timer").textContent=String(Math.floor(s/60)).padStart(2,"0")+":"+String(s%60).padStart(2,"0");
+ $("timer").classList.toggle("warning",s<=300);
+ if(ms>0)return false;
+ finish("tiempo agotado",!state.timing);
+ return true;
+}
+function lock(){done=true;$("html").readOnly=true;$("css").readOnly=true;$("execute").disabled=true;$("finish").textContent=state.timing&&state.reason==="tiempo agotado"?"Descargar entrega":"Volver a descargar entrega";}
 function output(){
  const css=$("css").value;
  // The CSS editor is a separate file, but the preview must combine both editors.
@@ -99,7 +115,7 @@ function output(){
  return '<!doctype html><html lang="es"><head><meta charset="UTF-8">'+style+'</head><body>'+content+'</body></html>';
 }
 function run(){
- if(!state)return;
+ if(!state||tick()||done)return;
  // srcdoc is loaded again on every click, including edits made only to CSS.
  $("preview").srcdoc=output();
  $("previewStatus").textContent="Actualizando…";
@@ -107,21 +123,44 @@ function run(){
 }
 $("preview").addEventListener("load",()=>{if(state)$("previewStatus").textContent="Vista previa actualizada"});
 function download(name,contents,type){let blob=new Blob([contents],{type}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),5000)}
-function finish(reason){if(!state)return;if(!state.finished){state.finished=stamp();state.reason=reason;persist();lock();$("examState").textContent="Examen finalizado ("+reason+"). Descarga y entrega tu archivo.";}
+function finish(reason,downloadFile=true){if(!state)return;if(!state.finished){clearInterval(interval);interval=null;state.finished=new Date(reason==="tiempo agotado"?state.deadline:clockNow()).toISOString();state.reason=reason;persist();lock();$("examState").textContent="Examen finalizado ("+reason+"). Descarga y entrega tu archivo.";}
+if(!downloadFile)return;
 let safe=state.student.normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-zA-Z0-9_-]/g,"_").slice(0,35);
 download("examen_TIC_II_"+safe+".json",JSON.stringify({format:"mi-aula-digital-tic-exam",version:2,...state,historyLocal:history()},null,2),"application/json");
 }
 const VOID=new Set(["area","base","br","col","embed","hr","img","input","link","meta","source","track","wbr"]);
-$("html").addEventListener("input",e=>{if(done)return;if(e.inputType==="insertText"&&e.data===">"){let p=$("html").selectionStart,left=$("html").value.slice(0,p),m=left.match(/<([A-Za-z][\w-]*)(?:\s[^<>]*?)?>$/);
+$("html").addEventListener("input",e=>{if(done||tick())return;if(e.inputType==="insertText"&&e.data===">"){let p=$("html").selectionStart,left=$("html").value.slice(0,p),m=left.match(/<([A-Za-z][\w-]*)(?:\s[^<>]*?)?>$/);
 if(m&&!VOID.has(m[1].toLowerCase())&&!/\/\s*>$/.test(m[0])){$("html").setRangeText("</"+m[1]+">",p,p,"start");$("html").setSelectionRange(p,p)}}persist()});
-$("css").addEventListener("input",persist);
-for(let id of ["html","css"]){let e=$(id);e.addEventListener("paste",ev=>{if(isTeacherTest())return;ev.preventDefault();log("intento de pegado")});e.addEventListener("drop",ev=>{if(isTeacherTest())return;ev.preventDefault();log("intento de arrastrar texto")});e.addEventListener("keydown",ev=>{if(!isTeacherTest()&&(ev.ctrlKey||ev.metaKey)&&["v"].includes(ev.key.toLowerCase()))ev.preventDefault();if(ev.key==="Tab"){ev.preventDefault();e.setRangeText("  ",e.selectionStart,e.selectionEnd,"end");persist()}})}
+$("css").addEventListener("input",()=>{if(!done&&!tick())persist()});
+for(const id of ["html","css"])$(id).addEventListener("beforeinput",event=>{if(done||tick())event.preventDefault()});
+for(let id of ["html","css"]){let e=$(id);e.addEventListener("paste",ev=>{if(isTeacherTest())return;ev.preventDefault();log("intento de pegado")});e.addEventListener("drop",ev=>{if(isTeacherTest())return;ev.preventDefault();log("intento de arrastrar texto")});e.addEventListener("keydown",ev=>{if(!isTeacherTest()&&(ev.ctrlKey||ev.metaKey)&&["v"].includes(ev.key.toLowerCase()))ev.preventDefault();if(ev.key==="Tab"&&!done&&!tick()){ev.preventDefault();e.setRangeText("  ",e.selectionStart,e.selectionEnd,"end");persist()}})}
 document.addEventListener("visibilitychange",()=>{if(document.hidden)log("pestaña oculta");else tick()});
 window.addEventListener("blur",()=>{if(state&&!state.finished)log("ventana sin foco")});
 window.addEventListener("beforeunload",persist);
 $("toggleResetPassword").onclick=()=>{const input=$("resetPassword"),shown=input.type==="password";input.type=shown?"text":"password";$("toggleResetPassword").textContent=shown?"Ocultar contraseña":"Ver contraseña";$("toggleResetPassword").setAttribute("aria-pressed",String(shown));input.focus()};
 $("cancelReset").onclick=()=>$("resetDialog").close();
 $("resetPasswordForm").addEventListener("submit",event=>{event.preventDefault();confirmReset()});
+function updateExamAccess(){
+ const window=control?.examWindow(examId);
+ $("startExam").disabled=starting||(!state&&window?.allowed===false);
+ $("manualDeadline").hidden=!!(state?state.timing:window?.schedule);
+ $("examScheduleNotice").textContent=state?'':window?.message||'';
+ if(state?.timing&&!state.finished){
+  if(control.updateTiming(examId,state.timing)){
+   state.deadline=control.attemptDeadline(state.timing);
+   $("endTimeLabel").textContent="Hora de fin: "+deadlineLabel()+(state.timing?" (hora peninsular)":"");
+   if($("examScreen").hidden){
+    try{localStorage.setItem(KEY,JSON.stringify(state))}catch{}
+   }else persist();
+  }
+  if(!$("examScreen").hidden)tick();
+  else if(control.ready&&state.deadline<=clockNow()){
+   $("student").value=state.student;
+   begin();
+  }
+ }
+ updateResetFreedom();
+}
 function updateResetFreedom(){
  const allowed=!!control?.canResetExam(examId,state?.resetVersion);
  for(const id of ['resetFromStart','resetExam']){
@@ -141,7 +180,7 @@ window.addEventListener('storage',event=>{
 });
 $("startExam").onclick=begin;$("resetFromStart").onclick=resetExam;$("resetExam").onclick=resetExam;$("execute").onclick=run;
 $("fullscreen").onclick=()=>{if(document.fullscreenElement)document.exitFullscreen();else document.documentElement.requestFullscreen?.().catch(()=>{})};
-$("finish").onclick=()=>{if(state?.finished||confirm("¿Finalizar el examen? No podrás volver a editar y se descargará el archivo de entrega."))finish("entrega del alumno")};
+$("finish").onclick=()=>{if(tick())return;if(state?.finished||confirm("¿Finalizar el examen? No podrás volver a editar y se descargará el archivo de entrega.")){if(!tick())finish("entrega del alumno")}};
 boot();
-control?.onChange(updateResetFreedom);
+if(control)control.onChange(updateExamAccess);else updateExamAccess();
 })();

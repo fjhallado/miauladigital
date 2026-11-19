@@ -30,7 +30,7 @@ body.exam-mode{background:#081528;color:#f0f5ff;margin:0;font-family:system-ui,A
 .exam-reset-dialog label{display:block;font-weight:600;margin:12px 0 7px}
 .exam-password-row{display:flex;gap:7px;align-items:stretch}.exam-password-row input{flex:1;min-width:0;background:#f7faff;border:1px solid #84a6ca;color:#13253e;border-radius:8px;padding:10px;font-size:16px}
 .exam-password-row button{white-space:nowrap}.exam-dialog-actions{display:flex;justify-content:flex-end;flex-wrap:wrap;gap:9px;margin-top:17px}
-</style><script src="../../control-config.js?v=1.4.95"></script><script src="../../control-acceso.js?v=1.4.95"></script></head>
+</style><script src="../../control-config.js?v=1.4.95"></script><script src="../../control-acceso.js?v=1.4.97"></script></head>
 <body class="exam-mode">
 <div id="startScreen" class="exam-start">
 <h1>Examen práctico de HTML y CSS</h1>
@@ -38,9 +38,10 @@ body.exam-mode{background:#081528;color:#f0f5ff;margin:0;font-family:system-ui,A
 <p>El trabajo se guarda temporalmente en este navegador. Al terminar debes descargar el archivo de entrega y facilitárselo al profesor. No borres los datos del navegador durante el examen.</p>
 <label for="student">Identificador del alumno (el indicado por el profesor)</label>
 <input id="student" maxlength="80" autocomplete="off" required placeholder="Identificador">
-<label for="endTime" style="display:block;font-weight:650">Hora de finalización del examen</label>
+<div id="manualDeadline"><label for="endTime" style="display:block;font-weight:650">Hora de finalización del examen</label>
 <input id="endTime" type="time" step="60" required aria-describedby="endTimeHelp">
-<p class="exam-msg" id="endTimeHelp" style="margin:-8px 0 16px">Indica la hora de finalización establecida por el profesor (máximo 2 horas desde el inicio). No podrás modificarla después de comenzar.</p>
+<p class="exam-msg" id="endTimeHelp" style="margin:-8px 0 16px">Indica la hora de finalización establecida por el profesor (máximo 2 horas desde el inicio). No podrás modificarla después de comenzar.</p></div>
+<p class="exam-msg" id="examScheduleNotice" role="status"></p>
 <button id="startExam" class="exam-btn primary">Comenzar examen</button> <button id="resetFromStart" class="exam-btn" type="button">Reiniciar examen (profesor)</button>
 <p class="exam-msg" id="initialMsg" role="status"></p><p class="exam-msg">Historial de intentos: se conserva localmente en este navegador y se incluye en el archivo descargado. No es un registro oculto ni seguro frente a manipulaciones.</p>
 </div>
@@ -69,4 +70,4 @@ body.exam-mode{background:#081528;color:#f0f5ff;margin:0;font-family:system-ui,A
 </form>
 </dialog>
 <script src="examen-resaltado.js?v=1.4.47"></script>
-<script src="examen.js?v=1.4.95"></script></body></html>
+<script src="examen.js?v=1.4.97"></script></body></html>
