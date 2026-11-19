@@ -6,10 +6,13 @@ let items=[],index=0,student='',finished=false,report=null,started=null;let navi
 const STORE='mi-aula-digital-examen-periodica-v1', ARCHIVE='mi-aula-digital-examen-periodica-archivo-v1';
 // Mismo código de recuperación que el examen de TIC II. En web estática la contraseña
 // es una barrera de interfaz, no una autenticación resistente a manipulación del navegador.
-const RESET_PASSWORD='@Fjhf3005';
+const RESET_PASSWORD_DIGEST='4f9d462ffeaf16ab189b3d7e2a6feb2394f7faa2246e94e1cb91c5321c1a47f6';
+const SALT='MiAulaDigital-Profesor-v1:';
+async function verifyTeacherPassword(pass){const bytes=new TextEncoder().encode(SALT+pass);const raw=await crypto.subtle.digest('SHA-256',bytes);return [...new Uint8Array(raw)].map(v=>v.toString(16).padStart(2,'0')).join('')===RESET_PASSWORD_DIGEST;}
 const examPage=!!$('exam-reset-dialog');
-let selectionSnapshot=null;
-function saveExam(){if(!examPage||!started)return;try{localStorage.setItem(STORE,JSON.stringify({items,index,student,finished,report,started,selection:selectionSnapshot,navigationAlerts}))}catch(e){console.warn('No se ha podido guardar el examen',e);if($('exam-aviso'))$('exam-aviso').textContent='Atención: el navegador no puede guardar el examen. Descarga tu entrega en cuanto termines.'}}
+const control=window.MAD_CONTROL, examId='periodica';
+let selectionSnapshot=null,resetVersion=0,stale=false;
+function saveExam(){if(!examPage||!started||stale)return;try{localStorage.setItem(STORE,JSON.stringify({items,index,student,finished,report,started,resetVersion,selection:selectionSnapshot,navigationAlerts}))}catch(e){console.warn('No se ha podido guardar el examen',e);if($('exam-aviso'))$('exam-aviso').textContent='Atención: el navegador no puede guardar el examen. Descarga tu entrega en cuanto termines.'}}
 function captureSelection(){return {mode:choiceMode.value,groups:[...chosenGroups],families:[...chosenFamilies],lanthanides:lanthanidesCheck.checked,actinides:actinidesCheck.checked,scope:$('alcance').value,count:$('exam-cantidad').value}}
 function restoreSelection(s){if(!s)return;choiceMode.value=s.mode||'grupos';chosenGroups.clear();(s.groups||[]).forEach(x=>chosenGroups.add(x));chosenFamilies.clear();(s.families||[]).forEach(x=>chosenFamilies.add(x));lanthanidesCheck.checked=!!s.lanthanides;actinidesCheck.checked=!!s.actinides;$('alcance').value=s.scope||'118';$('exam-cantidad').value=s.count||'15';drawOptions();selectionSummary()}
 function lockSelection(locked){$('tipo-seleccion').disabled=locked;$('alcance').disabled=locked;$('exam-cantidad').disabled=locked;$('exam-alumno').readOnly=locked;for(const id of ['incluir-lantanidos','incluir-actinidos','seleccionar-todo','borrar-seleccion'])$(id).disabled=locked;document.querySelectorAll('#opciones-seleccion input').forEach(el=>el.disabled=locked)}
@@ -19,11 +22,19 @@ function showResults(){if(!report)return;const score=report.nota,correct=report.
  $('exam-resumen').textContent=`${correct} de ${items.length} correctas · ${student}`;if($('exam-alert-summary'))$('exam-alert-summary').textContent=`Registro de navegación: ${navigationAlerts.length} avisos. Los cambios de pestaña no prueban que se hayan consultado respuestas.`;
  $('exam-detalle').replaceChildren();report.respuestas.forEach(r=>{let a=document.createElement('article');a.className='exam-review-item '+(r.correcta?'ok':'bad');let head=document.createElement('strong');head.textContent=`${r.numero}. ${modeLabels[r.tipo]} · ${r.correcta?'Correcta':'Incorrecta'}`;let p=document.createElement('p');p.textContent=`Tu respuesta: ${r.respuesta} · Solución: ${r.solucion}`;a.append(head,p);$('exam-detalle').append(a)})}
 function bootExam(){if(!examPage)return;let saved;try{saved=JSON.parse(localStorage.getItem(STORE)||'null')}catch(e){};if(!saved||!saved.started||!Array.isArray(saved.items)||!saved.items.length){updateVisibility();return}
- ({items,index,student,finished,report,started}=saved);index=Math.min(Math.max(0,Number(index)||0),items.length-1);selectionSnapshot=saved.selection;navigationAlerts=Array.isArray(saved.navigationAlerts)?saved.navigationAlerts:[];restoreSelection(selectionSnapshot);$('exam-alumno').value=student;updateVisibility();if(finished){showResults()}else{render();$('exam-aviso').textContent='Examen recuperado. Las respuestas anteriores y la selección permanecen guardadas.'}}
-function resetDialog(){if(!examPage)return;const d=$('exam-reset-dialog');$('exam-reset-password').value='';$('exam-reset-password').type='password';$('exam-ver-password').textContent='Ver contraseña';$('exam-ver-password').setAttribute('aria-pressed','false');$('exam-reset-error').textContent='';d.showModal();$('exam-reset-password').focus()}
-function authorizeReset(){if($('exam-reset-password').value!==RESET_PASSWORD){$('exam-reset-error').textContent='Contraseña incorrecta.';return}if(!confirm('¿Autorizar un nuevo examen? El anterior quedará archivado únicamente en este navegador.'))return;
- try{if(started){let hist=JSON.parse(localStorage.getItem(ARCHIVE)||'[]');if(!Array.isArray(hist))hist=[];hist.push({student,started,finished,selection:selectionSnapshot,items,report,navigationAlerts,archivedAt:new Date().toISOString()});localStorage.setItem(ARCHIVE,JSON.stringify(hist))}}catch(e){$('exam-reset-error').textContent='No se ha podido archivar el examen. Comprueba el almacenamiento antes de reiniciar.';return}
- localStorage.removeItem(STORE);items=[];index=0;student='';finished=false;report=null;started=null;selectionSnapshot=null;navigationAlerts=[];lastNavigation=0;$('exam-reset-dialog').close();$('exam-alumno').value='';$('exam-pregunta').replaceChildren();$('exam-detalle').replaceChildren();updateVisibility();selectionSummary();$('exam-estado').textContent='Reinicio autorizado. Ya puedes comenzar un nuevo examen.';$('exam-alumno').focus();}
+ ({items,index,student,finished,report,started}=saved);index=Math.min(Math.max(0,Number(index)||0),items.length-1);resetVersion=saved.resetVersion||0;selectionSnapshot=saved.selection;navigationAlerts=Array.isArray(saved.navigationAlerts)?saved.navigationAlerts:[];restoreSelection(selectionSnapshot);$('exam-alumno').value=student;updateVisibility();if(finished){showResults()}else{render();$('exam-aviso').textContent='Examen recuperado. Las respuestas anteriores y la selección permanecen guardadas.'}}
+function resetDialog(){if(!examPage||stale)return;if(control?.canResetExam(examId,resetVersion)){authorizeReset(true);return;}if(control?.remote)return;const d=$('exam-reset-dialog');$('exam-reset-password').value='';$('exam-reset-password').type='password';$('exam-ver-password').textContent='Ver contraseña';$('exam-ver-password').setAttribute('aria-pressed','false');$('exam-reset-error').textContent='';d.showModal();$('exam-reset-password').focus()}
+async function authorizeReset(free=false){if(stale||(!free&&control?.remote))return;if(!free&&!await verifyTeacherPassword($('exam-reset-password').value)){$('exam-reset-error').textContent='Contraseña incorrecta.';return}if(!confirm('¿Iniciar un nuevo intento? El anterior quedará archivado únicamente en este navegador.'))return;
+ try{if(started){let hist=JSON.parse(localStorage.getItem(ARCHIVE)||'[]');if(!Array.isArray(hist))hist=[];hist.push({student,started,finished,selection:selectionSnapshot,items,report,navigationAlerts,archivedAt:new Date().toISOString()});localStorage.setItem(ARCHIVE,JSON.stringify(hist))}}catch(e){alert('No se ha podido archivar el examen. Comprueba el almacenamiento antes de reiniciar.');return}
+ localStorage.removeItem(STORE);items=[];index=0;student='';finished=false;report=null;started=null;selectionSnapshot=null;navigationAlerts=[];lastNavigation=0;if($('exam-reset-dialog').open)$('exam-reset-dialog').close();$('exam-alumno').value='';$('exam-pregunta').replaceChildren();$('exam-detalle').replaceChildren();updateVisibility();selectionSummary();updateResetFreedom();$('exam-estado').textContent='Reinicio autorizado. Ya puedes comenzar un nuevo examen.';$('exam-alumno').focus();}
+function updateResetFreedom(){
+ const allowed=!!control?.canResetExam(examId,resetVersion);
+ document.querySelectorAll('.exam-reset-control').forEach(button=>{
+  button.disabled=!!control?.remote&&(!started||!allowed);
+  button.textContent=allowed?'🔓 Nuevo intento autorizado':'🔒 Reiniciar examen (profesor)';
+  button.title=button.disabled?'El profesor puede autorizar otro intento desde su panel.':'';
+ });
+}
 if(examPage){$('exam-reiniciar-inicio').addEventListener('click',resetDialog);$('exam-reiniciar-sesion').addEventListener('click',resetDialog);$('exam-cancelar-reset').addEventListener('click',()=>$('exam-reset-dialog').close());$('exam-ver-password').addEventListener('click',()=>{const input=$('exam-reset-password');let show=input.type==='password';input.type=show?'text':'password';$('exam-ver-password').textContent=show?'Ocultar contraseña':'Ver contraseña';$('exam-ver-password').setAttribute('aria-pressed',String(show))});$('exam-reset-form').addEventListener('submit',e=>{e.preventDefault();authorizeReset()})}
 
 const shuffle=a=>{let v=[...a];for(let i=v.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[v[i],v[j]]=[v[j],v[i]]}return v};
@@ -52,7 +63,16 @@ function render(){let q=items[index],el=byElement(q),body=$('exam-pregunta');$('
  }else{let input=document.createElement('input');input.className='exam-answer';input.type='text';input.autocomplete='off';input.spellcheck=false;input.placeholder='Escribe tu respuesta';input.setAttribute('aria-label','Respuesta a la pregunta '+(index+1));input.value=q.answer??'';input.addEventListener('input',()=>{q.answer=input.value;$('exam-barra').style.width=`${100*savedAnswers()/items.length}%`;$('exam-contador').textContent=`${savedAnswers()} de ${items.length} respondidas`;saveExam()});body.append(input)}
  $('exam-anterior').disabled=index===0;$('exam-siguiente').disabled=index===items.length-1;$('exam-aviso').textContent='Puedes retroceder para revisar las respuestas antes de terminar.';
 }
-$('exam-empezar').addEventListener('click',()=>{if(examPage&&started){$('exam-estado').textContent='Ya existe un examen iniciado. Solo el profesor puede reiniciarlo.';return}let name=$('exam-alumno').value.trim().replace(/\s+/g,' ');if(!name){$('exam-alumno').focus();$('exam-seleccion').textContent='Escribe tu nombre y apellidos antes de comenzar.';return}let pool=filteredElements(),count=Number($('exam-cantidad').value);if(!pool.length){selectionSummary();$('exam-seleccion').textContent+=' Selecciona al menos una columna o familia con elementos disponibles.';return}student=name;navigationAlerts=[];lastNavigation=0;items=createQuestions(pool,count);index=0;started=new Date().toISOString();selectionSnapshot=captureSelection();finished=false;report=null;saveExam();lockSelection(true);$('exam-config').hidden=true;$('exam-resultado').hidden=true;$('exam-sesion').hidden=false;updateVisibility();render();$('examen-tabla').scrollIntoView({behavior:'smooth',block:'start'});});
+$('exam-empezar').addEventListener('click',async()=>{if(stale)return;if(examPage&&started){$('exam-estado').textContent='Ya existe un examen iniciado. Solo el profesor puede reiniciarlo.';return}let name=$('exam-alumno').value.trim().replace(/\s+/g,' ');if(!name){$('exam-alumno').focus();$('exam-seleccion').textContent='Escribe tu nombre y apellidos antes de comenzar.';return}let pool=filteredElements(),count=Number($('exam-cantidad').value);if(!pool.length){selectionSummary();$('exam-seleccion').textContent+=' Selecciona al menos una columna o familia con elementos disponibles.';return}if(examPage&&control){
+ const button=$('exam-empezar');
+ button.disabled=true;
+ const version=await control.versionForNewAttempt(examId);
+ button.disabled=false;
+ if(stale)return;
+ if(version===null){$('exam-estado').textContent='No se pudo consultar el servidor. Vuelve a intentarlo cuando se restablezca la conexión.';return}
+ resetVersion=version;
+ }
+ student=name;navigationAlerts=[];lastNavigation=0;items=createQuestions(pool,count);index=0;started=new Date().toISOString();selectionSnapshot=captureSelection();finished=false;report=null;saveExam();lockSelection(true);$('exam-config').hidden=true;$('exam-resultado').hidden=true;$('exam-sesion').hidden=false;updateVisibility();render();updateResetFreedom();$('examen-tabla').scrollIntoView({behavior:'smooth',block:'start'});});
 $('exam-anterior').addEventListener('click',()=>{if(index){index--;render();saveExam()}});$('exam-siguiente').addEventListener('click',()=>{if(index<items.length-1){index++;render();saveExam()}});
 function grading(q){const e=byElement(q);if(q.type==='ubicacion')return q.answer===e.n;return matches(String(q.answer??''),e,q.type)}
 function expected(q){let e=byElement(q);return q.type==='simbolos'?e.symbol:q.type==='nombres'?e.name:`Grupo ${e.g}, ${e.p>7?'serie inferior':`período ${e.p}`}`}
@@ -76,4 +96,15 @@ document.addEventListener('visibilitychange',()=>{if(document.hidden)noteNavigat
 window.addEventListener('blur',()=>{if(!document.hidden)noteNavigation('La ventana perdió el foco')});
 window.addEventListener('pagehide',()=>noteNavigation('La página se abandonó o recargó'));
 bootExam();
+if(examPage){
+ control?.onChange(updateResetFreedom);
+ window.addEventListener('storage',event=>{
+  if(event.key!==STORE||stale)return;
+  let previous,current;
+  try{previous=JSON.parse(event.oldValue);current=JSON.parse(event.newValue)}catch{return}
+  if(previous?.started===current?.started)return;
+  stale=true;
+  location.reload();
+ });
+}
 })();

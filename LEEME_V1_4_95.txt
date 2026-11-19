@@ -1,0 +1,11 @@
+MI AULA DIGITAL 1.4.95 · CONTROL DEL PROFESOR
+
+Desde Profesor puedes cerrar la Cafetería y autorizar un nuevo intento
+de Programación TIC II, de Tabla Periódica o de los dos exámenes.
+
+Cada alumno decide cuándo usar la autorización. Al confirmar, el
+intento anterior se archiva en su navegador.
+
+Para aplicar estos cambios en todos los ordenadores, instala o actualiza
+el Worker y configura su URL en control-config.js. Encontrarás los
+pasos en SERVIDOR_CONTROL_PROFESOR/README.md.

@@ -1,2 +1,1 @@
-Mi Aula Digital · V1.4.55
-Pantalla exclusiva de examen de tabla periódica, registro orientativo de navegación y guardia local de consulta.
+1.4.95
