@@ -43,7 +43,7 @@ if(lab){
    const result=access?.labAccess(lab)??{allowed:false,message:'No se pudo comprobar el plazo. Recarga la página.'};
    gate.hidden=result.allowed;
    if(note.textContent!==result.message)note.textContent=result.message;
-   title.textContent=result.expired?'Laboratorio cerrado':'Acceso al laboratorio';
+   title.textContent=result.closed?'Laboratorio cerrado':'Acceso al laboratorio';
    if(lastAllowed===result.allowed)return;
    root.toggleAttribute('data-lab-blocked',!result.allowed);
    if(result.allowed){

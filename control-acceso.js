@@ -5,7 +5,7 @@ const url=/^https?:\/\//i.test(raw)?raw.replace(/\/+$/,''):'';
 const LOCAL_KEY='mad-profesor-controles-v1';
 const DEFAULT_SCHEDULES={cafeteria:null,tic:null,periodica:null};
 const DEFAULT_LAB_DEADLINES={periodica:null,factorlab:null,vistas:null,htmlcss:null};
-const DEFAULT={gamesEnabled:true,examsUnlocked:false,commentsAutoPublish:false,examResets:{tic:0,periodica:0},schedules:DEFAULT_SCHEDULES,labDeadlines:DEFAULT_LAB_DEADLINES};
+const DEFAULT={gamesEnabled:true,labsEnabled:true,examsUnlocked:false,commentsAutoPublish:false,examResets:{tic:0,periodica:0},schedules:DEFAULT_SCHEDULES,labDeadlines:DEFAULT_LAB_DEADLINES};
 const madridDate=new Intl.DateTimeFormat('es-ES',{timeZone:'Europe/Madrid',dateStyle:'short',timeStyle:'short'});
 const madridTime=new Intl.DateTimeFormat('es-ES',{timeZone:'Europe/Madrid',hour:'2-digit',minute:'2-digit',hourCycle:'h23'});
 let clock=null,boundary=null;
@@ -28,7 +28,7 @@ function parse(value){
   const deadline=value?.labDeadlines?.[lab];
   if(Number.isSafeInteger(deadline)&&deadline>0&&deadline<=8.64e15)labDeadlines[lab]=deadline;
  }
- return {gamesEnabled:value?.gamesEnabled===true,examsUnlocked:value?.examsUnlocked===true,commentsAutoPublish:value?.commentsAutoPublish===true,examResets,schedules,labDeadlines};
+ return {gamesEnabled:value?.gamesEnabled===true,labsEnabled:value?.labsEnabled!==false,examsUnlocked:value?.examsUnlocked===true,commentsAutoPublish:value?.commentsAutoPublish===true,examResets,schedules,labDeadlines};
 }
 function readLocal(){try{return {...DEFAULT,...JSON.parse(localStorage.getItem(LOCAL_KEY)||'{}')}}catch(e){return {...DEFAULT}}}
 function notify(){
@@ -82,9 +82,12 @@ function gamesNotice(){
  return 'El horario de apertura de la Cafetería ha terminado.';
 }
 function labAccess(lab){
+ if(!status.labsEnabled){
+  return {allowed:false,closed:true,message:'El profesor ha desactivado el acceso a los laboratorios.'};
+ }
  const deadline=status.labDeadlines[lab];
  if(deadline&&now()>=deadline){
-  return {allowed:false,expired:true,message:'El plazo de la práctica terminó el '+dateLabel(deadline)+'.'};
+  return {allowed:false,closed:true,message:'El plazo de la práctica terminó el '+dateLabel(deadline)+'.'};
  }
  if(url&&(!ready||error)){
   return {allowed:false,message:error?'No se pudo comprobar el plazo. Vuelve a intentarlo en unos segundos.':'Consultando el plazo de la práctica…'};
