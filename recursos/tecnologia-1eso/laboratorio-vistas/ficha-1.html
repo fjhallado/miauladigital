@@ -23,10 +23,13 @@
 .vhead > label{margin:0;white-space:nowrap}
 .vhead .vgrid{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:500;color:#dbe8fb}
 .vhead select{font-size:12px;padding:5px 7px;min-width:76px}
+.fig-measures{display:flex;align-items:center;flex-wrap:wrap;justify-content:space-between;gap:8px;padding:8px 10px;margin:8px 0 12px;background:#1b3d67;border:1px solid #35639b;border-radius:10px;color:#d9ecff;font-size:12px;line-height:1.5}.fig-measures span{flex:1 1 260px}.fig-measures button{white-space:nowrap;background:#2b5d91} 
+.catalog-always-open{border:1px solid #345c91;border-radius:13px;background:#13294b;padding:10px}
+.catalog-heading{font-size:14px;font-weight:750;margin:0 0 10px;color:#edf5ff}
 </style></head><body>
 <nav class="site"><strong>Mi Aula Digital · Laboratorio de vistas</strong><a href="index.html">← Volver a las cuatro actividades</a></nav>
 <section class="intro"><h1>Ficha 1 · 24 figuras de nivel fácil</h1><p>Elige una figura de la ficha, rellena sus caras por zonas (alzado, perfil izquierdo y planta) y dibuja sus vistas. Las figuras permanecen fijas en perspectiva isométrica para que el trabajo sea más claro.</p>
-<div class="tabs"><button id="prev">← Anterior</button><button id="next">Siguiente →</button><button id="toggleGallery">▦ Elegir entre las 24 figuras</button><button id="download">⇩ Descargar plano (PDF)</button><label class="logo-control" for="logoFile">⇧ Cargar logo</label><input type="file" id="logoFile" accept="image/png,image/jpeg,image/webp" class="hidden"><label class="logo-choice"><input type="checkbox" id="logoEnabled" checked> Incluir logo</label><small id="logoStatus" class="muted"></small></div></section>
+<div class="tabs"><button id="prev">← Anterior</button><button id="next">Siguiente →</button><button id="toggleGallery">▦ Ir al catálogo de 24 figuras</button><button id="download">⇩ Descargar plano (PDF)</button><label class="logo-control" for="logoFile">⇧ Cargar logo</label><input type="file" id="logoFile" accept="image/png,image/jpeg,image/webp" class="hidden"><label class="logo-choice"><input type="checkbox" id="logoEnabled" checked> Incluir logo</label><small id="logoStatus" class="muted"></small></div></section>
 <section class="workspace">
 <div class="panel"><h2 id="figTitle">Figura 1 de 24 · Colorea las caras</h2><div class="row colors" id="colors"><button type="button" data-color="front" class="active"><i class="dot" style="background:#ef7389"></i> Alzado</button><button type="button" data-color="side"><i class="dot" style="background:#e8bf45"></i> Perfil izquierdo</button><button type="button" data-color="top"><i class="dot" style="background:#60abea"></i> Planta</button><button type="button" data-color="erase">⌫ Borrar color</button></div>
 <div class="row"><button id="clearColor">Limpiar colores</button><small>Pulsa sobre una cara para colorearla entera.</small></div>
@@ -34,10 +37,14 @@
 <div class="tip">Las ilustraciones son las 24 imágenes originales, sin líneas ni polígonos superpuestos. Pulsa directamente sobre una superficie cerrada para colorearla completa; las líneas negras y las divisiones de referencia permanecen visibles.</div>
 </div>
 <div class="panel"><h2>Dibuja las vistas de la figura <span id="figNum">1</span></h2><div class="row grid-tools" id="drawTools"><button class="active" data-tool="solid">✎ Continua</button><button data-tool="dash">┄ Oculta</button><button data-tool="erase">⌫ Borrar tramo</button><button id="undo">↶ Deshacer</button><button id="clearLines">Limpiar dibujos</button></div>
+<div class="fig-measures" role="group" aria-label="Medidas de la figura">
+  <span id="figMeasure">Cargando las medidas propuestas…</span>
+  <button id="suggestGrids" type="button" title="Recuperar las cuadrículas propuestas para esta figura">↺ Ajustar cuadrículas a la figura</button>
+</div>
 <div class="grid-views"><div class="vbox"><div class="vhead"><label for="grid-front-w">Alzado · frontal</label><div class="vgrid"><span>Rejilla</span><span>Ancho</span><select id="grid-front-w" data-grid-view="front" data-grid-axis="w" aria-label="Ancho de la cuadrícula del alzado"><option value="2">2</option><option value="3">3</option><option value="4" selected>4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option></select><span>×</span><span>Alto</span><select id="grid-front-h" data-grid-view="front" data-grid-axis="h" aria-label="Alto de la cuadrícula del alzado"><option value="2">2</option><option value="3">3</option><option value="4" selected>4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option></select></div></div><canvas data-view="front" aria-label="Dibujo del alzado"></canvas></div><div class="vbox"><div class="vhead"><label for="grid-side-w">Perfil izquierdo</label><div class="vgrid"><span>Rejilla</span><span>Ancho</span><select id="grid-side-w" data-grid-view="side" data-grid-axis="w" aria-label="Ancho de la cuadrícula del perfil izquierdo"><option value="2">2</option><option value="3">3</option><option value="4" selected>4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option></select><span>×</span><span>Alto</span><select id="grid-side-h" data-grid-view="side" data-grid-axis="h" aria-label="Alto de la cuadrícula del perfil izquierdo"><option value="2">2</option><option value="3">3</option><option value="4" selected>4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option></select></div></div><canvas data-view="side" aria-label="Dibujo del perfil izquierdo"></canvas></div><div class="vbox"><div class="vhead"><label for="grid-top-w">Planta · superior</label><div class="vgrid"><span>Rejilla</span><span>Ancho</span><select id="grid-top-w" data-grid-view="top" data-grid-axis="w" aria-label="Ancho de la cuadrícula de la planta"><option value="2">2</option><option value="3">3</option><option value="4" selected>4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option></select><span>×</span><span>Alto</span><select id="grid-top-h" data-grid-view="top" data-grid-axis="h" aria-label="Alto de la cuadrícula de la planta"><option value="2">2</option><option value="3">3</option><option value="4" selected>4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option></select></div></div><canvas data-view="top" aria-label="Dibujo de la planta"></canvas></div></div>
 <div class="tip">Las dimensiones se comparten entre las vistas (ancho: alzado/planta; alto: alzado/perfil; fondo: perfil/planta). Todos los cuadrados conservan la misma escala. Primer clic: inicio de la arista. Segundo clic: punto final. Después puedes continuar desde el último vértice. Botón derecho para soltar el lápiz. El borrador elimina un tramo de cuadrícula y respeta los demás.</div><p class="status" id="status" role="status"></p>
 </div></section>
-<section class="gallery"><details id="gallery"><summary>Catálogo de la ficha: 24 figuras originales (abrir para elegir)</summary><div id="galleryGrid" class="gallery-grid"></div></details></section>
+<section class="gallery"><div id="gallery" class="catalog-always-open"><h2 class="catalog-heading">Catálogo de la ficha · 24 figuras originales</h2><div id="galleryGrid" class="gallery-grid"></div></div></section>
 <footer>Fuente de las figuras: «Tecnología. Vistas. Ficha 1. Nivel fácil», ESOYTEC.BLOGSPOT.COM · © Francisco José Hallado Fernández · Profesor de ESO y Bachillerato.</footer>
 <script>
 /* Recurso incorporado: originales-incrustados.js */
@@ -59,7 +66,15 @@ const palette={front:'#ef7389',side:'#e8bf45',top:'#60abea'};
 let current=0,role='front',tool='solid';
 const views=['front','side','top'];
 const emptyLines=()=>({front:[],side:[],top:[]});
-const defaultGrids=()=>({front:{w:4,h:4},side:{w:4,h:4},top:{w:4,h:4}});
+// Medidas exteriores de las 24 figuras de la ficha (ancho frontal, fondo, alto).
+// Contadas con las divisiones originales; donde la cara no trae cuadrícula,
+// se han inferido por proporción con las aristas subdivididas. Revisables.
+const figureDimensions=[[6,7,5],[5,3,4],[6,6,8],[6,6,5],[6,6,6],[6,6,6],[6,4,4],[4,8,5],[6,4,6],[6,6,5],[7,6,4],[5,7,5],[8,5,7],[7,5,5],[3,10,4],[7,5,6],[5,4,4],[3,6,6],[5,6,5],[5,6,5],[6,5,5],[5,5,5],[3,6,6],[5,6,5]];
+function gridsForFigure(i){
+ const [width,depth,height]=figureDimensions[i]||[4,4,4];
+ return {front:{w:width,h:height},side:{w:depth,h:height},top:{w:width,h:depth}};
+}
+const defaultGrids=(i=0)=>gridsForFigure(i);
 const clampGrid=value=>Math.max(2,Math.min(12,Number(value)||4));
 const normalizeGrids=n=>Object.fromEntries(views.map(v=>{
  const raw=(typeof n==='object'&&n!==null)?n[v]:n;
@@ -85,19 +100,27 @@ function applyLinkedAxis(grids,dimension,value){
  if(dimension==='depth'){next.side.w=size;next.top.h=size;}
  return next;
 }
-const state=Array.from({length:figureCount},()=>({faces:{},lines:emptyLines(),n:defaultGrids()}));
+const state=Array.from({length:figureCount},(_,i)=>({faces:{},lines:emptyLines(),n:defaultGrids(i)}));
 let startingFigure=0;try{startingFigure=Number(localStorage.getItem('mad-ficha1-current')||0)||0}catch(e){}
 const cursor=Object.fromEntries(views.map(v=>[v,null]));
 const hover=Object.fromEntries(views.map(v=>[v,null]));
 const cvs=Object.fromEntries(views.map(v=>[v,document.querySelector(`[data-view="${v}"]`)]));
 let strokeClock=0;
 const message=text=>$('status').textContent=text;
-function save(){try{localStorage.setItem('mad-ficha1-v8',JSON.stringify(state.map(v=>({faces:v.faces,lines:v.lines,n:v.n}))))}catch(e){}}
+function save(){try{localStorage.setItem('mad-ficha1-v9',JSON.stringify(state.map(v=>({faces:v.faces,lines:v.lines,n:v.n}))))}catch(e){}}
 try{
-  const hasNew=!!(localStorage.getItem('mad-ficha1-v8')||localStorage.getItem('mad-ficha1-v7')||localStorage.getItem('mad-ficha1-v6')||localStorage.getItem('mad-ficha1-v5'));
-  const old=JSON.parse(localStorage.getItem('mad-ficha1-v8')||localStorage.getItem('mad-ficha1-v7')||localStorage.getItem('mad-ficha1-v6')||localStorage.getItem('mad-ficha1-v5')||localStorage.getItem('mad-ficha1-v4')||localStorage.getItem('mad-ficha1-v3')||localStorage.getItem('mad-ficha1-v2')||localStorage.getItem('mad-ficha1-v1')||'null');
-  if(Array.isArray(old))old.slice(0,figureCount).forEach((s,i)=>{if(s&&s.n){state[i].n=coupleGrids(s.n);state[i].faces=hasNew?(s.faces||{}):{};state[i].lines={...emptyLines(),...(s.lines||{})}}})
-}catch(e){}
+ const savedKey=['mad-ficha1-v9','mad-ficha1-v8','mad-ficha1-v7','mad-ficha1-v6','mad-ficha1-v5','mad-ficha1-v4','mad-ficha1-v3','mad-ficha1-v2','mad-ficha1-v1'].find(k=>localStorage.getItem(k));
+ const old=JSON.parse(savedKey?localStorage.getItem(savedKey):'null');
+ if(Array.isArray(old))old.slice(0,figureCount).forEach((saved,i)=>{
+   if(!saved)return;
+   if(savedKey==='mad-ficha1-v9'||['mad-ficha1-v8','mad-ficha1-v7','mad-ficha1-v6','mad-ficha1-v5'].includes(savedKey))state[i].faces=saved.faces||{};
+   state[i].lines={...emptyLines(),...(saved.lines||{})};
+   const anyTraces=views.some(v=>state[i].lines[v]?.length>0);
+   // Un dibujo en curso conserva su escala anterior. Si solo había coloreado,
+   // se aplica automáticamente el recuento de cuadrados de esta figura.
+   state[i].n=saved.n&&(savedKey==='mad-ficha1-v9'||anyTraces)?coupleGrids(saved.n):gridsForFigure(i);
+ });
+}catch(e){console.warn('No se pudo recuperar el trabajo anterior',e)}
 function setRole(s){role=s;document.querySelectorAll('#colors button').forEach(b=>b.classList.toggle('active',b.dataset.color===s))}
 $('colors').onclick=e=>{const b=e.target.closest('button[data-color]');if(b)setRole(b.dataset.color)};
 function renderScaleGuide(){
@@ -170,12 +193,33 @@ vector.addEventListener('click',e=>{
  if(role==='erase')delete state[current].faces[index];else state[current].faces[index]=role;
  redrawColored();save();message(role==='erase'?'Color eliminado de la cara.':'Cara coloreada.');
 });
+function syncGridControls(){
+ views.forEach(v=>{
+  const grid=state[current].n[v]||{w:4,h:4};
+  const selW=$('grid-'+v+'-w'),selH=$('grid-'+v+'-h');
+  if(selW)selW.value=String(grid.w);
+  if(selH)selH.value=String(grid.h);
+ });
+}
+$('suggestGrids').addEventListener('click',()=>{
+ const hasLines=views.some(v=>state[current].lines[v]?.length);
+ if(hasLines&&!confirm('Al recuperar las medidas de esta figura se borrarán los trazos de las tres vistas. ¿Continuar?'))return;
+ state[current].n=gridsForFigure(current);
+ if(hasLines)state[current].lines=emptyLines();
+ views.forEach(v=>{cursor[v]=null;hover[v]=null});
+ syncGridControls();drawAll();save();
+ const [w,d,h]=figureDimensions[current];
+ message(`Cuadrículas restablecidas según la figura ${current+1}: alzado ${w}×${h}, perfil ${d}×${h}, planta ${w}×${d}.`);
+});
 function loadFig(i){
   current=(i+figureCount)%figureCount;
   try{localStorage.setItem('mad-ficha1-current',String(current))}catch(e){}
   $('figTitle').textContent='Figura '+(current+1)+' de 24 · Colorea las caras';
   $('figNum').textContent=String(current+1);
-  views.forEach(v=>{const grid=state[current].n[v]||{w:4,h:4}; const selW=$('grid-'+v+'-w'); const selH=$('grid-'+v+'-h'); if(selW)selW.value=String(grid.w); if(selH)selH.value=String(grid.h);});
+  syncGridControls();
+  const [width,depth,height]=figureDimensions[current];
+  $('figMeasure').textContent=`Dimensiones propuestas · ancho ${width}, fondo ${depth}, alto ${height} cuadrados. Alzado: ${width}×${height} · Perfil: ${depth}×${height} · Planta: ${width}×${depth}.`;
+
   views.forEach(v=>{cursor[v]=null;hover[v]=null});
   renderFigure();drawAll();
   document.querySelectorAll('#galleryGrid button').forEach((b,j)=>b.classList.toggle('current',j===current));
@@ -232,8 +276,8 @@ for(const v of views){for(const axis of ['w','h']){
 $('clearLines').onclick=()=>{state[current].lines=emptyLines();views.forEach(v=>cursor[v]=null);save();drawAll();message('Dibujos borrados.');};
 $('undo').onclick=()=>{let latest=null,kind=null;for(const v of views){const lines=state[current].lines[v];if(lines.length&&(!latest||lines[lines.length-1].timestamp>latest.timestamp)){latest=lines[lines.length-1];kind=v}}if(kind)state[current].lines[kind].pop();save();drawAll()};
 $('prev').onclick=()=>loadFig(current-1); $('next').onclick=()=>loadFig(current+1);
-const galleryGrid=$('galleryGrid'); for(let i=0;i<24;i++){const b=document.createElement('button'); b.type='button'; b.innerHTML=`<img src="${urls[i]}" alt=""><strong>Figura ${i+1}</strong>`; b.onclick=()=>{loadFig(i); $('gallery').open=false; window.scrollTo({top:0,behavior:'smooth'})}; galleryGrid.append(b)}
-$('toggleGallery').onclick=()=>{$('gallery').open=!$('gallery').open;if($('gallery').open)$('gallery').scrollIntoView({behavior:'smooth',block:'start'})};
+const galleryGrid=$('galleryGrid'); for(let i=0;i<24;i++){const b=document.createElement('button'); b.type='button'; b.innerHTML=`<img src="${urls[i]}" alt=""><strong>Figura ${i+1}</strong>`; b.onclick=()=>{loadFig(i); window.scrollTo({top:0,behavior:'smooth'})}; galleryGrid.append(b)}
+$('toggleGallery').onclick=()=>{$('gallery').scrollIntoView({behavior:'smooth',block:'start'})};
 
 // A4 landscape print sheet with a complete PDF export, no external dependencies.
 const DEFAULT_LOGO=window.MAD_FICHA1_LOGO;
