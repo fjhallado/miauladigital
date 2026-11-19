@@ -26,15 +26,18 @@
 .fig-measures{display:flex;align-items:center;flex-wrap:wrap;justify-content:space-between;gap:8px;padding:8px 10px;margin:8px 0 12px;background:#1b3d67;border:1px solid #35639b;border-radius:10px;color:#d9ecff;font-size:12px;line-height:1.5}.fig-measures span{flex:1 1 260px}.fig-measures button{white-space:nowrap;background:#2b5d91} 
 .catalog-always-open{border:1px solid #345c91;border-radius:13px;background:#13294b;padding:10px}
 .catalog-heading{font-size:14px;font-weight:750;margin:0 0 10px;color:#edf5ff}
+.multi-ramp{display:inline-flex;gap:7px;align-items:center;border:1px solid #79a9d8;border-radius:8px;padding:7px 10px;font-size:12px;font-weight:750;color:#fff;background:#19426d}.multi-ramp input{accent-color:#60c0ff;width:16px;height:16px}</style><style id="access-ficha-style">
+.ficha-access{display:flex;flex-wrap:wrap;align-items:center;gap:9px;margin:5px 0 12px;padding:10px;background:#1e436b;border:1px solid #648eb9;border-radius:9px;color:#fff;font-size:12px}
+.ficha-access label{font-weight:750}.ficha-access select{padding:7px 9px;border-radius:7px;background:#102e54;color:#fff;border:1px solid #8abbeb}.ficha-access span{font-size:11px;color:#e1edf9}.ficha-access .legend-v{display:inline-flex;gap:4px;align-items:center}.ficha-swatch{display:inline-block;width:21px;height:21px;border:1px solid #152b41;background-color:#fff;border-radius:3px}.ficha-diag{background-image:repeating-linear-gradient(125deg,transparent 0px,transparent 5px,#3a5166 5px,#3a5166 6.5px)}.ficha-cross{background-image:repeating-linear-gradient(45deg,transparent 0 6px,#3a5166 6px,#3a5166 7.5px),repeating-linear-gradient(-45deg,transparent 0 6px,#3a5166 6px,#3a5166 7.5px)}.ficha-dots{background-image:radial-gradient(#3a5166 1.6px,transparent 2px);background-size:9px 9px}
 </style></head><body>
 <nav class="site"><strong>Mi Aula Digital · Laboratorio de vistas</strong><a href="index.html">← Volver a las cuatro actividades</a></nav>
-<section class="intro"><h1>Ficha 1 · 24 figuras de nivel fácil</h1><p>Elige una figura de la ficha, rellena sus caras por zonas (alzado, perfil izquierdo y planta) y dibuja sus vistas. Las figuras permanecen fijas en perspectiva isométrica para que el trabajo sea más claro.</p>
+<section class="intro"><h1>Ficha 1 · 24 figuras de nivel fácil</h1><p>Elige una figura de la ficha, identifica sus caras (alzado, perfil izquierdo y planta) con colores, tramas o números, y dibuja sus vistas. Las figuras permanecen fijas en perspectiva isométrica para que el trabajo sea más claro.</p>
 <div class="tabs"><button id="prev">← Anterior</button><button id="next">Siguiente →</button><button id="toggleGallery">▦ Ir al catálogo de 24 figuras</button><button id="download">⇩ Descargar plano (PDF)</button><label class="logo-control" for="logoFile">⇧ Cargar logo</label><input type="file" id="logoFile" accept="image/png,image/jpeg,image/webp" class="hidden"><label class="logo-choice"><input type="checkbox" id="logoEnabled" checked> Incluir logo</label><small id="logoStatus" class="muted"></small></div></section>
 <section class="workspace">
-<div class="panel"><h2 id="figTitle">Figura 1 de 24 · Colorea las caras</h2><div class="row colors" id="colors"><button type="button" data-color="front" class="active"><i class="dot" style="background:#ef7389"></i> Alzado</button><button type="button" data-color="side"><i class="dot" style="background:#e8bf45"></i> Perfil izquierdo</button><button type="button" data-color="top"><i class="dot" style="background:#60abea"></i> Planta</button><button type="button" data-color="erase">⌫ Borrar color</button></div>
-<div class="row"><button id="clearColor">Limpiar colores</button><small>Pulsa sobre una cara para colorearla entera.</small></div>
+<div class="panel"><h2 id="figTitle">Figura 1 de 24 · Identifica las caras</h2><div class="ficha-access"><label for="fichaAccessMode">◈ Identificación accesible:</label><select id="fichaAccessMode" aria-label="Representación de caras sin depender de los colores"><option value="color">Colores originales</option><option value="pattern">Tramas en blanco y negro</option><option value="number">Números grandes</option><option value="both">Tramas y números</option></select><span class="legend-v"><i class="ficha-swatch ficha-diag"></i><b>1</b> Alzado</span><span class="legend-v"><i class="ficha-swatch ficha-cross"></i><b>2</b> Perfil</span><span class="legend-v"><i class="ficha-swatch ficha-dots"></i><b>3</b> Planta</span></div><div class="row colors" id="colors"><button type="button" data-color="front" class="active"><i class="dot" style="background:#ef7389"></i> 1 · Alzado</button><button type="button" data-color="side"><i class="dot" style="background:#e8bf45"></i> 2 · Perfil izquierdo</button><button type="button" data-color="top"><i class="dot" style="background:#60abea"></i> 3 · Planta</button><button type="button" data-color="erase">⌫ Borrar marca</button></div>
+<div class="row"><label class="multi-ramp"><input type="checkbox" id="fichaMixRamp"> ◩ Combinar vistas en una misma cara (rampas)</label><small>Actívalo y pulsa la misma superficie con 1, 2 y/o 3. Repite para quitar una marca.</small></div><div class="row"><button id="clearColor">Limpiar marcas</button><small>Pulsa una cara para identificarla: 1 alzado, 2 perfil, 3 planta. Puedes usar colores, tramas o números.</small></div>
 <div class="figure-frame" id="frame"><div id="vectorFigure" role="group" aria-label="Ilustración original con superficies coloreables. Haz clic sobre una cara."></div><div id="scaleGuide" class="scale-guide" aria-hidden="true"></div></div><div id="figRef" class="fig-ref muted"></div>
-<div class="tip">Las ilustraciones son las 24 imágenes originales, sin líneas ni polígonos superpuestos. Pulsa directamente sobre una superficie cerrada para colorearla completa; las líneas negras y las divisiones de referencia permanecen visibles.</div>
+<div class="tip">Las ilustraciones son las 24 imágenes originales. El modo accesible se guarda y también se exporta al PDF. Sin líneas ni polígonos superpuestos. Pulsa directamente sobre una superficie cerrada para colorearla completa; las líneas negras y las divisiones de referencia permanecen visibles.</div>
 </div>
 <div class="panel"><h2>Dibuja las vistas de la figura <span id="figNum">1</span></h2><div class="row grid-tools" id="drawTools"><button class="active" data-tool="solid">✎ Continua</button><button data-tool="dash">┄ Oculta</button><button data-tool="erase">⌫ Borrar tramo</button><button id="undo">↶ Deshacer</button><button id="clearLines">Limpiar dibujos</button></div>
 <div class="fig-measures" role="group" aria-label="Medidas de la figura">
@@ -121,6 +124,8 @@ try{
    state[i].n=saved.n&&(savedKey==='mad-ficha1-v9'||anyTraces)?coupleGrids(saved.n):gridsForFigure(i);
  });
 }catch(e){console.warn('No se pudo recuperar el trabajo anterior',e)}
+const roleOrder=['front','side','top'];
+const asRoles=value=>Array.isArray(value)?roleOrder.filter(r=>value.includes(r)):(roleOrder.includes(value)?[value]:[]);
 function setRole(s){role=s;document.querySelectorAll('#colors button').forEach(b=>b.classList.toggle('active',b.dataset.color===s))}
 $('colors').onclick=e=>{const b=e.target.closest('button[data-color]');if(b)setRole(b.dataset.color)};
 function renderScaleGuide(){
@@ -130,6 +135,12 @@ function renderScaleGuide(){
 // generated from the same image supplies fill areas, avoiding SVG drift.
 let sourceImage=null,maskLabels=null,faceCanvas=null;
 const colors={front:[239,115,137],side:[232,191,69],top:[96,171,234]};
+const ACCESS_KEY='mad-vistas-accessibility';let accessMode='color';
+try{accessMode=localStorage.getItem(ACCESS_KEY)||'color'}catch(e){}
+if(!['color','pattern','number','both'].includes(accessMode))accessMode='color';
+const accessSelect=$('fichaAccessMode');accessSelect.value=accessMode;
+accessSelect.onchange=()=>{accessMode=accessSelect.value;try{localStorage.setItem(ACCESS_KEY,accessMode)}catch(e){};redrawColored();message('Representación accesible actualizada; se incluirá en el PDF.')};
+
 function loadImage(src){return new Promise((resolve,reject)=>{
  const im=new Image();im.onload=()=>resolve(im);im.onerror=()=>reject(new Error('Imagen no disponible'));im.src=src;
 });}
@@ -144,18 +155,46 @@ function redrawColored(){
  if(!faceCanvas||!sourceImage||!maskLabels)return;
  const w=faceCanvas.width,h=faceCanvas.height,ctx=faceCanvas.getContext('2d',{willReadFrequently:true});
  ctx.clearRect(0,0,w,h);ctx.drawImage(sourceImage,0,0,w,h);
- const img=ctx.getImageData(0,0,w,h),buf=img.data;
- const map=state[current].faces;
+ const img=ctx.getImageData(0,0,w,h),buf=img.data,map=state[current].faces;
+ const pattern=accessMode==='pattern'||accessMode==='both',numbering=accessMode==='number'||accessMode==='both';
+ const stats={},rolesById={};
+ for(const [id,value] of Object.entries(map))rolesById[id]=asRoles(value);
+ const ranges={};
  for(let i=0;i<maskLabels.length;i++){
-  const which=map[maskLabels[i]];const rgb=colors[which];if(!rgb)continue;
-  const off=i*4;
-  // Keep the source lines crisp. Color only the surface pixels, never the dark contour.
-  if(Math.max(buf[off],buf[off+1],buf[off+2])<75)continue;
-  buf[off]=Math.round(buf[off]*.52+rgb[0]*.48);
-  buf[off+1]=Math.round(buf[off+1]*.52+rgb[1]*.48);
-  buf[off+2]=Math.round(buf[off+2]*.52+rgb[2]*.48);
+  const id=maskLabels[i];if(!id||!rolesById[id]?.length)continue;
+  const v=i%w+Math.floor(i/w),r=ranges[id]||(ranges[id]={min:v,max:v});
+  r.min=Math.min(r.min,v);r.max=Math.max(r.max,v);
+ }
+ for(let i=0;i<maskLabels.length;i++){
+  const id=maskLabels[i],roles=rolesById[id];if(!roles||!roles.length)continue;
+  const off=i*4,x=i%w,y=Math.floor(i/w);
+  // Conserva los píxeles de líneas negras y cuadrículas originales de cada figura.
+  const light=Math.max(buf[off],buf[off+1],buf[off+2]);if(light<140)continue;
+  const range=ranges[id],fraction=(x+y-range.min)/(range.max-range.min+1);
+  const selected=roles.length===1?roles[0]:roles[Math.max(0,Math.min(roles.length-1,Math.floor(fraction*roles.length)))];
+  if(accessMode==='color'){
+   const rgb=colors[selected];buf[off]=Math.round(buf[off]*.52+rgb[0]*.48);
+   buf[off+1]=Math.round(buf[off+1]*.52+rgb[1]*.48);buf[off+2]=Math.round(buf[off+2]*.52+rgb[2]*.48);
+  }else{
+   const isMark=selected==='front'?((x+y)%14<2):selected==='side'?(((x+y)%18<2)||((x-y+18000)%18<2)):((x%12<3)&&(y%12<3));
+   const c=pattern&&isMark?55:(numbering?231:246);
+   buf[off]=c;buf[off+1]=pattern&&isMark?68:(numbering?236:248);buf[off+2]=pattern&&isMark?82:251;
+  }
+  if(numbering&&x%3===0&&y%3===0){const st=stats[id]||(stats[id]={x:0,y:0,c:0,roles});st.x+=x;st.y+=y;st.c++}
  }
  ctx.putImageData(img,0,0);
+ if(numbering){const labels={front:'1',side:'2',top:'3'};
+  for(const [id,st] of Object.entries(stats)){
+   if(st.c<10)continue;
+   let x=st.x/st.c,y=st.y/st.c;
+   const within=(px,py)=>px>=0&&py>=0&&px<w&&py<h&&maskLabels[Math.floor(py)*w+Math.floor(px)]==Number(id);
+   if(!within(x,y)){outer:for(let rad=1;rad<Math.max(w,h);rad+=3)for(const [dx,dy] of [[rad,0],[-rad,0],[0,rad],[0,-rad]])if(within(x+dx,y+dy)){x+=dx;y+=dy;break outer}}
+   const label=st.roles.map(r=>labels[r]).join('+');const width=Math.max(26,label.length*11+16),height=26;
+   ctx.fillStyle='#fff';ctx.strokeStyle='#20354a';ctx.lineWidth=1.7;
+   ctx.beginPath();ctx.roundRect(x-width/2,y-height/2,width,height,9);ctx.fill();ctx.stroke();
+   ctx.fillStyle='#132c42';ctx.font='bold 15px system-ui';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(label,x,y);
+  }
+ }
 }
 async function renderFigure(){
  const figure=current;
@@ -190,8 +229,14 @@ vector.addEventListener('click',e=>{
   const found=maskLabels[yy*faceCanvas.width+xx];if(found){index=found;break outer;}
  }}
  if(!index){message('Haz clic dentro de una cara delimitada por aristas negras.');return;}
- if(role==='erase')delete state[current].faces[index];else state[current].faces[index]=role;
- redrawColored();save();message(role==='erase'?'Color eliminado de la cara.':'Cara coloreada.');
+ const previous=asRoles(state[current].faces[index]);
+ if(role==='erase')delete state[current].faces[index];
+ else if($('fichaMixRamp').checked){const updated=previous.includes(role)?previous.filter(r=>r!==role):[...previous,role];
+  if(updated.length)state[current].faces[index]=roleOrder.filter(r=>updated.includes(r));else delete state[current].faces[index];
+ }else state[current].faces[index]=role;
+ redrawColored();save();
+ const total=asRoles(state[current].faces[index]);
+ message(role==='erase'?'Marcas eliminadas de la cara.':total.length>1?'Cara compartida: '+total.map(v=>({front:'alzado',side:'perfil',top:'planta'})[v]).join(' + ')+'.':'Cara identificada.');
 });
 function syncGridControls(){
  views.forEach(v=>{
@@ -214,7 +259,7 @@ $('suggestGrids').addEventListener('click',()=>{
 function loadFig(i){
   current=(i+figureCount)%figureCount;
   try{localStorage.setItem('mad-ficha1-current',String(current))}catch(e){}
-  $('figTitle').textContent='Figura '+(current+1)+' de 24 · Colorea las caras';
+  $('figTitle').textContent='Figura '+(current+1)+' de 24 · Identifica las caras';
   $('figNum').textContent=String(current+1);
   syncGridControls();
   const [width,depth,height]=figureDimensions[current];
@@ -225,7 +270,7 @@ function loadFig(i){
   document.querySelectorAll('#galleryGrid button').forEach((b,j)=>b.classList.toggle('current',j===current));
   message('Figura '+(current+1)+' cargada. Selecciona una cara para colorearla y dibuja sus vistas.');
 }
-$('clearColor').onclick=()=>{state[current].faces={};renderFigure();save();message('Colores eliminados.')};
+$('clearColor').onclick=()=>{state[current].faces={};renderFigure();save();message('Marcas eliminadas.')};
 // Misma escala gráfica por cuadrado en todas las vistas.
 function commonCell(){return Math.max(1,Math.min(...views.map(v=>{
  const r=cvs[v].getBoundingClientRect(),g=state[current].n[v];
@@ -346,7 +391,7 @@ $('download').onclick=async()=>{try{
  const ratio=Math.min(1030/faceCanvas.width,1050/faceCanvas.height);
  const fw=faceCanvas.width*ratio,fh=faceCanvas.height*ratio;
  g.drawImage(faceCanvas,135+(1030-fw)/2,300+(1050-fh)/2,fw,fh);
- g.font='bold 28px system-ui';g.fillText('FIGURA ISOMÉTRICA COLOREADA',100,248);
+ g.font='bold 28px system-ui';g.fillText(accessMode==='color'?'FIGURA ISOMÉTRICA COLOREADA':'FIGURA ISOMÉTRICA · CARAS IDENTIFICADAS',100,248);if(accessMode!=='color'){g.font='20px system-ui';g.fillText('1 = Alzado (rayas)     2 = Perfil (cruces)     3 = Planta (puntos)',100,286);}
  const labels={front:'ALZADO',side:'PERFIL IZQUIERDO',top:'PLANTA'};
  const slots={front:[1240,275],side:[1810,275],top:[1240,820]};
  // Escala única de cuadrado para alzado, perfil y planta; medidas alineadas.
