@@ -22,16 +22,18 @@
 <div aria-live="polite" hidden="" id="exam-resultado"><p id="exam-fin"></p>
 <h3>Examen finalizado</h3><p class="exam-monitor" id="exam-alert-summary"></p><p class="exam-grade" id="exam-nota"></p><p id="exam-resumen"></p>
 <div class="exam-review" id="exam-detalle"></div>
-<div class="exam-navigation"><button class="btn primary" id="exam-descargar-json" type="button">↓ Descargar entrega JSON</button><button class="btn small" id="exam-descargar-csv" type="button">↓ Descargar CSV</button><button class="btn small" id="exam-cerrar" type="button">Cerrar examen</button><button class="btn small exam-reset-control" id="exam-nuevo" type="button">🔒 Reiniciar examen (profesor)</button></div>
-<p class="note">Descarga el JSON y adjúntalo a la tarea de Teams. Después puedes cerrar el examen.</p>
+<div class="exam-navigation"><button class="btn primary" id="exam-descargar-pdf" type="button">↓ Descargar PDF</button><button class="btn small" id="exam-cerrar" type="button">Cerrar examen</button><button class="btn small exam-reset-control" id="exam-nuevo" type="button">🔒 Reiniciar examen (profesor)</button></div>
+<p class="note">Descarga el PDF con las preguntas, tus respuestas y las soluciones. Después puedes cerrar el examen.</p>
+<p id="exam-note-delivery" class="exam-selection-note" role="status" hidden></p>
 <p id="exam-save-warning" class="exam-selection-note" role="alert" hidden></p>
 </div>
 <section id="exam-cerrado" hidden aria-labelledby="exam-cerrado-titulo">
 <h3 id="exam-cerrado-titulo" tabindex="-1">Examen cerrado</h3>
 <p>Ya has terminado el examen en este navegador. El profesor puede autorizar otro intento.</p>
+<p id="exam-cerrado-delivery" class="exam-selection-note" role="status" hidden></p>
 <div class="exam-navigation">
 <a class="btn primary" href="../../index.html">Volver a Mi Aula Digital</a>
-<button class="btn small" id="exam-cerrado-descargar" type="button">Descargar entrega JSON</button>
+<button class="btn small" id="exam-cerrado-descargar" type="button">Descargar PDF</button>
 <button class="btn small exam-reset-control" id="exam-cerrado-reiniciar" type="button" hidden>Nuevo intento autorizado</button>
 </div>
 </section>
@@ -39,10 +41,10 @@
 <dialog aria-labelledby="exam-reset-title" class="exam-reset-dialog" id="exam-reset-dialog">
 <form id="exam-reset-form" method="dialog"><h3 id="exam-reset-title">Reinicio del examen · Profesor</h3><p>Introduce la contraseña para permitir un nuevo intento. El intento anterior quedará archivado en este navegador.</p><label for="exam-reset-password">Contraseña del profesor</label><div class="exam-password-row"><input autocomplete="off" id="exam-reset-password" required="" type="password"/><button aria-pressed="false" class="btn small" id="exam-ver-password" type="button">Ver contraseña</button></div><p class="exam-reset-error" id="exam-reset-error" role="alert"></p><div class="exam-navigation"><button class="btn small" id="exam-cancelar-reset" type="button">Cancelar</button><button class="btn primary" type="submit">Autorizar reinicio</button></div></form>
 </dialog>
-</section></div></main><footer><strong>Mi Aula Digital</strong><span>Examen de Física y Química · 2.º ESO</span></footer><script>
+</section></div></main><footer><strong>Mi Aula Digital</strong><span>Examen de Física y Química · 2.º ESO</span></footer><script src="correccion-periodica.js?v=1.4.102"></script><script>
 'use strict';
 // Datos de los 118 elementos: número atómico, símbolo, nombre en español.
-const raw=`H|Hidrógeno;He|Helio;Li|Litio;Be|Berilio;B|Boro;C|Carbono;N|Nitrógeno;O|Oxígeno;F|Flúor;Ne|Neón;Na|Sodio;Mg|Magnesio;Al|Aluminio;Si|Silicio;P|Fósforo;S|Azufre;Cl|Cloro;Ar|Argón;K|Potasio;Ca|Calcio;Sc|Escandio;Ti|Titanio;V|Vanadio;Cr|Cromo;Mn|Manganeso;Fe|Hierro;Co|Cobalto;Ni|Níquel;Cu|Cobre;Zn|Zinc;Ga|Galio;Ge|Germanio;As|Arsénico;Se|Selenio;Br|Bromo;Kr|Kriptón;Rb|Rubidio;Sr|Estroncio;Y|Itrio;Zr|Circonio;Nb|Niobio;Mo|Molibdeno;Tc|Tecnecio;Ru|Rutenio;Rh|Rodio;Pd|Paladio;Ag|Plata;Cd|Cadmio;In|Indio;Sn|Estaño;Sb|Antimonio;Te|Telurio;I|Yodo;Xe|Xenón;Cs|Cesio;Ba|Bario;La|Lantano;Ce|Cerio;Pr|Praseodimio;Nd|Neodimio;Pm|Prometio;Sm|Samario;Eu|Europio;Gd|Gadolinio;Tb|Terbio;Dy|Disprosio;Ho|Holmio;Er|Erbio;Tm|Tulio;Yb|Iterbio;Lu|Lutecio;Hf|Hafnio;Ta|Tántalo;W|Wolframio;Re|Renio;Os|Osmio;Ir|Iridio;Pt|Platino;Au|Oro;Hg|Mercurio;Tl|Talio;Pb|Plomo;Bi|Bismuto;Po|Polonio;At|Astato;Rn|Radón;Fr|Francio;Ra|Radio;Ac|Actinio;Th|Torio;Pa|Protactinio;U|Uranio;Np|Neptunio;Pu|Plutonio;Am|Americio;Cm|Curio;Bk|Berkelio;Cf|Californio;Es|Einstenio;Fm|Fermio;Md|Mendelevio;No|Nobelio;Lr|Lawrencio;Rf|Rutherfordio;Db|Dubnio;Sg|Seaborgio;Bh|Bohrio;Hs|Hassio;Mt|Meitnerio;Ds|Darmstadtio;Rg|Roentgenio;Cn|Copernicio;Nh|Nihonio;Fl|Flerovio;Mc|Moscovio;Lv|Livermorio;Ts|Teneso;Og|Oganesón`;
+const marking=window.MAD_PERIODIC_MARKING;
 const groupRows=[[1,18],[1,2,13,14,15,16,17,18],[1,2,13,14,15,16,17,18],Array.from({length:18},(_,i)=>i+1),Array.from({length:18},(_,i)=>i+1),[1,2,3,...Array.from({length:15},(_,i)=>i+4)],[1,2,3,...Array.from({length:15},(_,i)=>i+4)]];
 const layout=[]; groupRows.forEach((groups,period)=>groups.forEach(g=>layout.push({period:period+1,group:g})));
 // En las filas 6 y 7, la casilla del grupo 3 muestra La y Ac (las series se despliegan debajo).
@@ -60,11 +62,8 @@ const groupNames=['Metales alcalinos','Metales alcalinotérreos','Familia del es
 const familyNames={alkali:'Metales alcalinos',alkaline:'Alcalinotérreos',transition:'Metales de transición',post:'Otros metales',metalloid:'Metaloides',nonmetal:'Otros no metales',halogen:'Halógenos',noble:'Gases nobles',lanthanoid:'Lantánidos',actinoid:'Actínidos'};
 const metalloids=new Set([5,14,32,33,51,52]);const otherNon=new Set([1,6,7,8,15,16,34]);const posts=new Set([13,31,49,50,81,82,83,84,113,114,115,116]);
 function family(n,g){if(n>=58&&n<=71)return'lanthanoid';if(n>=90&&n<=103)return'actinoid';if(n===57)return'lanthanoid';if(n===89)return'actinoid';if(n===1)return'nonmetal';if(g===1)return'alkali';if(g===2)return'alkaline';if(g===17)return'halogen';if(g===18)return'noble';if(metalloids.has(n))return'metalloid';if(otherNon.has(n))return'nonmetal';if(posts.has(n))return'post';if(g>=3&&g<=12)return'transition';return'post';}
-const elements=raw.split(';').map((s,i)=>{const [symbol,name]=s.split('|');const n=i+1;const {p,g}=position.get(n);return {n,symbol,name,p,g,family:family(n,g)}});
+const elements=marking.elements.map(element=>{const {p,g}=position.get(element.n);return {...element,p,g,family:family(element.n,g)}});
 
-const clean=s=>s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim().toLowerCase().replace(/\s+/g,' ');
-const alias={74:['tungsteno'],54:['xenon'],36:['cripton'],117:['tenesino']};
-function matches(answer,el,type){if(type==='simbolos')return answer.trim()===el.symbol;return [el.name,...(alias[el.n]||[])].some(t=>clean(answer)===clean(t))}
 const chosenGroups=new Set([1,2]),chosenFamilies=new Set();
 const choiceMode=document.getElementById('tipo-seleccion'),lanthanidesCheck=document.getElementById('incluir-lantanidos'),actinidesCheck=document.getElementById('incluir-actinidos');
 function filteredElements(){const max=Number(document.getElementById('alcance').value);return elements.filter(e=>e.n<=max&&(choiceMode.value==='grupos'?((e.n>=58&&e.n<=71)?lanthanidesCheck.checked:(e.n>=90&&e.n<=103)?actinidesCheck.checked:chosenGroups.has(e.g)):chosenFamilies.has(e.family)))}
@@ -74,4 +73,4 @@ function updateSummary(){const count=filteredElements().length;document.getEleme
 choiceMode.addEventListener('change',drawOptions);lanthanidesCheck.addEventListener('change',updateSummary);actinidesCheck.addEventListener('change',updateSummary);document.getElementById('alcance').addEventListener('change',updateSummary);
 document.getElementById('seleccionar-todo').addEventListener('click',()=>{const picked=choiceMode.value==='grupos'?chosenGroups:chosenFamilies;(choiceMode.value==='grupos'?Array.from({length:18},(_,i)=>i+1):Object.keys(familyNames)).forEach(v=>picked.add(v));drawOptions()});
 document.getElementById('borrar-seleccion').addEventListener('click',()=>{(choiceMode.value==='grupos'?chosenGroups:chosenFamilies).clear();lanthanidesCheck.checked=false;actinidesCheck.checked=false;drawOptions()});drawOptions();
-</script><script src="examen-tabla.js?v=1.4.101"></script><script src="../../contador.js"></script></body></html>
+</script><script src="entrega-periodica.js?v=1.4.102"></script><script src="pdf-periodica.js?v=1.4.102"></script><script src="examen-tabla.js?v=1.4.102"></script><script src="../../contador.js"></script></body></html>

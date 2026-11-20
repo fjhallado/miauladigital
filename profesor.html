@@ -8,7 +8,7 @@
 .teacher-schedule .teacher-hint{margin:10px 0}
 #teacherComments[hidden],.teacher-schedule [hidden]{display:none}
 #teacherCommentList .teacher-actions{justify-content:flex-start;margin-top:10px}
-</style></head><body>
+.teacher-grade-scroll{overflow-x:auto}.teacher-grade-scroll table{width:100%;border-collapse:collapse;text-align:left}.teacher-grade-scroll th,.teacher-grade-scroll td{padding:10px;border-bottom:1px solid #456388;vertical-align:top}.teacher-grade-scroll td:first-child{overflow-wrap:anywhere;min-width:8rem}.teacher-grade-scroll td:not(:first-child){white-space:nowrap}#teacherPeriodicGrades[hidden]{display:none}</style></head><body>
 <header class="site-header"><div class="container header-row"><a class="branding" href="index.html"><span><strong>Mi Aula Digital</strong><small>Francisco José Hallado Fernández</small><small class="branding-role">Profesor de ESO y Bachillerato</small></span></a><nav class="header-nav"><a href="index.html">Inicio</a><a href="laboratorio.html">Laboratorio</a><a href="profesor.html" aria-current="page">🔒 Profesor</a></nav></div></header>
 <main class="teacher-shell"><div class="teacher-panel"><span class="teacher-badge">ADMINISTRACIÓN DOCENTE</span><h1>Panel del profesor</h1><p>Gestiona los horarios, la Cafetería y los intentos de examen.</p>
 <section id="teacherLogin"><h2>Acceso privado</h2><form id="teacherLoginForm" class="teacher-form"><label>Contraseña del profesor<input type="password" id="teacherPassword" autocomplete="current-password" required></label><button type="button" id="teacherShow" class="secondary">Mostrar</button><button type="submit">Acceder</button></form><p id="teacherError" role="alert"></p></section>
@@ -74,6 +74,20 @@
 <button type="button" id="teacherResetPeriodic">Reiniciar examen de Tabla Periódica</button>
 </form>
 <p class="teacher-hint" id="teacherResetHelp">Autoriza un nuevo intento en cada navegador. Cuando el alumno elija repetir, el intento anterior se archiva en ese equipo.</p>
+<fieldset class="teacher-schedule" id="teacherPeriodicGrades" hidden>
+<legend>Notas de Tabla Periódica</legend>
+<div class="teacher-actions">
+<button type="button" id="teacherGradesRefresh">Actualizar notas</button>
+</div>
+<p id="teacherGradesStatus" role="status"></p>
+<div class="teacher-grade-scroll">
+<table>
+<thead><tr><th scope="col">Identificador</th><th scope="col">Nota / 10</th><th scope="col">Aciertos</th><th scope="col">Finalización</th></tr></thead>
+<tbody id="teacherGradeRows"></tbody>
+</table>
+</div>
+<div class="teacher-actions"><button type="button" id="teacherGradesMore" hidden>Ver notas anteriores</button></div>
+</fieldset>
 <fieldset class="teacher-schedule" id="teacherComments" hidden>
 <legend>Comentarios del tablón</legend>
 <label class="teacher-option"><input type="checkbox" id="teacherCommentsAuto"><span><strong>Publicar comentarios al instante</strong><small>Con la opción desactivada, los comentarios nuevos se guardan en Pendientes para que puedas revisarlos aquí.</small></span></label>
@@ -99,4 +113,4 @@
 </fieldset>
 <div class="teacher-actions"><span id="teacherStatus" role="status">Cargando ajustes…</span><button type="button" id="teacherLogout">Cerrar sesión</button></div>
 <p class="teacher-hint" id="teacherSecurityNote"></p></section>
-</div></main><footer class="container"><strong>Mi Aula Digital</strong><span>Creada por Francisco José Hallado Fernández</span></footer><script src="profesor.js?v=1.4.101"></script></body></html>
+</div></main><footer class="container"><strong>Mi Aula Digital</strong><span>Creada por Francisco José Hallado Fernández</span></footer><script src="profesor.js?v=1.4.102"></script></body></html>

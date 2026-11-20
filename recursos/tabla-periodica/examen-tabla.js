@@ -11,9 +11,9 @@ const RESET_PASSWORD_DIGEST='4f9d462ffeaf16ab189b3d7e2a6feb2394f7faa2246e94e1cb9
 const SALT='MiAulaDigital-Profesor-v1:';
 async function verifyTeacherPassword(pass){const bytes=new TextEncoder().encode(SALT+pass);const raw=await crypto.subtle.digest('SHA-256',bytes);return [...new Uint8Array(raw)].map(v=>v.toString(16).padStart(2,'0')).join('')===RESET_PASSWORD_DIGEST;}
 const examPage=!!$('exam-reset-dialog');
-const control=window.MAD_CONTROL, examId='periodica';
+const control=window.MAD_CONTROL, delivery=window.MAD_PERIODIC_DELIVERY, examId='periodica';
 let selectionSnapshot=null,resetVersion=0,stale=false,timing=null,interval=null,starting=false,storageReadable=true;
-function clockNow(){return timing?control.attemptNow(timing):Date.now()}
+function clockNow(){return control?.attemptNow(timing)??Date.now()}
 function readExam(key){
  const raw=localStorage.getItem(key);
  try{return JSON.parse(raw)}catch{return null}
@@ -121,6 +121,7 @@ function bootExam(){
  navigationAlerts=Array.isArray(saved.navigationAlerts)?saved.navigationAlerts:[];
  restoreSelection(selectionSnapshot);
  updateVisibility();
+ if(finished)queueGrade();
  if(closed)return;
  if(finished)showResults();
  else{
@@ -180,6 +181,7 @@ async function authorizeReset(free=false){
  finished=false;
  closed=false;
  report=null;
+ updateDelivery();
  started=null;
  selectionSnapshot=null;
  navigationAlerts=[];
@@ -234,13 +236,13 @@ function renderBoard(selected){let html='<div class="exam-table-scroller" tabind
  for(let p=1;p<=9;p++)html+=`<span class="exam-axis" style="grid-column:1;grid-row:${p<=7?p+1:p+2}">${p<=7?p:p===8?'La–Lu':'Ac–Lr'}</span>`;
  for(const el of elements){let row=el.p<=7?el.p+1:el.p+2;html+=`<button type="button" class="exam-cell${selected===el.n?' picked':''}" data-exam-position="${el.n}" style="grid-column:${el.g+1};grid-row:${row}" aria-label="Grupo ${el.g}, ${el.p>7?'serie inferior':'periodo '+el.p}" aria-pressed="${selected===el.n}" title="Grupo ${el.g} · ${el.p>7?'serie inferior':'periodo '+el.p}"></button>`}
  html+='</div></div>';return html;}
-function render(){let q=items[index],el=byElement(q),body=$('exam-pregunta');$('exam-identidad').textContent=student;$('exam-progreso').textContent=`Pregunta ${index+1} de ${items.length}`;$('exam-barra').style.width=`${100*savedAnswers()/items.length}%`;$('exam-contador').textContent=`${savedAnswers()} de ${items.length} respondidas`;
- let prompt=q.type==='simbolos'?`¿Cuál es el símbolo del ${el.name}?`:q.type==='nombres'?`¿Cómo se llama el elemento ${el.symbol}?`:`¿Dónde colocarías ${el.symbol} en la tabla periódica?`;
+function render(){let q=items[index],body=$('exam-pregunta');$('exam-identidad').textContent=student;$('exam-progreso').textContent=`Pregunta ${index+1} de ${items.length}`;$('exam-barra').style.width=`${100*savedAnswers()/items.length}%`;$('exam-contador').textContent=`${savedAnswers()} de ${items.length} respondidas`;
+ const prompt=questionText(q);
  body.innerHTML=`<span class="exam-question-kind">${modeLabels[q.type]}</span><h3>${index+1}. ${prompt}</h3>`;
  if(q.type==='ubicacion'){
   body.insertAdjacentHTML('beforeend',renderBoard(q.answer));body.insertAdjacentHTML('beforeend',`<p class="exam-position-hint" id="exam-position-text">${q.answer?'Casilla seleccionada. Puedes cambiarla antes de entregar.':'Pulsa una casilla. No aparecerán nombres, símbolos ni números atómicos como ayuda.'}</p>`);
   body.querySelectorAll('[data-exam-position]').forEach(b=>b.addEventListener('click',()=>{if(finished||tickExam())return;q.answer=Number(b.dataset.examPosition);body.querySelectorAll('[data-exam-position]').forEach(x=>{let chosen=x===b;x.classList.toggle('picked',chosen);x.setAttribute('aria-pressed',String(chosen))});$('exam-position-text').textContent='Casilla seleccionada. Puedes cambiarla antes de entregar.';$('exam-barra').style.width=`${100*savedAnswers()/items.length}%`;$('exam-contador').textContent=`${savedAnswers()} de ${items.length} respondidas`;saveExam();}));
- }else{let input=document.createElement('input');input.className='exam-answer';input.type='text';input.autocomplete='off';input.spellcheck=false;input.placeholder='Escribe tu respuesta';input.setAttribute('aria-label','Respuesta a la pregunta '+(index+1));input.value=q.answer??'';input.addEventListener('input',()=>{if(finished||tickExam())return;q.answer=input.value;$('exam-barra').style.width=`${100*savedAnswers()/items.length}%`;$('exam-contador').textContent=`${savedAnswers()} de ${items.length} respondidas`;saveExam()});body.append(input)}
+ }else{let input=document.createElement('input');input.className='exam-answer';input.type='text';input.maxLength=160;input.autocomplete='off';input.spellcheck=false;input.placeholder='Escribe tu respuesta';input.setAttribute('aria-label','Respuesta a la pregunta '+(index+1));input.value=q.answer??'';input.addEventListener('input',()=>{if(finished||tickExam())return;q.answer=input.value;$('exam-barra').style.width=`${100*savedAnswers()/items.length}%`;$('exam-contador').textContent=`${savedAnswers()} de ${items.length} respondidas`;saveExam()});body.append(input)}
  $('exam-anterior').disabled=index===0;$('exam-siguiente').disabled=index===items.length-1;$('exam-aviso').textContent='Puedes retroceder para revisar las respuestas antes de terminar.';
 }
 $('exam-empezar').addEventListener('click',async()=>{
@@ -283,7 +285,33 @@ $('exam-empezar').addEventListener('click',async()=>{
  $('examen-tabla').scrollIntoView({behavior:'smooth',block:'start'});
 });
 $('exam-anterior').addEventListener('click',()=>{if(!finished&&!tickExam()&&index){index--;render();saveExam()}});$('exam-siguiente').addEventListener('click',()=>{if(!finished&&!tickExam()&&index<items.length-1){index++;render();saveExam()}});
-function grading(q){const e=byElement(q);if(q.type==='ubicacion')return q.answer===e.n;return matches(String(q.answer??''),e,q.type)}
+function grading(q){return marking.correct(q)}
+function questionText(q){
+ const element=byElement(q);
+ if(q.type==='simbolos')return '¿Cuál es el símbolo del '+element.name+'?';
+ if(q.type==='nombres')return '¿Cómo se llama el elemento '+element.symbol+'?';
+ return '¿Dónde colocarías '+element.symbol+' en la tabla periódica?';
+}
+function updateDelivery(){
+ for(const id of ['exam-note-delivery','exam-cerrado-delivery']){
+  const node=$(id);
+  if(!node)continue;
+  const active=!!report?.envioAutomatico&&!!delivery;
+  node.hidden=!active;
+  const text=active?delivery.status(report.inicio):'';
+  if(node.textContent!==text)node.textContent=text;
+ }
+}
+function queueGrade(){
+ if(report?.envioAutomatico&&items.length&&delivery){
+  const answers=items.map(({n,type,answer})=>{
+   const trimmed=typeof answer==='string'?answer.trim():answer;
+   return {n,type,answer:typeof trimmed==='string'&&trimmed.length>160?'(respuesta demasiado larga)':trimmed??null};
+  });
+  delivery.enqueue({alumno:report.alumno,inicio:report.inicio,fin:report.fin,items:answers});
+ }
+ updateDelivery();
+}
 function expected(q){let e=byElement(q);return q.type==='simbolos'?e.symbol:q.type==='nombres'?e.name:`Grupo ${e.g}, ${e.p>7?'serie inferior':`período ${e.p}`}`}
 function submitted(q){if(q.type!=='ubicacion')return String(q.answer??'').trim()||'(sin respuesta)';const e=elements[Number(q.answer)-1];return e?`Grupo ${e.g}, ${e.p>7?'serie inferior':`período ${e.p}`}`:'(sin respuesta)'}
 function finishExam(reason){
@@ -295,10 +323,11 @@ function finishExam(reason){
  clearInterval(interval);
  interval=null;
  const correct=items.filter(grading).length,score=correct/items.length*10;
- report={tipo:'Examen mixto de tabla periódica · Mi Aula Digital',version:'1.4.55',alumno:student,inicio:started,fin:new Date(reason==='tiempo agotado'?control.attemptDeadline(timing):clockNow()).toISOString(),motivo_fin:reason,preguntas:items.length,aciertos:correct,nota:Number(score.toFixed(2)),avisos_navegacion:navigationAlerts,numero_avisos_navegacion:navigationAlerts.length,seleccion:{modo:choiceMode.value,grupos:[...chosenGroups],familias:[...chosenFamilies],lantanidos:lanthanidesCheck.checked,actinidos:actinidesCheck.checked,alcance:Number($('alcance').value)},respuestas:items.map((q,i)=>({numero:i+1,tipo:q.type,elemento:byElement(q).name,simbolo:byElement(q).symbol,respuesta:submitted(q),respuesta_posicion:q.type==='ubicacion'?q.answer:null,solucion:expected(q),correcta:grading(q)}))};
+ report={tipo:'Examen mixto de tabla periódica · Mi Aula Digital',version:'1.4.55',alumno:student,inicio:started,fin:new Date(reason==='tiempo agotado'?control.attemptDeadline(timing):clockNow()).toISOString(),motivo_fin:reason,envioAutomatico:true,preguntas:items.length,aciertos:correct,nota:Number(score.toFixed(2)),avisos_navegacion:navigationAlerts,numero_avisos_navegacion:navigationAlerts.length,seleccion:{modo:choiceMode.value,grupos:[...chosenGroups],familias:[...chosenFamilies],lantanidos:lanthanidesCheck.checked,actinidos:actinidesCheck.checked,alcance:Number($('alcance').value)},respuestas:items.map((q,i)=>({numero:i+1,tipo:q.type,pregunta:questionText(q),elemento:byElement(q).name,simbolo:byElement(q).symbol,respuesta:submitted(q),respuesta_posicion:q.type==='ubicacion'?q.answer:null,solucion:expected(q),correcta:grading(q)}))};
  showResults();
  updateVisibility();
  const saved=saveCompletion();
+ queueGrade();
  showSaveWarning(!saved.reportStored,'No se pudo guardar una copia del informe. Descarga tu entrega antes de salir.');
 }
 function showSaveWarning(show,text){
@@ -362,17 +391,29 @@ function updateExamAccess(){
  tickExam();
  updateResetFreedom();
 }
-function filename(ext){let s=student.normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-zA-Z0-9_-]+/g,'_').slice(0,55);return 'Examen_Tabla_Periodica_'+(s||'alumno')+'.'+ext}
-function download(data,mime,name){let b=new Blob([data],{type:mime}),u=URL.createObjectURL(b),a=document.createElement('a');a.href=u;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(u),2000)}
-function downloadJSON(){
- if(report)download(JSON.stringify(report,null,2),'application/json;charset=utf-8',filename('json'));
+function downloadPdf(){
+ if(!report)return;
+ try{
+  const pdf=window.MAD_PERIODIC_PDF.create(report);
+  const url=URL.createObjectURL(pdf);
+  const link=document.createElement('a');
+  const name=report.alumno.normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-zA-Z0-9_-]+/g,'_').slice(0,55);
+  link.href=url;
+  link.download='Examen_Tabla_Periodica_'+(name||'alumno')+'.pdf';
+  link.click();
+  setTimeout(()=>URL.revokeObjectURL(url),12000);
+ }catch{
+  const notice=$(closed?'exam-cerrado-delivery':'exam-save-warning');
+  notice.hidden=false;
+  notice.textContent='No se pudo generar el PDF. Inténtalo de nuevo.';
+ }
 }
-$('exam-descargar-json').addEventListener('click',downloadJSON);
+$('exam-descargar-pdf').addEventListener('click',downloadPdf);
 if(examPage){
- $('exam-cerrado-descargar').addEventListener('click',downloadJSON);
+ $('exam-cerrado-descargar').addEventListener('click',downloadPdf);
  $('exam-cerrar').addEventListener('click',closeExam);
 }
-$('exam-descargar-csv').addEventListener('click',()=>{if(!report)return;let rows=[['Alumno','Nota','Nº','Tipo','Respuesta','Solución','Correcta'],...report.respuestas.map(r=>[report.alumno,report.nota,r.numero,modeLabels[r.tipo],r.respuesta,r.solucion,r.correcta?'Sí':'No'])];let csv='\uFEFF'+rows.map(row=>row.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(';')).join('\r\n');download(csv,'text/csv;charset=utf-8',filename('csv'))});
+if(delivery)window.addEventListener(delivery.events,updateDelivery);
 $('exam-nuevo').addEventListener('click',()=>{if(examPage){resetDialog();return}items=[];report=null;finished=false;$('exam-resultado').hidden=true;$('exam-config').hidden=false;selectionSummary();$('exam-alumno').focus()});
 function noteNavigation(reason){
  if(!started||finished)return;

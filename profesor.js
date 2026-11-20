@@ -16,6 +16,7 @@ const madridFields=new Intl.DateTimeFormat('en-CA',{
 let timetableDirty=false,timetableKey='';
 let labFormDirty=false,labFormKey='';
 let commentPage=null,commentLoad=0;
+let gradePage=null,gradeLoad=0;
 const commentDate=new Intl.DateTimeFormat('es-ES',{timeZone:'Europe/Madrid',dateStyle:'short',timeStyle:'short'});
 function dateField(at){
  const parts=Object.fromEntries(madridFields.formatToParts(at).map(({type,value})=>[type,value]));
@@ -104,6 +105,7 @@ function render(){
  $('teacherResetPeriodic').disabled=$('teacherReset').disabled;
  $('teacherLogout').disabled=busy;
  $('teacherComments').hidden=!api.remote;
+ $('teacherPeriodicGrades').hidden=!api.remote;
  renderTimetable(state,unavailable);
  renderLabDeadline(state,unavailable);
  $('teacherMode').textContent=api.remote?(unavailable?'Sin conexión con el servidor':'Sincronización entre ordenadores'):'Solo este navegador';
@@ -133,7 +135,10 @@ async function logIn(event){
  }finally{
   busy=false;
   render();
-  if(loggedIn&&api.remote)loadComments();
+  if(loggedIn&&api.remote){
+   loadComments();
+   loadPeriodicGrades();
+  }
  }
 }
 function request(path,method,body){
@@ -178,7 +183,10 @@ function logout(){
  token='';
  loggedIn=false;
  commentLoad++;
+ gradeLoad++;
  $('teacherCommentList').replaceChildren();
+ $('teacherGradeRows').replaceChildren();
+ $('teacherGradesStatus').textContent='';
  sessionStorage.removeItem('mad-profesor-token');
  sessionStorage.removeItem('mad-profesor-local');
  $('teacherError').textContent='';
@@ -257,10 +265,50 @@ $('teacherLabRemove').addEventListener('click',()=>{
  const lab=$('teacherLabTarget').value;
  save('/lab-deadlines','PUT',{lab,closesAt:null},'Laboratorio abierto sin fecha límite.');
 });
+function gradeRow(grade){
+ const row=document.createElement('tr');
+ for(const value of [grade.alumno,grade.nota.toFixed(2).replace('.',','),grade.aciertos+' / '+grade.preguntas,api.dateLabel(Date.parse(grade.fin))]){
+  const cell=document.createElement('td');
+  cell.textContent=value;
+  row.append(cell);
+ }
+ return row;
+}
+async function loadPeriodicGrades(append=false){
+ if(!loggedIn||!api.remote)return;
+ const generation=++gradeLoad;
+ const rows=$('teacherGradeRows'), notice=$('teacherGradesStatus'), more=$('teacherGradesMore');
+ const cursor=append?gradePage:null;
+ more.disabled=true;
+ $('teacherGradesRefresh').disabled=true;
+ notice.textContent='Cargando notas…';
+ try{
+  const response=await request('/periodic-grades'+(cursor?'?before='+encodeURIComponent(cursor):''),'GET');
+  if(generation!==gradeLoad||!checkTeacherSession(response))return;
+  if(!response.ok)throw Error('No se pudieron cargar las notas. Vuelve a intentarlo.');
+  const data=await response.json();
+  if(generation!==gradeLoad)return;
+  if(!append)rows.replaceChildren();
+  rows.append(...data.grades.map(gradeRow));
+  gradePage=data.nextBefore;
+  more.hidden=!gradePage;
+  notice.textContent=rows.childElementCount?'':'Todavía no hay notas registradas.';
+ }catch(error){
+  if(generation===gradeLoad)notice.textContent=error.message;
+ }finally{
+  if(generation===gradeLoad){
+   more.disabled=false;
+   $('teacherGradesRefresh').disabled=false;
+  }
+ }
+}
+$('teacherGradesRefresh').addEventListener('click',()=>loadPeriodicGrades());
+$('teacherGradesMore').addEventListener('click',()=>loadPeriodicGrades(true));
+
 function commentQuery(){
  return new URLSearchParams({board:$('teacherCommentBoard').value,state:$('teacherCommentState').value});
 }
-function commentAuth(response){
+function checkTeacherSession(response){
  if(response.status!==401)return true;
  logout();
  $('teacherError').textContent='La sesión ha caducado. Vuelve a acceder.';
@@ -277,7 +325,7 @@ async function loadComments(append=false,notice=''){
  feedback.textContent='Cargando comentarios…';
  try{
   const result=await request('/comments/moderation?'+query,'GET');
-  if(version!==commentLoad||!commentAuth(result))return;
+  if(version!==commentLoad||!checkTeacherSession(result))return;
   if(!result.ok)throw Error('No se pudieron cargar los comentarios.');
   const data=await result.json();
   if(version!==commentLoad)return;
@@ -313,7 +361,7 @@ function commentCard(comment,query){
    for(const child of actions.children)child.disabled=true;
    try{
     const result=await request('/comments/moderation?'+query,'PUT',{id:comment.id,action});
-    if(!commentAuth(result))return;
+    if(!checkTeacherSession(result))return;
     if(!result.ok)throw Error((await result.json()).error||'No se pudo actualizar el comentario.');
     if(card.isConnected)await loadComments(false,action==='publish'?'Comentario publicado.':'Comentario eliminado.');
    }catch(error){
