@@ -102,7 +102,6 @@ function render(){
   $(id).disabled=busy||unavailable||(id==='teacherLabs'&&!api.remote);
  }
  $('teacherReset').disabled=busy||unavailable||!api.remote;
- $('teacherResetPeriodic').disabled=$('teacherReset').disabled;
  $('teacherLogout').disabled=busy;
  $('teacherComments').hidden=!api.remote;
  $('teacherPeriodicGrades').hidden=!api.remote;
@@ -202,18 +201,15 @@ $('teacherShow').addEventListener('click',()=>{
 for(const [id,key] of Object.entries(fields)){
  $(id).addEventListener('change',()=>save('/settings','PUT',{[key]:$(id).checked},'Cambios guardados.'));
 }
-function resetExams(chosen){
+$('teacherResetForm').addEventListener('submit',event=>{
+ event.preventDefault();
  if(!api.remote||api.error||busy)return;
+ const chosen=$('teacherExamChoice').value;
  const exams=chosen==='both'?['tic','periodica']:[chosen];
  if(!confirm('¿Autorizar un nuevo intento de '+examNames[chosen]+' en todos los ordenadores? Cada alumno decidirá cuándo repetir.'))return;
  const expected=Object.fromEntries(exams.map(exam=>[exam,api.examVersion(exam)]));
  save('/exam-resets','POST',{exams,expected},'Nuevo intento autorizado para '+examNames[chosen]+'.');
-}
-$('teacherResetForm').addEventListener('submit',event=>{
- event.preventDefault();
- resetExams($('teacherExamChoice').value);
 });
-$('teacherResetPeriodic').addEventListener('click',()=>resetExams('periodica'));
 $('teacherScheduleTarget').addEventListener('change',()=>{
  timetableDirty=false;
  render();
