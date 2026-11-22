@@ -3,7 +3,33 @@ const params=new URLSearchParams(location.search),courseId=params.get('asignatur
 const course=(window.AULA_MATERIAS||[]).find(x=>x.id===courseId);
 const unit=course?.units.find(u=>typeof u==='string'?u===requestedUnit:u.title===requestedUnit||u.aliases?.includes(requestedUnit));
 const set=(id,value)=>{const el=document.getElementById(id);if(el)el.textContent=value};
-function makeLink(item){const el=document.createElement('article');el.className='resource';const tag=document.createElement('span');tag.className='tag';tag.textContent=item.type||'Material';const title=document.createElement('h3');title.textContent=item.title||'Recurso';const desc=document.createElement('p');desc.textContent=item.description||'';const a=document.createElement('a');const external=/^https?:\/\//i.test(item.url||'');a.href=item.url;a.textContent=external?'Abrir material ↗':'Abrir o descargar →';if(external){a.target='_blank';a.rel='noopener noreferrer'}el.append(tag,title,desc,a);return el}
+function makeLink(item) {
+  const el=document.createElement('article');
+  el.className='resource';
+  const tag=document.createElement('span');
+  tag.className='tag';
+  tag.textContent=item.type||'Material';
+  const title=document.createElement('h3');
+  title.textContent=item.title||'Recurso';
+  const desc=document.createElement('p');
+  desc.textContent=item.description||'';
+  const link=document.createElement('a');
+  const external=/^https?:\/\//i.test(item.url||'');
+  link.href=item.url;
+  if(external){
+    link.textContent='Abrir material ↗';
+    link.target='_blank';
+    link.rel='noopener noreferrer';
+  }else if(item.download){
+    link.textContent='Descargar PDF ↓';
+    link.download='';
+    link.setAttribute('aria-label','Descargar PDF: '+title.textContent);
+  }else{
+    link.textContent='Abrir o descargar →';
+  }
+  el.append(tag,title,desc,link);
+  return el;
+}
 if(!unit){
 set('topic-title','Tema no encontrado');set('topic-description','Vuelve a la asignatura y selecciona una unidad disponible.');document.getElementById('topic-content').hidden=true;
 }else{

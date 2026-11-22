@@ -154,6 +154,46 @@ window.AULA_MATERIAS = [
         "unit": "La materia y sus estados"
       },
       {
+        "type": "Ficha PDF",
+        "title": "0201 · Propiedades de la materia y densidad",
+        "description": "Clasifica las propiedades de la materia y resuelve problemas de masa, volumen y densidad.",
+        "url": "../recursos/fisica-quimica-2eso/tema2-materia-estados/fichas/0201-ejercicios.pdf",
+        "unit": "La materia y sus estados",
+        "download": true
+      },
+      {
+        "type": "Soluciones PDF",
+        "title": "0201 · Soluciones de propiedades y densidad",
+        "description": "Comprueba los resultados y el procedimiento de la ficha 0201.",
+        "url": "../recursos/fisica-quimica-2eso/tema2-materia-estados/fichas/0201-soluciones.pdf",
+        "unit": "La materia y sus estados",
+        "download": true
+      },
+      {
+        "type": "Ficha PDF",
+        "title": "0202 · Refuerzo sobre la materia y sus estados",
+        "description": "Practica cambios de estado, densidad, teoría cinético-molecular e interpretación de gráficas.",
+        "url": "../recursos/fisica-quimica-2eso/tema2-materia-estados/fichas/0202-ejercicios.pdf",
+        "unit": "La materia y sus estados",
+        "download": true
+      },
+      {
+        "type": "Soluciones PDF",
+        "title": "0202 · Soluciones de la ficha de refuerzo",
+        "description": "Revisa las respuestas y los cálculos de la ficha 0202.",
+        "url": "../recursos/fisica-quimica-2eso/tema2-materia-estados/fichas/0202-soluciones.pdf",
+        "unit": "La materia y sus estados",
+        "download": true
+      },
+      {
+        "type": "Ficha PDF",
+        "title": "0203 · Propiedades y leyes de los gases",
+        "description": "Ejercicios de Boyle–Mariotte y de Charles y Gay-Lussac con tablas y gráficas.",
+        "url": "../recursos/fisica-quimica-2eso/tema2-materia-estados/fichas/0203-ejercicios.pdf",
+        "unit": "La materia y sus estados",
+        "download": true
+      },
+      {
         "type": "Actividad interactiva · 2.º ESO",
         "title": "Tabla periódica interactiva",
         "description": "Explora los elementos y practica símbolos y nombres. Recurso complementario de 2.º ESO.",
