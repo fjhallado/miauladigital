@@ -101,6 +101,9 @@ function render(){
   if(!busy)$(id).checked=state[key];
   $(id).disabled=busy||unavailable||(id==='teacherLabs'&&!api.remote);
  }
+ const salesUnavailable=api.remote&&api.ready&&!api.error&&!api.salesSupported;
+ $('teacherSales').disabled=busy||unavailable||salesUnavailable;
+ $('teacherSalesNotice').hidden=!salesUnavailable;
  $('teacherReset').disabled=busy||unavailable||!api.remote;
  $('teacherLogout').disabled=busy;
  $('teacherComments').hidden=!api.remote;
