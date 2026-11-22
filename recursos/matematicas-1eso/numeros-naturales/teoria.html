@@ -3,10 +3,10 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Repasa las propiedades de las potencias con ejemplos para resolver la ficha de Números naturales.">
+  <meta name="description" content="Lee y compara números naturales, aplica las propiedades de sus operaciones y aprende a resolver potencias, raíces y operaciones combinadas.">
   <title>Tema 1 · Números naturales | Mi Aula Digital</title>
   <link rel="stylesheet" href="../../visor-temas.css?v=1.4.111">
-  <link rel="stylesheet" href="../apuntes.css?v=1.4.111">
+  <link rel="stylesheet" href="../apuntes.css?v=1.4.112">
   <script src="../../visor-temas.js?v=1.4.111" defer></script>
 </head>
 <body class="math-notes">
@@ -28,15 +28,15 @@
     <section class="hero">
       <div class="hero-copy">
         <div class="pill">Matemáticas · 1.º ESO · Tema 1</div>
-        <h1>Números naturales <span>· Potencias</span></h1>
-        <p>Repasa las propiedades de las potencias con ejemplos para resolver la ficha de Números naturales.</p>
+        <h1>Números <span>naturales</span></h1>
+        <p>Lee y compara números naturales, aplica las propiedades de sus operaciones y aprende a resolver potencias, raíces y operaciones combinadas.</p>
         <div class="hero-actions" hidden>
           <button type="button" class="primary" id="start-unit">Comenzar el tema →</button>
           <button type="button" class="ghost" id="print-unit">Imprimir apuntes</button>
         </div>
         <div class="progress-summary" hidden>
           <span id="progress-copy" role="status"></span>
-          <div class="progress-bar" role="progressbar" aria-label="Apartados repasados" aria-valuemin="0" aria-valuemax="4" aria-valuenow="0"><div id="progress-fill"></div></div>
+          <div class="progress-bar" role="progressbar" aria-label="Apartados repasados" aria-valuemin="0" aria-valuemax="9" aria-valuenow="0"><div id="progress-fill"></div></div>
         </div>
       </div>
       <div class="hero-art math-cover" aria-hidden="true">
@@ -47,46 +47,122 @@
     <nav class="topic-nav" aria-label="Apartados del tema" hidden>
       <span class="nav-title">Contenidos</span>
       <div class="nav-buttons">
-        <button type="button" data-lesson-target="lectura" aria-controls="lectura">01 <span>Leer potencias</span></button>
-        <button type="button" data-lesson-target="misma-base" aria-controls="misma-base">02 <span>Producto y cociente</span></button>
-        <button type="button" data-lesson-target="propiedades" aria-controls="propiedades">03 <span>Otras propiedades</span></button>
-        <button type="button" data-lesson-target="repaso" aria-controls="repaso">04 <span>Practicar</span></button>
+        <button type="button" data-lesson-target="sistemas" aria-controls="sistemas">01 <span>Numeración</span></button>
+        <button type="button" data-lesson-target="decimal" aria-controls="decimal">02 <span>Sistema decimal</span></button>
+        <button type="button" data-lesson-target="conjunto" aria-controls="conjunto">03 <span>Naturales y orden</span></button>
+        <button type="button" data-lesson-target="operaciones" aria-controls="operaciones">04 <span>Operaciones</span></button>
+        <button type="button" data-lesson-target="lectura" aria-controls="lectura">05 <span>Potencias</span></button>
+        <button type="button" data-lesson-target="propiedades" aria-controls="propiedades">06 <span>Reglas de potencias</span></button>
+        <button type="button" data-lesson-target="raices" aria-controls="raices">07 <span>Raíces</span></button>
+        <button type="button" data-lesson-target="jerarquia" aria-controls="jerarquia">08 <span>Jerarquía</span></button>
+        <button type="button" data-lesson-target="repaso" aria-controls="repaso">09 <span>Repaso</span></button>
       </div>
     </nav>
 
     <div class="topic-layout">
       <div class="main-column">
-<section id="lectura" class="lesson" aria-labelledby="lectura-titulo">
-  <div class="section-number">Apartado 01 / 04</div><h2 id="lectura-titulo">Leer y calcular una potencia</h2>
-  <p>Una potencia expresa una multiplicación de factores iguales. La <strong>base</strong> es el factor que se repite y el <strong>exponente</strong> indica cuántas veces aparece.</p>
-  <div class="white-card"><h3>Ejemplo</h3><p>En <strong>4<sup>3</sup></strong>, la base es 4 y el exponente es 3.</p><p class="math-example">4<sup>3</sup> = 4 × 4 × 4 = 64</p></div>
-  <p>Una potencia de exponente 1 vale lo mismo que su base. Una base distinta de cero elevada a 0 vale 1.</p>
+<section id="sistemas" class="lesson" aria-labelledby="sistemas-titulo">
+  <div class="section-number">Apartado 01 / 09</div><h2 id="sistemas-titulo">Sistemas de numeración</h2>
+  <p class="lead">Un sistema de numeración reúne los símbolos y las reglas que usamos para leer y escribir números.</p>
+  <div class="two-col">
+    <article class="white-card"><h3>Sistema posicional</h3><p>En el sistema decimal, la posición determina cuánto aporta cada cifra. En 3 313 aparecen tres cifras 3, que representan 3 000, 300 y 3.</p></article>
+    <article class="white-card"><h3>Numeración romana</h3><p>El valor de un símbolo es fijo: I vale 1, V vale 5, X vale 10, L vale 50, C vale 100, D vale 500 y M vale 1 000. En LXII se suman 50 + 10 + 1 + 1 = 62. En casos como IV o IX, se resta el símbolo menor que se escribe delante.</p><p class="math-example">XL = 50 − 10 = 40</p></article>
+  </div>
 </section>
 
-<section id="misma-base" class="lesson" aria-labelledby="misma-base-titulo">
-  <div class="section-number">Apartado 02 / 04</div><h2 id="misma-base-titulo">Producto y cociente de potencias de la misma base</h2>
-  <div class="two-col">
-    <article class="white-card"><h3>Producto</h3><p>Conserva la base y suma los exponentes.</p><p class="math-example">3<sup>2</sup> · 3<sup>4</sup> = 3<sup>2 + 4</sup> = 3<sup>6</sup></p></article>
-    <article class="white-card"><h3>Cociente</h3><p>Conserva la base y resta el exponente del divisor al del dividendo. La base debe ser distinta de cero.</p><p class="math-example">7<sup>5</sup> : 7<sup>2</sup> = 7<sup>5 − 2</sup> = 7<sup>3</sup></p></article>
+<section id="decimal" class="lesson" aria-labelledby="decimal-titulo">
+  <div class="section-number">Apartado 02 / 09</div><h2 id="decimal-titulo">El sistema de numeración decimal</h2>
+  <p class="lead">Usa diez cifras, del 0 al 9. Cada posición vale diez veces lo que vale la situada justo a su derecha.</p>
+  <div class="white-card">
+    <h3>Valor de cada cifra en 608 427</h3>
+    <table class="math-table">
+      <thead><tr><th scope="col">Cifra</th><th scope="col">Posición</th><th scope="col">Aporta</th></tr></thead>
+      <tbody><tr><td>6</td><td>Centenas de millar</td><td>600 000</td></tr><tr><td>0</td><td>Decenas de millar</td><td>0</td></tr><tr><td>8</td><td>Unidades de millar</td><td>8 000</td></tr><tr><td>4</td><td>Centenas</td><td>400</td></tr><tr><td>2</td><td>Decenas</td><td>20</td></tr><tr><td>7</td><td>Unidades</td><td>7</td></tr></tbody>
+    </table>
+    <p class="math-example">608 427 = 600 000 + 8 000 + 400 + 20 + 7</p>
   </div>
-  <p>Si un factor aparece sin exponente escrito, cuenta como exponente 1. Por ejemplo, 2<sup>3</sup> · 2 = 2<sup>4</sup>.</p>
+  <p>Después del millar aparecen, entre otros órdenes, la decena de millar (10 000), la centena de millar (100 000), el millón (1 000 000) y el millar de millones (1 000 000 000).</p>
+</section>
+
+<section id="conjunto" class="lesson" aria-labelledby="conjunto-titulo">
+  <div class="section-number">Apartado 03 / 09</div><h2 id="conjunto-titulo">Los números naturales y sus aplicaciones</h2>
+  <p class="lead">En estos apuntes seguimos la convención del material de clase: ℕ = {1, 2, 3, 4, …}. El 0 se usa para indicar ausencia de cantidad y, en otros textos, también se incluye en ℕ.</p>
+  <div class="two-col">
+    <article class="white-card"><h3>Orden en la recta</h3><p>Los naturales se colocan de izquierda a derecha en orden creciente. Para comparar se usan &lt;, &gt; y =.</p><p class="math-example">4 &lt; 9 · 12 &gt; 7 · 5 = 5</p></article>
+    <article class="white-card"><h3>Usos de los números</h3><ul><li><strong>Cardinal:</strong> contar 18 libros.</li><li><strong>Ordinal:</strong> llegar en 3.ª posición.</li><li><strong>Identificador:</strong> localizar el aula 204.</li><li><strong>Estimación:</strong> calcular que hay unas 200 personas.</li></ul></article>
+  </div>
+</section>
+
+<section id="operaciones" class="lesson" aria-labelledby="operaciones-titulo">
+  <div class="section-number">Apartado 04 / 09</div><h2 id="operaciones-titulo">Operaciones con números naturales</h2>
+  <div class="white-card">
+    <h3>Propiedades de la suma y la multiplicación</h3>
+    <table class="math-table">
+      <thead><tr><th scope="col">Propiedad</th><th scope="col">Suma</th><th scope="col">Multiplicación</th></tr></thead>
+      <tbody><tr><th scope="row">Conmutativa</th><td>a + b = b + a</td><td>a · b = b · a</td></tr>
+      <tr><th scope="row">Asociativa</th><td>(a + b) + c = a + (b + c)</td><td>(a · b) · c = a · (b · c)</td></tr>
+      <tr><th scope="row">Elemento neutro</th><td>a + 0 = a</td><td>a · 1 = a</td></tr></tbody>
+    </table>
+    <p><strong>Distributiva.</strong> Multiplicar por una suma o una resta equivale a multiplicar por cada término y después sumar o restar los resultados.</p>
+    <p class="math-example">4 · (6 + 2) = 4 · 6 + 4 · 2 = 32</p>
+  </div>
+  <div class="two-col">
+    <article class="white-card"><h3>Resta</h3><p>Cambiar el orden modifica el resultado. Si el minuendo es menor que el sustraendo, el resultado es negativo. Restar cero conserva el número: 9 − 0 = 9.</p></article>
+    <article class="white-card"><h3>División</h3><p>Divide entre un número distinto de cero. La división es exacta si el resto es 0. El resto siempre es menor que el divisor.</p><p class="math-example">Dividendo = divisor · cociente + resto<br>29 = 6 · 4 + 5</p><p>El cociente también puede ser 0, como al repartir 3 objetos entre 5 personas. Dividir entre 1 conserva el dividendo.</p></article>
+  </div>
+</section>
+
+<section id="lectura" class="lesson" aria-labelledby="lectura-titulo">
+  <div class="section-number">Apartado 05 / 09</div><h2 id="lectura-titulo">Potencias</h2>
+  <p class="lead">Una potencia abrevia un producto de factores iguales. La base es el número que se repite y el exponente cuenta cuántos factores hay.</p>
+  <div class="white-card">
+    <h3>Cuadrados y cubos</h3>
+    <p>Una potencia de exponente 2 se lee «al cuadrado». Una de exponente 3 se lee «al cubo».</p>
+    <p class="math-example">9<sup>2</sup> = 9 · 9 = 81<br>4<sup>3</sup> = 4 · 4 · 4 = 64</p>
+    <p>La potencia de exponente 1 vale la base. Si la base es distinta de cero, su potencia de exponente 0 vale 1. Por ejemplo, 8<sup>1</sup> = 8 y 8<sup>0</sup> = 1.</p>
+  </div>
 </section>
 
 <section id="propiedades" class="lesson" aria-labelledby="propiedades-titulo">
-  <div class="section-number">Apartado 03 / 04</div><h2 id="propiedades-titulo">Potencia de una potencia y potencia de un producto</h2>
-  <div class="two-col">
-    <article class="white-card"><h3>Potencia de una potencia</h3><p>Multiplica los exponentes y conserva la base.</p><p class="math-example">(5<sup>2</sup>)<sup>3</sup> = 5<sup>2 × 3</sup> = 5<sup>6</sup></p></article>
-    <article class="white-card"><h3>Potencia de un producto</h3><p>Aplica el exponente a cada factor del producto.</p><p class="math-example">(2 · 3)<sup>4</sup> = 2<sup>4</sup> · 3<sup>4</sup></p></article>
+  <div class="section-number">Apartado 06 / 09</div><h2 id="propiedades-titulo">Propiedades de las potencias</h2>
+  <div class="white-card" id="misma-base">
+    <h3>Potencias con la misma base</h3>
+    <p>Al multiplicar se suman los exponentes. Al dividir se restan, con base distinta de cero. Para que el resultado siga expresado como potencia de exponente natural o cero, el exponente del dividendo debe ser al menos igual al del divisor.</p>
+    <p class="math-example">3<sup>2</sup> · 3<sup>4</sup> = 3<sup>6</sup><br>7<sup>5</sup> : 7<sup>2</sup> = 7<sup>3</sup></p>
   </div>
-  <p>Cuando las bases sean distintas, comprueba si puedes expresarlas con una base común. Por ejemplo, 8<sup>2</sup> : 2<sup>3</sup> = (2<sup>3</sup>)<sup>2</sup> : 2<sup>3</sup> = 2<sup>6</sup> : 2<sup>3</sup> = 2<sup>3</sup>.</p>
+  <div class="two-col">
+    <article class="white-card"><h3>Potencia de una potencia</h3><p>Conserva la base y multiplica los exponentes.</p><p class="math-example">(5<sup>2</sup>)<sup>3</sup> = 5<sup>6</sup></p></article>
+    <article class="white-card"><h3>Potencia de un producto o de un cociente</h3><p>Aplica el exponente a cada factor, o al dividendo y al divisor si este es distinto de cero.</p><p class="math-example">(2 · 3)<sup>4</sup> = 2<sup>4</sup> · 3<sup>4</sup><br>(12 : 3)<sup>2</sup> = 12<sup>2</sup> : 3<sup>2</sup> = 16</p></article>
+  </div>
+  <p>Si las bases son distintas, a veces se pueden reescribir con una base común. Por ejemplo, 8<sup>2</sup> : 2<sup>3</sup> = 2<sup>6</sup> : 2<sup>3</sup> = 2<sup>3</sup>.</p>
+  <p class="math-actions"><a class="ghost" href="../potencias.pdf" download>Descargar ficha de Potencias ↓</a></p>
+</section>
+
+<section id="raices" class="lesson" aria-labelledby="raices-titulo">
+  <div class="section-number">Apartado 07 / 09</div><h2 id="raices-titulo">Raíz cuadrada exacta y entera</h2>
+  <p class="lead">La raíz cuadrada de un número no negativo es el número no negativo cuyo cuadrado da ese número. Los que tienen raíz cuadrada entera exacta se llaman cuadrados perfectos.</p>
+  <div class="two-col">
+    <article class="white-card"><h3>Raíz exacta</h3><p>√64 = 8, porque 8<sup>2</sup> = 64. Un mosaico cuadrado de 64 piezas tiene 8 piezas de lado.</p></article>
+    <article class="white-card"><h3>Raíz entera y resto</h3><p>57 está entre 7<sup>2</sup> = 49 y 8<sup>2</sup> = 64. Su raíz entera es 7 y el resto es 57 − 49 = 8.</p><p class="math-example">7 &lt; √57 &lt; 8</p></article>
+  </div>
+</section>
+
+<section id="jerarquia" class="lesson" aria-labelledby="jerarquia-titulo">
+  <div class="section-number">Apartado 08 / 09</div><h2 id="jerarquia-titulo">Operaciones combinadas</h2>
+  <div class="white-card">
+    <h3>Orden de resolución</h3>
+    <ol><li>Paréntesis, empezando por los interiores.</li><li>Potencias y raíces.</li><li>Multiplicaciones y divisiones, de izquierda a derecha.</li><li>Sumas y restas, de izquierda a derecha.</li></ol>
+    <p class="math-example">15 − 2 · (3 + 1) + √9 = 15 − 2 · 4 + 3 = 15 − 8 + 3 = 10</p>
+  </div>
 </section>
 
 <section id="repaso" class="lesson" aria-labelledby="repaso-titulo">
-  <div class="section-number">Apartado 04 / 04</div><h2 id="repaso-titulo">Practica con la ficha de Potencias</h2>
-  <p>Aplica las propiedades para simplificar primero. Si el ejercicio pide el valor, calcula la potencia al final. Si pide el resultado en forma de potencia, escríbelo con su base y su exponente.</p>
-  <div class="white-card"><h3>Comprueba qué propiedad usarías</h3>
-    <details><summary>¿Cómo simplificas (6<sup>2</sup>)<sup>4</sup>?</summary><p>Multiplica los exponentes. El resultado es 6<sup>8</sup>.</p></details>
-    <details><summary>¿Cómo simplificas 5<sup>3</sup> · 5<sup>2</sup> : 5<sup>4</sup>?</summary><p>Suma 3 y 2, y resta 4. El resultado es 5<sup>1</sup> = 5.</p></details>
+  <div class="section-number">Apartado 09 / 09</div><h2 id="repaso-titulo">Comprueba lo aprendido</h2>
+  <div class="white-card">
+    <details><summary>¿Qué representa el 7 en 72 408?</summary><p>Ocupa el lugar de las decenas de millar, así que representa 70 000.</p></details>
+    <details><summary>Reparte 38 tarjetas en 7 grupos iguales. ¿Cuántas recibe cada grupo y cuántas sobran?</summary><p>Cada grupo recibe 5 y sobran 3. Se comprueba con 7 · 5 + 3 = 38.</p></details>
+    <details><summary>¿Cuál es la raíz entera de 74 y su resto?</summary><p>La raíz entera es 8 porque 64 ≤ 74 &lt; 81. El resto es 74 − 64 = 10.</p></details>
+    <details><summary>Calcula 24 : (2 · 3) + 2<sup>3</sup>.</summary><p>24 : 6 + 8 = 4 + 8 = 12.</p></details>
   </div>
   <p class="math-actions"><a class="primary" href="../potencias.pdf" download>Descargar ficha de Potencias ↓</a></p>
 </section>
@@ -101,10 +177,15 @@
           <span class="aside-label">En este tema</span>
           <h3>Tu recorrido</h3>
           <div class="side-steps">
-            <button type="button" data-lesson-target="lectura" aria-controls="lectura"><b>01</b>Leer potencias<span data-completed="lectura" aria-hidden="true">○</span></button>
-            <button type="button" data-lesson-target="misma-base" aria-controls="misma-base"><b>02</b>Producto y cociente<span data-completed="misma-base" aria-hidden="true">○</span></button>
-            <button type="button" data-lesson-target="propiedades" aria-controls="propiedades"><b>03</b>Otras propiedades<span data-completed="propiedades" aria-hidden="true">○</span></button>
-            <button type="button" data-lesson-target="repaso" aria-controls="repaso"><b>04</b>Practicar<span data-completed="repaso" aria-hidden="true">○</span></button>
+            <button type="button" data-lesson-target="sistemas" aria-controls="sistemas"><b>01</b>Numeración<span data-completed="sistemas" aria-hidden="true">○</span></button>
+            <button type="button" data-lesson-target="decimal" aria-controls="decimal"><b>02</b>Sistema decimal<span data-completed="decimal" aria-hidden="true">○</span></button>
+            <button type="button" data-lesson-target="conjunto" aria-controls="conjunto"><b>03</b>Naturales y orden<span data-completed="conjunto" aria-hidden="true">○</span></button>
+            <button type="button" data-lesson-target="operaciones" aria-controls="operaciones"><b>04</b>Operaciones<span data-completed="operaciones" aria-hidden="true">○</span></button>
+            <button type="button" data-lesson-target="lectura" aria-controls="lectura"><b>05</b>Potencias<span data-completed="lectura" aria-hidden="true">○</span></button>
+            <button type="button" data-lesson-target="propiedades" aria-controls="propiedades"><b>06</b>Reglas de potencias<span data-completed="propiedades" aria-hidden="true">○</span></button>
+            <button type="button" data-lesson-target="raices" aria-controls="raices"><b>07</b>Raíces<span data-completed="raices" aria-hidden="true">○</span></button>
+            <button type="button" data-lesson-target="jerarquia" aria-controls="jerarquia"><b>08</b>Jerarquía<span data-completed="jerarquia" aria-hidden="true">○</span></button>
+            <button type="button" data-lesson-target="repaso" aria-controls="repaso"><b>09</b>Repaso<span data-completed="repaso" aria-hidden="true">○</span></button>
           </div>
         </div>
         <div class="aside-panel links-panel">

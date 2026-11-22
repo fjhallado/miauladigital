@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Descubre cómo calcular el MCD y el mcm y elige cuál usar al repartir, agrupar o sincronizar ciclos.">
+  <title>Tema 4 · Máximo común divisor y mínimo común múltiplo | Mi Aula Digital</title>
+  <link rel="stylesheet" href="../../visor-temas.css?v=1.4.111">
+  <link rel="stylesheet" href="../apuntes.css?v=1.4.112">
+  <script src="../../visor-temas.js?v=1.4.111" defer></script>
+</head>
+<body class="math-notes">
+  <a class="skip" href="#contenido">Saltar al contenido</a>
+  <header class="site-head">
+    <div class="wrap head-inner">
+      <a class="brand" href="../../../index.html">
+        <span class="brand-icon" aria-hidden="true">∑</span>
+        <span><strong>Mi Aula Digital</strong><small>Francisco José Hallado Fernández · Profesor de ESO y Bachillerato</small></span>
+      </a>
+      <nav class="head-links" aria-label="Navegación principal">
+        <a href="../../../asignaturas/matematicas-1eso.html#unidades">Matemáticas</a>
+        <a href="../../../tema.html?asignatura=matematicas-1eso&amp;unidad=M%C3%A1ximo%20com%C3%BAn%20divisor%20y%20m%C3%ADnimo%20com%C3%BAn%20m%C3%BAltiplo#topic-content">Materiales del tema</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap" id="contenido" data-study-key="mad-mates-1eso-mcd-mcm-repaso-v1">
+    <section class="hero">
+      <div class="hero-copy">
+        <div class="pill">Matemáticas · 1.º ESO · Tema 4</div>
+        <h1>Máximo común divisor <span>y mínimo común múltiplo</span></h1>
+        <p>Descubre cómo calcular el MCD y el mcm y elige cuál usar al repartir, agrupar o sincronizar ciclos.</p>
+        <div class="hero-actions" hidden>
+          <button type="button" class="primary" id="start-unit">Comenzar el tema →</button>
+          <button type="button" class="ghost" id="print-unit">Imprimir apuntes</button>
+        </div>
+        <div class="progress-summary" hidden>
+          <span id="progress-copy" role="status"></span>
+          <div class="progress-bar" role="progressbar" aria-label="Apartados repasados" aria-valuemin="0" aria-valuemax="5" aria-valuenow="0"><div id="progress-fill"></div></div>
+        </div>
+      </div>
+      <div class="hero-art math-cover" aria-hidden="true">
+        <img src="../../media/matematicas-tema-04.png" alt="">
+      </div>
+    </section>
+
+    <nav class="topic-nav" aria-label="Apartados del tema" hidden>
+      <span class="nav-title">Contenidos</span>
+      <div class="nav-buttons">
+        <button type="button" data-lesson-target="mcd" aria-controls="mcd">01 <span>Máximo común divisor</span></button>
+        <button type="button" data-lesson-target="calcular-mcd" aria-controls="calcular-mcd">02 <span>Calcular el MCD</span></button>
+        <button type="button" data-lesson-target="mcm" aria-controls="mcm">03 <span>Mínimo común múltiplo</span></button>
+        <button type="button" data-lesson-target="calcular-mcm" aria-controls="calcular-mcm">04 <span>Calcular el mcm</span></button>
+        <button type="button" data-lesson-target="repaso" aria-controls="repaso">05 <span>Problemas y repaso</span></button>
+      </div>
+    </nav>
+
+    <div class="topic-layout">
+      <div class="main-column">
+<section id="mcd" class="lesson" aria-labelledby="mcd-titulo">
+  <div class="section-number">Apartado 01 / 05</div><h2 id="mcd-titulo">El máximo común divisor</h2>
+  <p class="lead">El máximo común divisor (MCD) de dos o más números naturales es el mayor número que divide a todos exactamente.</p>
+  <div class="white-card">
+    <h3>Encuentra los divisores comunes</h3>
+    <p>Los divisores de 24 son 1, 2, 3, 4, 6, 8, 12 y 24. Los de 36 son 1, 2, 3, 4, 6, 9, 12, 18 y 36. Comparten 1, 2, 3, 4, 6 y 12. El mayor es 12.</p>
+    <p class="math-example">MCD(24, 36) = 12</p>
+    <p>Con 24 tarjetas azules y 36 amarillas se pueden preparar como máximo 12 lotes iguales, sin sobrar tarjetas. Cada lote tendrá 2 azules y 3 amarillas.</p>
+  </div>
+</section>
+
+<section id="calcular-mcd" class="lesson" aria-labelledby="calcular-mcd-titulo">
+  <div class="section-number">Apartado 02 / 05</div><h2 id="calcular-mcd-titulo">Cálculo del MCD por factorización</h2>
+  <div class="white-card">
+    <ol><li>Descompón los números en factores primos.</li><li>Elige los factores comunes y conserva en cada uno el menor exponente.</li><li>Multiplica los factores seleccionados.</li></ol>
+    <p class="math-example">84 = 2<sup>2</sup> · 3 · 7<br>180 = 2<sup>2</sup> · 3<sup>2</sup> · 5<br>MCD(84, 180) = 2<sup>2</sup> · 3 = 12</p>
+    <p>El 7 y el 5 aparecen en un solo número. Del factor común 3 se conserva el exponente 1. Si los números carecen de factores primos comunes, su MCD es 1. Por ejemplo, MCD(8, 15) = 1.</p>
+  </div>
+</section>
+
+<section id="mcm" class="lesson" aria-labelledby="mcm-titulo">
+  <div class="section-number">Apartado 03 / 05</div><h2 id="mcm-titulo">El mínimo común múltiplo</h2>
+  <p class="lead">El mínimo común múltiplo (mcm) es el menor múltiplo positivo que los números tienen en común.</p>
+  <div class="white-card">
+    <h3>Busca la primera coincidencia</h3>
+    <p>Una luz parpadea cada 6 segundos y otra cada 8. Si ambas se encienden a la vez ahora, anotamos los tiempos hasta hallar la primera coincidencia.</p>
+    <ul><li>Primera luz: 6, 12, 18, <strong>24</strong>, 30…</li><li>Segunda luz: 8, 16, <strong>24</strong>, 32…</li></ul>
+    <p class="math-example">mcm(6, 8) = 24. Volverán a coincidir al cabo de 24 segundos.</p>
+  </div>
+</section>
+
+<section id="calcular-mcm" class="lesson" aria-labelledby="calcular-mcm-titulo">
+  <div class="section-number">Apartado 04 / 05</div><h2 id="calcular-mcm-titulo">Cálculo del mcm por factorización</h2>
+  <div class="white-card">
+    <ol><li>Descompón los números en factores primos.</li><li>Elige todos los factores que aparezcan, tanto comunes como no comunes. De cada uno, conserva el mayor exponente.</li><li>Multiplica los factores seleccionados.</li></ol>
+    <p class="math-example">40 = 2<sup>3</sup> · 5<br>150 = 2 · 3 · 5<sup>2</sup><br>mcm(40, 150) = 2<sup>3</sup> · 3 · 5<sup>2</sup> = 600</p>
+    <p>Para comprobarlo, divide 600 entre 40 y 150. Las divisiones son exactas: 600 : 40 = 15 y 600 : 150 = 4.</p>
+  </div>
+  <div class="white-card"><h3>Con tres números</h3><p>Si tres líneas de autobús salen cada 8, 12 y 18 minutos y coinciden ahora, sus salidas volverán a coincidir en mcm(8, 12, 18) = 2<sup>3</sup> · 3<sup>2</sup> = 72 minutos.</p></div>
+</section>
+
+<section id="repaso" class="lesson" aria-labelledby="repaso-titulo">
+  <div class="section-number">Apartado 05 / 05</div><h2 id="repaso-titulo">Cuándo usar el MCD y cuándo el mcm</h2>
+  <div class="two-col">
+    <article class="white-card"><h3>MCD</h3><p>Busca un divisor común cuando se trata de repartir, agrupar o cortar sin sobras. Si se pide el mayor tamaño o el mayor número posible de grupos iguales, elige el mayor divisor común.</p></article>
+    <article class="white-card"><h3>mcm</h3><p>Busca un múltiplo común cuando hay que sincronizar ciclos o encontrar la primera cantidad positiva que se puede agrupar de varias formas dadas.</p></article>
+  </div>
+  <div class="white-card">
+    <details><summary>Dos cintas de 48 cm y 60 cm se cortan en trozos iguales lo más largos posible. ¿Cuánto mide cada trozo?</summary><p>MCD(48, 60) = 12. Cada trozo mide 12 cm.</p></details>
+    <details><summary>Dos avisos suenan cada 15 y 20 minutos. Si coinciden al empezar, ¿cuándo coincidirán de nuevo?</summary><p>mcm(15, 20) = 60. Coincidirán al cabo de una hora.</p></details>
+    <details><summary>¿Cuál es el MCD y el mcm de 18 y 24?</summary><p>18 = 2 · 3<sup>2</sup> y 24 = 2<sup>3</sup> · 3. El MCD es 2 · 3 = 6 y el mcm es 2<sup>3</sup> · 3<sup>2</sup> = 72.</p></details>
+  </div>
+</section>
+        <div class="lesson-footer" hidden>
+          <button class="ghost" type="button" id="prev-lesson">← Apartado anterior</button>
+          <span id="lesson-pos"></span>
+          <button class="primary" type="button" id="next-lesson">Siguiente apartado →</button>
+        </div>
+      </div>
+      <aside class="side-column" aria-label="Tu recorrido" hidden>
+        <div class="aside-panel">
+          <span class="aside-label">En este tema</span>
+          <h3>Tu recorrido</h3>
+          <div class="side-steps">
+            <button type="button" data-lesson-target="mcd" aria-controls="mcd"><b>01</b>Máximo común divisor<span data-completed="mcd" aria-hidden="true">○</span></button>
+            <button type="button" data-lesson-target="calcular-mcd" aria-controls="calcular-mcd"><b>02</b>Calcular el MCD<span data-completed="calcular-mcd" aria-hidden="true">○</span></button>
+            <button type="button" data-lesson-target="mcm" aria-controls="mcm"><b>03</b>Mínimo común múltiplo<span data-completed="mcm" aria-hidden="true">○</span></button>
+            <button type="button" data-lesson-target="calcular-mcm" aria-controls="calcular-mcm"><b>04</b>Calcular el mcm<span data-completed="calcular-mcm" aria-hidden="true">○</span></button>
+            <button type="button" data-lesson-target="repaso" aria-controls="repaso"><b>05</b>Problemas y repaso<span data-completed="repaso" aria-hidden="true">○</span></button>
+          </div>
+        </div>
+        <div class="aside-panel links-panel">
+          <span class="aside-label">Recursos del tema</span>
+          <a href="../numeros-primos/teoria.html">Números primos y factorización →</a>
+          <a href="../../../tema.html?asignatura=matematicas-1eso&amp;unidad=M%C3%A1ximo%20com%C3%BAn%20divisor%20y%20m%C3%ADnimo%20com%C3%BAn%20m%C3%BAltiplo#topic-content">← Volver a los materiales</a>
+        </div>
+      </aside>
+    </div>
+  </main>
+  <footer class="footer">
+    <div class="wrap">
+      <strong>Mi Aula Digital</strong>
+      <small>© 2026 Francisco José Hallado Fernández · <a href="../../../aviso-legal.html">Aviso legal y derechos de autor</a></small>
+      <small class="visit-counter" data-visit-counter>Consultando visitas globales…</small>
+    </div>
+  </footer>
+  <script src="../../../contador.js"></script>
+</body>
+</html>

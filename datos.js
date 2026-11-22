@@ -9,8 +9,8 @@ window.AULA_MATERIAS = [
     "resources": [
       {
         "type": "Apuntes y teoría",
-        "title": "Tema 1 · Potencias",
-        "description": "Guía breve con ejemplos para aplicar las propiedades de las potencias antes de resolver la ficha.",
+        "title": "Tema 1 · Números naturales",
+        "description": "Sistemas de numeración, operaciones con naturales, potencias, raíces cuadradas y jerarquía, con ejemplos y repaso.",
         "url": "../recursos/matematicas-1eso/numeros-naturales/teoria.html",
         "unit": "Números naturales"
       },
@@ -49,12 +49,26 @@ window.AULA_MATERIAS = [
         "description": "Criba interactiva, comprobador de primos, factorización y ejercicios autocorregibles.",
         "url": "../recursos/matematicas-1eso/numeros-primos/index.html",
         "unit": "Números primos"
+      },
+      {
+        "type": "Apuntes y teoría",
+        "title": "Tema 4 · Máximo común divisor y mínimo común múltiplo",
+        "description": "Aprende a calcular el MCD y el mcm por factorización y a elegir cuál aplicar en cada problema.",
+        "url": "../recursos/matematicas-1eso/mcd-mcm/teoria.html",
+        "unit": "Máximo común divisor y mínimo común múltiplo"
+      },
+      {
+        "type": "Apuntes y teoría",
+        "title": "Tema 5 · Números enteros",
+        "description": "Representa y compara enteros en la recta. Practica las reglas de los signos y las operaciones combinadas.",
+        "url": "../recursos/matematicas-1eso/numeros-enteros/teoria.html",
+        "unit": "Números enteros"
       }
     ],
     "units": [
       {
         "title": "Números naturales",
-        "description": "Operaciones con números naturales, potencias y resolución de problemas.",
+        "description": "Numeración decimal, operaciones con naturales, potencias, raíces cuadradas y jerarquía.",
         "trimester": 1,
         "image": "../recursos/media/matematicas-tema-01.png"
       },
