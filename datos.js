@@ -140,11 +140,18 @@ window.AULA_MATERIAS = [
     "desc": "Observa, experimenta y descubre la materia",
     "resources": [
       {
+        "type": "Apuntes y teoría · 2.º ESO",
+        "title": "Tema 1 · La actividad científica",
+        "description": "Aprende las fases del método científico, las unidades del SI y el uso del material de laboratorio con carruseles ilustrados y actividades de repaso.",
+        "url": "../recursos/fisica-quimica-2eso/actividad-cientifica/index.html",
+        "unit": "La actividad científica"
+      },
+      {
         "type": "Laboratorio interactivo · 2.º ESO",
         "title": "FactorLab · Cambios de unidades compuestas y densidad",
         "description": "Aprende a convertir g/cm³, kg/m³ y g/L colocando los factores de conversión. Incluye teoría, práctica guiada y reto autocorregible.",
         "url": "../recursos/fisica-quimica-2eso/conversiones-compuestas/index.html",
-        "unit": "Cambios de unidades"
+        "unit": "La actividad científica"
       },
       {
         "type": "Apuntes y simulaciones · 2.º ESO",
@@ -217,14 +224,11 @@ window.AULA_MATERIAS = [
     ],
     "units": [
       {
-        "title": "Cambios de unidades",
-        "aliases": ["Magnitudes y unidades"],
-        "number": 0,
-        "description": "Practica los cambios de unidades y los factores de conversión con FactorLab."
-      },
-      {
-        "title": "El método científico",
-        "number": 1
+        "title": "La actividad científica",
+        "aliases": ["El método científico"],
+        "number": 1,
+        "description": "Método científico, medida e instrumentos de laboratorio. Incluye dos carruseles ilustrados y ejercicios de repaso.",
+        "image": "../recursos/fisica-quimica-2eso/actividad-cientifica/portada-actividad-cientifica.webp"
       },
       {
         "title": "La materia y sus estados",

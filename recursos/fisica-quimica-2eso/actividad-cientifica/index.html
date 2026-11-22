@@ -1,0 +1,314 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Método científico, medida e instrumentos de laboratorio. Tema 1 de Física y Química de 2.º ESO en Mi Aula Digital.">
+  <meta name="theme-color" content="#09142b">
+  <title>Tema 1 · La actividad científica | Mi Aula Digital</title>
+  <link rel="stylesheet" href="../../../estilos.css?v=1.4.108">
+  <link rel="stylesheet" href="actividad.css">
+  <script src="actividad.js" defer></script>
+</head>
+<body class="science-page">
+  <a class="science-skip" href="#contenido">Saltar al contenido</a>
+  <header class="site-header">
+    <div class="container header-row">
+      <a class="branding" href="../../../index.html"><span><strong>Mi Aula Digital</strong><small>Francisco José Hallado Fernández</small></span></a>
+      <nav class="header-nav" aria-label="Navegación principal">
+        <a href="../../../index.html">Inicio</a>
+        <a href="../../../asignaturas/fisica-quimica-1eso.html#unidades">Física y Química</a>
+        <a href="../../../tema.html?asignatura=fisica-quimica-1eso&amp;unidad=La%20actividad%20cient%C3%ADfica#topic-content">Materiales del tema</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container science-main" id="contenido">
+    <header class="science-hero">
+      <h1 class="science-sr">La actividad científica</h1>
+      <img src="portada-actividad-cientifica.webp" width="1200" height="310" alt="">
+      <div class="science-intro">
+        <p class="study-label">Física y Química · 2.º ESO · Tema 01</p>
+        <p>Plantea una investigación, expresa las medidas con sus unidades y elige el instrumento adecuado para cada tarea.</p>
+        <nav class="science-nav" aria-label="Apartados del tema">
+          <a class="btn secondary" href="#metodo">Método científico</a>
+          <a class="btn secondary" href="#medida">La medida</a>
+          <a class="btn secondary" href="#instrumentos">Instrumentos</a>
+          <a class="btn secondary" href="#repaso">Repaso</a>
+          <button class="btn secondary" type="button" id="imprimir" hidden>Imprimir apuntes</button>
+        </nav>
+      </div>
+    </header>
+
+    <section class="science-section" id="metodo" aria-labelledby="metodo-titulo">
+      <h2 id="metodo-titulo">1. El método científico y sus fases</h2>
+      <p>La investigación científica formula preguntas y busca respuestas que se puedan contrastar con datos. Las fases orientan el trabajo y a veces se repiten al aparecer nueva información.</p>
+      <div class="study-carousel" data-carousel aria-labelledby="fases-label">
+  <h3 id="fases-label">Recorre las fases de una investigación</h3>
+  <div class="carousel-controls" hidden>
+    <label for="fases-selector">Ir a la fase</label>
+    <select id="fases-selector" aria-controls="fases-slides"></select>
+    <button type="button" data-prev aria-controls="fases-slides">← Anterior</button>
+    <button type="button" data-next aria-controls="fases-slides">Siguiente →</button>
+    <p class="carousel-status" role="status"></p>
+  </div>
+  <ul class="carousel-slides" id="fases-slides">
+    <li class="carousel-slide">
+      <img src="ilustraciones/observar.webp" alt="" width="420" height="260">
+      <div class="carousel-copy"><span class="study-label">Fase 1</span><h4>Observación y pregunta</h4><p>Describe lo que ocurre y formula una pregunta que puedas investigar. Anota qué has observado y cómo lo has medido.</p><p class="study-example"><strong>Ejemplo.</strong> Vemos que dos péndulos oscilan a distinto ritmo. ¿Influye la longitud del hilo en el tiempo de una oscilación?</p></div>
+    </li>
+    <li class="carousel-slide">
+      <img src="ilustraciones/informacion.webp" alt="" width="420" height="260">
+      <div class="carousel-copy"><span class="study-label">Fase 2</span><h4>Búsqueda de información</h4><p>Busca explicaciones y experimentos anteriores. Anota la autoría, el título y la procedencia de las fuentes para volver a consultarlas.</p><p class="study-example"><strong>Ejemplo.</strong> Consultamos qué es el período de un péndulo y cómo se mide. Una oscilación completa termina al regresar al punto de partida en el mismo sentido.</p></div>
+    </li>
+    <li class="carousel-slide">
+      <img src="ilustraciones/hipotesis.webp" alt="" width="420" height="260">
+      <div class="carousel-copy"><span class="study-label">Fase 3</span><h4>Formulación de una hipótesis</h4><p>Propón una respuesta concreta y comprobable. Indica qué resultado esperarías si tu explicación fuese correcta.</p><p class="study-example"><strong>Ejemplo.</strong> Si alargamos el hilo, el péndulo tardará más tiempo en completar diez oscilaciones.</p></div>
+    </li>
+    <li class="carousel-slide">
+      <img src="ilustraciones/experimentar.webp" alt="" width="420" height="260">
+      <div class="carousel-copy"><span class="study-label">Fase 4</span><h4>Experimentación</h4><p>Cambia la variable que quieres estudiar y mide el resultado. Mantén constantes otras condiciones y repite cada medida.</p><p class="study-example"><strong>Ejemplo.</strong> Usamos hilos de 25, 50 y 75 cm con la misma masa y el mismo ángulo inicial pequeño. Cronometramos diez oscilaciones en cada intento.</p></div>
+    </li>
+    <li class="carousel-slide">
+      <img src="ilustraciones/analizar.webp" alt="" width="420" height="260">
+      <div class="carousel-copy"><span class="study-label">Fase 5</span><h4>Análisis de resultados</h4><p>Organiza las medidas en una tabla. Representa la variable que cambias en el eje horizontal y la que mides en el vertical, con sus unidades.</p><p class="study-example"><strong>Ejemplo.</strong> Representamos la longitud en centímetros frente al tiempo de diez oscilaciones en segundos. Así podemos comparar los resultados de los tres ensayos.</p></div>
+    </li>
+    <li class="carousel-slide">
+      <img src="ilustraciones/concluir.webp" alt="" width="420" height="260">
+      <div class="carousel-copy"><span class="study-label">Fase 6</span><h4>Conclusiones y formulación de leyes</h4><p>Contrasta el resultado con tu hipótesis y señala hasta dónde se puede generalizar. Una ley describe una regularidad respaldada por numerosas observaciones.</p><p class="study-example"><strong>Ejemplo.</strong> En el intervalo estudiado, a mayor longitud, mayor tiempo. Estos datos por sí solos no permiten afirmar que el tiempo sea directamente proporcional a la longitud.</p></div>
+    </li>
+    <li class="carousel-slide">
+      <img src="ilustraciones/comunicar.webp" alt="" width="420" height="260">
+      <div class="carousel-copy"><span class="study-label">Fase 7</span><h4>Comunicación de resultados</h4><p>Explica la pregunta, los materiales, el procedimiento, los datos, las conclusiones y las fuentes. Da el detalle necesario para repetir la investigación.</p><p class="study-example"><strong>Ejemplo.</strong> En el informe incluimos cómo medimos la longitud, el número de intentos y la tabla de resultados. Comentamos el efecto del tiempo de reacción al usar el cronómetro.</p></div>
+    </li>
+  </ul>
+</div>
+
+      <article class="science-block">
+        <h3>De los datos a la conclusión</h3>
+        <p>En el ejemplo del péndulo, la longitud es la <strong>variable independiente</strong> y el tiempo es la <strong>variable dependiente</strong>. Se controlan la masa y el ángulo inicial. Esta tabla contiene datos simulados para practicar su interpretación.</p>
+        <table class="study-table">
+          <caption>Tiempo de diez oscilaciones según la longitud del péndulo</caption>
+          <thead><tr><th scope="col">Longitud (cm)</th><th scope="col">Tiempo de diez oscilaciones (s)</th></tr></thead>
+          <tbody><tr><td>25</td><td>10,0</td></tr><tr><td>50</td><td>14,2</td></tr><tr><td>75</td><td>17,4</td></tr></tbody>
+        </table>
+        <p>Un gráfico de puntos permite ver la relación entre longitud y tiempo. Un gráfico de barras compara categorías y uno de sectores muestra cómo se reparte un total.</p>
+      </article>
+      <div class="science-grid">
+        <article class="science-block">
+          <h3>Hipótesis, ley, teoría y modelo</h3>
+          <p>Una hipótesis es una explicación que se puede poner a prueba. Una ley describe una regularidad, con palabras o con una relación matemática. Una teoría explica un conjunto de observaciones y un modelo representa de forma simplificada un objeto o proceso para estudiarlo.</p>
+        </article>
+        <article class="science-block">
+          <h3>El informe científico</h3>
+          <p>Incluye título, autoría, objetivo e hipótesis. A continuación, explica los materiales y el procedimiento, presenta los resultados y sus limitaciones y termina con las conclusiones y las fuentes consultadas.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="science-section" id="medida" aria-labelledby="medida-titulo">
+      <h2 id="medida-titulo">2. La medida</h2>
+      <p>Una <strong>magnitud</strong> es una propiedad que se puede medir. Medir es compararla con una unidad de referencia. En <strong>25 cm</strong>, la magnitud es la longitud, 25 es el valor y cm es la unidad.</p>
+      <div class="science-grid">
+        <article class="science-block">
+          <h3>Magnitudes básicas del Sistema Internacional</h3>
+          <table class="study-table">
+            <thead><tr><th scope="col">Magnitud</th><th scope="col">Unidad</th><th scope="col">Símbolo</th></tr></thead>
+            <tbody>
+              <tr><td>Longitud</td><td>metro</td><td>m</td></tr>
+              <tr><td>Masa</td><td>kilogramo</td><td>kg</td></tr>
+              <tr><td>Tiempo</td><td>segundo</td><td>s</td></tr>
+              <tr><td>Temperatura termodinámica</td><td>kelvin</td><td>K</td></tr>
+              <tr><td>Intensidad de corriente eléctrica</td><td>amperio</td><td>A</td></tr>
+              <tr><td>Cantidad de sustancia</td><td>mol</td><td>mol</td></tr>
+              <tr><td>Intensidad luminosa</td><td>candela</td><td>cd</td></tr>
+            </tbody>
+          </table>
+        </article>
+        <article class="science-block">
+          <h3>Magnitudes derivadas</h3>
+          <p>Se expresan a partir de otras magnitudes. Por ejemplo, la rapidez es la distancia recorrida dividida entre el tiempo que se tarda.</p>
+          <table class="study-table">
+            <thead><tr><th scope="col">Magnitud</th><th scope="col">Unidad</th></tr></thead>
+            <tbody>
+              <tr><td>Superficie</td><td>m²</td></tr>
+              <tr><td>Volumen</td><td>m³</td></tr>
+              <tr><td>Rapidez</td><td>m/s</td></tr>
+              <tr><td>Densidad</td><td>kg/m³</td></tr>
+            </tbody>
+          </table>
+          <p>Una medida puede ser directa, como la longitud leída en una regla, o indirecta, como la superficie de un rectángulo calculada a partir de sus lados. Se deja un espacio entre el número y el símbolo. Los símbolos distinguen mayúsculas y minúsculas y se escriben sin plural.</p>
+        </article>
+      </div>
+      <div class="science-grid">
+        <article class="science-block">
+          <h3>Múltiplos, submúltiplos y factores de conversión</h3>
+          <p>Los prefijos indican potencias de diez. Kilo (k) equivale a 10³, hecto (h) a 10² y deca (da) a 10¹. Deci (d) equivale a 10⁻¹, centi (c) a 10⁻², mili (m) a 10⁻³ y micro (µ) a 10⁻⁶.</p>
+          <p>Multiplica por una fracción que exprese dos cantidades iguales. Coloca la unidad que quieres cancelar en el lado opuesto de la fracción.</p>
+          <p class="science-formula">250 cm² × (1 m / 100 cm)² = 0,025 m²</p>
+          <p>En superficies se eleva al cuadrado el factor de longitud. En volúmenes, se eleva al cubo. Si hay dos unidades, como en km/h, se convierte cada una.</p>
+          <p class="science-formula">36 km/h × (1 000 m / 1 km) × (1 h / 3 600 s) = 10 m/s</p>
+          <a href="../conversiones-compuestas/index.html">Practicar con FactorLab →</a>
+        </article>
+        <article class="science-block">
+          <h3>Volumen, capacidad y cifras</h3>
+          <p>El volumen mide el espacio que ocupa un cuerpo. La capacidad indica cuánto cabe dentro de un recipiente.</p>
+          <p class="science-formula">1 L = 1 dm³ · 1 mL = 1 cm³ · 1 m³ = 1 000 L</p>
+          <p>La notación científica expresa una cantidad como un número entre 1 y 10 multiplicado por una potencia de diez. Por ejemplo, <strong>0,0047 m = 4,7 × 10⁻³ m</strong>.</p>
+          <p>Al redondear, mira la primera cifra que vas a descartar. Si es 5 o mayor, aumenta en una unidad la última que conservas. Por ejemplo, 3,476 m redondeado a dos decimales es <strong>3,48 m</strong>.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="science-section" id="instrumentos" aria-labelledby="instrumentos-titulo">
+      <h2 id="instrumentos-titulo">3. Los instrumentos de medida</h2>
+      <p>Antes de medir, identifica la magnitud y elige un instrumento cuyo intervalo y resolución sean adecuados. Para estimar un volumen puedes usar una probeta. Para preparar exactamente el volumen indicado por una marca utiliza un matraz aforado.</p>
+      <div class="study-carousel" data-carousel aria-labelledby="equipo-label">
+  <h3 id="equipo-label">Identifica el material de laboratorio</h3>
+  <div class="carousel-controls" hidden>
+    <label for="equipo-selector">Ir al instrumento</label>
+    <select id="equipo-selector" aria-controls="equipo-slides"></select>
+    <button type="button" data-prev aria-controls="equipo-slides">← Anterior</button>
+    <button type="button" data-next aria-controls="equipo-slides">Siguiente →</button>
+    <p class="carousel-status" role="status"></p>
+  </div>
+  <ul class="carousel-slides" id="equipo-slides">
+    <li class="carousel-slide">
+      <img src="ilustraciones/tubo.webp" alt="" width="420" height="260">
+      <div class="carousel-copy"><span class="study-label">Ensayos</span><h4>Tubo de ensayo</h4><p>Contiene pequeñas muestras durante un ensayo. La gradilla lo mantiene vertical.</p></div>
+    </li>
+    <li class="carousel-slide">
+      <img src="ilustraciones/probeta.webp" alt="" width="420" height="260">
+      <div class="carousel-copy"><span class="study-label">Volumen</span><h4>Probeta graduada</h4><p>Mide volúmenes de líquido. Se apoya en una superficie horizontal y se lee la escala a la altura del menisco.</p></div>
+    </li>
+    <li class="carousel-slide">
+      <img src="ilustraciones/pipeta.webp" alt="" width="420" height="260">
+      <div class="carousel-copy"><span class="study-label">Volumen</span><h4>Pipeta</h4><p>Toma y transfiere un volumen pequeño con precisión. Se utiliza con un dispositivo de aspiración adecuado.</p></div>
+    </li>
+    <li class="carousel-slide">
+      <img src="ilustraciones/bureta.webp" alt="" width="420" height="260">
+      <div class="carousel-copy"><span class="study-label">Volumen</span><h4>Bureta</h4><p>Dispensa volúmenes controlados mediante una llave. El volumen entregado se obtiene restando las lecturas final e inicial.</p></div>
+    </li>
+    <li class="carousel-slide">
+      <img src="ilustraciones/matraz.webp" alt="" width="420" height="260">
+      <div class="carousel-copy"><span class="study-label">Volumen fijo</span><h4>Matraz aforado</h4><p>Sirve para preparar un volumen concreto de disolución. La marca del cuello indica el aforo.</p></div>
+    </li>
+    <li class="carousel-slide">
+      <img src="ilustraciones/vaso.webp" alt="" width="420" height="260">
+      <div class="carousel-copy"><span class="study-label">Mezclas</span><h4>Vaso de precipitados</h4><p>Contiene líquidos y permite mezclarlos. Las marcas de su escala dan una estimación del volumen.</p></div>
+    </li>
+    <li class="carousel-slide">
+      <img src="ilustraciones/erlenmeyer.webp" alt="" width="420" height="260">
+      <div class="carousel-copy"><span class="study-label">Mezclas</span><h4>Matraz Erlenmeyer</h4><p>Su cuerpo cónico y cuello estrecho permiten agitar un líquido con menos salpicaduras. Sus marcas suelen ser orientativas.</p></div>
+    </li>
+    <li class="carousel-slide">
+      <img src="ilustraciones/regla.webp" alt="" width="420" height="260">
+      <div class="carousel-copy"><span class="study-label">Longitud</span><h4>Regla graduada</h4><p>Mide longitudes rectas. Una escala milimetrada tiene divisiones de 1 mm.</p></div>
+    </li>
+    <li class="carousel-slide">
+      <img src="ilustraciones/calibre.webp" alt="" width="420" height="260">
+      <div class="carousel-copy"><span class="study-label">Longitud</span><h4>Calibre</h4><p>Mide diámetros, espesores y profundidades. Sus mordazas permiten medir por fuera y por dentro.</p></div>
+    </li>
+    <li class="carousel-slide">
+      <img src="ilustraciones/balanza.webp" alt="" width="420" height="260">
+      <div class="carousel-copy"><span class="study-label">Masa</span><h4>Balanza</h4><p>Mide la masa. La función de tara descuenta la masa del recipiente vacío.</p></div>
+    </li>
+    <li class="carousel-slide">
+      <img src="ilustraciones/termometro.webp" alt="" width="420" height="260">
+      <div class="carousel-copy"><span class="study-label">Temperatura</span><h4>Termómetro</h4><p>Mide la temperatura. Antes de anotar una lectura se espera a que se estabilice.</p></div>
+    </li>
+    <li class="carousel-slide">
+      <img src="ilustraciones/cronometro.webp" alt="" width="420" height="260">
+      <div class="carousel-copy"><span class="study-label">Tiempo</span><h4>Cronómetro</h4><p>Mide cuánto dura un proceso. Para una oscilación corta conviene medir varias y dividir el tiempo total entre el número de oscilaciones.</p></div>
+    </li>
+    <li class="carousel-slide">
+      <img src="ilustraciones/gradilla.webp" alt="" width="420" height="260">
+      <div class="carousel-copy"><span class="study-label">Soporte</span><h4>Gradilla</h4><p>Sostiene varios tubos de ensayo. También ayuda a mantener las muestras identificadas y separadas.</p></div>
+    </li>
+    <li class="carousel-slide">
+      <img src="ilustraciones/embudo.webp" alt="" width="420" height="260">
+      <div class="carousel-copy"><span class="study-label">Trasvase y filtración</span><h4>Embudo</h4><p>Guía el líquido hacia una abertura estrecha. Con papel de filtro puede separar un sólido de un líquido.</p></div>
+    </li>
+    <li class="carousel-slide">
+      <img src="ilustraciones/varilla.webp" alt="" width="420" height="260">
+      <div class="carousel-copy"><span class="study-label">Agitación</span><h4>Varilla de vidrio</h4><p>Permite agitar mezclas y guiar un líquido al verterlo.</p></div>
+    </li>
+    <li class="carousel-slide">
+      <img src="ilustraciones/cuentagotas.webp" alt="" width="420" height="260">
+      <div class="carousel-copy"><span class="study-label">Transferencia</span><h4>Cuentagotas</h4><p>Añade pequeñas cantidades gota a gota. El volumen de cada gota depende del líquido y del instrumento.</p></div>
+    </li>
+    <li class="carousel-slide">
+      <img src="ilustraciones/mortero.webp" alt="" width="420" height="260">
+      <div class="carousel-copy"><span class="study-label">Preparación</span><h4>Mortero y mano</h4><p>Sirve para triturar sólidos y reducir el tamaño de sus partículas.</p></div>
+    </li>
+    <li class="carousel-slide">
+      <img src="ilustraciones/pinzas.webp" alt="" width="420" height="260">
+      <div class="carousel-copy"><span class="study-label">Sujeción</span><h4>Pinzas para tubos</h4><p>Permiten sujetar un tubo con firmeza y mantener las manos alejadas del ensayo.</p></div>
+    </li>
+    <li class="carousel-slide">
+      <img src="ilustraciones/frasco-lavador.webp" alt="" width="420" height="260">
+      <div class="carousel-copy"><span class="study-label">Enjuague</span><h4>Frasco lavador</h4><p>Dirige un chorro de agua destilada para enjuagar material o arrastrar restos durante un trasvase.</p></div>
+    </li>
+  </ul>
+</div>
+
+      <div class="science-grid">
+        <article class="science-block">
+          <h3>Cómo leer el menisco</h3>
+          <figure class="meniscus">
+            <img src="ilustraciones/menisco.webp" width="420" height="260" alt="El ojo está a la misma altura que el punto inferior de la superficie cóncava del agua.">
+            <figcaption>Con agua en una probeta, lee el punto más bajo del menisco. Coloca la vista a esa altura para evitar el error de paralaje.</figcaption>
+          </figure>
+        </article>
+        <article class="science-block">
+          <h3>Resolución e incertidumbre</h3>
+          <p>La resolución indica el cambio más pequeño que el instrumento permite apreciar. En una regla con diez divisiones por centímetro, cada división representa 1 mm.</p>
+          <p>La incertidumbre expresa el margen asociado a una medida. Puede depender de la resolución, de la calibración y de cómo se realiza la lectura. Indica el criterio que usas. Si en clase se toma una división como incertidumbre, se podría anotar <strong>(47 ± 1) mm</strong> para esa regla.</p>
+          <p>Repetir una medida ayuda a valorar cuánto varían las lecturas. Una escala más fina facilita la lectura, aunque también importan la calibración y la técnica de medida.</p>
+        </article>
+      </div>
+      <div class="science-grid">
+        <article class="science-block">
+          <h3>Seguridad en el laboratorio</h3>
+          <ul>
+            <li>Sigue las indicaciones del profesorado y lee las etiquetas antes de usar cualquier producto.</li>
+            <li>Recoge el pelo largo, despeja la mesa y ponte la protección indicada para la práctica.</li>
+            <li>Mantén alimentos y bebidas fuera de la mesa. Avisa si hay un derrame, una rotura o un accidente.</li>
+            <li>Identifica los símbolos de peligro. La llama indica riesgo de inflamabilidad y el símbolo de corrosión advierte de posibles quemaduras o daños en materiales.</li>
+          </ul>
+        </article>
+        <article class="science-block">
+          <h3>Gestión de residuos</h3>
+          <p>Deposita cada residuo en el recipiente que indique el profesorado y conserva las etiquetas. El vidrio roto y los objetos punzantes se recogen con medios adecuados y se depositan en un contenedor rígido.</p>
+          <p>Los reactivos y el material contaminado se gestionan según las indicaciones de la práctica y del laboratorio. Consulta dónde van antes de verter o mezclar residuos.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="science-section" id="repaso" aria-labelledby="repaso-titulo">
+      <h2 id="repaso-titulo">Comprueba lo aprendido</h2>
+      <details class="science-question">
+        <summary>¿Qué mantendrías constante al investigar cómo afecta la longitud al período de un péndulo?</summary>
+        <p>La masa suspendida y el ángulo inicial, entre otras condiciones. Se cambia la longitud y se mide el tiempo.</p>
+      </details>
+      <details class="science-question">
+        <summary>Si diez oscilaciones duran 14,2 s, ¿cuánto dura una oscilación?</summary>
+        <p>El período es 14,2 s ÷ 10 = <strong>1,42 s</strong>.</p>
+      </details>
+      <details class="science-question">
+        <summary>¿Cuántos litros y centímetros cúbicos son 350 mL?</summary>
+        <p>Son <strong>0,350 L</strong> y <strong>350 cm³</strong>.</p>
+      </details>
+      <details class="science-question">
+        <summary>¿Qué usarías para preparar una disolución de exactamente 250 mL?</summary>
+        <p>Un matraz aforado de 250 mL, ajustando el menisco a la marca según las indicaciones de la práctica.</p>
+      </details>
+      <details class="science-question">
+        <summary>Si los datos contradicen la hipótesis, ¿qué haces?</summary>
+        <p>Comprueba las medidas y el procedimiento. Si el resultado se confirma, revisa la hipótesis y documenta lo observado.</p>
+      </details>
+    </section>
+  </main>
+  <footer class="container science-footer"><strong>Mi Aula Digital</strong><span>Apuntes e ilustraciones de elaboración propia a partir del temario facilitado de Edelvives Digital Plus.</span></footer>
+</body>
+</html>
