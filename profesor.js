@@ -178,7 +178,25 @@ async function save(path,method,body,success){
   render();
  }
 }
+const salesFrame=$('teacherSalesFrame');
+const salesPreview=$('teacherSalesPreview');
+function closeSalesPreview(){
+ salesFrame.hidden=true;
+ salesFrame.removeAttribute('src');
+ salesPreview.setAttribute('aria-expanded','false');
+ salesPreview.textContent='Ver catálogo';
+}
+window.madTeacherSalesPreview=frame=>loggedIn&&!salesFrame.hidden&&frame===salesFrame.contentWindow;
+salesPreview.addEventListener('click',()=>{
+ if(!loggedIn)return;
+ if(!salesFrame.hidden){closeSalesPreview();return;}
+ salesFrame.hidden=false;
+ salesFrame.src='otros-recursos.html';
+ salesPreview.setAttribute('aria-expanded','true');
+ salesPreview.textContent='Cerrar vista previa';
+});
 function logout(){
+ closeSalesPreview();
  token='';
  loggedIn=false;
  commentLoad++;
