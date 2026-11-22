@@ -140,35 +140,44 @@ window.AULA_MATERIAS = [
     "desc": "Observa, experimenta y descubre la materia",
     "resources": [
       {
+        "type": "Laboratorio interactivo · 2.º ESO",
+        "title": "FactorLab · Cambios de unidades compuestas y densidad",
+        "description": "Aprende a convertir g/cm³, kg/m³ y g/L colocando los factores de conversión. Incluye teoría, práctica guiada y reto autocorregible.",
+        "url": "../recursos/fisica-quimica-2eso/conversiones-compuestas/index.html",
+        "unit": "Cambios de unidades"
+      },
+      {
         "type": "Apuntes y simulaciones · 2.º ESO",
         "title": "Tema 2 · La materia y sus estados",
         "description": "Estudia las propiedades de la materia, los cambios de estado y las leyes de los gases con simulaciones y preguntas autocorregibles.",
         "url": "../recursos/fisica-quimica-2eso/tema2-materia-estados/index.html",
-        "unit": "La materia"
+        "unit": "La materia y sus estados"
       },
       {
         "type": "Actividad interactiva · 2.º ESO",
         "title": "Tabla periódica interactiva",
         "description": "Explora los elementos y practica símbolos y nombres. Recurso complementario de 2.º ESO.",
         "url": "../recursos/tabla-periodica/index.html"
-      },
-      {
-        "type": "Laboratorio interactivo · 2.º ESO",
-        "title": "FactorLab · Cambios de unidades compuestas y densidad",
-        "description": "Aprende a convertir g/cm³, kg/m³ y g/L colocando los factores de conversión. Incluye teoría, práctica guiada y reto autocorregible.",
-        "url": "../recursos/fisica-quimica-2eso/conversiones-compuestas/index.html"
       }
     ],
     "units": [
-      "El método científico",
-      "Magnitudes y unidades",
       {
-        "title": "La materia",
-        "description": "Tema 2 de Física y Química de 2.º ESO. Incluye apuntes imprimibles, simulaciones y actividades de repaso.",
-        "image": "../recursos/fisica-quimica-2eso/tema2-materia-estados/PORTADA_TEMA2.svg"
+        "title": "Cambios de unidades",
+        "aliases": ["Magnitudes y unidades"],
+        "number": 0,
+        "description": "Practica los cambios de unidades y los factores de conversión con FactorLab."
       },
-      "Mezclas y disoluciones",
-      "Introducción a los átomos"
+      {
+        "title": "El método científico",
+        "number": 1
+      },
+      {
+        "title": "La materia y sus estados",
+        "aliases": ["La materia"],
+        "number": 2,
+        "description": "Tema 2 de Física y Química de 2.º ESO. Incluye apuntes imprimibles, simulaciones y actividades de repaso.",
+        "image": "../recursos/fisica-quimica-2eso/tema2-materia-estados/portada-materia-estados.webp"
+      }
     ]
   },
   {
