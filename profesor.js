@@ -198,8 +198,21 @@ $('teacherShow').addEventListener('click',()=>{
  input.type=shown?'text':'password';
  $('teacherShow').textContent=shown?'Ocultar':'Mostrar';
 });
+function settingsPayload(key,value){
+ const next={...api.status,[key]:value};
+ return {
+  gamesEnabled:next.gamesEnabled===true,
+  labsEnabled:next.labsEnabled!==false,
+  examsUnlocked:next.examsUnlocked===true,
+  salesEnabled:next.salesEnabled===true,
+  commentsAutoPublish:next.commentsAutoPublish===true
+ };
+}
 for(const [id,key] of Object.entries(fields)){
- $(id).addEventListener('change',()=>save('/settings','PUT',{[key]:$(id).checked},'Cambios guardados.'));
+ $(id).addEventListener('change',()=>{
+  const value=$(id).checked;
+  save('/settings','PUT',settingsPayload(key,value),'Cambios guardados.');
+ });
 }
 $('teacherResetForm').addEventListener('submit',event=>{
  event.preventDefault();
