@@ -1,0 +1,39 @@
+
+/* Mi Aula Digital · zona docente, estructura inicial de catálogo */
+.td-page{color:#eaf4ff}
+.td-main{max-width:1220px;margin:0 auto;padding:28px 18px 70px}
+.td-hero{background:linear-gradient(125deg,#16355e,#102747);border:1px solid #3a6394;border-radius:22px;padding:34px;display:grid;grid-template-columns:minmax(0,1fr) 170px;align-items:center;gap:24px}
+.td-hero h1{font-size:clamp(26px,4vw,42px);line-height:1.13;margin:9px 0 12px}
+.td-hero p,.td-section>p{color:#c6def4;line-height:1.65}
+.td-pill{display:inline-block;background:#285581;color:#e7f8ff;border:1px solid #5387b7;border-radius:100px;padding:7px 12px;font-size:12px;font-weight:750}
+.td-hero-mark{font-size:100px;text-align:center;filter:drop-shadow(0 6px 15px #07172b)}
+.td-note{margin:20px 0;background:#1b3f65;border-left:4px solid #80c3ed;border-radius:9px;padding:17px 20px;line-height:1.65;color:#d9edff}
+.td-section{margin:38px 0}
+.td-section h2{margin:7px 0 12px;font-size:clamp(22px,3vw,29px)}
+.td-eyebrow{font-size:12px;font-weight:800;letter-spacing:1.25px;color:#90c6ff}
+.td-categories{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.td-group{border:1px solid #426999;border-radius:17px;background:#142e50;padding:20px}
+.td-group-head{display:flex;gap:13px;align-items:center;margin-bottom:13px}
+.td-group-head .td-group-icon{width:45px;height:45px;display:grid;place-items:center;background:#23476e;border-radius:11px;font-size:24px}
+.td-group h3{margin:0 0 3px;font-size:20px}.td-group p{margin:0;color:#bad4ec;font-size:13px}
+.td-subgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.td-subitem{padding:13px;background:#1b3b62;border:1px solid #41668e;border-radius:10px}
+.td-subitem strong{display:block;font-size:14px;line-height:1.4}
+.td-subitem p{color:#b3d0e9;font-size:12px;margin:7px 0 8px;line-height:1.45}
+.td-coming{color:#94d6ff;font-size:11px;font-weight:800}
+.td-products{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px}
+.td-product{background:#142f50;border:1px solid #406999;border-radius:17px;padding:18px;display:flex;flex-direction:column;gap:10px}
+.td-cover{height:123px;border-radius:12px;background:linear-gradient(130deg,#285b88,#163251);display:grid;place-items:center;font-size:60px}
+.td-product h3{margin:0;font-size:18px}.td-product p{margin:0;line-height:1.55;color:#bfd6ec;font-size:14px;flex:1}
+.td-status{width:max-content;padding:5px 10px;border:1px solid #618ab0;border-radius:99px;color:#bcdffd;font-size:12px;font-weight:700}
+.td-link{display:inline-block;background:#2b78c2;border:1px solid #6fafe2;color:#fff;text-decoration:none;border-radius:10px;padding:10px 14px;font-size:13px;font-weight:750;align-self:flex-start}
+.td-link:hover,.td-link:focus-visible{background:#398fe0}
+.td-steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.td-step{padding:16px;background:#173758;border-radius:12px;border:1px solid #436c96}.td-step p{margin:7px 0 0;color:#bfd6ec;font-size:13px}
+.td-detail{max-width:950px;margin:35px auto 80px;padding:0 18px}
+.td-detail-card{background:#152f50;border:1px solid #416893;border-radius:18px;padding:25px}
+.td-detail h1{font-size:clamp(24px,4vw,38px);margin:12px 0}.td-detail p,.td-detail li{line-height:1.7;color:#d0e3f4}
+.td-detail h2{margin-top:25px}
+.td-detail .td-links{display:flex;gap:10px;flex-wrap:wrap;margin-top:25px}
+@media(max-width:850px){.td-hero{grid-template-columns:1fr}.td-hero-mark{display:none}.td-products{grid-template-columns:1fr}.td-subgrid{grid-template-columns:1fr}}
+@media(max-width:630px){.td-categories,.td-steps{grid-template-columns:1fr}.td-hero{padding:23px}.td-group{padding:16px}}
