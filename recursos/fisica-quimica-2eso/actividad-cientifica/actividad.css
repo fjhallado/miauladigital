@@ -1,57 +1,25 @@
-.science-main {
-  max-width: 1080px;
-  padding-block: 28px 38px;
+[hidden] {
+  display: none;
 }
 
-.science-skip,
-.science-sr {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-  clip-path: inset(50%);
-}
-
-.science-skip:focus {
-  z-index: 20;
-  top: 8px;
-  left: 8px;
-  clip-path: none;
-  width: auto;
-  height: auto;
-  padding: 10px 14px;
-  color: #09203e;
-  background: #fff;
-  border-radius: 8px;
-}
-
-.science-hero,
-.science-section {
-  border: 1px solid #3b5984;
-  border-radius: 18px;
-  background: #0e203b;
-}
-
-.science-hero {
-  overflow: hidden;
-}
-
-.science-hero img {
+.science-hero-art img {
   display: block;
-  width: 100%;
+  width: min(100%, 420px);
   height: auto;
+  border: 1px solid #456f9c;
+  border-radius: 19px;
 }
 
-.science-intro,
-.science-section {
-  padding: clamp(16px, 3vw, 32px);
+.lesson {
+  scroll-margin-top: 90px;
 }
 
-.science-nav {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 9px;
-  margin-top: 18px;
+.topic-nav[hidden] + .topic-layout {
+  display: block;
+}
+
+.topic-nav[hidden] + .topic-layout .lesson + .lesson {
+  margin-top: 16px;
 }
 
 .study-label {
@@ -60,52 +28,23 @@
   font-weight: 730;
 }
 
-.science-intro p {
-  margin: 0 0 8px;
+.science-block {
+  min-width: 0;
+  margin-top: 15px;
 }
 
-.science-section {
-  margin-top: 24px;
-  scroll-margin-top: 120px;
+.science-grid .science-block {
+  margin-top: 0;
 }
 
-.science-section h2 {
-  margin: 0 0 12px;
-  font-size: clamp(1.36rem, 3vw, 2rem);
-  line-height: 1.18;
-}
-
-.science-section p,
-.science-section li {
-  line-height: 1.62;
-}
-
-.science-section h3,
-.science-section h4 {
-  margin: 0;
-  line-height: 1.24;
-}
-
-.science-section h4 {
-  font-size: 1.23rem;
-  margin-block: 4px 8px;
-}
-
-.science-grid {
-  display: grid;
-  grid-template-columns: repeat(2,minmax(0,1fr));
-  gap: 14px;
-}
-
-.science-block,
 .study-carousel,
 .science-question {
-  border-radius: 13px;
-  border: 1px solid #3b6085;
-  background: #132a49;
-  padding: clamp(13px, 2.4vw, 22px);
-  margin-block: 12px 0;
   min-width: 0;
+  margin-top: 15px;
+  padding: clamp(13px, 2.4vw, 22px);
+  border: 1px solid #3b6085;
+  border-radius: 16px;
+  background: #132f52;
 }
 
 .carousel-controls {
@@ -114,10 +53,6 @@
   gap: 8px;
   align-items: center;
   margin-block: 15px 12px;
-}
-
-.science-page [hidden] {
-  display: none;
 }
 
 .carousel-controls select,
@@ -142,7 +77,7 @@
   opacity: .62;
 }
 
-.carousel-controls :is(select,button):focus-visible,
+.carousel-controls :is(select, button):focus-visible,
 .science-question summary:focus-visible {
   outline: 2px solid #99dcff;
   outline-offset: 2px;
@@ -163,13 +98,17 @@
 
 .carousel-slide {
   display: grid;
-  grid-template-columns: minmax(0, 360px) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 345px) minmax(0, 1fr);
   align-items: center;
   gap: clamp(12px, 3vw, 24px);
   margin-top: 10px;
   padding: 12px;
   border-radius: 12px;
   background: #0c203a;
+}
+
+.carousel-slide[hidden] {
+  display: none;
 }
 
 .carousel-slide img,
@@ -181,19 +120,29 @@
   border: 1px solid #3b6085;
 }
 
+.carousel-copy h4 {
+  margin: 4px 0 8px;
+  font-size: 1.18rem;
+  line-height: 1.27;
+}
+
 .carousel-copy p {
   margin: 8px 0;
 }
 
 .study-example,
 .science-formula {
-  background: #19385a;
   padding: 8px 10px;
   border-left: 3px solid #82caff;
   border-radius: 4px;
 }
 
+.study-example {
+  background: #19385a;
+}
+
 .science-formula {
+  background: #e3eff9;
   overflow-wrap: anywhere;
 }
 
@@ -205,25 +154,26 @@
 }
 
 .study-table caption {
-  text-align: left;
   padding-bottom: 8px;
-  color: #b9cfed;
+  color: #385472;
+  text-align: left;
 }
 
 .study-table th,
 .study-table td {
   padding: 8px;
-  border-bottom: 1px solid #466687;
+  border-bottom: 1px solid #d0e1f0;
   vertical-align: top;
   overflow-wrap: anywhere;
 }
 
 .study-table th {
-  background: #19385a;
+  background: #e3eff9;
 }
 
 .science-block a {
-  color: #a5e0ff;
+  color: #165b90;
+  font-weight: 700;
   text-decoration: underline;
   text-underline-offset: 3px;
 }
@@ -242,17 +192,12 @@
 }
 
 .science-question p {
-  margin-bottom: 0;
+  margin: 10px 0 0;
 }
 
-.science-footer span {
-  max-width: 55ch;
-}
-
-@media (max-width: 720px) {
-  .science-grid,
+@media (max-width: 760px) {
   .carousel-slide {
-    grid-template-columns: minmax(0,1fr);
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .carousel-slide img {
@@ -260,45 +205,33 @@
     margin-inline: auto;
   }
 
-  .science-section {
-    scroll-margin-top: 158px;
+  .head-inner {
+    gap: 8px;
+  }
+
+  .brand-icon {
+    flex-shrink: 0;
+    width: 35px;
+    height: 35px;
   }
 }
 
 @media print {
-  .science-page {
-    color: #112640;
-    background: #fff;
-    font-size: 11pt;
-  }
-
-  .science-page .site-header,
-  .science-skip,
-  .science-nav,
   .carousel-controls {
     display: none;
   }
 
-  .science-main {
-    width: 100%;
-    padding-block: 0;
-  }
-
-  .science-hero,
-  .science-section,
-  .science-block,
   .study-carousel,
   .carousel-slide,
-  .science-question,
-  .study-table th {
+  .science-question {
     background: #fff;
     color: #112640;
   }
 
-  .science-page .carousel-slide,
-  .science-page .carousel-slide[hidden] {
+  .carousel-slide,
+  .carousel-slide[hidden] {
     display: grid;
-    grid-template-columns: 25% minmax(0,1fr);
+    grid-template-columns: 25% minmax(0, 1fr);
     break-inside: avoid;
   }
 
@@ -306,14 +239,19 @@
     display: block;
   }
 
-  .study-label,
-  .study-table caption,
-  .science-block a {
+  .science-grid .science-block {
+    margin-top: 9px;
+  }
+
+  .study-label {
     color: #234f76;
   }
 
-  .study-example,
-  .science-formula {
+  .study-example {
     background: #e9f1f7;
+  }
+
+  .footer strong {
+    color: #112640;
   }
 }

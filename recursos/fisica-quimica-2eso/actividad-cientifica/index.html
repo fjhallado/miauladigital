@@ -6,43 +6,61 @@
   <meta name="description" content="Método científico, medida e instrumentos de laboratorio. Tema 1 de Física y Química de 2.º ESO en Mi Aula Digital.">
   <meta name="theme-color" content="#09142b">
   <title>Tema 1 · La actividad científica | Mi Aula Digital</title>
-  <link rel="stylesheet" href="../../../estilos.css?v=1.4.108">
-  <link rel="stylesheet" href="actividad.css">
-  <script src="actividad.js" defer></script>
+  <link rel="stylesheet" href="../tema2-materia-estados/tema2.css">
+  <link rel="stylesheet" href="actividad.css?v=1.4.110">
+  <script src="actividad.js?v=1.4.110" defer></script>
 </head>
-<body class="science-page">
-  <a class="science-skip" href="#contenido">Saltar al contenido</a>
-  <header class="site-header">
-    <div class="container header-row">
-      <a class="branding" href="../../../index.html"><span><strong>Mi Aula Digital</strong><small>Francisco José Hallado Fernández</small></span></a>
-      <nav class="header-nav" aria-label="Navegación principal">
-        <a href="../../../index.html">Inicio</a>
+<body>
+  <a class="skip" href="#contenido">Saltar al contenido</a>
+  <header class="site-head">
+    <div class="wrap head-inner">
+      <a class="brand" href="../../../index.html">
+        <span class="brand-icon" aria-hidden="true">⚗</span>
+        <span><strong>Mi Aula Digital</strong><small>Francisco José Hallado Fernández · Profesor de ESO y Bachillerato</small></span>
+      </a>
+      <nav class="head-links" aria-label="Navegación principal">
         <a href="../../../asignaturas/fisica-quimica-1eso.html#unidades">Física y Química</a>
         <a href="../../../tema.html?asignatura=fisica-quimica-1eso&amp;unidad=La%20actividad%20cient%C3%ADfica#topic-content">Materiales del tema</a>
       </nav>
     </div>
   </header>
 
-  <main class="container science-main" id="contenido">
-    <header class="science-hero">
-      <h1 class="science-sr">La actividad científica</h1>
-      <img src="portada-actividad-cientifica.webp" width="1200" height="310" alt="">
-      <div class="science-intro">
-        <p class="study-label">Física y Química · 2.º ESO · Tema 01</p>
-        <p>Plantea una investigación, expresa las medidas con sus unidades y elige el instrumento adecuado para cada tarea.</p>
-        <nav class="science-nav" aria-label="Apartados del tema">
-          <a class="btn secondary" href="#metodo">Método científico</a>
-          <a class="btn secondary" href="#medida">La medida</a>
-          <a class="btn secondary" href="#instrumentos">Instrumentos</a>
-          <a class="btn secondary" href="#repaso">Repaso</a>
-          <button class="btn secondary" type="button" id="imprimir" hidden>Imprimir apuntes</button>
-        </nav>
+  <main class="wrap" id="contenido">
+    <section class="hero">
+      <div class="hero-copy">
+        <div class="pill">Física y Química · 2.º ESO · Tema 1</div>
+        <h1>La actividad <span>científica</span></h1>
+        <p>Plantea una investigación, exprésala con datos y elige el instrumento adecuado para cada medida.</p>
+        <div class="hero-actions" hidden>
+          <button type="button" class="primary" id="start-unit">Comenzar el tema →</button>
+          <button type="button" class="ghost" id="print-unit">Imprimir apuntes</button>
+        </div>
+        <div class="progress-summary" hidden>
+          <span id="progress-copy" role="status"></span>
+          <div class="progress-bar" role="progressbar" aria-label="Apartados repasados" aria-valuemin="0" aria-valuemax="4" aria-valuenow="0"><div id="progress-fill"></div></div>
+        </div>
       </div>
-    </header>
+      <div class="hero-art science-hero-art" aria-hidden="true">
+        <img src="ilustraciones/portada-detalle.webp" alt="" width="475" height="310">
+      </div>
+    </section>
 
-    <section class="science-section" id="metodo" aria-labelledby="metodo-titulo">
+    <nav class="topic-nav" aria-label="Apartados del tema" hidden>
+      <span class="nav-title">Contenidos</span>
+      <div class="nav-buttons">
+        <button type="button" data-lesson-target="metodo" aria-controls="metodo">01 <span>Método científico</span></button>
+        <button type="button" data-lesson-target="medida" aria-controls="medida">02 <span>La medida</span></button>
+        <button type="button" data-lesson-target="instrumentos" aria-controls="instrumentos">03 <span>Instrumentos</span></button>
+        <button type="button" data-lesson-target="repaso" aria-controls="repaso">04 <span>Repaso</span></button>
+      </div>
+    </nav>
+
+    <div class="topic-layout">
+      <div class="main-column">
+        <section class="lesson" id="metodo" aria-labelledby="metodo-titulo">
+          <div class="section-number">Apartado 01 / 04</div>
       <h2 id="metodo-titulo">1. El método científico y sus fases</h2>
-      <p>La investigación científica formula preguntas y busca respuestas que se puedan contrastar con datos. Las fases orientan el trabajo y a veces se repiten al aparecer nueva información.</p>
+      <p class="lead">La investigación científica formula preguntas y busca respuestas que se puedan contrastar con datos. Las fases orientan el trabajo y a veces se repiten al aparecer nueva información.</p>
       <div class="study-carousel" data-carousel aria-labelledby="fases-label">
   <h3 id="fases-label">Recorre las fases de una investigación</h3>
   <div class="carousel-controls" hidden>
@@ -84,7 +102,7 @@
   </ul>
 </div>
 
-      <article class="science-block">
+      <article class="white-card science-block">
         <h3>De los datos a la conclusión</h3>
         <p>En el ejemplo del péndulo, la longitud es la <strong>variable independiente</strong> y el tiempo es la <strong>variable dependiente</strong>. Se controlan la masa y el ángulo inicial. Esta tabla contiene datos simulados para practicar su interpretación.</p>
         <table class="study-table">
@@ -94,23 +112,24 @@
         </table>
         <p>Un gráfico de puntos permite ver la relación entre longitud y tiempo. Un gráfico de barras compara categorías y uno de sectores muestra cómo se reparte un total.</p>
       </article>
-      <div class="science-grid">
-        <article class="science-block">
+      <div class="two-col science-grid">
+        <article class="white-card science-block">
           <h3>Hipótesis, ley, teoría y modelo</h3>
           <p>Una hipótesis es una explicación que se puede poner a prueba. Una ley describe una regularidad, con palabras o con una relación matemática. Una teoría explica un conjunto de observaciones y un modelo representa de forma simplificada un objeto o proceso para estudiarlo.</p>
         </article>
-        <article class="science-block">
+        <article class="white-card science-block">
           <h3>El informe científico</h3>
           <p>Incluye título, autoría, objetivo e hipótesis. A continuación, explica los materiales y el procedimiento, presenta los resultados y sus limitaciones y termina con las conclusiones y las fuentes consultadas.</p>
         </article>
       </div>
     </section>
 
-    <section class="science-section" id="medida" aria-labelledby="medida-titulo">
+        <section class="lesson" id="medida" aria-labelledby="medida-titulo">
+          <div class="section-number">Apartado 02 / 04</div>
       <h2 id="medida-titulo">2. La medida</h2>
-      <p>Una <strong>magnitud</strong> es una propiedad que se puede medir. Medir es compararla con una unidad de referencia. En <strong>25 cm</strong>, la magnitud es la longitud, 25 es el valor y cm es la unidad.</p>
-      <div class="science-grid">
-        <article class="science-block">
+      <p class="lead">Una <strong>magnitud</strong> es una propiedad que se puede medir. Medir es compararla con una unidad de referencia. En <strong>25 cm</strong>, la magnitud es la longitud, 25 es el valor y cm es la unidad.</p>
+      <div class="two-col science-grid">
+        <article class="white-card science-block">
           <h3>Magnitudes básicas del Sistema Internacional</h3>
           <table class="study-table">
             <thead><tr><th scope="col">Magnitud</th><th scope="col">Unidad</th><th scope="col">Símbolo</th></tr></thead>
@@ -125,7 +144,7 @@
             </tbody>
           </table>
         </article>
-        <article class="science-block">
+        <article class="white-card science-block">
           <h3>Magnitudes derivadas</h3>
           <p>Se expresan a partir de otras magnitudes. Por ejemplo, la rapidez es la distancia recorrida dividida entre el tiempo que se tarda.</p>
           <table class="study-table">
@@ -140,8 +159,8 @@
           <p>Una medida puede ser directa, como la longitud leída en una regla, o indirecta, como la superficie de un rectángulo calculada a partir de sus lados. Se deja un espacio entre el número y el símbolo. Los símbolos distinguen mayúsculas y minúsculas y se escriben sin plural.</p>
         </article>
       </div>
-      <div class="science-grid">
-        <article class="science-block">
+      <div class="two-col science-grid">
+        <article class="white-card science-block">
           <h3>Múltiplos, submúltiplos y factores de conversión</h3>
           <p>Los prefijos indican potencias de diez. Kilo (k) equivale a 10³, hecto (h) a 10² y deca (da) a 10¹. Deci (d) equivale a 10⁻¹, centi (c) a 10⁻², mili (m) a 10⁻³ y micro (µ) a 10⁻⁶.</p>
           <p>Multiplica por una fracción que exprese dos cantidades iguales. Coloca la unidad que quieres cancelar en el lado opuesto de la fracción.</p>
@@ -150,7 +169,7 @@
           <p class="science-formula">36 km/h × (1 000 m / 1 km) × (1 h / 3 600 s) = 10 m/s</p>
           <a href="../conversiones-compuestas/index.html">Practicar con FactorLab →</a>
         </article>
-        <article class="science-block">
+        <article class="white-card science-block">
           <h3>Volumen, capacidad y cifras</h3>
           <p>El volumen mide el espacio que ocupa un cuerpo. La capacidad indica cuánto cabe dentro de un recipiente.</p>
           <p class="science-formula">1 L = 1 dm³ · 1 mL = 1 cm³ · 1 m³ = 1 000 L</p>
@@ -160,9 +179,10 @@
       </div>
     </section>
 
-    <section class="science-section" id="instrumentos" aria-labelledby="instrumentos-titulo">
+        <section class="lesson" id="instrumentos" aria-labelledby="instrumentos-titulo">
+          <div class="section-number">Apartado 03 / 04</div>
       <h2 id="instrumentos-titulo">3. Los instrumentos de medida</h2>
-      <p>Antes de medir, identifica la magnitud y elige un instrumento cuyo intervalo y resolución sean adecuados. Para estimar un volumen puedes usar una probeta. Para preparar exactamente el volumen indicado por una marca utiliza un matraz aforado.</p>
+      <p class="lead">Antes de medir, identifica la magnitud y elige un instrumento cuyo intervalo y resolución sean adecuados. Para estimar un volumen puedes usar una probeta. Para preparar exactamente el volumen indicado por una marca utiliza un matraz aforado.</p>
       <div class="study-carousel" data-carousel aria-labelledby="equipo-label">
   <h3 id="equipo-label">Identifica el material de laboratorio</h3>
   <div class="carousel-controls" hidden>
@@ -252,23 +272,23 @@
   </ul>
 </div>
 
-      <div class="science-grid">
-        <article class="science-block">
+      <div class="two-col science-grid">
+        <article class="white-card science-block">
           <h3>Cómo leer el menisco</h3>
           <figure class="meniscus">
             <img src="ilustraciones/menisco.webp" width="420" height="260" alt="El ojo está a la misma altura que el punto inferior de la superficie cóncava del agua.">
             <figcaption>Con agua en una probeta, lee el punto más bajo del menisco. Coloca la vista a esa altura para evitar el error de paralaje.</figcaption>
           </figure>
         </article>
-        <article class="science-block">
+        <article class="white-card science-block">
           <h3>Resolución e incertidumbre</h3>
           <p>La resolución indica el cambio más pequeño que el instrumento permite apreciar. En una regla con diez divisiones por centímetro, cada división representa 1 mm.</p>
           <p>La incertidumbre expresa el margen asociado a una medida. Puede depender de la resolución, de la calibración y de cómo se realiza la lectura. Indica el criterio que usas. Si en clase se toma una división como incertidumbre, se podría anotar <strong>(47 ± 1) mm</strong> para esa regla.</p>
           <p>Repetir una medida ayuda a valorar cuánto varían las lecturas. Una escala más fina facilita la lectura, aunque también importan la calibración y la técnica de medida.</p>
         </article>
       </div>
-      <div class="science-grid">
-        <article class="science-block">
+      <div class="two-col science-grid">
+        <article class="white-card science-block">
           <h3>Seguridad en el laboratorio</h3>
           <ul>
             <li>Sigue las indicaciones del profesorado y lee las etiquetas antes de usar cualquier producto.</li>
@@ -277,7 +297,7 @@
             <li>Identifica los símbolos de peligro. La llama indica riesgo de inflamabilidad y el símbolo de corrosión advierte de posibles quemaduras o daños en materiales.</li>
           </ul>
         </article>
-        <article class="science-block">
+        <article class="white-card science-block">
           <h3>Gestión de residuos</h3>
           <p>Deposita cada residuo en el recipiente que indique el profesorado y conserva las etiquetas. El vidrio roto y los objetos punzantes se recogen con medios adecuados y se depositan en un contenedor rígido.</p>
           <p>Los reactivos y el material contaminado se gestionan según las indicaciones de la práctica y del laboratorio. Consulta dónde van antes de verter o mezclar residuos.</p>
@@ -285,7 +305,8 @@
       </div>
     </section>
 
-    <section class="science-section" id="repaso" aria-labelledby="repaso-titulo">
+        <section class="lesson" id="repaso" aria-labelledby="repaso-titulo">
+          <div class="section-number">Apartado 04 / 04</div>
       <h2 id="repaso-titulo">Comprueba lo aprendido</h2>
       <details class="science-question">
         <summary>¿Qué mantendrías constante al investigar cómo afecta la longitud al período de un péndulo?</summary>
@@ -308,7 +329,41 @@
         <p>Comprueba las medidas y el procedimiento. Si el resultado se confirma, revisa la hipótesis y documenta lo observado.</p>
       </details>
     </section>
+        <div class="lesson-footer" hidden>
+          <button class="ghost" type="button" id="prev-lesson">← Apartado anterior</button>
+          <span id="lesson-pos"></span>
+          <button class="primary" type="button" id="next-lesson">Siguiente apartado →</button>
+        </div>
+      </div>
+      <aside class="side-column" aria-label="Tu recorrido" hidden>
+        <div class="aside-panel">
+          <span class="aside-label">En este tema</span>
+          <h3>Tu recorrido</h3>
+          <div class="side-steps">
+            <button type="button" data-lesson-target="metodo" aria-controls="metodo"><b>01</b>Método científico<span data-completed="metodo" aria-hidden="true">○</span></button>
+            <button type="button" data-lesson-target="medida" aria-controls="medida"><b>02</b>La medida<span data-completed="medida" aria-hidden="true">○</span></button>
+            <button type="button" data-lesson-target="instrumentos" aria-controls="instrumentos"><b>03</b>Instrumentos<span data-completed="instrumentos" aria-hidden="true">○</span></button>
+            <button type="button" data-lesson-target="repaso" aria-controls="repaso"><b>04</b>Repaso<span data-completed="repaso" aria-hidden="true">○</span></button>
+          </div>
+          <div class="aside-tip">
+            <strong>Progreso del tema</strong>
+            <p>Al pasar al siguiente apartado se guarda el que acabas de repasar. Puedes volver a cualquier apartado desde el menú.</p>
+          </div>
+        </div>
+        <div class="aside-panel links-panel">
+          <span class="aside-label">Recursos del tema</span>
+          <a href="../conversiones-compuestas/index.html">↗ FactorLab · Cambios de unidades</a>
+          <a href="../../../tema.html?asignatura=fisica-quimica-1eso&amp;unidad=La%20actividad%20cient%C3%ADfica#topic-content">← Volver a los materiales</a>
+        </div>
+      </aside>
+    </div>
   </main>
-  <footer class="container science-footer"><strong>Mi Aula Digital</strong><span>Apuntes e ilustraciones de elaboración propia a partir del temario facilitado de Edelvives Digital Plus.</span></footer>
+
+  <footer class="footer">
+    <div class="wrap">
+      <strong>Mi Aula Digital</strong>
+      <small>Apuntes e ilustraciones de elaboración propia a partir del temario facilitado de Edelvives Digital Plus.</small>
+    </div>
+  </footer>
 </body>
 </html>

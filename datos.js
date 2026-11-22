@@ -147,6 +147,13 @@ window.AULA_MATERIAS = [
         "unit": "La actividad científica"
       },
       {
+        "type": "Ejercicios de repaso · 2.º ESO",
+        "title": "Preguntas de repaso",
+        "description": "Comprueba lo aprendido sobre el método científico, las unidades y los instrumentos de medida.",
+        "url": "../recursos/fisica-quimica-2eso/actividad-cientifica/index.html#repaso",
+        "unit": "La actividad científica"
+      },
+      {
         "type": "Laboratorio interactivo · 2.º ESO",
         "title": "FactorLab · Cambios de unidades compuestas y densidad",
         "description": "Aprende a convertir g/cm³, kg/m³ y g/L colocando los factores de conversión. Incluye teoría, práctica guiada y reto autocorregible.",
