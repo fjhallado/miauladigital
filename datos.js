@@ -140,6 +140,13 @@ window.AULA_MATERIAS = [
     "desc": "Observa, experimenta y descubre la materia",
     "resources": [
       {
+        "type": "Apuntes y simulaciones · 2.º ESO",
+        "title": "Tema 2 · La materia y sus estados",
+        "description": "Estudia las propiedades de la materia, los cambios de estado y las leyes de los gases con simulaciones y preguntas autocorregibles.",
+        "url": "../recursos/fisica-quimica-2eso/tema2-materia-estados/index.html",
+        "unit": "La materia"
+      },
+      {
         "type": "Actividad interactiva · 2.º ESO",
         "title": "Tabla periódica interactiva",
         "description": "Explora los elementos y practica símbolos y nombres. Recurso complementario de 2.º ESO.",
@@ -155,7 +162,11 @@ window.AULA_MATERIAS = [
     "units": [
       "El método científico",
       "Magnitudes y unidades",
-      "La materia",
+      {
+        "title": "La materia",
+        "description": "Tema 2 de Física y Química de 2.º ESO. Incluye apuntes imprimibles, simulaciones y actividades de repaso.",
+        "image": "../recursos/fisica-quimica-2eso/tema2-materia-estados/PORTADA_TEMA2.svg"
+      },
       "Mezclas y disoluciones",
       "Introducción a los átomos"
     ]
