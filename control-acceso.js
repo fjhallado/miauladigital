@@ -9,7 +9,7 @@ const DEFAULT={gamesEnabled:true,labsEnabled:true,examsUnlocked:false,salesEnabl
 const madridDate=new Intl.DateTimeFormat('es-ES',{timeZone:'Europe/Madrid',dateStyle:'short',timeStyle:'short'});
 const madridTime=new Intl.DateTimeFormat('es-ES',{timeZone:'Europe/Madrid',hour:'2-digit',minute:'2-digit',hourCycle:'h23'});
 let clock=null,boundary=null;
-let status={...DEFAULT}, ready=false, error=null, observers=[];
+let status={...DEFAULT}, ready=false, error=null, observers=[], salesSupported=!url;
 function parse(value){
  const examResets={...DEFAULT.examResets};
  for(const exam of Object.keys(examResets)){
@@ -49,6 +49,7 @@ function refresh(fresh=false){
    if(!res.ok)throw Error('El servidor respondió '+res.status);
    const data=await res.json();
    if(!data.examResets)throw Error('Actualiza el servidor de control del profesor.');
+   salesSupported=typeof data.salesEnabled==='boolean';
    const received=performance.now();
    if(Number.isSafeInteger(data.serverTime))clock={time:data.serverTime+(received-requested)/2,received};
    status=parse(data);error=null;
@@ -186,7 +187,7 @@ function protectSales(){
  main.parentNode.insertBefore(notice,main);
  onChange(()=>{const show=salesPreview()||(ready&&!error&&status.salesEnabled===true);main.hidden=!show;notice.hidden=show;});
 }
-window.MAD_CONTROL={get url(){return url},get remote(){return !!url},get ready(){return ready},get error(){return error},get status(){return {...status}},gamesEnabled,salesEnabled:()=>ready&&!error&&status.salesEnabled===true,examUnlimited:()=>ready&&status.examsUnlocked,refresh,onChange,examVersion,canResetExam,now,dateLabel,timeLabel,phase,labAccess,examWindow,prepareAttempt,attemptNow,attemptDeadline,updateTiming,protectGames,markGameLinks,markSalesLinks,protectSales,localUpdate(data){if(url)throw Error('La sincronización remota está activada');status=parse(data);localStorage.setItem(LOCAL_KEY,JSON.stringify(status));ready=true;notify();return status}};
+window.MAD_CONTROL={get url(){return url},get remote(){return !!url},get salesSupported(){return salesSupported},get ready(){return ready},get error(){return error},get status(){return {...status}},gamesEnabled,salesEnabled:()=>ready&&!error&&status.salesEnabled===true,examUnlimited:()=>ready&&status.examsUnlocked,refresh,onChange,examVersion,canResetExam,now,dateLabel,timeLabel,phase,labAccess,examWindow,prepareAttempt,attemptNow,attemptDeadline,updateTiming,protectGames,markGameLinks,markSalesLinks,protectSales,localUpdate(data){if(url)throw Error('La sincronización remota está activada');status=parse(data);localStorage.setItem(LOCAL_KEY,JSON.stringify(status));ready=true;notify();return status}};
 window.addEventListener('storage',e=>{if(!url&&e.key===LOCAL_KEY)refresh()});
 window.addEventListener('focus',()=>{if(url)refresh()});
 window.addEventListener('pageshow',()=>{if(url)refresh()});
