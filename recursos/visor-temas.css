@@ -1,0 +1,36 @@
+@import url("fisica-quimica-2eso/tema2-materia-estados/tema2.css");
+
+[hidden] {
+  display: none;
+}
+
+.lesson,
+.lesson [id] {
+  scroll-margin-top: 90px;
+}
+
+.topic-nav[hidden] + .topic-layout {
+  display: block;
+}
+
+.topic-nav[hidden] + .topic-layout .lesson + .lesson {
+  margin-top: 16px;
+}
+
+@media (max-width: 760px) {
+  .head-inner {
+    gap: 8px;
+  }
+
+  .brand-icon {
+    flex-shrink: 0;
+    width: 35px;
+    height: 35px;
+  }
+}
+
+@media print {
+  .footer strong {
+    color: #112640;
+  }
+}

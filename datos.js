@@ -8,11 +8,19 @@ window.AULA_MATERIAS = [
     "desc": "Números, operaciones, álgebra y geometría",
     "resources": [
       {
+        "type": "Apuntes y teoría",
+        "title": "Tema 1 · Potencias",
+        "description": "Guía breve con ejemplos para aplicar las propiedades de las potencias antes de resolver la ficha.",
+        "url": "../recursos/matematicas-1eso/numeros-naturales/teoria.html",
+        "unit": "Números naturales"
+      },
+      {
         "type": "Ficha PDF",
         "title": "Ficha de potencias",
         "description": "Ejercicios para practicar las propiedades de las potencias, cálculo y operaciones. Ficha adaptada a Mi Aula Digital.",
         "url": "../recursos/matematicas-1eso/potencias.pdf",
-        "unit": "Números naturales"
+        "unit": "Números naturales",
+        "download": true
       },
       {
         "type": "Apuntes y teoría",

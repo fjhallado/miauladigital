@@ -1,25 +1,9 @@
-[hidden] {
-  display: none;
-}
-
 .science-hero-art img {
   display: block;
   width: min(100%, 420px);
   height: auto;
   border: 1px solid #456f9c;
   border-radius: 19px;
-}
-
-.lesson {
-  scroll-margin-top: 90px;
-}
-
-.topic-nav[hidden] + .topic-layout {
-  display: block;
-}
-
-.topic-nav[hidden] + .topic-layout .lesson + .lesson {
-  margin-top: 16px;
 }
 
 .study-label {
@@ -204,16 +188,6 @@
     max-width: 420px;
     margin-inline: auto;
   }
-
-  .head-inner {
-    gap: 8px;
-  }
-
-  .brand-icon {
-    flex-shrink: 0;
-    width: 35px;
-    height: 35px;
-  }
 }
 
 @media print {
@@ -249,9 +223,5 @@
 
   .study-example {
     background: #e9f1f7;
-  }
-
-  .footer strong {
-    color: #112640;
   }
 }

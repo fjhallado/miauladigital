@@ -1,0 +1,126 @@
+.math-cover img {
+  display: block;
+  width: min(100%, 420px);
+  height: auto;
+  border: 1px solid #456f9c;
+  border-radius: 19px;
+}
+
+.math-notes .main-column,
+.math-notes .lesson > *,
+.math-notes .two-col > * {
+  min-width: 0;
+}
+
+.math-notes .lesson > .white-card {
+  margin-block: 15px;
+}
+
+.math-notes .quick,
+.math-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-block: 14px;
+}
+
+.math-notes a:is(.primary, .ghost) {
+  display: inline-block;
+  text-decoration: none;
+  overflow-wrap: anywhere;
+}
+
+.math-notes :is(.theory-note, .theory-props article, .procedure-step, .recap-grid > div) {
+  background: #f5faff;
+  border-color: #c7e3f7;
+  color: #213d5c;
+}
+
+.math-notes :is(.theory-note, .theory-props article, .procedure-step, .recap-grid > div) :is(strong, span:not(.step-number), p) {
+  color: inherit;
+}
+
+.math-notes .theory-note {
+  border-left-color: #5a9dd7;
+}
+
+.math-notes .theory-note .formula-inline {
+  color: #193554;
+  background: #e1eff9;
+}
+
+.math-example {
+  padding: 9px 13px;
+  background: #e1eff9;
+  border-radius: 8px;
+  overflow-wrap: anywhere;
+}
+
+.math-notes .white-card details {
+  margin-block: 10px;
+}
+
+.math-notes summary {
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.math-notes summary + p {
+  margin: 7px 0 0;
+}
+
+.math-sieve {
+  margin-top: 20px;
+  padding: clamp(10px, 2.5vw, 22px);
+  border: 1px solid #3c6489;
+  border-radius: 16px;
+  background: #132f52;
+}
+
+.math-sieve .prime-grid {
+  margin-block: 10px;
+}
+
+.math-notes .table-scroll {
+  margin-inline: 0;
+}
+
+.math-notes .visit-counter {
+  display: block;
+}
+
+@media print {
+  .math-notes .lesson {
+    overflow-wrap: anywhere;
+  }
+
+  .math-notes :is(.math-sieve, .theory-formulas > div, .formula-inline, .formula, .procedure-list > div, .source-note, .pythagorean th, .pythagorean td, .prime-cell) {
+    color: #102640;
+    background: #edf4f9;
+    border-color: #bfd0e2;
+  }
+
+  .math-notes .pythagorean td.highlight,
+  .math-notes .prime-cell.selected {
+    color: #0e3f63;
+    background: #d2ebfc;
+  }
+
+  .math-notes .procedure-list :is(b, em) {
+    color: #233f5d;
+  }
+
+  .math-notes .quick,
+  .math-actions,
+  .math-notes .visit-counter {
+    display: none;
+  }
+
+  .math-notes .table-scroll {
+    overflow: visible;
+  }
+
+  .math-notes .pythagorean {
+    min-width: 0;
+  }
+}
