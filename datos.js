@@ -194,6 +194,21 @@ window.AULA_MATERIAS = [
         "download": true
       },
       {
+        "type": "Vídeo · YouTube Shorts",
+        "title": "Cambios de estado del agua",
+        "description": "Por qué se mantiene la temperatura durante un cambio de estado.",
+        "url": "https://www.youtube.com/shorts/JnQ-DwBkhUc",
+        "youtubeShort": "JnQ-DwBkhUc",
+        "unit": "La materia y sus estados"
+      },
+      {
+        "type": "Vídeo · YouTube Shorts",
+        "title": "Presión de un gas: qué pasa al comprimir el aire",
+        "url": "https://www.youtube.com/shorts/KZPjkEsDC0g",
+        "youtubeShort": "KZPjkEsDC0g",
+        "unit": "La materia y sus estados"
+      },
+      {
         "type": "Actividad interactiva · 2.º ESO",
         "title": "Tabla periódica interactiva",
         "description": "Explora los elementos y practica símbolos y nombres. Recurso complementario de 2.º ESO.",

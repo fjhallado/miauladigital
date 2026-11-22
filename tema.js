@@ -15,9 +15,10 @@ function makeLink(item) {
   desc.textContent=item.description||'';
   const link=document.createElement('a');
   const external=/^https?:\/\//i.test(item.url||'');
+  const isShort=/^[\w-]{11}$/.test(item.youtubeShort||'');
   link.href=item.url;
   if(external){
-    link.textContent='Abrir material ↗';
+    link.textContent=isShort?'Ver en YouTube ↗':'Abrir material ↗';
     link.target='_blank';
     link.rel='noopener noreferrer';
   }else if(item.download){
@@ -27,7 +28,21 @@ function makeLink(item) {
   }else{
     link.textContent='Abrir o descargar →';
   }
-  el.append(tag,title,desc,link);
+  el.append(tag,title);
+  if(item.description) el.append(desc);
+  if(isShort){
+    const player=document.createElement('iframe');
+    player.className='topic-short';
+    player.title=title.textContent;
+    player.src='https://www.youtube-nocookie.com/embed/'+item.youtubeShort;
+    player.loading='lazy';
+    player.referrerPolicy='strict-origin-when-cross-origin';
+    player.allow='encrypted-media; picture-in-picture; fullscreen';
+    player.allowFullscreen=true;
+    el.append(player);
+    link.setAttribute('aria-label','Ver en YouTube: '+title.textContent);
+  }
+  el.append(link);
   return el;
 }
 if(!unit){
