@@ -2,7 +2,7 @@
 'use strict';
 const $=id=>document.getElementById(id);
 const api=window.MAD_CONTROL;
-const fields={teacherGames:'gamesEnabled',teacherLabs:'labsEnabled',teacherExams:'examsUnlocked',teacherCommentsAuto:'commentsAutoPublish'};
+const fields={teacherGames:'gamesEnabled',teacherLabs:'labsEnabled',teacherExams:'examsUnlocked',teacherCommentsAuto:'commentsAutoPublish',teacherSales:'salesEnabled'};
 const examNames={tic:'Programación TIC II',periodica:'Tabla Periódica',both:'ambos exámenes'};
 const DIGEST='4f9d462ffeaf16ab189b3d7e2a6feb2394f7faa2246e94e1cb91c5321c1a47f6';
 const SALT='MiAulaDigital-Profesor-v1:';
