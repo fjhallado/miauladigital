@@ -4,10 +4,7 @@ const $=id=>document.getElementById(id);
 const api=window.MAD_CONTROL;
 const fields={teacherGames:'gamesEnabled',teacherLabs:'labsEnabled',teacherExams:'examsUnlocked',teacherCommentsAuto:'commentsAutoPublish',teacherSales:'salesEnabled'};
 const examNames={tic:'Programación TIC II',periodica:'Tabla Periódica',both:'ambos exámenes'};
-const DIGEST='4f9d462ffeaf16ab189b3d7e2a6feb2394f7faa2246e94e1cb91c5321c1a47f6';
-const SALT='MiAulaDigital-Profesor-v1:';
-let token='';
-let loggedIn=!api.remote&&sessionStorage.getItem('mad-profesor-local')==='ok';
+let session=null;
 let busy=false;
 const madridFields=new Intl.DateTimeFormat('en-CA',{
  timeZone:'Europe/Madrid',year:'numeric',month:'2-digit',day:'2-digit',
@@ -17,6 +14,7 @@ let timetableDirty=false,timetableKey='';
 let labFormDirty=false,labFormKey='';
 let commentPage=null,commentLoad=0;
 let gradePage=null,gradeLoad=0;
+let accountBusy=false,editingAccount='';
 const commentDate=new Intl.DateTimeFormat('es-ES',{timeZone:'Europe/Madrid',dateStyle:'short',timeStyle:'short'});
 function dateField(at){
  const parts=Object.fromEntries(madridFields.formatToParts(at).map(({type,value})=>[type,value]));
@@ -87,92 +85,87 @@ function message(text,error=false){
  node.textContent=text;
  node.style.color=error?'#ffb5bb':'#acddff';
 }
-async function localVerify(password){
- const hash=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(SALT+password));
- return Array.from(new Uint8Array(hash),value=>value.toString(16).padStart(2,'0')).join('')===DIGEST;
-}
 function render(){
- $('teacherLogin').hidden=loggedIn;
- $('teacherApp').hidden=!loggedIn;
- if(!loggedIn)return;
+ $('teacherLogin').hidden=!!session;
+ $('teacherApp').hidden=!session;
+ $('teacherSignIn').disabled=busy||!api.remote;
+ if(!session)return;
+ const admin=session.role==='admin';
  const state=api.status;
  const unavailable=!api.ready||!!api.error;
- for(const [id,key] of Object.entries(fields)){
-  if(!busy)$(id).checked=state[key];
-  $(id).disabled=busy||unavailable||(id==='teacherLabs'&&!api.remote);
+ $('teacherIdentity').textContent=session.username+(admin?' · Administración':' · Profesorado');
+ $('teacherAdminSettings').hidden=!admin;
+ $('teacherComments').hidden=!admin;
+ $('teacherPeriodicGrades').hidden=!admin;
+ $('teacherAccounts').hidden=!admin;
+ if(admin){
+  for(const [id,key] of Object.entries(fields)){
+   if(!busy)$(id).checked=state[key];
+   $(id).disabled=busy||unavailable;
+  }
+  const salesUnavailable=!unavailable&&!api.salesSupported;
+  $('teacherSales').disabled=busy||unavailable||salesUnavailable;
+  $('teacherSalesNotice').hidden=!salesUnavailable;
+  renderTimetable(state,unavailable);
+  renderLabDeadline(state,unavailable);
  }
- const salesUnavailable=api.remote&&api.ready&&!api.error&&!api.salesSupported;
- $('teacherSales').disabled=busy||unavailable||salesUnavailable;
- $('teacherSalesNotice').hidden=!salesUnavailable;
- $('teacherReset').disabled=busy||unavailable||!api.remote;
- $('teacherLogout').disabled=busy;
- $('teacherComments').hidden=!api.remote;
- $('teacherPeriodicGrades').hidden=!api.remote;
- renderTimetable(state,unavailable);
- renderLabDeadline(state,unavailable);
- $('teacherMode').textContent=api.remote?(unavailable?'Sin conexión con el servidor':'Sincronización entre ordenadores'):'Solo este navegador';
- $('teacherSecurityNote').textContent=api.remote?'Los cambios llegan al abrir las páginas y se comprueban cada 20 segundos mientras están abiertas.':'Conecta el servidor de control para reiniciar los intentos y gestionar la Cafetería desde todos los ordenadores.';
+ $('teacherReset').disabled=busy||unavailable;
+ $('teacherLogout').disabled=busy||accountBusy;
+ $('teacherMode').textContent=unavailable?'Sin conexión con el servidor':'Sincronización entre ordenadores';
+ $('teacherSecurityNote').textContent='Los cambios llegan al abrir las páginas y se comprueban cada 20 segundos mientras están abiertas.';
 }
 async function logIn(event){
  event.preventDefault();
- if(busy)return;
+ if(busy||!api.remote)return;
  const password=$('teacherPassword');
  $('teacherError').textContent='';
  busy=true;
+ render();
  try{
-  if(api.remote){
-   const response=await request('/login','POST',{password:password.value});
-   if(!response.ok)throw Error(response.status===401?'Contraseña incorrecta.':response.status===429?'Demasiados intentos. Prueba más tarde.':'El servidor no permite acceder.');
-   ({token}=await response.json());
-  }else{
-   if(!await localVerify(password.value))throw Error('Contraseña incorrecta.');
-   sessionStorage.setItem('mad-profesor-local','ok');
-  }
-  loggedIn=true;
-  password.value='';
+  const response=await request('/login','POST',{username:$('teacherUsername').value,password:password.value});
+  const data=await response.json();
+  if(!response.ok)throw Error(data.error||'El servidor no permite acceder.');
+  if(!data.token||!['admin','teacher'].includes(data.role))throw Error('El acceso docente aún no está disponible.');
+  session=data;
   await api.refresh(true);
   message(api.error?'No se han podido consultar los ajustes.':'Ajustes cargados.',!!api.error);
  }catch(error){
-  $('teacherError').textContent=error.message;
+  $('teacherError').textContent=error instanceof TypeError?'No se pudo conectar con el servidor. Vuelve a intentarlo.':error.message;
  }finally{
+  password.value='';
+  password.type='password';
+  setPasswordToggle(false);
   busy=false;
   render();
-  if(loggedIn&&api.remote){
+  if(session?.role==='admin'){
    loadComments();
    loadPeriodicGrades();
+   loadAccounts();
   }
+  if(session)$('teacherExamChoice').focus();
  }
 }
 function request(path,method,body){
  const headers={'Content-Type':'application/json'};
- if(token)headers.Authorization='Bearer '+token;
+ if(session)headers.Authorization='Bearer '+session.token;
  return fetch(api.url+path,{method,headers,body:JSON.stringify(body),signal:AbortSignal.timeout(10000)});
 }
 async function save(path,method,body,success){
- if(busy)return;
+ if(busy||!session)return;
  busy=true;
  render();
  message('Guardando cambios…');
  try{
-  if(api.remote){
-   const response=await request(path,method,body);
-   if(response.status===401){
-    logout();
-    $('teacherError').textContent='La sesión ha caducado. Vuelve a acceder.';
-    return;
-   }
-   if(!response.ok){
-    const problem=await response.json().catch(()=>null);
-    throw Error(problem?.error||'No se pudo guardar en el servidor.');
-   }
-   if(path==='/schedules'){timetableDirty=false;timetableKey=''}
-   if(path==='/lab-deadlines'){labFormDirty=false;labFormKey=''}
-   await api.refresh(true);
-   message(api.error?'El servidor guardó el cambio. La consulta posterior ha fallado.':success,!!api.error);
-  }else{
-   api.localUpdate({...api.status,...body});
-   message(success);
+  const response=await request(path,method,body);
+  if(!checkTeacherSession(response))return;
+  if(!response.ok){
+   const problem=await response.json().catch(()=>null);
+   throw Error(problem?.error||'No se pudo guardar en el servidor.');
   }
+  if(path==='/schedules'){timetableDirty=false;timetableKey=''}
+  if(path==='/lab-deadlines'){labFormDirty=false;labFormKey=''}
+  await api.refresh(true);
+  message(api.error?'El servidor guardó el cambio. La consulta posterior ha fallado.':success,!!api.error);
  }catch(error){
   message(error.message,true);
   await api.refresh(true);
@@ -189,35 +182,46 @@ function closeSalesPreview(){
  salesPreview.setAttribute('aria-expanded','false');
  salesPreview.textContent='Ver catálogo';
 }
-window.madTeacherSalesPreview=frame=>loggedIn&&!salesFrame.hidden&&frame===salesFrame.contentWindow;
+window.madTeacherSalesPreview=frame=>session?.role==='admin'&&!salesFrame.hidden&&frame===salesFrame.contentWindow;
 salesPreview.addEventListener('click',()=>{
- if(!loggedIn)return;
+ if(session?.role!=='admin')return;
  if(!salesFrame.hidden){closeSalesPreview();return;}
  salesFrame.hidden=false;
  salesFrame.src='otros-recursos.html';
  salesPreview.setAttribute('aria-expanded','true');
  salesPreview.textContent='Cerrar vista previa';
 });
-function logout(){
+function closeSession(){
  closeSalesPreview();
- token='';
- loggedIn=false;
+ session=null;
+ accountBusy=false;
+ $('teacherAccounts').disabled=false;
  commentLoad++;
  gradeLoad++;
+ timetableDirty=false;
+ timetableKey='';
+ labFormDirty=false;
+ labFormKey='';
  $('teacherCommentList').replaceChildren();
  $('teacherGradeRows').replaceChildren();
  $('teacherGradesStatus').textContent='';
- sessionStorage.removeItem('mad-profesor-token');
- sessionStorage.removeItem('mad-profesor-local');
+ $('teacherAccountList').replaceChildren();
+ $('teacherAccountStatus').textContent='';
+ editAccount('');
  $('teacherError').textContent='';
  render();
+ $('teacherUsername').focus();
+}
+function setPasswordToggle(visible){
+ $('teacherShow').textContent=visible?'Ocultar contraseña':'Mostrar contraseña';
+ $('teacherShow').setAttribute('aria-pressed',String(visible));
 }
 $('teacherLoginForm').addEventListener('submit',logIn);
 $('teacherShow').addEventListener('click',()=>{
  const input=$('teacherPassword');
- const shown=input.type==='password';
- input.type=shown?'text':'password';
- $('teacherShow').textContent=shown?'Ocultar':'Mostrar';
+ const show=input.type==='password';
+ input.type=show?'text':'password';
+ setPasswordToggle(show);
 });
 function settingsPayload(key,value){
  const next={...api.status,[key]:value};
@@ -225,7 +229,7 @@ function settingsPayload(key,value){
   gamesEnabled:next.gamesEnabled===true,
   labsEnabled:next.labsEnabled!==false,
   examsUnlocked:next.examsUnlocked===true,
-  salesEnabled:next.salesEnabled===true,
+  ...(api.salesSupported?{salesEnabled:next.salesEnabled===true}:{}),
   commentsAutoPublish:next.commentsAutoPublish===true
  };
 }
@@ -237,7 +241,7 @@ for(const [id,key] of Object.entries(fields)){
 }
 $('teacherResetForm').addEventListener('submit',event=>{
  event.preventDefault();
- if(!api.remote||api.error||busy)return;
+ if(!session||api.error||busy)return;
  const chosen=$('teacherExamChoice').value;
  const exams=chosen==='both'?['tic','periodica']:[chosen];
  if(!confirm('¿Autorizar un nuevo intento de '+examNames[chosen]+' en todos los ordenadores? Cada alumno decidirá cuándo repetir.'))return;
@@ -305,7 +309,7 @@ function gradeRow(grade){
  return row;
 }
 async function loadPeriodicGrades(append=false){
- if(!loggedIn||!api.remote)return;
+ if(session?.role!=='admin')return;
  const generation=++gradeLoad;
  const rows=$('teacherGradeRows'), notice=$('teacherGradesStatus'), more=$('teacherGradesMore');
  const cursor=append?gradePage:null;
@@ -340,12 +344,12 @@ function commentQuery(){
 }
 function checkTeacherSession(response){
  if(response.status!==401)return true;
- logout();
+ closeSession();
  $('teacherError').textContent='La sesión ha caducado. Vuelve a acceder.';
  return false;
 }
 async function loadComments(append=false,notice=''){
- if(!loggedIn||!api.remote)return;
+ if(session?.role!=='admin')return;
  const version=++commentLoad;
  const query=commentQuery();
  if(append&&commentPage)query.set('before',commentPage);
@@ -410,7 +414,104 @@ for(const id of ['teacherCommentBoard','teacherCommentState']){
 }
 $('teacherCommentsRefresh').addEventListener('click',()=>loadComments());
 $('teacherCommentsMore').addEventListener('click',()=>loadComments(true));
-$('teacherLogout').addEventListener('click',logout);
-api.onChange(()=>{if(loggedIn&&!busy)render()});
+async function loadAccounts(notice=''){
+ if(session?.role!=='admin'||accountBusy)return;
+ const activeSession=session;
+ accountBusy=true;
+ $('teacherAccounts').disabled=true;
+ $('teacherAccountStatus').textContent='Cargando profesores…';
+ render();
+ try{
+  const response=await request('/teacher-accounts','GET');
+  if(session!==activeSession||!checkTeacherSession(response))return;
+  const data=await response.json();
+  if(session!==activeSession)return;
+  if(!response.ok)throw Error(data.error||'No se pudieron cargar los profesores.');
+  $('teacherAccountList').replaceChildren(...data.accounts.map(accountRow));
+  $('teacherAccountStatus').textContent=notice||(data.accounts.length?'':'Todavía no hay profesores añadidos.');
+ }catch(error){
+  if(session===activeSession)$('teacherAccountStatus').textContent=error.message;
+ }finally{
+  if(session===activeSession)finishAccountRequest();
+ }
+}
+function finishAccountRequest(){
+ accountBusy=false;
+ $('teacherAccounts').disabled=false;
+ render();
+}
+function editAccount(username){
+ editingAccount=username;
+ $('teacherNewUsername').value=username;
+ $('teacherNewUsername').readOnly=!!username;
+ $('teacherNewPassword').value='';
+ $('teacherAccountSave').textContent=username?'Guardar contraseña':'Añadir profesor';
+ $('teacherAccountCancel').hidden=!username;
+}
+function accountRow(account){
+ const row=document.createElement('li');
+ const name=document.createElement('strong');
+ name.textContent=account.username+(account.enabled?'':' · Cuenta desactivada');
+ const actions=document.createElement('div');
+ actions.className='teacher-actions';
+ const changePassword=document.createElement('button');
+ changePassword.type='button';
+ changePassword.textContent='Cambiar contraseña';
+ changePassword.addEventListener('click',()=>{
+  editAccount(account.username);
+  $('teacherNewPassword').focus();
+ });
+ const changeAccess=document.createElement('button');
+ changeAccess.type='button';
+ changeAccess.textContent=account.enabled?'Desactivar':'Reactivar';
+ changeAccess.addEventListener('click',()=>{
+  if(account.enabled&&!confirm('¿Desactivar el acceso de '+account.username+'?'))return;
+  saveAccount('PUT',{username:account.username,enabled:!account.enabled},account.enabled?'Cuenta desactivada.':'Cuenta reactivada.');
+ });
+ actions.append(changePassword,changeAccess);
+ row.append(name,actions);
+ return row;
+}
+async function saveAccount(method,body,notice){
+ if(session?.role!=='admin'||accountBusy)return;
+ const activeSession=session;
+ accountBusy=true;
+ $('teacherAccounts').disabled=true;
+ $('teacherAccountStatus').textContent='Guardando…';
+ render();
+ try{
+  const response=await request('/teacher-accounts',method,body);
+  if(session!==activeSession||!checkTeacherSession(response))return;
+  const data=await response.json();
+  if(session!==activeSession)return;
+  if(!response.ok)throw Error(data.error||'No se pudieron guardar los cambios.');
+  editAccount('');
+ }catch(error){
+  if(session===activeSession){
+   $('teacherAccountStatus').textContent=error.message;
+   finishAccountRequest();
+  }
+  return;
+ }
+ finishAccountRequest();
+ await loadAccounts(notice);
+}
+$('teacherAccountForm').addEventListener('submit',event=>{
+ event.preventDefault();
+ const username=$('teacherNewUsername').value;
+ const password=$('teacherNewPassword').value;
+ saveAccount(editingAccount?'PUT':'POST',{username,password},editingAccount?'Contraseña actualizada.':'Profesor añadido.');
+});
+$('teacherAccountCancel').addEventListener('click',()=>{
+ editAccount('');
+ $('teacherNewUsername').focus();
+});
+$('teacherLogout').addEventListener('click',()=>{
+ if(busy||accountBusy||!session)return;
+ request('/logout','POST').catch(()=>{});
+ closeSession();
+});
+api.onChange(()=>{if(session&&!busy)render()});
+if(!api.remote)$('teacherError').textContent='El servidor de control docente no está configurado.';
 render();
 })();
