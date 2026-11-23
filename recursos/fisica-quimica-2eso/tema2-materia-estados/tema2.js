@@ -39,19 +39,109 @@ $('heat-phase').textContent=phase;$('heat-explanation').textContent=detail;$('he
 $('heat-step').addEventListener('input',heat);heat();
 
 // Leyes de los gases con cantidad fija de gas y variable indicada constante.
-const laws={boyle:{title:'Ley de Boyle–Mariotte',desc:'A temperatura constante, presión y volumen son inversamente proporcionales.',min:50,max:400,step:10,value:200,label:'Presión final (kPa)',formula:'p₁ · V₁ = p₂ · V₂'},charles:{title:'Primera ley de Charles y Gay-Lussac',desc:'A presión constante, volumen y temperatura en kelvin son directamente proporcionales.',min:240,max:500,step:10,value:360,label:'Temperatura final (K)',formula:'V₁ / T₁ = V₂ / T₂'},gay:{title:'Segunda ley de Charles y Gay-Lussac',desc:'A volumen constante, presión y temperatura en kelvin son directamente proporcionales.',min:250,max:600,step:10,value:450,label:'Temperatura final (K)',formula:'p₁ / T₁ = p₂ / T₂'}};
+const laws = {
+ boyle: {
+  title: 'Ley de Boyle–Mariotte',
+  desc: 'A temperatura constante, presión y volumen son inversamente proporcionales.',
+  min: 50, max: 400, step: 10, value: 200, unit: 'kPa', label: 'Presión final (kPa)',
+  formula: 'p₁ · V₁ = p₂ · V₂',
+  visualLabel: 'Representación esquemática de un cilindro con gas y pistón',
+  caption: 'El espacio ocupado por el gas cambia según las condiciones.'
+ },
+ charles: {
+  title: 'Ley de Charles',
+  desc: 'El aire de una bolsa cerrada y muy flexible cambia de volumen al variar su temperatura. En este modelo la presión del gas se mantiene igual a la presión exterior.',
+  min: 240, max: 420, step: 10, value: 360, unit: 'K', label: 'Temperatura final (K)',
+  formula: 'V₁ / T₁ = V₂ / T₂',
+  visualLabel: 'Bolsa hermética y flexible que cambia de tamaño a presión constante',
+  caption: 'Si calientas el aire, la bolsa se hincha. Si lo enfrías, se encoge. La presión se mantiene en 100 kPa.'
+ },
+ gay: {
+  title: 'Ley de Gay-Lussac',
+  desc: 'El aire está encerrado en un recipiente rígido. Al calentarlo, aumenta la presión absoluta que indica el manómetro y el volumen permanece fijo.',
+  min: 250, max: 600, step: 10, value: 450, unit: 'K', label: 'Temperatura final (K)',
+  formula: 'p₁ / T₁ = p₂ / T₂',
+  visualLabel: 'Recipiente rígido y cerrado con un manómetro para medir la presión',
+  caption: 'Al subir la temperatura, las partículas se mueven más deprisa. La presión aumenta en el mismo espacio.'
+ }
+};
+const lawButtons = document.querySelectorAll('[data-law]');
+const gasVisuals = document.querySelectorAll('[data-gas-visual]');
+const bagParticles = $('gas-bag').querySelectorAll('circle');
 let activeLaw='boyle';
-function setLaw(key){activeLaw=key;const l=laws[key];document.querySelectorAll('[data-law]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.law===key)));$('gas-law-title').textContent=l.title;$('gas-law-desc').textContent=l.desc;$('gas-input-label').textContent=l.label;$('gas-input').min=l.min;$('gas-input').max=l.max;$('gas-input').step=l.step;$('gas-input').value=l.value;$('gas-formula').textContent=l.formula;gasCalc();}
-document.querySelectorAll('[data-law]').forEach(b=>b.addEventListener('click',()=>setLaw(b.dataset.law)));$('gas-input').addEventListener('input',gasCalc);
-function gasCalc(){const val=Number($('gas-input').value),k=activeLaw;$('gas-input-output').textContent=`${val} ${k==='boyle'?'kPa':'K'}`;let output,vol,description,details;
-if(k==='boyle'){vol=400/val;output=`${vol.toLocaleString('es-ES',{minimumFractionDigits:2,maximumFractionDigits:2})} L`;description='Partimos de 100 kPa y 4 L; T constante';details=`V₂ = (100 × 4) ÷ ${val} = ${output}. Más presión implica menos volumen.`}
-else if(k==='charles'){vol=2.5*val/300;output=`${vol.toLocaleString('es-ES',{minimumFractionDigits:2,maximumFractionDigits:2})} L`;description='Partimos de 300 K y 2,5 L; p constante';details=`V₂ = (2,5 × ${val}) ÷ 300 = ${output}. La temperatura se expresa en kelvin.`}
-else{vol=2.5;const p=100*val/300;output=`${p.toLocaleString('es-ES',{minimumFractionDigits:1,maximumFractionDigits:1})} kPa`;description='Partimos de 300 K y 100 kPa; V constante';details=`p₂ = (100 × ${val}) ÷ 300 = ${output}. El recipiente tiene un volumen fijo.`}
-$('gas-result').textContent=output;$('gas-conditions').textContent=description;$('gas-step').textContent=details;
-const h=k==='gay'?126:Math.max(50,Math.min(152,vol/6*155)),y=223-h;
-$('gas-fill').setAttribute('y',y);$('gas-fill').setAttribute('height',h);$('gas-piston').setAttribute('y',y-14);$('gas-piston-rod').setAttribute('d',`M175 28V${Math.max(28,y-14)}`);
-const g=$('gas-particles');g.replaceChildren();for(let i=0;i<26;i++){const n=document.createElementNS('http://www.w3.org/2000/svg','circle');n.setAttribute('cx',76+((i*67)%196));n.setAttribute('cy',y+13+((i*41)%Math.max(17,h-25)));n.setAttribute('r',4.2);n.setAttribute('fill','#a0e4ff');n.setAttribute('opacity','.85');g.append(n)}
-$('gas-visual-caption').textContent=k==='gay'?'A volumen fijo: el pistón permanece en la misma posición.':'El espacio ocupado por el gas cambia según las condiciones.';}
+function setLaw(key) {
+ activeLaw = key;
+ const law = laws[key];
+ lawButtons.forEach(button => button.setAttribute('aria-pressed', String(button.dataset.law === key)));
+ gasVisuals.forEach(group => {
+  if (group.dataset.gasVisual === key) group.removeAttribute('display');
+  else group.setAttribute('display', 'none');
+ });
+ $('gas-law-title').textContent = law.title;
+ $('gas-law-desc').textContent = law.desc;
+ $('gas-input-label').textContent = law.label;
+ Object.assign($('gas-input'), {min: law.min, max: law.max, step: law.step, value: law.value});
+ $('gas-formula').textContent = law.formula;
+ $('gas-svg').setAttribute('aria-label', law.visualLabel);
+ $('gas-visual-caption').textContent = law.caption;
+ gasCalc();
+}
+function formatGas(value, decimals, unit) {
+ return `${value.toLocaleString('es-ES', {minimumFractionDigits: decimals, maximumFractionDigits: decimals})} ${unit}`;
+}
+function gasCalc() {
+ const value = Number($('gas-input').value);
+ $('gas-input-output').textContent = `${value} ${laws[activeLaw].unit}`;
+ let result, initial, steps;
+ if (activeLaw === 'boyle') {
+  const volume = 400 / value;
+  result = formatGas(volume, 2, 'L');
+  initial = 'Partimos de 100 kPa y 4 L; T constante';
+  steps = `V₂ = (100 × 4) ÷ ${value} = ${result}. Más presión implica menos volumen.`;
+  drawBoyle(volume);
+ } else if (activeLaw === 'charles') {
+  const volume = 2.5 * value / 300;
+  result = formatGas(volume, 2, 'L');
+  initial = 'Partimos de 300 K y 2,5 L. Presión constante de 100 kPa.';
+  steps = `V₂ = (2,5 × ${value}) ÷ 300 = ${result}.`;
+  const scale = Math.sqrt(volume / 2.5);
+  $('gas-bag').setAttribute('transform', `translate(175 132) scale(${scale})`);
+  bagParticles.forEach(particle => particle.setAttribute('r', 4 / scale));
+  $('gas-bag-volume').textContent = `Volumen · ${result}`;
+ } else {
+  const pressure = 100 * value / 300;
+  result = formatGas(pressure, 1, 'kPa');
+  initial = 'Partimos de 300 K y 100 kPa. Volumen constante de 2,5 L.';
+  steps = `p₂ = (100 × ${value}) ÷ 300 = ${result}.`;
+  // El arco del manómetro representa de 80 a 200 kPa.
+  const angle = -100 + (pressure - 80) * 200 / 120;
+  $('gas-needle').setAttribute('transform', `rotate(${angle} 258 114)`);
+  $('gas-tank-pressure').textContent = `Presión · ${result}`;
+ }
+ $('gas-result').textContent = result;
+ $('gas-conditions').textContent = initial;
+ $('gas-step').textContent = steps;
+}
+function drawBoyle(volume) {
+ const height = Math.max(50, Math.min(152, volume / 6 * 155)), y = 223 - height;
+ $('gas-fill').setAttribute('y', y);
+ $('gas-fill').setAttribute('height', height);
+ $('gas-piston').setAttribute('y', y - 14);
+ $('gas-piston-rod').setAttribute('d', `M175 28V${Math.max(28, y - 14)}`);
+ const particles = $('gas-particles');
+ particles.replaceChildren();
+ for (let i = 0; i < 26; i++) {
+  const particle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+  particle.setAttribute('cx', 76 + (i * 67) % 196);
+  particle.setAttribute('cy', y + 13 + (i * 41) % Math.max(17, height - 25));
+  particle.setAttribute('r', 4.2);
+  particle.setAttribute('fill', '#a0e4ff');
+  particle.setAttribute('opacity', '.85');
+  particles.append(particle);
+ }
+}
+lawButtons.forEach(button => button.addEventListener('click', () => setLaw(button.dataset.law)));
+$('gas-input').addEventListener('input', gasCalc);
 setLaw('boyle');
 
 const quizData={
