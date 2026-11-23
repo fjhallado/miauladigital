@@ -6,10 +6,26 @@ let current = 1, completed = new Set();
 try { const saved = JSON.parse(localStorage.getItem(storeKey)||'[]'); if(Array.isArray(saved)) completed = new Set(saved.filter(x=>Number.isInteger(x)&&x>=1&&x<=5)); }catch{}
 function markDone(n) { completed.add(n); try{localStorage.setItem(storeKey,JSON.stringify([...completed]))}catch{}; updateProgress(); }
 function updateProgress(){ $('progress-copy').textContent = `${completed.size} de 5 apartados repasados`; $('progress-fill').style.width = `${completed.size*20}%`;document.querySelectorAll('[data-done]').forEach(x=>x.textContent=completed.has(Number(x.dataset.done))?'✓':'○'); }
-function changeLesson(n,{scroll=true}={}){n=Math.max(1,Math.min(5,Number(n)||1));current=n;lessons.forEach(x=>{x.hidden=Number(x.dataset.lesson)!==n});document.querySelectorAll('[data-go]').forEach(x=>{const active=Number(x.dataset.go)===n;x.classList.toggle('active',active);if(active)x.setAttribute('aria-current','step');else x.removeAttribute('aria-current')});$('lesson-pos').textContent=`${n} / 5`;$('prev-lesson').disabled=n===1;$('next-lesson').textContent=n===5?'Finalizar repaso ✓':'Siguiente apartado →';history.replaceState(null,'',`#apartado-${n}`);if(scroll)document.querySelector('.topic-nav').scrollIntoView({behavior:'smooth',block:'start'});}
+function changeLesson(n, {scroll = true} = {}) {
+ n = Math.max(1, Math.min(5, Number(n) || 1));
+ current = n;
+ lessons.forEach(lesson => { lesson.hidden = Number(lesson.dataset.lesson) !== n; });
+ document.querySelectorAll('[data-go]').forEach(button => {
+  const active = Number(button.dataset.go) === n;
+  button.classList.toggle('active', active);
+  if (active) button.setAttribute('aria-current', 'step');
+  else button.removeAttribute('aria-current');
+ });
+ $('lesson-pos').textContent = `${n} / 5`;
+ $('prev-lesson').disabled = n === 1;
+ $('next-lesson').textContent = n === 5 ? 'Finalizar repaso ✓' : 'Siguiente apartado →';
+ history.replaceState(null, '', `#apartado-${n}`);
+ syncGasMotion();
+ if (scroll) document.querySelector('.topic-nav').scrollIntoView({behavior:'smooth', block:'start'});
+}
 document.querySelectorAll('[data-go]').forEach(x=>x.addEventListener('click',()=>changeLesson(x.dataset.go)));
 $('start-unit').addEventListener('click',()=>changeLesson(1));$('prev-lesson').addEventListener('click',()=>changeLesson(current-1));$('next-lesson').addEventListener('click',()=>{markDone(current);changeLesson(current===5?1:current+1)});$('print-unit').addEventListener('click',()=>window.print());
-updateProgress();changeLesson((location.hash.match(/apartado-(\d)/)||[])[1]||1,{scroll:false});
+updateProgress();
 
 // Densidad en g/cm3. Es la misma magnitud expresada en kg/m3 al multiplicar por 1000.
 function density(){const m=Number($('dens-m').value),v=Number($('dens-v').value);if(!(m>0&&v>0&&Number.isFinite(m)&&Number.isFinite(v))){$('dens-result').textContent='Datos inválidos';$('dens-convert').textContent='Introduce valores positivos';$('dens-feedback').textContent='';return;}const d=m/v;$('dens-result').textContent=`${d.toLocaleString('es-ES',{maximumFractionDigits:3})} g/cm³`;$('dens-convert').textContent=`≈ ${(d*1000).toLocaleString('es-ES',{maximumFractionDigits:1})} kg/m³`;
@@ -21,7 +37,8 @@ const canvas=$('particles'),pctx=canvas.getContext('2d');let state='solido';
 const moving=Array.from({length:35},(_,i)=>({x:30+(i*67)%370,y:30+(i*41)%185,vx:Math.sin(i*7+.2)*1.12,vy:Math.cos(i*9+.3)*.88}));
 function particleState(s){state=s;document.querySelectorAll('[data-state]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.state===s)));$('state-caption').textContent=({solido:'Las partículas permanecen muy próximas y vibran en torno a posiciones casi fijas.',liquido:'Las partículas siguen próximas, pero pueden desplazarse y deslizarse unas entre otras.',gas:'Las partículas están más separadas y se desplazan de forma caótica, ocupando el recipiente.'})[s];}
 document.querySelectorAll('[data-state]').forEach(b=>b.addEventListener('click',()=>particleState(b.dataset.state)));
-const reduceMotion=window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
+const motionPreference = window.matchMedia?.('(prefers-reduced-motion: reduce)');
+const reduceMotion = motionPreference?.matches ?? false;
 let frame=0;
 function drawParticles(){frame++; const w=canvas.width,h=canvas.height;pctx.clearRect(0,0,w,h);pctx.fillStyle='#0a2039';pctx.fillRect(0,0,w,h);pctx.lineWidth=2;pctx.strokeStyle='#5c85ad';pctx.strokeRect(15,16,w-30,h-32);pctx.fillStyle='#adcde5';pctx.font='14px system-ui';pctx.fillText(state==='solido'?'Sólido':state==='liquido'?'Líquido':'Gas',30,38);
 const s=state;if(s==='liquido'){pctx.fillStyle='#248aba50';pctx.fillRect(17,h-99,w-34,82)}
@@ -50,11 +67,11 @@ const laws = {
  },
  charles: {
   title: 'Ley de Charles',
-  desc: 'El aire de una bolsa cerrada y muy flexible cambia de volumen al variar su temperatura. En este modelo la presión del gas se mantiene igual a la presión exterior.',
+  desc: 'Al variar la temperatura del aire de un globo, cambia su volumen. En este modelo despreciamos la tensión de la membrana y la presión del gas se mantiene igual a la exterior.',
   min: 240, max: 420, step: 10, value: 360, unit: 'K', label: 'Temperatura final (K)',
   formula: 'V₁ / T₁ = V₂ / T₂',
-  visualLabel: 'Bolsa hermética y flexible que cambia de tamaño a presión constante',
-  caption: 'Si calientas el aire, la bolsa se hincha. Si lo enfrías, se encoge. La presión se mantiene en 100 kPa.'
+  visualLabel: 'Globo de aire que cambia de tamaño a presión constante',
+  caption: 'Al calentar el aire, sus partículas se mueven más deprisa y el globo se hincha. La presión se mantiene en 100 kPa.'
  },
  gay: {
   title: 'Ley de Gay-Lussac',
@@ -67,8 +84,23 @@ const laws = {
 };
 const lawButtons = document.querySelectorAll('[data-law]');
 const gasVisuals = document.querySelectorAll('[data-gas-visual]');
-const bagParticles = $('gas-bag').querySelectorAll('circle');
-let activeLaw='boyle';
+const gasInput = $('gas-input');
+const gasMotionButton = $('gas-motion');
+const thermalParticles = {
+ charles: readParticles('gas-balloon-particles'),
+ gay: readParticles('gas-tank-particles')
+};
+let activeLaw = 'boyle';
+let balloonScale = 1;
+let gasPaused = false, gasFrame = 0, lastGasTime = null;
+
+function readParticles(id) {
+ return Array.from($(id).querySelectorAll('circle'), (dot, index) => {
+  const angle = 0.6 + index * 2.4;
+  return {dot, x: dot.cx.baseVal.value, y: dot.cy.baseVal.value, vx: Math.cos(angle), vy: Math.sin(angle)};
+ });
+}
+
 function setLaw(key) {
  activeLaw = key;
  const law = laws[key];
@@ -80,17 +112,18 @@ function setLaw(key) {
  $('gas-law-title').textContent = law.title;
  $('gas-law-desc').textContent = law.desc;
  $('gas-input-label').textContent = law.label;
- Object.assign($('gas-input'), {min: law.min, max: law.max, step: law.step, value: law.value});
+ Object.assign(gasInput, {min: law.min, max: law.max, step: law.step, value: law.value});
  $('gas-formula').textContent = law.formula;
  $('gas-svg').setAttribute('aria-label', law.visualLabel);
  $('gas-visual-caption').textContent = law.caption;
  gasCalc();
+ syncGasMotion();
 }
 function formatGas(value, decimals, unit) {
  return `${value.toLocaleString('es-ES', {minimumFractionDigits: decimals, maximumFractionDigits: decimals})} ${unit}`;
 }
 function gasCalc() {
- const value = Number($('gas-input').value);
+ const value = gasInput.valueAsNumber;
  $('gas-input-output').textContent = `${value} ${laws[activeLaw].unit}`;
  let result, initial, steps;
  if (activeLaw === 'boyle') {
@@ -104,10 +137,10 @@ function gasCalc() {
   result = formatGas(volume, 2, 'L');
   initial = 'Partimos de 300 K y 2,5 L. Presión constante de 100 kPa.';
   steps = `V₂ = (2,5 × ${value}) ÷ 300 = ${result}.`;
-  const scale = Math.sqrt(volume / 2.5);
-  $('gas-bag').setAttribute('transform', `translate(175 132) scale(${scale})`);
-  bagParticles.forEach(particle => particle.setAttribute('r', 4 / scale));
-  $('gas-bag-volume').textContent = `Volumen · ${result}`;
+  balloonScale = Math.sqrt(volume / 2.5);
+  $('gas-balloon').setAttribute('transform', `translate(175 132) scale(${balloonScale})`);
+  thermalParticles.charles.forEach(({dot}) => dot.setAttribute('r', 4 / balloonScale));
+  $('gas-balloon-volume').textContent = `Volumen · ${result}`;
  } else {
   const pressure = 100 * value / 300;
   result = formatGas(pressure, 1, 'kPa');
@@ -122,6 +155,58 @@ function gasCalc() {
  $('gas-conditions').textContent = initial;
  $('gas-step').textContent = steps;
 }
+
+function syncGasMotion() {
+ cancelAnimationFrame(gasFrame);
+ gasFrame = 0;
+ lastGasTime = null;
+ gasMotionButton.hidden = activeLaw === 'boyle' || !!motionPreference?.matches;
+ if (current === 5 && !gasMotionButton.hidden && !gasPaused && !document.hidden) {
+  gasFrame = requestAnimationFrame(animateGas);
+ }
+}
+
+function animateGas(time) {
+ const seconds = lastGasTime === null ? 0 : Math.min((time - lastGasTime) / 1000, 0.05);
+ lastGasTime = time;
+ const inBalloon = activeLaw === 'charles';
+ // La rapidez del ejemplo es proporcional a √T. La escala del globo solo modifica su tamaño.
+ const distance = 72 * Math.sqrt(gasInput.valueAsNumber / 300) * seconds / (inBalloon ? balloonScale : 1);
+ for (const particle of thermalParticles[activeLaw]) {
+  particle.x += particle.vx * distance;
+  particle.y += particle.vy * distance;
+  if (inBalloon) bounceInBalloon(particle);
+  else bounceInTank(particle);
+  particle.dot.setAttribute('cx', particle.x);
+  particle.dot.setAttribute('cy', particle.y);
+ }
+ gasFrame = requestAnimationFrame(animateGas);
+}
+
+function bounceInBalloon(particle) {
+ const centerY = -11, limit = 60; // Márgenes para que el punto entero quede dentro del globo.
+ const offsetY = particle.y - centerY;
+ const radius = Math.hypot(particle.x, offsetY);
+ if (radius <= limit) return;
+ const nx = particle.x / radius, ny = offsetY / radius;
+ const normalSpeed = particle.vx * nx + particle.vy * ny;
+ particle.vx -= 2 * normalSpeed * nx;
+ particle.vy -= 2 * normalSpeed * ny;
+ particle.x = nx * limit;
+ particle.y = centerY + ny * limit;
+}
+
+function bounceInTank(particle) {
+ if (particle.x < 71 || particle.x > 180) {
+  particle.vx *= -1;
+  particle.x = Math.max(71, Math.min(180, particle.x));
+ }
+ if (particle.y < 85 || particle.y > 185) {
+  particle.vy *= -1;
+  particle.y = Math.max(85, Math.min(185, particle.y));
+ }
+}
+
 function drawBoyle(volume) {
  const height = Math.max(50, Math.min(152, volume / 6 * 155)), y = 223 - height;
  $('gas-fill').setAttribute('y', y);
@@ -141,8 +226,16 @@ function drawBoyle(volume) {
  }
 }
 lawButtons.forEach(button => button.addEventListener('click', () => setLaw(button.dataset.law)));
-$('gas-input').addEventListener('input', gasCalc);
+gasInput.addEventListener('input', gasCalc);
+gasMotionButton.addEventListener('click', () => {
+ gasPaused = !gasPaused;
+ gasMotionButton.textContent = gasPaused ? 'Reanudar partículas' : 'Pausar partículas';
+ syncGasMotion();
+});
+document.addEventListener('visibilitychange', syncGasMotion);
+motionPreference?.addEventListener('change', syncGasMotion);
 setLaw('boyle');
+changeLesson((location.hash.match(/apartado-(\d)/)||[])[1]||1,{scroll:false});
 
 const quizData={
 1:[['¿Cuál de estos ejemplos es materia?',['La luz','El aire','La alegría'],1,'El aire tiene masa y ocupa espacio, aunque sea invisible.'],['¿Qué caracteriza a la materia?',['Tener masa y volumen','Tener color','Estar siempre en estado sólido'],0,'La materia se reconoce porque tiene masa y ocupa un volumen.'],['¿Qué es una sustancia?',['Una medida del volumen','Una clase de materia','Un cambio de estado'],1,'Una sustancia es un tipo de materia; los objetos pueden estar hechos de varias sustancias.']],

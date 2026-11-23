@@ -27,16 +27,18 @@
       <g data-gas-visual="boyle"><rect x="62" y="43" width="226" height="185" rx="13" fill="#15334f" stroke="#729abd" stroke-width="3"/><rect id="gas-fill" x="67" y="120" width="216" height="103" rx="5" fill="#1d86bb" opacity=".53"/><g id="gas-particles"></g><rect id="gas-piston" x="57" y="106" width="236" height="15" rx="3" fill="#d1e1f1"/><path id="gas-piston-rod" d="M175 28V106" fill="none" stroke="#9cbad7" stroke-width="8"/><text x="175" y="261" font-size="16" text-anchor="middle" fill="#d7eafb">Partículas de gas</text></g>
       <g data-gas-visual="charles" display="none">
         <text x="175" y="28" text-anchor="middle" font-size="15" fill="#d7eafb">Presión exterior constante · 100 kPa</text>
-        <g id="gas-bag" transform="translate(175 132)">
-          <path d="M-67 -55H67C76 -55 82 -37 84 -19C89 6 86 38 74 52Q69 58 55 58H-55Q-69 58 -74 52C-86 38 -89 6 -84 -19C-82 -37 -76 -55 -67 -55Z" fill="#195976" stroke="#87d9f3" stroke-width="3"/>
-          <path d="M-67 -55V-64H67V-55M-61 -60H61" fill="none" stroke="#bfeaff" stroke-width="3" stroke-linecap="round"/>
-          <g fill="#a0e4ff">
-            <circle cx="-57" cy="-33" r="4"/><circle cx="-26" cy="-21" r="4"/><circle cx="14" cy="-36" r="4"/><circle cx="49" cy="-24" r="4"/>
-            <circle cx="-47" cy="1" r="4"/><circle cx="-9" cy="3" r="4"/><circle cx="34" cy="1" r="4"/><circle cx="65" cy="16" r="4"/>
-            <circle cx="-65" cy="28" r="4"/><circle cx="-28" cy="28" r="4"/><circle cx="9" cy="36" r="4"/><circle cx="43" cy="39" r="4"/>
+        <g id="gas-balloon" transform="translate(175 132)">
+          <path d="M0 59Q-11 67 0 73T3 82" fill="none" stroke="#c8b3fa" stroke-width="2" stroke-linecap="round"/>
+          <path d="M0 47L9 60H-9Z" fill="#7660ba" stroke="#c8b3fa" stroke-width="2" stroke-linejoin="round"/>
+          <circle cy="-11" r="66" fill="#51458a" stroke="#c8b3fa" stroke-width="3"/>
+          <path d="M-48 -37Q-37 -57 -14 -62" fill="none" stroke="#c8b3fa" stroke-opacity=".65" stroke-width="4" stroke-linecap="round"/>
+          <g id="gas-balloon-particles" fill="#d9edff">
+            <circle cx="-40" cy="-32" r="4"/><circle cx="-15" cy="-25" r="4"/><circle cx="14" cy="-40" r="4"/><circle cx="42" cy="-28" r="4"/>
+            <circle cx="-49" cy="-1" r="4"/><circle cx="-8" cy="1" r="4"/><circle cx="24" cy="-5" r="4"/><circle cx="51" cy="7" r="4"/>
+            <circle cx="-35" cy="23" r="4"/><circle cx="-16" cy="34" r="4"/><circle cx="12" cy="36" r="4"/><circle cx="32" cy="23" r="4"/>
           </g>
         </g>
-        <text id="gas-bag-volume" x="175" y="245" text-anchor="middle" font-size="18" font-weight="800" fill="#8cf1ce">Volumen · 3,00 L</text>
+        <text id="gas-balloon-volume" x="175" y="250" text-anchor="middle" font-size="18" font-weight="800" fill="#8cf1ce">Volumen · 3,00 L</text>
       </g>
       <g data-gas-visual="gay" display="none">
         <text x="175" y="28" text-anchor="middle" font-size="15" fill="#d7eafb">Volumen constante · 2,5 L</text>
@@ -44,7 +46,7 @@
         <rect x="88" y="52" width="75" height="16" rx="4" fill="#a0b8d1"/>
         <rect x="53" y="66" width="145" height="138" rx="18" fill="#49617b" stroke="#c3d7ea" stroke-width="3"/>
         <rect x="64" y="78" width="123" height="114" rx="10" fill="#194863" stroke="#87abc9" stroke-width="2"/>
-        <g fill="#a0e4ff">
+        <g id="gas-tank-particles" fill="#a0e4ff">
           <circle cx="82" cy="97" r="4"/><circle cx="119" cy="91" r="4"/><circle cx="151" cy="104" r="4"/><circle cx="172" cy="118" r="4"/>
           <circle cx="94" cy="125" r="4"/><circle cx="131" cy="124" r="4"/><circle cx="158" cy="138" r="4"/><circle cx="114" cy="152" r="4"/>
           <circle cx="81" cy="154" r="4"/><circle cx="135" cy="174" r="4"/><circle cx="165" cy="169" r="4"/><circle cx="98" cy="176" r="4"/>
@@ -59,6 +61,7 @@
       </g>
     </svg>
     <div class="chart-legend" id="gas-visual-caption">Simulación conceptual; no representa un gas a escala molecular.</div>
+    <button id="gas-motion" class="ghost" type="button" aria-controls="gas-svg" hidden>Pausar partículas</button>
   </div>
 </div>
 <div class="white-card"><h3>Ejemplo resuelto: ley de Boyle–Mariotte</h3><p>Un gas ocupa 4 L a 100 kPa. Si se duplica la presión y no cambia la temperatura, ¿qué volumen ocupará?</p><p><strong>Datos:</strong> p₁ = 100 kPa; V₁ = 4 L; p₂ = 200 kPa.</p><p><strong>Desarrollo:</strong> V₂ = (p₁ × V₁) / p₂ = (100 × 4) / 200.</p><p><strong>Solución:</strong> V₂ = <strong>2 L</strong>. La presión se duplica y el volumen se reduce a la mitad.</p></div>
@@ -66,9 +69,9 @@
   <article class="white-card">
     <div class="card-label">PRESIÓN CONSTANTE</div>
     <h3>Ejemplo resuelto de la ley de Charles</h3>
-    <p>Una bolsa flexible y hermética contiene <strong>2,5 L de aire a 300 K</strong>. Suponemos que la bolsa apenas ofrece resistencia y que la presión del aire exterior se mantiene en <strong>100 kPa</strong>. ¿Qué volumen ocupa el aire si llega a 360 K?</p>
+    <p>Un globo contiene <strong>2,5 L de aire a 300 K</strong>. En este modelo despreciamos la tensión de su membrana y mantenemos la presión exterior en <strong>100 kPa</strong>. ¿Qué volumen ocupa el aire si llega a 360 K?</p>
     <div class="formula">V₂ = V₁ × T₂ / T₁ = 2,5 × 360 / 300 = 3,00 L</div>
-    <p>La bolsa se hincha. El volumen aumenta un <strong>20 %</strong> y la presión sigue en 100 kPa.</p>
+    <p>El globo se hincha. El volumen aumenta un <strong>20 %</strong> y la presión sigue en 100 kPa.</p>
   </article>
   <article class="white-card">
     <div class="card-label">VOLUMEN CONSTANTE</div>
@@ -82,4 +85,4 @@
 <div class="lesson-footer"><button id="prev-lesson" class="ghost" type="button">← Apartado anterior</button><span id="lesson-pos">1 / 5</span><button id="next-lesson" class="primary" type="button">Siguiente apartado →</button></div>
 </div><aside class="side-column"><div class="aside-panel"><span class="aside-label">EN ESTE TEMA</span><h3>Tu recorrido</h3><div class="side-steps"><button type="button" data-go="1"><b>01</b>La materia<span data-done="1">○</span></button><button type="button" data-go="2"><b>02</b>Propiedades<span data-done="2">○</span></button><button type="button" data-go="3"><b>03</b>Estados<span data-done="3">○</span></button><button type="button" data-go="4"><b>04</b>Cambios de estado<span data-done="4">○</span></button><button type="button" data-go="5"><b>05</b>Gases<span data-done="5">○</span></button></div><div class="aside-tip"><strong>Consejo</strong><p>Lee la explicación, prueba el laboratorio y responde las preguntas. Puedes repetir tantas veces como quieras.</p></div></div><div class="aside-panel links-panel"><span class="aside-label">OTROS LABORATORIOS</span><a href="../conversiones-compuestas/index.html">↗ FactorLab · Cambios de unidades</a><a href="../../tabla-periodica/index.html">↗ Tabla periódica interactiva</a></div></aside></div>
 </main><footer class="footer"><div class="wrap"><strong>Mi Aula Digital</strong><span>© Francisco José Hallado Fernández · Profesor de ESO y Bachillerato</span><small>Unidad didáctica de elaboración propia, organizada a partir de los cinco apartados del material Edelvives facilitado para clase.</small></div></footer>
-<script src="tema2.js?v=1.4.118" defer></script></body></html>
+<script src="tema2.js?v=1.4.119" defer></script></body></html>
