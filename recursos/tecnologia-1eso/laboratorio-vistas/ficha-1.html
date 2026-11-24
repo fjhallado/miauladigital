@@ -452,6 +452,7 @@ refreshLogoStatus();
 function imgLoad(src){return new Promise((resolve,reject)=>{const im=new Image();im.onload=()=>resolve(im);im.onerror=reject;im.src=src})}
 function rect(g,x,y,w,h){g.strokeRect(x,y,w,h)}
 function pdfFromJpeg(canvas,filename,createdAt){
+ const [pageWidth,pageHeight]=[297,210].map(mm=>(mm*72/25.4).toFixed(4));
  const data=canvas.toDataURL('image/jpeg',.94).split(',')[1],binary=atob(data);
  const jpg=new Uint8Array(binary.length);for(let i=0;i<binary.length;i++)jpg[i]=binary.charCodeAt(i);
  const enc=new TextEncoder(),parts=[],offsets=[0];let length=0;
@@ -461,11 +462,11 @@ function pdfFromJpeg(canvas,filename,createdAt){
  txt('%PDF-1.4\n');
  obj(1,'<< /Type /Catalog /Pages 2 0 R >>');
  obj(2,'<< /Type /Pages /Kids [3 0 R] /Count 1 >>');
- obj(3,'<< /Type /Page /Parent 2 0 R /MediaBox [0 0 842 595] /Resources << /XObject << /Im1 4 0 R >> >> /Contents 5 0 R >>');
+ obj(3,`<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ${pageWidth} ${pageHeight}] /Resources << /XObject << /Im1 4 0 R >> >> /Contents 5 0 R >>`);
  offsets[4]=length;
  txt('4 0 obj\n<< /Type /XObject /Subtype /Image /Width '+canvas.width+' /Height '+canvas.height+' /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length '+jpg.length+' >>\nstream\n');
  add(jpg);txt('\nendstream\nendobj\n');
- const commands='q\n842 0 0 595 0 0 cm\n/Im1 Do\nQ\n';
+ const commands=`q\n${pageWidth} 0 0 ${pageHeight} 0 0 cm\n/Im1 Do\nQ\n`;
  obj(5,'<< /Length '+enc.encode(commands).length+' >>\nstream\n'+commands+'endstream');
  const pdfDate=new Date(createdAt).toISOString().slice(0,19).replace(/\D/g,'');
  obj(6,'<< /CreationDate (D:'+pdfDate+'Z) >>');
@@ -480,27 +481,29 @@ async function savePDF({name,course,group},stamp=null,exam=false){
  const figure=current+1;
  if(!faceCanvas||!sourceImage||Number(faceCanvas.dataset.figure)!==current)throw Error('Espera a que termine de cargar la figura.');
  const logoSource=!exam&&logoEnabled.checked?(schoolLogo||DEFAULT_LOGO):null;
- const W=2480,H=1754,report=document.createElement('canvas');report.width=W;report.height=H;
+ const W=2480,H=1754,margin=50,report=document.createElement('canvas');report.width=W;report.height=H;
  const g=report.getContext('2d');g.fillStyle='#fff';g.fillRect(0,0,W,H);
- g.strokeStyle='#1b344d';g.lineWidth=4;rect(g,45,45,W-90,1460);
+ g.strokeStyle='#1b344d';g.lineWidth=4;rect(g,margin,margin,W-2*margin,H-2*margin);
  g.fillStyle='#163651';g.font='bold 43px system-ui';g.fillText('TECNOLOGÍA · VISTAS DIÉDRICAS',88,116);
  g.font='25px system-ui';g.fillText(exam?'MI AULA DIGITAL  /  EXAMEN DE VISTAS':'MI AULA DIGITAL  /  FICHA 1 · NIVEL FÁCIL',90,162);
  g.lineWidth=2;g.beginPath();g.moveTo(70,190);g.lineTo(W-70,190);g.stroke();
- const ratio=Math.min(1030/faceCanvas.width,1050/faceCanvas.height);
+ const figureArea={x:100,y:300,w:1085,h:1145};
+ const ratio=Math.min(figureArea.w/faceCanvas.width,figureArea.h/faceCanvas.height);
  const fw=faceCanvas.width*ratio,fh=faceCanvas.height*ratio;
- g.drawImage(faceCanvas,135+(1030-fw)/2,300+(1050-fh)/2,fw,fh);
+ g.drawImage(faceCanvas,figureArea.x+(figureArea.w-fw)/2,figureArea.y+(figureArea.h-fh)/2,fw,fh);
  g.font='bold 28px system-ui';g.fillText(accessMode==='color'?'FIGURA ISOMÉTRICA COLOREADA':'FIGURA ISOMÉTRICA · CARAS IDENTIFICADAS',100,248);if(accessMode!=='color'){g.font='20px system-ui';g.fillText('1 = Alzado (rayas)     2 = Perfil (cruces)     3 = Planta (puntos)',100,286);}
  const labels={front:'ALZADO',side:'PERFIL IZQUIERDO',top:'PLANTA'};
- const slots={front:[1240,275],side:[1810,275],top:[1240,820]};
+ const slots={front:[1220,286],side:[1800,286],top:[1220,893]};
+ const viewWidth=560,viewHeight=500,viewPadding=24;
  // Escala única de cuadrado para alzado, perfil y planta; medidas alineadas.
  const printCell=Math.min(...views.map(v=>{
-  const grid=state[current].n[v];return Math.min(485/grid.w,435/grid.h);
+  const grid=state[current].n[v];return Math.min((viewWidth-viewPadding)/grid.w,(viewHeight-viewPadding)/grid.h);
  }));
  for(const v of views){
   const [x,y]=slots[v];g.font='bold 30px system-ui';g.fillText(labels[v],x,y-18);
   // Sin marco exterior de las vistas en el PDF: solo cuadrícula y líneas dibujadas.
   // The view is drawn with the same dimensions and aspect ratio as the student's grid.
-  const grid=state[current].n[v]||{w:4,h:4},cols=grid.w,rows=grid.h,cell=printCell,ox=x+(525-cols*cell)/2,oy=y+(475-rows*cell)/2;
+  const grid=state[current].n[v]||{w:4,h:4},cols=grid.w,rows=grid.h,cell=printCell,ox=x+(viewWidth-cols*cell)/2,oy=y+(viewHeight-rows*cell)/2;
   g.strokeStyle='#d5e1ee';g.lineWidth=1.5;
   for(let i=0;i<=cols;i++){g.beginPath();g.moveTo(ox+i*cell,oy);g.lineTo(ox+i*cell,oy+rows*cell);g.stroke()}
   for(let i=0;i<=rows;i++){g.beginPath();g.moveTo(ox,oy+i*cell);g.lineTo(ox+cols*cell,oy+i*cell);g.stroke()}
@@ -510,40 +513,45 @@ async function savePDF({name,course,group},stamp=null,exam=false){
   }
   g.setLineDash([]);
  }
- const bx=675,by=1340,bw=1730,bh=157,stop=bx+bw,qrColumn=164;
- const nameX=bx+qrColumn+18;
- const dividers=[bx+qrColumn,1200,1512,1680,1860,2160];
- g.strokeStyle='#1b344d';g.lineWidth=3;rect(g,bx,by,bw,bh);
- for(const x of dividers){g.beginPath();g.moveTo(x,by);g.lineTo(x,by+bh);g.stroke();}
- g.font='bold 19px system-ui';g.fillStyle='#536a81';
- g.fillText('ALUMNO / ALUMNA',nameX,by+32);
- g.fillText('CURSO / GRUPO',1218,by+32);
- g.fillText('LÁMINA',1530,by+32);
- g.fillText('FIGURA',1698,by+32);
- g.fillText('FECHA Y HORA DE CREACIÓN',1878,by+32);
- g.fillText(exam?'MI AULA DIGITAL':'LOGOTIPO',2178,by+32);
- g.font='bold 29px system-ui';g.fillStyle='#18334c';
- g.fillText(name.trim()||'________________________',nameX,by+87,1200-nameX-18);
- g.fillText(course.trim()+' · '+group.trim(),1218,by+87,274);
- g.fillText(exam?'Examen':'1',1530,by+87,130);
- g.fillText(String(figure).padStart(2,'0')+' / 24',1698,by+87,144);
+ const left=margin+26,right=W-left,by=H-margin-219,bh=164,qrWidth=164;
+ const fields=[
+  ['ALUMNO / ALUMNA',660,name.trim()||'________________________'],
+  ['CURSO / GRUPO',345,course.trim()+' · '+group.trim()],
+  ['LÁMINA',176,exam?'Examen':'1'],
+  ['FIGURA',194,String(figure).padStart(2,'0')+' / 24'],
+  ['FECHA Y HORA DE CREACIÓN',415],
+  [exam?'MI AULA DIGITAL':'LOGOTIPO',null]
+ ];
+ g.strokeStyle='#1b344d';g.lineWidth=3;rect(g,left,by,right-left,bh);
+ let column=left+qrWidth;
+ const positions=fields.map(([label,span,value])=>{
+  g.beginPath();g.moveTo(column,by);g.lineTo(column,by+bh);g.stroke();
+  g.font='bold 19px system-ui';g.fillStyle='#536a81';
+  g.fillText(label,column+18,by+32);
+  g.font='bold 29px system-ui';g.fillStyle='#18334c';
+  if(value)g.fillText(value,column+18,by+92,span-36);
+  const position=column;
+  column+=span??right-column;
+  return position;
+ });
  g.font='17px system-ui';g.textAlign='right';
- g.fillText('© Francisco José Hallado Fernández',W-58,1532);
- g.fillText('Profesor de ESO y Bachillerato',W-58,1553);
+ g.fillText('© Francisco José Hallado Fernández',right,by+bh+22);
+ g.fillText('Profesor de ESO y Bachillerato',right,by+bh+42);
  g.textAlign='left';
  if(logoSource){
   try{
-   const logo=await imgLoad(logoSource),scale=Math.min(208/logo.naturalWidth,77/logo.naturalHeight);
+   const logo=await imgLoad(logoSource),logoLeft=positions[5],scale=Math.min((right-logoLeft-40)/logo.naturalWidth,88/logo.naturalHeight);
    const lw=logo.naturalWidth*scale,lh=logo.naturalHeight*scale;
-   g.drawImage(logo,2160+(stop-2160-lw)/2,by+44+(77-lh)/2,lw,lh);
+   g.drawImage(logo,logoLeft+(right-logoLeft-lw)/2,by+48+(88-lh)/2,lw,lh);
   }catch(e){message('No se pudo insertar el logotipo seleccionado.');}
  }
  stamp??=await window.MADLamina.request('/view-stamp',{figure});
  if(stamp.figure!==figure||!Number.isSafeInteger(stamp.createdAt)||!stamp.code)throw Error('El sello no corresponde a la figura.');
  g.fillStyle='#18334c';g.font='bold 25px system-ui';
- g.fillText(window.MADLamina.formatTime(stamp.createdAt),1878,by+78,264);
- g.font='17px system-ui';g.fillText('Hora peninsular',1878,by+107);
- window.MADLamina.drawSeal(g,stamp.code,{x:bx+7,y:by+4,width:qrColumn-14,height:bh-8});
+ const timeLeft=positions[4]+18;
+ g.fillText(window.MADLamina.formatTime(stamp.createdAt),timeLeft,by+82,positions[5]-timeLeft-18);
+ g.font='17px system-ui';g.fillText('Hora peninsular',timeLeft,by+111);
+ window.MADLamina.drawSeal(g,stamp.code,{x:left+7,y:by+4,width:qrWidth-14,height:bh-8});
  const label=exam?'MiAulaDigital_ExamenVistas_Figura':'MiAulaDigital_Lamina1_Figura';
  const fileName=label+String(figure).padStart(2,'0')+'_'+(name.trim().replace(/[^a-zA-Z0-9À-ÿ]+/g,'_')||'Alumno')+'.pdf';
  pdfFromJpeg(report,fileName,stamp.createdAt);
