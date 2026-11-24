@@ -6,14 +6,25 @@
  <title>Comprobar una lámina · Mi Aula Digital</title>
  <link rel="stylesheet" href="../../../estilos.css?v=1.4.98">
  <script src="../../../control-config.js?v=1.4.95" defer></script>
- <script src="lamina-vistas.js?v=1.4.126" defer></script>
- <script src="verificar-lamina.js?v=1.4.126" defer></script>
+ <script src="lamina-vistas.js?v=1.4.127" defer></script>
+ <script src="verificar-lamina.js?v=1.4.127" defer></script>
+ <style>
+  .seal-form:not([hidden]){display:grid;gap:.75rem;max-width:24rem;margin:1.25rem 0;justify-items:start}
+  .seal-form label,.seal-form input{width:100%}
+  .seal-form input{display:block;margin-top:.4rem;padding:.65rem .8rem;border:1px solid #638bbb;border-radius:.5rem;background:#102442;color:#edf4ff;font:inherit}
+ </style>
 </head>
 <body>
  <header class="site-header"><div class="container header-row"><a class="branding" href="../../../index.html"><strong>Mi Aula Digital</strong></a></div></header>
  <main class="container section">
   <h1>Comprobar una lámina de vistas</h1>
-  <p id="sealStatus" role="status">Comprobando el sello…</p>
+  <p id="sealStatus" role="status">Escanea el QR de la lámina para comprobar su fecha y hora.</p>
+  <form class="seal-form" id="sealForm" method="post" hidden>
+   <label for="sealPassword">Contraseña de verificación
+    <input id="sealPassword" type="password" inputmode="numeric" autocomplete="off" maxlength="128" required>
+   </label>
+   <button class="btn" type="submit">Ver datos de la lámina</button>
+  </form>
   <div id="sealDetails" hidden>
    <p id="sealTime"></p>
    <p id="sealFigure"></p>

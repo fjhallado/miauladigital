@@ -20,14 +20,15 @@
   if (!response.ok) throw Error(result.error || 'El servicio de láminas no responde. Vuelve a intentarlo.');
   return result;
  }
- function drawSeal(ctx, code, right, top) {
-  const url = new URL('verificar-lamina.html', location.href);
+ function drawSeal(ctx, code, {x, y, width, height}) {
+  const url = new URL('../../../v.html', location.href);
   url.hash = code;
   const qr = window.qrcode(0, 'M');
   qr.addData(url.href);
   qr.make();
-  const count = qr.getModuleCount(), cell = Math.floor(188 / (count + 8));
-  const size = (count + 8) * cell, left = right - size;
+  const count = qr.getModuleCount(), cell = Math.floor(Math.min(width, height) / (count + 8));
+  const size = (count + 8) * cell;
+  const left = x + Math.floor((width - size) / 2), top = y + Math.floor((height - size) / 2);
   ctx.fillStyle = '#fff';
   ctx.fillRect(left, top, size, size);
   ctx.fillStyle = '#000';

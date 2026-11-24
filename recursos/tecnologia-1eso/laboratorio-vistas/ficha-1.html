@@ -84,8 +84,8 @@ window.MAD_FICHA1_LOGO="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABLAAAAINCA
 
 </script><script src="vistas-guardadas.js?v=1.4.120"></script>
 <script src="vendor/qrcode-generator-1.4.4.js"></script>
-<script src="lamina-vistas.js?v=1.4.126"></script>
-<script src="examen-vistas.js?v=1.4.126"></script>
+<script src="lamina-vistas.js?v=1.4.127"></script>
+<script src="examen-vistas.js?v=1.4.127"></script>
 <script>
 /* Recurso incorporado: actividad.js */
 (()=>{'use strict';
@@ -510,19 +510,20 @@ async function savePDF({name,course,group},stamp=null,exam=false){
   }
   g.setLineDash([]);
  }
- const bx=675,by=1355,bw=1730,bh=137,stop=bx+bw;
- const dividers=[1200,1512,1680,1860,2160];
+ const bx=675,by=1340,bw=1730,bh=157,stop=bx+bw,qrColumn=164;
+ const nameX=bx+qrColumn+18;
+ const dividers=[bx+qrColumn,1200,1512,1680,1860,2160];
  g.strokeStyle='#1b344d';g.lineWidth=3;rect(g,bx,by,bw,bh);
  for(const x of dividers){g.beginPath();g.moveTo(x,by);g.lineTo(x,by+bh);g.stroke();}
  g.font='bold 19px system-ui';g.fillStyle='#536a81';
- g.fillText('ALUMNO / ALUMNA',bx+18,by+32);
+ g.fillText('ALUMNO / ALUMNA',nameX,by+32);
  g.fillText('CURSO / GRUPO',1218,by+32);
  g.fillText('LÁMINA',1530,by+32);
  g.fillText('FIGURA',1698,by+32);
  g.fillText('FECHA Y HORA DE CREACIÓN',1878,by+32);
  g.fillText(exam?'MI AULA DIGITAL':'LOGOTIPO',2178,by+32);
  g.font='bold 29px system-ui';g.fillStyle='#18334c';
- g.fillText(name.trim()||'________________________',bx+18,by+87,485);
+ g.fillText(name.trim()||'________________________',nameX,by+87,1200-nameX-18);
  g.fillText(course.trim()+' · '+group.trim(),1218,by+87,274);
  g.fillText(exam?'Examen':'1',1530,by+87,130);
  g.fillText(String(figure).padStart(2,'0')+' / 24',1698,by+87,144);
@@ -542,7 +543,7 @@ async function savePDF({name,course,group},stamp=null,exam=false){
  g.fillStyle='#18334c';g.font='bold 25px system-ui';
  g.fillText(window.MADLamina.formatTime(stamp.createdAt),1878,by+78,264);
  g.font='17px system-ui';g.fillText('Hora peninsular',1878,by+107);
- window.MADLamina.drawSeal(g,stamp.code,W-58,1560);
+ window.MADLamina.drawSeal(g,stamp.code,{x:bx+7,y:by+4,width:qrColumn-14,height:bh-8});
  const label=exam?'MiAulaDigital_ExamenVistas_Figura':'MiAulaDigital_Lamina1_Figura';
  const fileName=label+String(figure).padStart(2,'0')+'_'+(name.trim().replace(/[^a-zA-Z0-9À-ÿ]+/g,'_')||'Alumno')+'.pdf';
  pdfFromJpeg(report,fileName,stamp.createdAt);

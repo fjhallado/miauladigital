@@ -76,7 +76,7 @@
    if(canEdit()&&!confirm('¿Entregar el examen? El dibujo quedará cerrado.'))return;
    busy=true;render();$('viewExamError').textContent='';
    try{
-    if(!record.attempt.stamp){
+    if(!record.attempt.stamp?.code?.startsWith('2.')){
      record.attempt=await request('/view-exam/finish',{id:record.id});
      persist();
     }
