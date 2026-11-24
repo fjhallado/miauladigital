@@ -4,6 +4,7 @@
  const archiveKey=id=>'mad-examen-vistas-archivo-v1:'+id;
  const $=id=>document.getElementById(id);
  const figuresOf=value=>value?.figures??(value?.figure?[value.figure]:[]);
+ const sheetCount=count=>count+(count===1?' lámina':' láminas');
  function readRecord(){
   try{
    const saved=JSON.parse(localStorage.getItem(key));
@@ -61,9 +62,13 @@
    document.body.dataset.viewExamReady='';
    sheets.replaceChildren(...record.figures.map((figure,i)=>{
     const button=document.createElement('button');
+    const title='Lámina '+(i+1), figureLabel=document.createElement('span');
     button.type='button';
     button.dataset.figure=figure;
-    button.textContent='Lámina '+(i+1)+' · Figura '+figure;
+    figureLabel.className='view-exam-figure-label';
+    figureLabel.textContent=' · Figura '+figure;
+    button.setAttribute('aria-label',title+figureLabel.textContent);
+    button.append(title,figureLabel);
     button.onclick=()=>selectSheet(figure);
     return button;
    }));
@@ -91,7 +96,7 @@
    let description;
    if(canStart){
     const count=figuresOf(planned).length;
-    description=planned?count+(count===1?' lámina':' láminas')+' · '+planned.minutes+' min. El intento empieza al pulsar Comenzar.':
+    description=planned?'Convocatoria programada · '+sheetCount(count)+' · '+planned.minutes+' min. El intento empieza al pulsar Comenzar.':
      'Examen aleatorio · 5 láminas · '+api.status.viewExamDefaultMinutes+' min. El intento empieza al pulsar Comenzar.';
    }
    else if(dismissed)description='Examen cerrado. Puedes volver a descargar tu PDF para subirlo a Teams.';
@@ -99,7 +104,8 @@
    else if(record?.closed==='tiempo agotado')description='Examen finalizado por tiempo agotado. Puedes descargar el trabajo guardado.';
    else if(sealed())description='Examen entregado. Puedes volver a descargar el PDF con el mismo sello.';
    else if(record?.closed)description='El examen está cerrado. Puedes descargar el trabajo guardado.';
-   else if(attempt)description='Identifica las caras y dibuja las tres vistas de cada lámina. Pulsa Entregar cuando hayas terminado.';
+   else if(attempt)description=(record.startsAt===null?'Examen aleatorio':'Convocatoria programada')+' · '+
+    sheetCount(record.figures.length)+'. Identifica las caras y dibuja las tres vistas. Pulsa Entregar cuando termines.';
    else if(!api.ready)description='Consultando el horario…';
    else if(api.error)description='No se pudo consultar el horario. Vuelve a cargar la página.';
    else if(planned&&api.now()<planned.startsAt)description='El examen abre el '+api.dateLabel(planned.startsAt)+'.';
