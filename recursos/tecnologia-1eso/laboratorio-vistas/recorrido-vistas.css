@@ -18,9 +18,12 @@ body[data-ficha-mode="exam"]:not([data-view-exam-ready]) .workspace{display:none
 .ficha-exam-form input{min-width:0;max-width:100%;background:#0b2342;color:#fff;border:1px solid #658ebc;border-radius:8px;padding:8px}
 #viewExamClock{font-weight:800;color:#ffd296;font-variant-numeric:tabular-nums}
 #viewExamError{color:#ffc2bf}
-.view-exam-actions{display:flex;flex-wrap:wrap;gap:8px}
+.view-exam-bar{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.view-exam-actions{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:8px;margin-inline-start:auto;min-width:0}
+.view-exam-bar :is(button,.ficha-action){padding:7px 10px}
 .exam-navigation-warning{color:#ffd296}
-#viewExamSheets:not([hidden]){display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 12px}
+#viewExamSheets:not([hidden]){display:flex;flex:1 1 8rem;min-width:0;gap:8px;overflow-x:auto;padding:5px;scroll-padding-inline:5px}
+#viewExamSheets button{flex:none;white-space:nowrap}
 #viewExamSheets button[aria-current="step"]{outline:2px solid #a2d8ff;outline-offset:1px;background:#2c70b1}
 .projection-next{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin-top:12px}
 .projection-next p{margin:0}
