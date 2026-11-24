@@ -4,7 +4,16 @@ const $=id=>document.getElementById(id);
 const api=window.MAD_CONTROL;
 const fields={teacherGames:'gamesEnabled',teacherLabs:'labsEnabled',teacherExams:'examsUnlocked',teacherCommentsAuto:'commentsAutoPublish',teacherSales:'salesEnabled'};
 const examNames={tic:'Programación TIC II',periodica:'Tabla Periódica',both:'ambos exámenes'};
-for(let number=1;number<=24;number++)$('teacherScheduleFigure').add(new Option('Figura '+number,number));
+const figureNumbers=Array.from({length:24},(_,i)=>i+1);
+const figureFields=Array.from({length:5},(_,i)=>{
+ const label=document.createElement('label'),select=document.createElement('select');
+ label.textContent='Figura de la lámina '+(i+1);
+ select.id=i?'teacherScheduleFigure'+(i+1):'teacherScheduleFigure';
+ for(const number of figureNumbers)select.add(new Option('Figura '+number,number));
+ label.append(select);
+ $('teacherScheduleFigures').append(label);
+ return select;
+});
 let session=null;
 let busy=false;
 const madridFields=new Intl.DateTimeFormat('en-CA',{
@@ -44,8 +53,9 @@ function renderTimetable(state,unavailable){
  $('teacherScheduleMinutesLabel').hidden=cafe;
  $('teacherScheduleMinutes').disabled=cafe;
  $('teacherScheduleMinutes').required=!cafe;
- $('teacherScheduleFigureLabel').hidden=!vistas;
- $('teacherScheduleFigure').disabled=!vistas;
+ $('teacherScheduleCountLabel').hidden=!vistas;
+ $('teacherScheduleCount').disabled=!vistas;
+ $('teacherScheduleFigures').hidden=!vistas;
  $('teacherCancelSchedule').disabled=!schedule;
  if(!timetableDirty&&key!==timetableKey){
   const start=Math.ceil(api.now()/300000)*300000;
@@ -53,9 +63,14 @@ function renderTimetable(state,unavailable){
   $('teacherScheduleEnd').value=dateField(schedule?.endsAt??start+3600000);
   $('teacherScheduleMode').value=schedule?.mode??'open';
   $('teacherScheduleMinutes').value=schedule?.minutes??60;
-  $('teacherScheduleFigure').value=schedule?.figure??1;
+  const figures=schedule?.figures??[schedule?.figure??1];
+  $('teacherScheduleCount').value=figures.length;
+  const defaults=figures.concat(figureNumbers.filter(number=>!figures.includes(number)));
+  figureFields.forEach((field,i)=>{field.value=defaults[i]});
   timetableKey=key;
  }
+ const count=Number($('teacherScheduleCount').value);
+ figureFields.forEach((field,i)=>{field.disabled=!vistas||i>=count;field.parentElement.hidden=field.disabled;});
  const closing=cafe&&$('teacherScheduleMode').value==='closed';
  $('teacherScheduleStartLabel').textContent=closing?'Inicio del cierre':'Apertura';
  $('teacherScheduleEndLabel').textContent=closing?'Reapertura':'Cierre';
@@ -66,7 +81,7 @@ function renderTimetable(state,unavailable){
  const label=phase==='before'?'Programado':phase==='open'?'En curso':'Finalizado';
  const text=schedule?label+'. '+api.dateLabel(schedule.startsAt)+' → '+api.dateLabel(schedule.endsAt)+
   (cafe?(schedule.mode==='open'?' · Apertura':' · Cierre'):' · '+schedule.minutes+' min por intento.')+
-  (vistas?' · Figura '+schedule.figure:''):
+  (vistas?' · Figuras '+(schedule.figures??[schedule.figure]).join(', '):''):
   'Sin horario programado.';
  if($('teacherScheduleInfo').textContent!==text)$('teacherScheduleInfo').textContent=text;
 }
@@ -265,8 +280,8 @@ $('teacherScheduleTarget').addEventListener('change',()=>{
  timetableDirty=false;
  render();
 });
-for(const id of ['teacherScheduleStart','teacherScheduleEnd','teacherScheduleMinutes','teacherScheduleMode','teacherScheduleFigure']){
- $(id).addEventListener('input',()=>{timetableDirty=true;if(id==='teacherScheduleMode')render()});
+for(const field of [...['teacherScheduleStart','teacherScheduleEnd','teacherScheduleMinutes','teacherScheduleMode','teacherScheduleCount'].map($),...figureFields]){
+ field.addEventListener('input',()=>{timetableDirty=true;if(['teacherScheduleMode','teacherScheduleCount'].includes(field.id))render()});
 }
 $('teacherScheduleForm').addEventListener('submit',event=>{
  event.preventDefault();
@@ -285,7 +300,10 @@ $('teacherScheduleForm').addEventListener('submit',event=>{
    }
    schedule.minutes=minutes;
   }
-  if(target==='vistas')schedule.figure=Number($('teacherScheduleFigure').value);
+  if(target==='vistas'){
+   schedule.figures=figureFields.slice(0,Number($('teacherScheduleCount').value)).map(field=>Number(field.value));
+   if(new Set(schedule.figures).size!==schedule.figures.length)throw Error('Elige una figura distinta para cada lámina.');
+  }
   save('/schedules','PUT',{target,schedule},'Horario guardado.');
  }catch(error){message(error.message,true)}
 });

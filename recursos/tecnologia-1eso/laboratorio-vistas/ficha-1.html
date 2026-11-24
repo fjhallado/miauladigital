@@ -29,7 +29,7 @@
 .multi-ramp{display:inline-flex;gap:7px;align-items:center;border:1px solid #79a9d8;border-radius:8px;padding:7px 10px;font-size:12px;font-weight:750;color:#fff;background:#19426d}.multi-ramp input{accent-color:#60c0ff;width:16px;height:16px}</style><style id="access-ficha-style">
 .ficha-access{display:flex;flex-wrap:wrap;align-items:center;gap:9px;margin:5px 0 12px;padding:10px;background:#1e436b;border:1px solid #648eb9;border-radius:9px;color:#fff;font-size:12px}
 .ficha-access label{font-weight:750}.ficha-access select{padding:7px 9px;border-radius:7px;background:#102e54;color:#fff;border:1px solid #8abbeb}.ficha-access span{font-size:11px;color:#e1edf9}.ficha-access .legend-v{display:inline-flex;gap:4px;align-items:center}.ficha-swatch{display:inline-block;width:21px;height:21px;border:1px solid #152b41;background-color:#fff;border-radius:3px}.ficha-diag{background-image:repeating-linear-gradient(125deg,transparent 0px,transparent 5px,#3a5166 5px,#3a5166 6.5px)}.ficha-cross{background-image:repeating-linear-gradient(45deg,transparent 0 6px,#3a5166 6px,#3a5166 7.5px),repeating-linear-gradient(-45deg,transparent 0 6px,#3a5166 6px,#3a5166 7.5px)}.ficha-dots{background-image:radial-gradient(#3a5166 1.6px,transparent 2px);background-size:9px 9px}
-</style><link rel="stylesheet" href="recorrido-vistas.css?v=1.4.126"></head><body>
+</style><link rel="stylesheet" href="recorrido-vistas.css?v=1.4.131"></head><body>
 <nav class="site" aria-label="Laboratorio de vistas"><strong>Mi Aula Digital · Laboratorio de vistas</strong><a href="index.html">← Todas las actividades</a></nav>
 <section class="intro">
 <nav class="ficha-steps" aria-label="Actividades de la ficha">
@@ -43,6 +43,7 @@
 <div class="tabs"><button id="prev">← Anterior</button><button id="next">Siguiente →</button><button id="toggleGallery">▦ Ir al catálogo de 24 figuras</button><span class="project-only ficha-export"><button id="download">⇩ Descargar mi plano (PDF)</button><label class="logo-control" for="logoFile">⇧ Cargar logo</label><input type="file" id="logoFile" accept="image/png,image/jpeg,image/webp" class="hidden"><label class="logo-choice"><input type="checkbox" id="logoEnabled" checked> Incluir logo</label><small id="logoStatus" class="muted"></small></span></div></section>
 <section class="intro panel" id="viewExamPanel" hidden aria-label="Convocatoria y entrega del examen">
  <p id="viewExamStatus" role="status">Consultando el horario…</p>
+ <p class="exam-navigation-warning">Si cambias de pestaña o sales de la página, el examen finalizará y se intentará descargar el trabajo guardado. Entrega el examen antes de ir a Teams.</p>
  <form id="viewExamStart" class="ficha-exam-form" hidden>
   <label>Nombre y apellidos<input name="name" maxlength="80" required autocomplete="name"></label>
   <label>Curso<input name="course" maxlength="40" required></label>
@@ -50,6 +51,7 @@
   <button type="submit">Comenzar examen</button>
  </form>
  <p id="viewExamClock" hidden></p>
+ <nav id="viewExamSheets" aria-label="Láminas del examen" hidden></nav>
  <button type="button" id="viewExamDownload" hidden>Entregar y descargar PDF</button>
  <p id="viewExamError" role="alert"></p>
 </section>
@@ -84,8 +86,9 @@ window.MAD_FICHA1_LOGO="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABLAAAAINCA
 
 </script><script src="vistas-guardadas.js?v=1.4.120"></script>
 <script src="vendor/qrcode-generator-1.4.4.js"></script>
-<script src="lamina-vistas.js?v=1.4.127"></script>
-<script src="examen-vistas.js?v=1.4.127"></script>
+<script src="lamina-vistas.js?v=1.4.131"></script>
+<script src="../../../examen-navegacion.js?v=1.4.131"></script>
+<script src="examen-vistas.js?v=1.4.131"></script>
 <script>
 /* Recurso incorporado: actividad.js */
 (()=>{'use strict';
@@ -238,26 +241,29 @@ function resizeFace(){
 }
 function redrawColored(){
  if(!faceCanvas||!sourceImage||!maskLabels)return;
- const w=faceCanvas.width,h=faceCanvas.height,ctx=faceCanvas.getContext('2d',{willReadFrequently:true});
- ctx.clearRect(0,0,w,h);ctx.drawImage(sourceImage,0,0,w,h);
- const img=ctx.getImageData(0,0,w,h),buf=img.data,map=state[current].faces;
- const pattern=accessMode==='pattern'||accessMode==='both',numbering=accessMode==='number'||accessMode==='both';
+ paintFigure(faceCanvas,sourceImage,maskLabels,state[current].faces,accessMode);
+}
+function paintFigure(canvas,image,mask,map,mode){
+ const w=canvas.width,h=canvas.height,ctx=canvas.getContext('2d',{willReadFrequently:true});
+ ctx.clearRect(0,0,w,h);ctx.drawImage(image,0,0,w,h);
+ const img=ctx.getImageData(0,0,w,h),buf=img.data;
+ const pattern=mode==='pattern'||mode==='both',numbering=mode==='number'||mode==='both';
  const stats={},rolesById={};
  for(const [id,value] of Object.entries(map))rolesById[id]=asRoles(value);
  const ranges={};
- for(let i=0;i<maskLabels.length;i++){
-  const id=maskLabels[i];if(!id||!rolesById[id]?.length)continue;
+ for(let i=0;i<mask.length;i++){
+  const id=mask[i];if(!id||!rolesById[id]?.length)continue;
   const v=i%w+Math.floor(i/w),r=ranges[id]||(ranges[id]={min:v,max:v});
   r.min=Math.min(r.min,v);r.max=Math.max(r.max,v);
  }
- for(let i=0;i<maskLabels.length;i++){
-  const id=maskLabels[i],roles=rolesById[id];if(!roles||!roles.length)continue;
+ for(let i=0;i<mask.length;i++){
+  const id=mask[i],roles=rolesById[id];if(!roles||!roles.length)continue;
   const off=i*4,x=i%w,y=Math.floor(i/w);
   // Conserva los píxeles de líneas negras y cuadrículas originales de cada figura.
   const light=Math.max(buf[off],buf[off+1],buf[off+2]);if(light<140)continue;
   const range=ranges[id],fraction=(x+y-range.min)/(range.max-range.min+1);
   const selected=roles.length===1?roles[0]:roles[Math.max(0,Math.min(roles.length-1,Math.floor(fraction*roles.length)))];
-  if(accessMode==='color'){
+  if(mode==='color'){
    const rgb=colors[selected];buf[off]=Math.round(buf[off]*.52+rgb[0]*.48);
    buf[off+1]=Math.round(buf[off+1]*.52+rgb[1]*.48);buf[off+2]=Math.round(buf[off+2]*.52+rgb[2]*.48);
   }else{
@@ -272,7 +278,7 @@ function redrawColored(){
   for(const [id,st] of Object.entries(stats)){
    if(st.c<10)continue;
    let x=st.x/st.c,y=st.y/st.c;
-   const within=(px,py)=>px>=0&&py>=0&&px<w&&py<h&&maskLabels[Math.floor(py)*w+Math.floor(px)]==Number(id);
+   const within=(px,py)=>px>=0&&py>=0&&px<w&&py<h&&mask[Math.floor(py)*w+Math.floor(px)]==Number(id);
    if(!within(x,y)){outer:for(let rad=1;rad<Math.max(w,h);rad+=3)for(const [dx,dy] of [[rad,0],[-rad,0],[0,rad],[0,-rad]])if(within(x+dx,y+dy)){x+=dx;y+=dy;break outer}}
    const label=st.roles.map(r=>labels[r]).join('+');const width=Math.max(26,label.length*11+16),height=26;
    ctx.fillStyle='#fff';ctx.strokeStyle='#20354a';ctx.lineWidth=1.7;
@@ -281,22 +287,27 @@ function redrawColored(){
   }
  }
 }
-async function renderFigure(){
- const figure=current;
- vector.textContent='Preparando figura…';
- try{
+async function loadArtwork(figure){
   const orig=window.MAD_FICHA1_ORIGINALES?.[figure],mask=window.MAD_FICHA1_MASKS?.[figure];
   if(!orig||!mask)throw Error('Falta la ilustración o su mapa de caras');
   const [img,maskImg]=await Promise.all([loadImage(orig),loadImage(mask)]);
-  if(figure!==current)return;
   if(img.naturalWidth!==maskImg.naturalWidth||img.naturalHeight!==maskImg.naturalHeight)throw Error('Dimensiones incompatibles');
   const c=document.createElement('canvas');c.id='faceRaster';c.dataset.figure=figure;c.width=img.naturalWidth;c.height=img.naturalHeight;
   c.setAttribute('aria-label','Figura '+(figure+1)+' original, coloreable por superficies');
   const m=document.createElement('canvas');m.width=c.width;m.height=c.height;
   const mc=m.getContext('2d',{willReadFrequently:true});mc.drawImage(maskImg,0,0);
   const data=mc.getImageData(0,0,m.width,m.height).data;
-  maskLabels=new Uint8Array(m.width*m.height);
-  for(let i=0;i<maskLabels.length;i++)maskLabels[i]=data[i*4];
+  const labels=new Uint8Array(m.width*m.height);
+  for(let i=0;i<labels.length;i++)labels[i]=data[i*4];
+  return {img,c,labels};
+}
+async function renderFigure(){
+ const figure=current;
+ vector.textContent='Preparando figura…';
+ try{
+  const {img,c,labels}=await loadArtwork(figure);
+  if(figure!==current)return;
+  maskLabels=labels;
   sourceImage=img;faceCanvas=c;vector.replaceChildren(c);
   redrawColored();resizeFace();
   $('figRef').textContent='Ilustración original n.º '+(figure+1)+'; coloreado por regiones cerradas, sin aristas añadidas.';
@@ -475,51 +486,57 @@ function printableViews(drawing){
  }));
  return {grids,lines};
 }
-function pdfFromJpeg(canvas,filename,createdAt){
+function jpgPage(canvas){
+ const data=canvas.toDataURL('image/jpeg',.94).split(',')[1];
+ return {bytes:Uint8Array.from(atob(data),char=>char.charCodeAt(0)),width:canvas.width,height:canvas.height};
+}
+function downloadPDF(pages,filename,createdAt){
  const [pageWidth,pageHeight]=[297,210].map(mm=>(mm*72/25.4).toFixed(4));
- const data=canvas.toDataURL('image/jpeg',.94).split(',')[1],binary=atob(data);
- const jpg=new Uint8Array(binary.length);for(let i=0;i<binary.length;i++)jpg[i]=binary.charCodeAt(i);
  const enc=new TextEncoder(),parts=[],offsets=[0];let length=0;
  function add(bytes){parts.push(bytes);length+=bytes.length}
  function txt(t){add(enc.encode(t))}
  function obj(id,content){offsets[id]=length;txt(id+' 0 obj\n'+content+'\nendobj\n')}
  txt('%PDF-1.4\n');
  obj(1,'<< /Type /Catalog /Pages 2 0 R >>');
- obj(2,'<< /Type /Pages /Kids [3 0 R] /Count 1 >>');
- obj(3,`<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ${pageWidth} ${pageHeight}] /Resources << /XObject << /Im1 4 0 R >> >> /Contents 5 0 R >>`);
- offsets[4]=length;
- txt('4 0 obj\n<< /Type /XObject /Subtype /Image /Width '+canvas.width+' /Height '+canvas.height+' /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length '+jpg.length+' >>\nstream\n');
- add(jpg);txt('\nendstream\nendobj\n');
+ const children=pages.map((_,index)=>(3+index*3)+' 0 R').join(' ');
+ obj(2,`<< /Type /Pages /Kids [${children}] /Count ${pages.length} >>`);
  const commands=`q\n${pageWidth} 0 0 ${pageHeight} 0 0 cm\n/Im1 Do\nQ\n`;
- obj(5,'<< /Length '+enc.encode(commands).length+' >>\nstream\n'+commands+'endstream');
+ pages.forEach(({bytes,width,height},index)=>{
+  const page=3+index*3,image=page+1,stream=page+2;
+  obj(page,`<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ${pageWidth} ${pageHeight}] /Resources << /XObject << /Im1 ${image} 0 R >> >> /Contents ${stream} 0 R >>`);
+  offsets[image]=length;
+  txt(`${image} 0 obj\n<< /Type /XObject /Subtype /Image /Width ${width} /Height ${height} /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length ${bytes.length} >>\nstream\n`);
+  add(bytes);txt('\nendstream\nendobj\n');
+  obj(stream,'<< /Length '+commands.length+' >>\nstream\n'+commands+'endstream');
+ });
+ const info=offsets.length;
  const pdfDate=new Date(createdAt).toISOString().slice(0,19).replace(/\D/g,'');
- obj(6,'<< /CreationDate (D:'+pdfDate+'Z) >>');
- const start=length;txt('xref\n0 7\n0000000000 65535 f \n');
- for(let i=1;i<=6;i++)txt(String(offsets[i]).padStart(10,'0')+' 00000 n \n');
- txt('trailer\n<< /Size 7 /Root 1 0 R /Info 6 0 R >>\nstartxref\n'+start+'\n%%EOF');
+ obj(info,'<< /CreationDate (D:'+pdfDate+'Z) >>');
+ const start=length;txt(`xref\n0 ${offsets.length}\n0000000000 65535 f \n`);
+ for(const offset of offsets.slice(1))txt(String(offset).padStart(10,'0')+' 00000 n \n');
+ txt(`trailer\n<< /Size ${offsets.length} /Root 1 0 R /Info ${info} 0 R >>\nstartxref\n${start}\n%%EOF`);
  const blob=new Blob(parts,{type:'application/pdf'}),url=URL.createObjectURL(blob);
  const link=document.createElement('a');link.href=url;link.download=filename;link.click();
  setTimeout(()=>URL.revokeObjectURL(url),12000);
 }
-async function savePDF({name,course,group},stamp=null,exam=false){
- const figure=current+1;
- if(!faceCanvas||!sourceImage||Number(faceCanvas.dataset.figure)!==current)throw Error('Espera a que termine de cargar la figura.');
+async function renderPDFPage({name,course,group},{figure,artwork,drawing,mode,stamp=null,exam=false,number=1,total=1,reason}){
  const logoSource=!exam&&logoEnabled.checked?(schoolLogo||DEFAULT_LOGO):null;
  const W=2480,H=1754,margin=50,report=document.createElement('canvas');report.width=W;report.height=H;
  const g=report.getContext('2d');g.fillStyle='#fff';g.fillRect(0,0,W,H);
  g.strokeStyle='#1b344d';g.lineWidth=4;rect(g,margin,margin,W-2*margin,H-2*margin);
  g.fillStyle='#163651';g.font='bold 43px system-ui';g.fillText('TECNOLOGÍA · VISTAS DIÉDRICAS',88,116);
- g.font='25px system-ui';g.fillText(exam?'MI AULA DIGITAL  /  EXAMEN DE VISTAS':'MI AULA DIGITAL  /  FICHA 1 · NIVEL FÁCIL',90,162);
+ const subtitle=exam?'MI AULA DIGITAL / EXAMEN DE VISTAS'+(reason?' · '+reason.toUpperCase():''):'MI AULA DIGITAL  /  FICHA 1 · NIVEL FÁCIL';
+ g.font='25px system-ui';g.fillText(subtitle,90,162);
  g.lineWidth=2;g.beginPath();g.moveTo(70,190);g.lineTo(W-70,190);g.stroke();
  const figureArea={x:100,y:300,w:1085,h:1145};
- const ratio=Math.min(figureArea.w/faceCanvas.width,figureArea.h/faceCanvas.height);
- const fw=faceCanvas.width*ratio,fh=faceCanvas.height*ratio;
- g.drawImage(faceCanvas,figureArea.x+(figureArea.w-fw)/2,figureArea.y+(figureArea.h-fh)/2,fw,fh);
- g.font='bold 28px system-ui';g.fillText(accessMode==='color'?'FIGURA ISOMÉTRICA COLOREADA':'FIGURA ISOMÉTRICA · CARAS IDENTIFICADAS',100,248);if(accessMode!=='color'){g.font='20px system-ui';g.fillText('1 = Alzado (rayas)     2 = Perfil (cruces)     3 = Planta (puntos)',100,286);}
+ const ratio=Math.min(figureArea.w/artwork.width,figureArea.h/artwork.height);
+ const fw=artwork.width*ratio,fh=artwork.height*ratio;
+ g.drawImage(artwork,figureArea.x+(figureArea.w-fw)/2,figureArea.y+(figureArea.h-fh)/2,fw,fh);
+ g.font='bold 28px system-ui';g.fillText(mode==='color'?'FIGURA ISOMÉTRICA COLOREADA':'FIGURA ISOMÉTRICA · CARAS IDENTIFICADAS',100,248);if(mode!=='color'){g.font='20px system-ui';g.fillText('1 = Alzado (rayas)     2 = Perfil (cruces)     3 = Planta (puntos)',100,286);}
  const labels={front:'ALZADO',side:'PERFIL IZQUIERDO',top:'PLANTA'};
  const slots={front:[1220,286],side:[1800,286],top:[1220,893]};
  const viewWidth=560,viewHeight=500,viewPadding=24;
- const {grids,lines}=printableViews(state[current]);
+ const {grids,lines}=printableViews(drawing);
  // Escala única de cuadrado para alzado, perfil y planta; medidas alineadas.
  const printCell=Math.min(...Object.values(grids).map(({w,h})=>Math.min((viewWidth-viewPadding)/w,(viewHeight-viewPadding)/h)));
  for(const v of views){
@@ -540,7 +557,7 @@ async function savePDF({name,course,group},stamp=null,exam=false){
  const fields=[
   ['ALUMNO / ALUMNA',660,name.trim()||'________________________'],
   ['CURSO / GRUPO',345,course.trim()+' · '+group.trim()],
-  ['LÁMINA',176,exam?'Examen':'1'],
+  ['LÁMINA',176,exam?`${number} / ${total}`:'1'],
   ['FIGURA',194,String(figure).padStart(2,'0')+' / 24'],
   ['FECHA Y HORA DE CREACIÓN',415],
   [exam?'MI AULA DIGITAL':'LOGOTIPO',null]
@@ -575,10 +592,27 @@ async function savePDF({name,course,group},stamp=null,exam=false){
  g.fillText(window.MADLamina.formatTime(stamp.createdAt),timeLeft,by+82,positions[5]-timeLeft-18);
  g.font='17px system-ui';g.fillText('Hora peninsular',timeLeft,by+111);
  window.MADLamina.drawSeal(g,stamp.code,{x:left+7,y:by+4,width:qrWidth-14,height:bh-8});
- const label=exam?'MiAulaDigital_ExamenVistas_Figura':'MiAulaDigital_Lamina1_Figura';
- const fileName=label+String(figure).padStart(2,'0')+'_'+(name.trim().replace(/[^a-zA-Z0-9À-ÿ]+/g,'_')||'Alumno')+'.pdf';
- pdfFromJpeg(report,fileName,stamp.createdAt);
+ return {image:jpgPage(report),createdAt:stamp.createdAt};
+}
+const studentFileName=({name})=>name.trim().replace(/[^a-zA-Z0-9À-ÿ]+/g,'_').slice(0,80)||'Alumno';
+async function savePDF(student){
+ const figure=current+1;
+ if(!faceCanvas||!sourceImage||Number(faceCanvas.dataset.figure)!==current)throw Error('Espera a que termine de cargar la figura.');
+ const page=await renderPDFPage(student,{figure,artwork:faceCanvas,drawing:state[current],mode:accessMode});
+ downloadPDF([page.image],`MiAulaDigital_Lamina1_Figura${String(figure).padStart(2,'0')}_${studentFileName(student)}.pdf`,page.createdAt);
  message('Lámina PDF A4 generada con fecha, hora y sello QR.');
+}
+async function saveExamPDF({student,figures,drawings,attempt,mode,reason}){
+ const pages=[];
+ for(const [index,figure] of figures.entries()){
+  const {c,img,labels}=await loadArtwork(figure-1);
+  const drawing=drawings[figure]??{faces:{},lines:emptyLines(),n:gridsForFigure(figure-1)};
+  paintFigure(c,img,labels,drawing.faces,mode);
+  const stamp=attempt.stamps?.[index]??attempt.stamp;
+  const page=await renderPDFPage(student,{figure,artwork:c,drawing,mode,stamp,exam:true,number:index+1,total:figures.length,reason});
+  pages.push(page.image);
+ }
+ downloadPDF(pages,`MiAulaDigital_ExamenVistas_${studentFileName(student)}.pdf`,(attempt.stamps?.[0]??attempt.stamp).createdAt);
 }
 $('download').onclick=async()=>{
  const name=prompt('Nombre y apellidos del alumno:','');
@@ -596,7 +630,7 @@ $('download').onclick=async()=>{
 };
 window.addEventListener('resize',()=>requestAnimationFrame(()=>{drawAll();resizeFace()}));
 if(examMode){
- examApp=window.MADViewExam.mount({loadFigure:(figure,drawing)=>loadFig(figure,drawing??null),savePDF});
+ examApp=window.MADViewExam.mount({loadFigure:(figure,drawing)=>loadFig(figure,drawing??null),savePDF:saveExamPDF,getMode:()=>accessMode});
 }else{
  window.addEventListener('load',()=>requestAnimationFrame(()=>{loadFig(current);drawAll();}));
  const requestedFigure=Number(new URLSearchParams(location.search).get('figura'));

@@ -18,6 +18,9 @@ body[data-ficha-mode="exam"]:not([data-view-exam-ready]) .workspace{display:none
 .ficha-exam-form input{min-width:0;max-width:100%;background:#0b2342;color:#fff;border:1px solid #658ebc;border-radius:8px;padding:8px}
 #viewExamClock{font-weight:800;color:#ffd296;font-variant-numeric:tabular-nums}
 #viewExamError{color:#ffc2bf}
+.exam-navigation-warning{color:#ffd296}
+#viewExamSheets:not([hidden]){display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 12px}
+#viewExamSheets button[aria-current="step"]{outline:2px solid #a2d8ff;outline-offset:1px;background:#2c70b1}
 .projection-next{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin-top:12px}
 .projection-next p{margin:0}
 body[data-training="menu"] .layout,body[data-training="menu"] .toolbar,

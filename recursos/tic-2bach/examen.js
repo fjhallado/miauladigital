@@ -36,12 +36,16 @@ try{archive(reason)}catch(e){return}
 if(interval){clearInterval(interval);interval=null}localStorage.removeItem(KEY);state=null;done=false;
 $("student").value="";$("endTime").value="";$("endTime").disabled=false;$("endTimeLabel").textContent="Hora de fin: —";$("studentLabel").textContent="";$("alerts").textContent="0 avisos";$("preview").srcdoc="";$("previewStatus").textContent="Sin ejecutar";
 $("html").readOnly=false;$("css").readOnly=false;$("execute").disabled=false;$("finish").textContent="Finalizar y descargar entrega";
-$("html").value="";$("css").value="";document.dispatchEvent(new Event("exam-code-refresh"));$("timer").textContent="120:00";$("examState").textContent="Examen en curso";$("initialMsg").textContent="Reinicio autorizado. El intento anterior queda archivado en este navegador.";
+$("html").value="";$("css").value="";document.dispatchEvent(new Event("exam-code-refresh"));$("timer").textContent="120:00";$("examState").textContent="Examen en curso. Cambiar de pestaña finaliza el intento.";$("initialMsg").textContent="Reinicio autorizado. El intento anterior queda archivado en este navegador.";
 $("startExam").textContent="Comenzar nuevo examen";$("startScreen").hidden=false;$("examScreen").hidden=true;updateExamAccess();$("student").focus();
 }
 const stamp=()=>new Date().toISOString();
-function persist(){if(!state||stale||$("examScreen").hidden)return;state.html=$("html").value;state.css=$("css").value;try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){$("examState").textContent="No se puede guardar localmente: descarga la entrega"}}
-function log(type){if(!state||state.finished)return;state.events.push({type,at:stamp()});$("alerts").textContent=state.events.length+" avisos";persist()}
+function persist(){if(!state||stale||$("examScreen").hidden)return;state.html=$("html").value;state.css=$("css").value;try{
+ const previous=JSON.parse(localStorage.getItem(KEY)||'null');
+ if(previous?.started===state.started&&previous.finished&&previous.finished!==state.finished)return;
+ localStorage.setItem(KEY,JSON.stringify(state));
+}catch(e){$("examState").textContent="No se puede guardar localmente: descarga la entrega"}}
+function log(type){if(!state||state.finished)return;(state.events??=[]).push({type,at:stamp()});$("alerts").textContent=state.events.length+" avisos";persist()}
 function boot(){let saved=null;try{saved=JSON.parse(localStorage.getItem(KEY)||"null")}catch(e){}
 if(saved&&saved.started&&saved.deadline){state=saved;$("student").value=saved.student||"";$("endTime").value=saved.endTime||deadlineLabel();$("endTime").disabled=true;$("startExam").textContent="Continuar examen iniciado";$("initialMsg").textContent="Hay un examen previo en este navegador. El tiempo del intento se conserva al volver a entrar."}
 }
@@ -89,9 +93,9 @@ $("endTime").disabled=true;
 $("endTimeLabel").textContent="Hora de fin: "+deadlineLabel()+(state.timing?" (hora peninsular)":"");
 $("pasteStatus").textContent=isTeacherTest()?"Copiar y pegar habilitado (fjhallado)":"Pegado bloqueado en el editor";
 $("alerts").textContent=(state.events||[]).length+" avisos";
-if(state.finished){lock();$("examState").textContent="Examen finalizado. Descarga de nuevo tu entrega si hace falta.";}
+if(state.finished){lock();showCompletion();}
 else if(!tick()){$("html").focus();interval=setInterval(tick,500)}
-$("preview").srcdoc="";$("previewStatus").textContent="Sin ejecutar";document.dispatchEvent(new Event("exam-code-refresh"));persist();updateResetFreedom();
+$("preview").srcdoc="";$("previewStatus").textContent="Sin ejecutar";document.dispatchEvent(new Event("exam-code-refresh"));persist();updateResetFreedom();checkNavigation();
 }
 function tick(){
  if(!state||state.finished||$("examScreen").hidden)return false;
@@ -123,7 +127,12 @@ function run(){
 }
 $("preview").addEventListener("load",()=>{if(state)$("previewStatus").textContent="Vista previa actualizada"});
 function download(name,contents,type){let blob=new Blob([contents],{type}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),5000)}
-function finish(reason,downloadFile=true){if(!state)return;if(!state.finished){clearInterval(interval);interval=null;state.finished=new Date(reason==="tiempo agotado"?state.deadline:clockNow()).toISOString();state.reason=reason;persist();lock();$("examState").textContent="Examen finalizado ("+reason+"). Descarga y entrega tu archivo.";}
+function showCompletion(){
+ $("examState").textContent=state.reason==="intento de navegación"?
+  'Examen finalizado por intento de navegación. Si el archivo no se descargó, usa «Volver a descargar entrega» y súbelo a Teams.':
+  'Examen finalizado. Descarga la entrega si la necesitas.';
+}
+function finish(reason,downloadFile=true){if(!state)return;if(!state.finished){clearInterval(interval);interval=null;state.finished=new Date(reason==="tiempo agotado"?state.deadline:clockNow()).toISOString();state.reason=reason;persist();lock();showCompletion();}
 if(!downloadFile)return;
 let safe=state.student.normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-zA-Z0-9_-]/g,"_").slice(0,35);
 download("examen_TIC_II_"+safe+".json",JSON.stringify({format:"mi-aula-digital-tic-exam",version:2,...state,historyLocal:history()},null,2),"application/json");
@@ -134,8 +143,11 @@ if(m&&!VOID.has(m[1].toLowerCase())&&!/\/\s*>$/.test(m[0])){$("html").setRangeTe
 $("css").addEventListener("input",()=>{if(!done&&!tick())persist()});
 for(const id of ["html","css"])$(id).addEventListener("beforeinput",event=>{if(done||tick())event.preventDefault()});
 for(let id of ["html","css"]){let e=$(id);e.addEventListener("paste",ev=>{if(isTeacherTest())return;ev.preventDefault();log("intento de pegado")});e.addEventListener("drop",ev=>{if(isTeacherTest())return;ev.preventDefault();log("intento de arrastrar texto")});e.addEventListener("keydown",ev=>{if(!isTeacherTest()&&(ev.ctrlKey||ev.metaKey)&&["v"].includes(ev.key.toLowerCase()))ev.preventDefault();if(ev.key==="Tab"&&!done&&!tick()){ev.preventDefault();e.setRangeText("  ",e.selectionStart,e.selectionEnd,"end");persist()}})}
-document.addEventListener("visibilitychange",()=>{if(document.hidden)log("pestaña oculta");else tick()});
-window.addEventListener("blur",()=>{if(state&&!state.finished)log("ventana sin foco")});
+const checkNavigation=window.MADExamNavigation.watch({
+ active:()=>!!state&&!state.finished&&!stale&&!$("examScreen").hidden,
+ leave(reason){log(reason);finish(reason);},
+ returnToExam:tick
+});
 window.addEventListener("beforeunload",persist);
 $("toggleResetPassword").onclick=()=>{const input=$("resetPassword"),shown=input.type==="password";input.type=shown?"text":"password";$("toggleResetPassword").textContent=shown?"Ocultar contraseña":"Ver contraseña";$("toggleResetPassword").setAttribute("aria-pressed",String(shown));input.focus()};
 $("cancelReset").onclick=()=>$("resetDialog").close();
@@ -174,7 +186,7 @@ window.addEventListener('storage',event=>{
  if(event.key!==KEY||stale)return;
  let previous,current;
  try{previous=JSON.parse(event.oldValue);current=JSON.parse(event.newValue)}catch{return}
- if(previous?.started===current?.started)return;
+ if(previous?.started===current?.started&&previous?.finished===current?.finished)return;
  stale=true;
  location.reload();
 });
@@ -182,5 +194,6 @@ $("startExam").onclick=begin;$("resetFromStart").onclick=resetExam;$("resetExam"
 $("fullscreen").onclick=()=>{if(document.fullscreenElement)document.exitFullscreen();else document.documentElement.requestFullscreen?.().catch(()=>{})};
 $("finish").onclick=()=>{if(tick())return;if(state?.finished||confirm("¿Finalizar el examen? No podrás volver a editar y se descargará el archivo de entrega.")){if(!tick())finish("entrega del alumno")}};
 boot();
+if(state?.finished)begin();
 if(control)control.onChange(updateExamAccess);else updateExamAccess();
 })();

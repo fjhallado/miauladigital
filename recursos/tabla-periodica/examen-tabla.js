@@ -2,7 +2,7 @@
 (()=>{'use strict';
 if(!document.body.classList.contains('exam-only'))return;
 const $=id=>document.getElementById(id),modeLabels={simbolos:'Nombre → símbolo',nombres:'Símbolo → nombre',ubicacion:'Ubicación en la tabla'};
-let items=[],index=0,student='',finished=false,closed=false,report=null,started=null;let navigationAlerts=[],lastNavigation=0;
+let items=[],index=0,student='',finished=false,closed=false,report=null,started=null;let navigationAlerts=[];
 const STORE='mi-aula-digital-examen-periodica-v1', ARCHIVE='mi-aula-digital-examen-periodica-archivo-v1';
 const COMPLETED='mi-aula-digital-examen-periodica-finalizado-v1';
 // Mismo código de recuperación que el examen de TIC II. En web estática la contraseña
@@ -74,6 +74,8 @@ function captureSelection(){return {mode:choiceMode.value,groups:[...chosenGroup
 function restoreSelection(s){if(!s)return;choiceMode.value=s.mode||'grupos';chosenGroups.clear();(s.groups||[]).forEach(x=>chosenGroups.add(x));chosenFamilies.clear();(s.families||[]).forEach(x=>chosenFamilies.add(x));lanthanidesCheck.checked=!!s.lanthanides;actinidesCheck.checked=!!s.actinides;$('alcance').value=s.scope||'118';$('exam-cantidad').value=s.count||'15';drawOptions();selectionSummary()}
 function lockSelection(locked){$('tipo-seleccion').disabled=locked;$('alcance').disabled=locked;$('exam-cantidad').disabled=locked;$('exam-alumno').readOnly=locked;for(const id of ['incluir-lantanidos','incluir-actinidos','seleccionar-todo','borrar-seleccion'])$(id).disabled=locked;document.querySelectorAll('#opciones-seleccion input').forEach(el=>el.disabled=locked)}
 function updateVisibility(){
+ const navigationNotice=$('exam-navigation-finished');
+ if(navigationNotice)navigationNotice.hidden=report?.motivo_fin!==window.MADExamNavigation?.reason;
  if(!examPage)return;
  document.body.classList.toggle('exam-in-progress',!!started&&!finished);
  document.body.classList.toggle('exam-finished',!!started&&finished&&!closed);
@@ -185,7 +187,6 @@ async function authorizeReset(free=false){
  started=null;
  selectionSnapshot=null;
  navigationAlerts=[];
- lastNavigation=0;
  if($('exam-reset-dialog').open)$('exam-reset-dialog').close();
  $('exam-alumno').value='';
  $('exam-pregunta').replaceChildren();
@@ -263,7 +264,6 @@ $('exam-empezar').addEventListener('click',async()=>{
  }
  student=name;
  navigationAlerts=[];
- lastNavigation=0;
  items=createQuestions(pool,count);
  index=0;
  started=new Date(clockNow()).toISOString();
@@ -282,6 +282,7 @@ $('exam-empezar').addEventListener('click',async()=>{
  render();
  updateExamAccess();
  startTimer();
+ checkNavigation?.();
  $('examen-tabla').scrollIntoView({behavior:'smooth',block:'start'});
 });
 $('exam-anterior').addEventListener('click',()=>{if(!finished&&!tickExam()&&index){index--;render();saveExam()}});$('exam-siguiente').addEventListener('click',()=>{if(!finished&&!tickExam()&&index<items.length-1){index++;render();saveExam()}});
@@ -415,16 +416,15 @@ if(examPage){
 }
 if(delivery)window.addEventListener(delivery.events,updateDelivery);
 $('exam-nuevo').addEventListener('click',()=>{if(examPage){resetDialog();return}items=[];report=null;finished=false;$('exam-resultado').hidden=true;$('exam-config').hidden=false;selectionSummary();$('exam-alumno').focus()});
-function noteNavigation(reason){
- if(!started||finished)return;
- const now=Date.now();if(now-lastNavigation<1400)return;lastNavigation=now;
- navigationAlerts.push({fecha:new Date(now).toISOString(),tipo:reason});
- if($('exam-alert-count'))$('exam-alert-count').textContent=navigationAlerts.length+' avisos de navegación';
- saveExam();
-}
-document.addEventListener('visibilitychange',()=>{if(document.hidden)noteNavigation('La pestaña dejó de estar visible');else tickExam()});
-window.addEventListener('blur',()=>{if(!document.hidden)noteNavigation('La ventana perdió el foco')});
-window.addEventListener('pagehide',()=>noteNavigation('La página se abandonó o recargó'));
+const checkNavigation=examPage?window.MADExamNavigation.watch({
+ active:()=>!!started&&!finished&&!stale,
+ leave(reason){
+  navigationAlerts.push({fecha:new Date(clockNow()).toISOString(),tipo:reason});
+  finishExam(reason);
+  if(finished)downloadPdf();
+ },
+ returnToExam:tickExam
+}):null;
 bootExam();
 if(examPage){
  if(control)control.onChange(updateExamAccess);else updateExamAccess();

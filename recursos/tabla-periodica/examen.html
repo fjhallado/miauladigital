@@ -9,10 +9,11 @@
 <label>Número de preguntas <select id="exam-cantidad"><option value="12">12 (4 de cada tipo)</option><option selected="" value="15">15 (5 de cada tipo)</option><option value="21">21 (7 de cada tipo)</option><option value="30">30 (10 de cada tipo)</option></select></label>
 </div>
 <p aria-live="polite" class="exam-selection-note" id="exam-seleccion">El examen utilizará la selección actual de grupos.</p>
+<p class="exam-monitor"><strong>Si cambias de pestaña o sales de la página, el examen finalizará y se intentará descargar lo que lleves hecho.</strong> Entrega antes de ir a Teams.</p>
 <p class="note">Cada pregunta vale lo mismo. Las respuestas de símbolo distinguen mayúsculas y minúsculas; en los nombres se admiten tildes omitidas. En las preguntas de ubicación, haz clic en la casilla correcta de la tabla vacía. Si eliges pocos elementos, algunos podrán repetirse.</p>
 <button class="btn primary" id="exam-empezar" type="button">▶ Empezar examen</button><button class="btn small exam-reset-control" id="exam-reiniciar-inicio" type="button">🔒 Reiniciar examen (profesor)</button><p class="exam-selection-note" id="exam-horario" role="status"></p><p aria-live="polite" class="exam-selection-note" id="exam-estado" role="status"></p>
 </div>
-<div hidden="" id="exam-sesion"><div class="exam-monitor" aria-live="polite">Examen activo · <strong id="exam-alert-count">0 avisos de navegación</strong>. Las salidas de la pestaña se anotan en el informe; no prueban por sí solas que se haya consultado otra página.</div>
+<div hidden="" id="exam-sesion"><div class="exam-monitor" aria-live="polite">Examen activo · <strong id="exam-alert-count">0 avisos de navegación</strong>. Cambiar de pestaña finaliza el intento y conserva tus respuestas.</div>
 <div class="exam-headline"><span id="exam-identidad"></span><span id="exam-reloj" hidden></span><strong id="exam-progreso">Pregunta 1</strong></div>
 <div class="exam-progress-track"><span id="exam-barra"></span></div>
 <article aria-live="polite" class="exam-question-card" id="exam-pregunta"></article>
@@ -20,7 +21,7 @@
 <p aria-live="polite" class="exam-selection-note" id="exam-aviso" role="status"></p><button class="btn small exam-reset-control" id="exam-reiniciar-sesion" type="button">🔒 Reiniciar examen (profesor)</button>
 </div>
 <div aria-live="polite" hidden="" id="exam-resultado"><p id="exam-fin"></p>
-<h3>Examen finalizado</h3><p class="exam-monitor" id="exam-alert-summary"></p><p class="exam-grade" id="exam-nota"></p><p id="exam-resumen"></p>
+<h3>Examen finalizado</h3><p class="exam-monitor" id="exam-navigation-finished" role="status" hidden>Examen finalizado por intento de navegación. Si el PDF no se descargó, pulsa «Descargar PDF» para recuperarlo y subirlo a Teams.</p><p class="exam-monitor" id="exam-alert-summary"></p><p class="exam-grade" id="exam-nota"></p><p id="exam-resumen"></p>
 <div class="exam-review" id="exam-detalle"></div>
 <div class="exam-navigation"><button class="btn primary" id="exam-descargar-pdf" type="button">↓ Descargar PDF</button><button class="btn small" id="exam-cerrar" type="button">Cerrar examen</button><button class="btn small exam-reset-control" id="exam-nuevo" type="button">🔒 Reiniciar examen (profesor)</button></div>
 <p class="note">Descarga el PDF con las preguntas, tus respuestas y las soluciones. Después puedes cerrar el examen.</p>
@@ -73,4 +74,4 @@ function updateSummary(){const count=filteredElements().length;document.getEleme
 choiceMode.addEventListener('change',drawOptions);lanthanidesCheck.addEventListener('change',updateSummary);actinidesCheck.addEventListener('change',updateSummary);document.getElementById('alcance').addEventListener('change',updateSummary);
 document.getElementById('seleccionar-todo').addEventListener('click',()=>{const picked=choiceMode.value==='grupos'?chosenGroups:chosenFamilies;(choiceMode.value==='grupos'?Array.from({length:18},(_,i)=>i+1):Object.keys(familyNames)).forEach(v=>picked.add(v));drawOptions()});
 document.getElementById('borrar-seleccion').addEventListener('click',()=>{(choiceMode.value==='grupos'?chosenGroups:chosenFamilies).clear();lanthanidesCheck.checked=false;actinidesCheck.checked=false;drawOptions()});drawOptions();
-</script><script src="entrega-periodica.js?v=1.4.102"></script><script src="pdf-periodica.js?v=1.4.102"></script><script src="examen-tabla.js?v=1.4.102"></script><script src="../../contador.js"></script></body></html>
+</script><script src="entrega-periodica.js?v=1.4.102"></script><script src="pdf-periodica.js?v=1.4.131"></script><script src="../../examen-navegacion.js?v=1.4.131"></script><script src="examen-tabla.js?v=1.4.131"></script><script src="../../contador.js"></script></body></html>

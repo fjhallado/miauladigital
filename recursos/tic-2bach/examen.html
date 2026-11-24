@@ -34,7 +34,8 @@ body.exam-mode{background:#081528;color:#f0f5ff;margin:0;font-family:system-ui,A
 <body class="exam-mode">
 <div id="startScreen" class="exam-start">
 <h1>Examen práctico de HTML y CSS</h1>
-<p>Duración máxima: <strong>2 horas</strong>. Introduce la hora a la que debe terminar tu examen y el contador mostrará el tiempo restante hasta ese momento. Se abrirán tres paneles: HTML, CSS y resultado. Se bloquean los pegados para alumnos y se registran avisos al salir de la pestaña, pero <strong>esta web no impide abrir otras aplicaciones o consultar apuntes</strong>.</p>
+<p>Duración máxima: <strong>2 horas</strong>. Introduce la hora a la que debe terminar tu examen y el contador mostrará el tiempo restante hasta ese momento. Se abrirán tres paneles: HTML, CSS y resultado. Se bloquean los pegados para alumnos.</p>
+<p class="exam-notice"><strong>Si cambias de pestaña o sales de la página, el examen finalizará y se intentará descargar lo que lleves hecho.</strong> Entrega el examen antes de ir a Teams.</p>
 <p>El trabajo se guarda temporalmente en este navegador. Al terminar debes descargar el archivo de entrega y facilitárselo al profesor. No borres los datos del navegador durante el examen.</p>
 <label for="student">Identificador del alumno (el indicado por el profesor)</label>
 <input id="student" maxlength="80" autocomplete="off" required placeholder="Identificador">
@@ -52,7 +53,7 @@ body.exam-mode{background:#081528;color:#f0f5ff;margin:0;font-family:system-ui,A
 <button class="exam-btn" id="fullscreen">⛶ Pantalla completa</button>
 <button class="exam-btn primary" id="finish">Finalizar y descargar entrega</button><button class="exam-btn" id="resetExam" type="button">Reiniciar examen (profesor)</button>
 </div></div>
-<div class="exam-notice"><span id="examState">Examen en curso</span> · <span id="endTimeLabel">Hora de fin: —</span> · <span id="pasteStatus">Pegado bloqueado en el editor</span> · <span id="alerts">0 avisos</span> de cambio de ventana o intentos de pegado. Los avisos son orientativos, no una prueba de uso de recursos externos.</div>
+<div class="exam-notice"><span id="examState" role="status">Examen en curso. Cambiar de pestaña finaliza el intento.</span> · <span id="endTimeLabel">Hora de fin: —</span> · <span id="pasteStatus">Pegado bloqueado en el editor</span> · <span id="alerts">0 avisos</span> registrados.</div>
 <div class="exam-layout">
 <section class="exam-pane"><h2>index.html · HTML</h2><div class="exam-editor"><pre class="exam-syntax" id="htmlSyntax" aria-hidden="true"></pre><textarea id="html" spellcheck="false" autocomplete="off" autocapitalize="off" aria-label="Editor HTML"></textarea></div></section>
 <section class="exam-pane"><h2>estilos.css · CSS</h2><div class="exam-editor"><pre class="exam-syntax" id="cssSyntax" aria-hidden="true"></pre><textarea id="css" spellcheck="false" autocomplete="off" autocapitalize="off" aria-label="Editor CSS"></textarea></div></section>
@@ -70,4 +71,4 @@ body.exam-mode{background:#081528;color:#f0f5ff;margin:0;font-family:system-ui,A
 </form>
 </dialog>
 <script src="examen-resaltado.js?v=1.4.47"></script>
-<script src="examen.js?v=1.4.97"></script></body></html>
+<script src="../../examen-navegacion.js?v=1.4.131"></script><script src="examen.js?v=1.4.131"></script></body></html>

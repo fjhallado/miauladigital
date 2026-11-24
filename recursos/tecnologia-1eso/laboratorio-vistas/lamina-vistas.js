@@ -8,10 +8,10 @@
   const parts = Object.fromEntries(madrid.formatToParts(timestamp).map(({type, value}) => [type, value]));
   return `${parts.day}/${parts.month}/${parts.year} · ${parts.hour}:${parts.minute}:${parts.second}`;
  }
- async function request(path, data) {
+ async function request(path, data, {keepalive=false}={}) {
   const api = window.MAD_CONTROL?.url || window.MAD_CONTROL_API;
   if (!api) throw Error('El servicio de sellado y examen requiere conexión.');
-  const options = {cache: 'no-store', signal: AbortSignal.timeout(10000)};
+  const options = {cache: 'no-store', keepalive, signal: AbortSignal.timeout(10000)};
   if (data !== undefined) Object.assign(options, {
    method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(data)
   });

@@ -90,6 +90,10 @@ function create(report){
   text('Nota: '+Number(report.nota).toFixed(2).replace('.',',')+' / 10  ·  Aciertos: '+report.aciertos+' / '+report.preguntas,y,27,'#142c49');
   y+=42;
   if(Number.isFinite(Date.parse(report.fin)))text('Finalizado el '+printDate.format(new Date(report.fin))+' (hora peninsular)',y,25,'#465b73');
+  if(report.motivo_fin==='intento de navegación'){
+   y+=38;
+   text('Cierre por intento de navegación',y,25,'#8d3527','bold');
+  }
   y+=70;
  }
  function renderRow(value,style){
