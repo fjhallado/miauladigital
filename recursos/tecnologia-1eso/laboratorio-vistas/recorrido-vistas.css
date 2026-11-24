@@ -8,6 +8,16 @@
 body[data-ficha-mode="identify"] .project-only{display:none}
 body[data-ficha-mode="identify"] .workspace{grid-template-columns:minmax(0,1fr);max-width:960px}
 body[data-ficha-mode="identify"] .figure-frame{height:clamp(320px,60vh,650px)}
+body[data-ficha-mode="exam"] :is(.ficha-steps,.tabs,.gallery,.projection-next),
+body[data-ficha-mode="exam"]:not([data-view-exam-ready]) .workspace{display:none}
+#viewExamPanel{width:calc(100% - 32px);margin:0 auto 12px}
+#viewExamPanel p{margin:5px 0 9px}
+.ficha-exam-form{display:flex;flex-wrap:wrap;gap:10px;align-items:end}
+.ficha-exam-form[hidden]{display:none}
+.ficha-exam-form label{display:grid;gap:4px;font-size:13px}
+.ficha-exam-form input{min-width:0;max-width:100%;background:#0b2342;color:#fff;border:1px solid #658ebc;border-radius:8px;padding:8px}
+#viewExamClock{font-weight:800;color:#ffd296;font-variant-numeric:tabular-nums}
+#viewExamError{color:#ffc2bf}
 .projection-next{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin-top:12px}
 .projection-next p{margin:0}
 body[data-training="menu"] .layout,body[data-training="menu"] .toolbar,
@@ -42,6 +52,6 @@ body:not([data-training="isometric"]) :is(#fixedCaballeraDimensions,#fixedClippe
 @media(max-width:650px){
  .saved-views canvas{height:145px}
  body[data-ficha-mode="identify"] .figure-frame{height:clamp(260px,54vh,500px);min-height:260px}
- body[data-ficha-mode="project"] .grid-views{grid-template-columns:minmax(0,1fr)}
- body[data-ficha-mode="project"] .vhead .vgrid{flex-wrap:wrap;max-width:100%}
+ body:is([data-ficha-mode="project"],[data-ficha-mode="exam"]) .grid-views{grid-template-columns:minmax(0,1fr)}
+ body:is([data-ficha-mode="project"],[data-ficha-mode="exam"]) .vhead .vgrid{flex-wrap:wrap;max-width:100%}
 }

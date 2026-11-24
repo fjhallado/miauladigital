@@ -3,7 +3,7 @@
 const raw=(window.MAD_CONTROL_API||'').trim();
 const url=/^https?:\/\//i.test(raw)?raw.replace(/\/+$/,''):'';
 const LOCAL_KEY='mad-profesor-controles-v1';
-const DEFAULT_SCHEDULES={cafeteria:null,tic:null,periodica:null};
+const DEFAULT_SCHEDULES={cafeteria:null,tic:null,periodica:null,vistas:null};
 const DEFAULT_LAB_DEADLINES={periodica:null,factorlab:null,vistas:null,htmlcss:null};
 const DEFAULT={gamesEnabled:true,labsEnabled:true,examsUnlocked:false,salesEnabled:false,commentsAutoPublish:false,examResets:{tic:0,periodica:0},schedules:DEFAULT_SCHEDULES,labDeadlines:DEFAULT_LAB_DEADLINES};
 const madridDate=new Intl.DateTimeFormat('es-ES',{timeZone:'Europe/Madrid',dateStyle:'short',timeStyle:'short'});

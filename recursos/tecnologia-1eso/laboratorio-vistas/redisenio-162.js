@@ -65,7 +65,12 @@ clippedNotice.setAttribute('role','status');
 clippedNotice.hidden=true;
 isoWrap.before(caballeraControls,clippedNotice);
 controls.insertBefore(isoSolutionBtn,controls.querySelector('#fixedIsoUndo'));isoSolutionBtn.onclick=()=>{isoSol=!isoSol;isoSolutionBtn.textContent=isoSol?'✎ Ocultar solución':'◈ Ver solución';isoDraw()};
-let isoSegments=[],isoStart=null,isoHover=null,isoEraser=false,isoDashed=false;
+const projectionDrawings={iso:[],caballera:[]};
+const isoSegments=()=>projectionDrawings[projection.value];
+function resetProjectionDrawings(){
+ for(const segments of Object.values(projectionDrawings))segments.length=0;
+}
+let isoStart=null,isoHover=null,isoEraser=false,isoDashed=false;
 let referenceDimensions=null,customDimensions=null;
 const cubeSize=()=>referenceDimensions?Math.max(...Object.values(referenceDimensions)):Number($('size').value)||4;
 function caballeraDimensions(){
@@ -112,7 +117,7 @@ window.MADFixedDrawing={
    depth:Math.max(grids.side.w,grids.top.h)
   }:null;
   customDimensions=null;
-  isoSegments=[];isoSol=false;
+  resetProjectionDrawings();isoSol=false;
   isoSolutionBtn.hidden=!!grids;
   isoSolutionBtn.textContent='◈ Ver solución';
   resizeCaballera();
@@ -167,7 +172,7 @@ function horizontalCrossings(start,k,segments){
 }
 function nearestCrossing(start,column,k,tolerance){
  let best=null,limit=tolerance/k.unit;
- for(const crossing of horizontalCrossings(start,k,isoSegments)){
+ for(const crossing of horizontalCrossings(start,k,isoSegments())){
   const distance=Math.abs(crossing-column);
   if(distance<=limit){best=crossing;limit=distance;}
  }
@@ -198,7 +203,7 @@ function nearest(x,y){
  }
  if(k.cavalier){
   // Recupera también los vértices interiores que el alumno ya ha dibujado.
-  for(const segment of isoSegments){
+  for(const segment of isoSegments()){
    if(!segmentFits(segment,k))continue;
    const [a,b]=segment;
    consider(a.x,a.y,a.z);
@@ -259,11 +264,11 @@ function isoDraw(){
   g.restore();
  }
  g.lineJoin='round';g.lineCap='round';g.lineWidth=2.7;g.strokeStyle='#90344d';
- const visibleSegments=isoSegments.filter(segment=>segmentFits(segment,k));
- clippedNotice.hidden=visibleSegments.length===isoSegments.length;
+ const visibleSegments=isoSegments().filter(segment=>segmentFits(segment,k));
+ clippedNotice.hidden=visibleSegments.length===isoSegments().length;
  if(!clippedNotice.hidden){
   const message=k.cavalier?'Hay trazos fuera de la rejilla. Amplía las medidas para volver a verlos.':
-   'Hay trazos fuera de la rejilla isométrica. Vuelve a caballera para verlos.';
+   'Hay trazos fuera de la rejilla isométrica. Amplía la rejilla para volver a verlos.';
   if(clippedNotice.textContent!==message)clippedNotice.textContent=message;
  }
  for(const [a,b,dash] of visibleSegments){g.setLineDash(dash?[6,5]:[]);let A=P(a.x,a.y,a.z),B=P(b.x,b.y,b.z);g.beginPath();g.moveTo(...A);g.lineTo(...B);g.stroke()}g.setLineDash([]);
@@ -313,7 +318,7 @@ function isoParts(a,b){
  points.push(b);
  return points.slice(1).map((point,i)=>[points[i],point]);
 }
-function eraseIsoAt(x,y){const k=coordinate();let idx=-1,min=Infinity;isoSegments.forEach((segment,i)=>{if(!segmentFits(segment,k))return;const [a,b]=segment;const d=distanceToSegment([x,y],lattice(a.x,a.y,a.z,k),lattice(b.x,b.y,b.z,k));if(d<min){min=d;idx=i}});if(idx>=0&&min<Math.max(11,k.unit*.22))isoSegments.splice(idx,1)}
+function eraseIsoAt(x,y){const k=coordinate();let idx=-1,min=Infinity;isoSegments().forEach((segment,i)=>{if(!segmentFits(segment,k))return;const [a,b]=segment;const d=distanceToSegment([x,y],lattice(a.x,a.y,a.z,k),lattice(b.x,b.y,b.z,k));if(d<min){min=d;idx=i}});if(idx>=0&&min<Math.max(11,k.unit*.22))isoSegments().splice(idx,1)}
 function updateFixedHint(){
  const mode=projection.value==='caballera'?caballeraSnap.value:'free';
  $('fixedIsoHint').textContent=isoEraser?'Pulsa sobre un tramo para borrarlo.':
@@ -332,13 +337,13 @@ fixed.addEventListener('pointerdown',e=>{
  if(isoEraser){eraseIsoAt(x,y);isoDraw();return;}
  const pt=nearest(x,y);
  if(!pt)return;
- if(isoStart)isoSegments.push(...isoParts(isoStart,pt).map(([a,b])=>[a,b,isoDashed]));
+ if(isoStart)isoSegments().push(...isoParts(isoStart,pt).map(([a,b])=>[a,b,isoDashed]));
  isoStart=pt;
  isoHover=null;
  isoDraw();
 });
 fixed.addEventListener('contextmenu',e=>{e.preventDefault();releasePencil()});
-$('fixedIsoUndo').onclick=()=>{const k=coordinate();const i=isoSegments.findLastIndex(segment=>segmentFits(segment,k));if(i>=0)isoSegments.splice(i,1);isoStart=null;isoDraw()};$('fixedIsoClear').onclick=()=>{isoSegments=[];isoStart=null;isoDraw()};
+$('fixedIsoUndo').onclick=()=>{const k=coordinate();const i=isoSegments().findLastIndex(segment=>segmentFits(segment,k));if(i>=0)isoSegments().splice(i,1);isoStart=null;isoDraw()};$('fixedIsoClear').onclick=()=>{isoSegments().length=0;releasePencil()};
 // View construction: direct blocks use the previously validated view click engine.
 // Pen is drawn on top of the orthographic grids with snap and continuous preview.
 const bar=document.createElement('div');bar.id='buildViewTools';bar.innerHTML='<strong>Construir desde las vistas:</strong><button id="bvBlocks" class="selected" type="button">▣ Bloques</button><button id="bvPencil" type="button">✎ Lápiz</button><button id="bvDashed" type="button">┄ Oculta</button><button id="bvErase" type="button">⌫ Borrar tramo</button><button id="bvUndo" type="button">↶ Deshacer línea</button><button id="bvClear" type="button">⌫ Borrar líneas</button><small>Bloques: pulsa una vista. Lápiz: elige punto inicial y final.</small>';
@@ -387,8 +392,8 @@ function pt(e){const rect=cv.getBoundingClientRect(),n=Number($('size').value)||
 cv.addEventListener('pointermove',e=>{if(!pencil)return;hover[type]=pt(e);refreshOverlays()});cv.addEventListener('pointerleave',()=>{hover[type]=null;refreshOverlays()});cv.addEventListener('pointerdown',e=>{if(!pencil)return;e.preventDefault();const q=pt(e);if(!q)return;const a=start[type];if(erasePencil){let index=-1,dist=Infinity;for(let i=0;i<lines[type].length;i++){const s=lines[type][i],dx=s.b.x-s.a.x,dy=s.b.y-s.a.y,l=dx*dx+dy*dy||1,t=Math.max(0,Math.min(1,((q.x-s.a.x)*dx+(q.y-s.a.y)*dy)/l)),d=Math.hypot(q.x-s.a.x-t*dx,q.y-s.a.y-t*dy);if(d<dist){dist=d;index=i}}if(index>=0&&dist<.75){const cut=lines[type].splice(index,1)[0];if(cut.stroke&&window.MADViews158)window.MADViews158.removeStroke(cut.stroke.a,cut.stroke.b)}start[type]=null;rebuildSolid()}else if(a&&(a.x!==q.x||a.y!==q.y)){let dx=q.x-a.x,dy=q.y-a.y;const gcd=(u,v)=>v?gcd(v,u%v):u,n=gcd(Math.abs(dx),Math.abs(dy));for(let i=0;i<n;i++){let from={x:a.x+dx*i/n,y:a.y+dy*i/n},to={x:a.x+dx*(i+1)/n,y:a.y+dy*(i+1)/n};let stroke=window.MADViews158?.addStroke(type,from,to);lines[type].push({a:from,b:to,dashed,stroke});history.push(type);pencil3d.push(stroke)}start[type]=q;rebuildSolid()}else start[type]=q;refreshOverlays()});cv.addEventListener('contextmenu',e=>{e.preventDefault();start[type]=null;refreshOverlays()});}
 function refreshOverlays(){if(document.body.dataset.training!=='build')return;for(const type of Object.keys(ov)){const cv=ov[type],r=cv.getBoundingClientRect(),w=r.width,h=r.height;if(!w||!h)continue;const dpr=Math.min(2,window.devicePixelRatio||1);cv.width=w*dpr;cv.height=h*dpr;let g=cv.getContext('2d');g.scale(dpr,dpr);let n=Number($('size').value)||4,geo=window.MADViews158?.getViewRect(type),dim=Math.min(w,h)*.82,cell=geo?.cell||dim/n,ox=geo?.ox??(w-dim)/2,oy=geo?.oy??(h-dim)/2;function place(p){return[ox+p.x*cell,oy+p.y*cell]}for(const s of lines[type]){g.strokeStyle='#ae2446';g.lineWidth=2.8;g.setLineDash(s.dashed?[6,5]:[]);g.beginPath();g.moveTo(...place(s.a));g.lineTo(...place(s.b));g.stroke()}if(pencil&&start[type]){const A=place(start[type]),B=hover[type]?place(hover[type]):A;g.strokeStyle='#f1972c';g.lineWidth=2.5;g.setLineDash([6,4]);g.beginPath();g.moveTo(...A);g.lineTo(...B);g.stroke();g.setLineDash([]);g.fillStyle='#ea8917';g.beginPath();g.arc(...A,5,0,Math.PI*2);g.fill()}}}
 // Clear pen state when a new exercise is generated; all mode controls remain in the original engine.
-const size=$('size');size.addEventListener('change',()=>{isoSegments=[];isoStart=null;isoHover=null;customDimensions=null;syncDimensions();for(const k of Object.keys(lines)){lines[k]=[];start[k]=null}status.textContent='Dibuja los tres contornos completos para crear el sólido.';requestAnimationFrame(()=>{isoDraw();refreshOverlays()})});
-for(const b of document.querySelectorAll('[data-work]'))b.addEventListener('click',()=>{if(b.dataset.work==='isometric'){isoSegments=[];isoStart=null;isoSol=false;isoSolutionBtn.textContent='◈ Ver solución'}if(b.dataset.work==='identify'){identifySol=false;identifySolutionBtn.textContent='◈ Ver solución'}if(b.dataset.work!=='build')setPencil(false);requestAnimationFrame(()=>{if(b.dataset.work==='isometric')$('viewHeading').innerHTML='<span class="heading-icon">▦</span> Vistas diédricas de referencia';if(b.dataset.work==='build')$('viewHeading').innerHTML='<span class="heading-icon">▦</span> Construye sobre las vistas';if(b.dataset.work==='views')$('viewHeading').innerHTML='<span class="heading-icon">▦</span> Dibuja alzado, planta y perfil';isoDraw();refreshOverlays()})});
+const size=$('size');size.addEventListener('change',()=>{resetProjectionDrawings();isoStart=null;isoHover=null;customDimensions=null;syncDimensions();for(const k of Object.keys(lines)){lines[k]=[];start[k]=null}status.textContent='Dibuja los tres contornos completos para crear el sólido.';requestAnimationFrame(()=>{isoDraw();refreshOverlays()})});
+for(const b of document.querySelectorAll('[data-work]'))b.addEventListener('click',()=>{if(b.dataset.work==='isometric'){resetProjectionDrawings();isoStart=null;isoSol=false;isoSolutionBtn.textContent='◈ Ver solución'}if(b.dataset.work==='identify'){identifySol=false;identifySolutionBtn.textContent='◈ Ver solución'}if(b.dataset.work!=='build')setPencil(false);requestAnimationFrame(()=>{if(b.dataset.work==='isometric')$('viewHeading').innerHTML='<span class="heading-icon">▦</span> Vistas diédricas de referencia';if(b.dataset.work==='build')$('viewHeading').innerHTML='<span class="heading-icon">▦</span> Construye sobre las vistas';if(b.dataset.work==='views')$('viewHeading').innerHTML='<span class="heading-icon">▦</span> Dibuja alzado, planta y perfil';isoDraw();refreshOverlays()})});
 window.addEventListener('mad-library-figure-selected',()=>{if(document.body.dataset.training==='identify'){identifySol=false;identifySolutionBtn.textContent='◈ Ver solución'}});
 let pending=false;const observe=new ResizeObserver(()=>{if(pending)return;pending=true;requestAnimationFrame(()=>{pending=false;isoDraw();refreshOverlays()})});observe.observe(isoWrap);for(const c of Object.values(ov))observe.observe(c.parentElement);
 window.addEventListener('resize',()=>{isoDraw();refreshOverlays()});window.addEventListener('mad-grid-resize',()=>{syncDimensions();requestAnimationFrame(()=>{isoDraw();refreshOverlays()})});

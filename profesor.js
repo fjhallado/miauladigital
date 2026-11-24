@@ -4,6 +4,7 @@ const $=id=>document.getElementById(id);
 const api=window.MAD_CONTROL;
 const fields={teacherGames:'gamesEnabled',teacherLabs:'labsEnabled',teacherExams:'examsUnlocked',teacherCommentsAuto:'commentsAutoPublish',teacherSales:'salesEnabled'};
 const examNames={tic:'Programación TIC II',periodica:'Tabla Periódica',both:'ambos exámenes'};
+for(let number=1;number<=24;number++)$('teacherScheduleFigure').add(new Option('Figura '+number,number));
 let session=null;
 let busy=false;
 const madridFields=new Intl.DateTimeFormat('en-CA',{
@@ -34,6 +35,7 @@ function readDateField(field){
 function renderTimetable(state,unavailable){
  const target=$('teacherScheduleTarget').value;
  const cafe=target==='cafeteria';
+ const vistas=target==='vistas';
  const schedule=state.schedules[target];
  const key=JSON.stringify([target,schedule]);
  $('teacherScheduleFields').disabled=busy||unavailable||!api.remote;
@@ -42,6 +44,8 @@ function renderTimetable(state,unavailable){
  $('teacherScheduleMinutesLabel').hidden=cafe;
  $('teacherScheduleMinutes').disabled=cafe;
  $('teacherScheduleMinutes').required=!cafe;
+ $('teacherScheduleFigureLabel').hidden=!vistas;
+ $('teacherScheduleFigure').disabled=!vistas;
  $('teacherCancelSchedule').disabled=!schedule;
  if(!timetableDirty&&key!==timetableKey){
   const start=Math.ceil(api.now()/300000)*300000;
@@ -49,6 +53,7 @@ function renderTimetable(state,unavailable){
   $('teacherScheduleEnd').value=dateField(schedule?.endsAt??start+3600000);
   $('teacherScheduleMode').value=schedule?.mode??'open';
   $('teacherScheduleMinutes').value=schedule?.minutes??60;
+  $('teacherScheduleFigure').value=schedule?.figure??1;
   timetableKey=key;
  }
  const closing=cafe&&$('teacherScheduleMode').value==='closed';
@@ -60,7 +65,8 @@ function renderTimetable(state,unavailable){
  const phase=schedule?api.phase(schedule):null;
  const label=phase==='before'?'Programado':phase==='open'?'En curso':'Finalizado';
  const text=schedule?label+'. '+api.dateLabel(schedule.startsAt)+' → '+api.dateLabel(schedule.endsAt)+
-  (cafe?(schedule.mode==='open'?' · Apertura':' · Cierre'):' · '+schedule.minutes+' min por intento.'):
+  (cafe?(schedule.mode==='open'?' · Apertura':' · Cierre'):' · '+schedule.minutes+' min por intento.')+
+  (vistas?' · Figura '+schedule.figure:''):
   'Sin horario programado.';
  if($('teacherScheduleInfo').textContent!==text)$('teacherScheduleInfo').textContent=text;
 }
@@ -259,7 +265,7 @@ $('teacherScheduleTarget').addEventListener('change',()=>{
  timetableDirty=false;
  render();
 });
-for(const id of ['teacherScheduleStart','teacherScheduleEnd','teacherScheduleMinutes','teacherScheduleMode']){
+for(const id of ['teacherScheduleStart','teacherScheduleEnd','teacherScheduleMinutes','teacherScheduleMode','teacherScheduleFigure']){
  $(id).addEventListener('input',()=>{timetableDirty=true;if(id==='teacherScheduleMode')render()});
 }
 $('teacherScheduleForm').addEventListener('submit',event=>{
@@ -279,6 +285,7 @@ $('teacherScheduleForm').addEventListener('submit',event=>{
    }
    schedule.minutes=minutes;
   }
+  if(target==='vistas')schedule.figure=Number($('teacherScheduleFigure').value);
   save('/schedules','PUT',{target,schedule},'Horario guardado.');
  }catch(error){message(error.message,true)}
 });
