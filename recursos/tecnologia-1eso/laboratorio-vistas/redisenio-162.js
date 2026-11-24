@@ -37,6 +37,11 @@ const projectionLabel=document.createElement('label');
 projectionLabel.innerHTML='Cuadrícula <select id="fixedProjection"><option value="iso">Isométrica</option><option value="caballera">Caballera (45°, profundidad ½)</option></select>';
 controls.prepend(projectionLabel);
 const projection=$('fixedProjection');
+const snapLabel=document.createElement('label');
+snapLabel.hidden=true;
+snapLabel.innerHTML='Ajuste <select id="fixedCaballeraSnap"><option value="auto">Automático</option><option value="horizontal">Horizontal</option><option value="free">Libre</option></select>';
+projectionLabel.after(snapLabel);
+const caballeraSnap=$('fixedCaballeraSnap');
 const caballeraControls=document.createElement('div');
 caballeraControls.id='fixedCaballeraDimensions';
 caballeraControls.setAttribute('role','group');
@@ -70,6 +75,7 @@ function caballeraDimensions(){
 function syncDimensions(){
  document.body.dataset.fixedProjection=projection.value;
  caballeraControls.hidden=projection.value!=='caballera';
+ snapLabel.hidden=caballeraControls.hidden;
  resetDimensions.hidden=!customDimensions;
  const current=caballeraDimensions();
  for(const [axis,select] of Object.entries(dimensions))select.value=String(current[axis]);
@@ -90,7 +96,13 @@ resetDimensions.addEventListener('click',()=>{
 });
 projection.addEventListener('change',()=>{
  fixed.setAttribute('aria-label','Cuadrícula '+(projection.value==='caballera'?'caballera':'isométrica')+' interactiva. Pulsa para conectar vértices.');
+ updateFixedHint();
  resizeCaballera();
+});
+caballeraSnap.addEventListener('change',()=>{
+ isoHover=null;
+ updateFixedHint();
+ isoDraw();
 });
 window.MADFixedDrawing={
  setReferenceGrids(grids){
@@ -130,15 +142,13 @@ function pointFits(x,y,z,k){return x>=0&&x<=k.width&&y>=k.back&&y<=k.front&&z>=0
 function segmentFits([a,b],k){return pointFits(a.x,a.y,a.z,k)&&pointFits(b.x,b.y,b.z,k)}
 function nearest(x,y){
  const k=coordinate();
- let horizontal=null,horizontalDistance=Infinity;
- if(k.cavalier&&isoStart){
-  // Una arista horizontal conserva la profundidad y la altura, aunque salga del plano visible de la rejilla.
+ if(k.cavalier&&isoStart&&caballeraSnap.value!=='free'){
   const [startX,startY]=lattice(isoStart.x,isoStart.y,isoStart.z,k);
-  const columns=(startX-x)/k.unit,step=Math.round(columns),targetX=isoStart.x+step;
-  const band=Math.min(14,Math.max(6,k.unit*.2));
-  if(step&&targetX>=0&&targetX<=k.width&&Math.abs(y-startY)<=band&&Math.abs(columns-step)<=.45){
-   horizontal={...isoStart,x:targetX};
-   horizontalDistance=Math.hypot((columns-step)*k.unit,y-startY);
+  const band=Math.min(k.unit*.24,Math.max(7,k.unit*.14));
+  // Resolve aligned strokes before the screen-distance search can choose an overlapping plane.
+  if(caballeraSnap.value==='horizontal'||Math.abs(y-startY)<=band){
+   const targetX=isoStart.x+Math.round((startX-x)/k.unit);
+   return targetX>=0&&targetX<=k.width?{...isoStart,x:targetX}:null;
   }
  }
  let best=null,dist=1e6;
@@ -159,8 +169,6 @@ function nearest(x,y){
   if(a!==k.side&&b!==k.front&&z!==k.height)continue;
   consider(a,b,z);
  }
- // A direct click on a drawn or visible vertex can still start or finish a diagonal.
- if(horizontal&&(horizontalDistance<=dist||dist>Math.min(4,k.unit*.1)))return horizontal;
  return dist<Math.max(18,k.unit*.5)?best:null;
 }
 function isoDraw(){
@@ -231,11 +239,30 @@ function distanceToSegment(p,a,b){const dx=b[0]-a[0],dy=b[1]-a[1],m=dx*dx+dy*dy|
 // Each axis-aligned grid edge is a separate editable segment, even after a long drag.
 function isoParts(a,b){let dx=b.x-a.x,dy=b.y-a.y,dz=b.z-a.z;const gcd=(u,v)=>v?gcd(v,u%v):u;const steps=gcd(gcd(Math.abs(dx),Math.abs(dy)),Math.abs(dz));if(!steps)return [];return Array.from({length:steps},(_,i)=>[{x:a.x+dx*i/steps,y:a.y+dy*i/steps,z:a.z+dz*i/steps},{x:a.x+dx*(i+1)/steps,y:a.y+dy*(i+1)/steps,z:a.z+dz*(i+1)/steps}])}
 function eraseIsoAt(x,y){const k=coordinate();let idx=-1,min=Infinity;isoSegments.forEach((segment,i)=>{if(!segmentFits(segment,k))return;const [a,b]=segment;const d=distanceToSegment([x,y],lattice(a.x,a.y,a.z,k),lattice(b.x,b.y,b.z,k));if(d<min){min=d;idx=i}});if(idx>=0&&min<Math.max(11,k.unit*.22))isoSegments.splice(idx,1)}
-$('fixedIsoErase').onclick=()=>{isoEraser=!isoEraser;isoStart=null;$('fixedIsoErase').classList.toggle('selected',isoEraser);$('fixedIsoHint').textContent=isoEraser?'Borrador: pulsa sobre un tramo de cuadrícula para eliminar solo esa arista.':'Pulsa un vértice para empezar y otro para terminar. Botón derecho: soltar lápiz.';isoDraw()};
+function updateFixedHint(){
+ const mode=projection.value==='caballera'?caballeraSnap.value:'free';
+ $('fixedIsoHint').textContent=isoEraser?'Pulsa sobre un tramo para borrarlo.':
+  mode==='horizontal'?'El extremo conserva la altura y la profundidad del inicio.':
+  mode==='auto'?'El lápiz alinea las horizontales. Usa Libre para elegir un vértice cercano de otro plano.':
+  'Pulsa un vértice para empezar y otro para terminar. Suelta el lápiz con el botón derecho.';
+}
+$('fixedIsoErase').onclick=()=>{isoEraser=!isoEraser;isoStart=null;isoHover=null;$('fixedIsoErase').classList.toggle('selected',isoEraser);updateFixedHint();isoDraw()};
 fixed.addEventListener('pointermove',e=>{const r=fixed.getBoundingClientRect();isoHover=nearest(e.clientX-r.left,e.clientY-r.top);isoDraw()});
 fixed.addEventListener('pointerleave',()=>{isoHover=null;isoDraw()});
-fixed.addEventListener('pointerdown',e=>{e.preventDefault();if(e.button===2){isoStart=null;isoDraw();return}const r=fixed.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top;if(isoEraser){eraseIsoAt(x,y);isoDraw();return}const pt=nearest(x,y);if(!pt)return;if(isoStart&&(pt.x!==isoStart.x||pt.y!==isoStart.y||pt.z!==isoStart.z)){isoSegments.push(...isoParts(isoStart,pt).map(([a,b])=>[a,b,isoDashed]));isoStart=pt}else isoStart=pt;isoDraw()});
-fixed.addEventListener('contextmenu',e=>{e.preventDefault();isoStart=null;isoDraw()});
+function releasePencil(){isoStart=null;isoHover=null;isoDraw()}
+fixed.addEventListener('pointerdown',e=>{
+ e.preventDefault();
+ if(e.button===2){releasePencil();return;}
+ const r=fixed.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top;
+ if(isoEraser){eraseIsoAt(x,y);isoDraw();return;}
+ const pt=nearest(x,y);
+ if(!pt)return;
+ if(isoStart)isoSegments.push(...isoParts(isoStart,pt).map(([a,b])=>[a,b,isoDashed]));
+ isoStart=pt;
+ isoHover=null;
+ isoDraw();
+});
+fixed.addEventListener('contextmenu',e=>{e.preventDefault();releasePencil()});
 $('fixedIsoUndo').onclick=()=>{const k=coordinate();const i=isoSegments.findLastIndex(segment=>segmentFits(segment,k));if(i>=0)isoSegments.splice(i,1);isoStart=null;isoDraw()};$('fixedIsoClear').onclick=()=>{isoSegments=[];isoStart=null;isoDraw()};
 // View construction: direct blocks use the previously validated view click engine.
 // Pen is drawn on top of the orthographic grids with snap and continuous preview.
