@@ -121,6 +121,7 @@ window.MADFixedDrawing={
 $('fixedIsoLine').onclick=()=>{isoDashed=false;$('fixedIsoLine').classList.add('selected');$('fixedIsoDash').classList.remove('selected')};
 $('fixedIsoDash').onclick=()=>{isoDashed=true;$('fixedIsoDash').classList.add('selected');$('fixedIsoLine').classList.remove('selected')};
 const depth45=Math.SQRT1_2/2;
+const drawingEpsilon=1e-8;
 const coordinate=()=>{
  const n=cubeSize(),w=fixed.clientWidth,h=fixed.clientHeight,pad=44;
  const cavalier=projection.value==='caballera';
@@ -140,14 +141,53 @@ function lattice(x,y,z,k){
 }
 function pointFits(x,y,z,k){return x>=0&&x<=k.width&&y>=k.back&&y<=k.front&&z>=0&&z<=k.height}
 function segmentFits([a,b],k){return pointFits(a.x,a.y,a.z,k)&&pointFits(b.x,b.y,b.z,k)}
+function horizontalCrossings(start,k,segments){
+ // Compare the projected rows in grid units, including edges in other depth planes.
+ const row=point=>point.y*depth45-point.z;
+ const targetRow=row(start);
+ const crossings=new Map();
+ function add(x,y){
+  let column=x+(y-start.y)*depth45;
+  if(column< -drawingEpsilon||column>k.width+drawingEpsilon||Math.abs(column-start.x)<drawingEpsilon)return;
+  const integer=Math.round(column);
+  if(Math.abs(column-integer)<drawingEpsilon)column=integer;
+  crossings.set(Math.round(column/drawingEpsilon),column);
+ }
+ for(const segment of segments){
+  if(!segmentFits(segment,k))continue;
+  const [a,b]=segment,da=row(a)-targetRow,db=row(b)-targetRow;
+  if(Math.abs(da-db)<drawingEpsilon){
+   if(Math.abs(da)<drawingEpsilon){add(a.x,a.y);add(b.x,b.y);}
+   continue;
+  }
+  const t=da/(da-db);
+  if(t>=0&&t<=1)add(a.x+(b.x-a.x)*t,a.y+(b.y-a.y)*t);
+ }
+ return [...crossings.values()];
+}
+function nearestCrossing(start,column,k,tolerance){
+ let best=null,limit=tolerance/k.unit;
+ for(const crossing of horizontalCrossings(start,k,isoSegments)){
+  const distance=Math.abs(crossing-column);
+  if(distance<=limit){best=crossing;limit=distance;}
+ }
+ return best;
+}
 function nearest(x,y){
  const k=coordinate();
  if(k.cavalier&&isoStart&&caballeraSnap.value!=='free'){
   const [startX,startY]=lattice(isoStart.x,isoStart.y,isoStart.z,k);
   const band=Math.min(k.unit*.24,Math.max(7,k.unit*.14));
+  const rowDistance=Math.abs(y-startY), locked=caballeraSnap.value==='horizontal';
+  const tolerance=Math.min(16,Math.max(8,k.unit*.2));
+  const column=isoStart.x+(startX-x)/k.unit;
+  if(locked||rowDistance<=Math.max(band,tolerance)){
+   const crossing=nearestCrossing(isoStart,column,k,tolerance);
+   if(crossing!==null)return {...isoStart,x:crossing};
+  }
   // Resolve aligned strokes before the screen-distance search can choose an overlapping plane.
-  if(caballeraSnap.value==='horizontal'||Math.abs(y-startY)<=band){
-   const targetX=isoStart.x+Math.round((startX-x)/k.unit);
+  if(locked||rowDistance<=band){
+   const targetX=Math.round(column);
    return targetX>=0&&targetX<=k.width?{...isoStart,x:targetX}:null;
   }
  }
@@ -227,8 +267,26 @@ function isoDraw(){
   if(clippedNotice.textContent!==message)clippedNotice.textContent=message;
  }
  for(const [a,b,dash] of visibleSegments){g.setLineDash(dash?[6,5]:[]);let A=P(a.x,a.y,a.z),B=P(b.x,b.y,b.z);g.beginPath();g.moveTo(...A);g.lineTo(...B);g.stroke()}g.setLineDash([]);
- if(isoStart){const A=P(isoStart.x,isoStart.y,isoStart.z);if(isoHover){const B=P(isoHover.x,isoHover.y,isoHover.z);g.setLineDash([5,4]);g.strokeStyle='#d88520';g.lineWidth=2.5;g.beginPath();g.moveTo(...A);g.lineTo(...B);g.stroke();g.setLineDash([])}g.fillStyle='#df8a12';g.beginPath();g.arc(...A,5,0,Math.PI*2);g.fill()}
- if(k.cavalier&&isoHover&&!isoEraser){
+ let joined=false;
+ if(isoStart){
+  const A=P(isoStart.x,isoStart.y,isoStart.z);
+  if(isoHover){
+   const B=P(isoHover.x,isoHover.y,isoHover.z);
+   g.setLineDash([5,4]);g.strokeStyle='#d88520';g.lineWidth=2.5;g.beginPath();g.moveTo(...A);g.lineTo(...B);g.stroke();g.setLineDash([]);
+   if(k.cavalier&&caballeraSnap.value!=='free'&&isoStart.y===isoHover.y&&isoStart.z===isoHover.z){
+    const min=Math.min(isoStart.x,isoHover.x),max=Math.max(isoStart.x,isoHover.x);
+    g.lineWidth=1.5;g.strokeStyle='#8e480b';g.fillStyle='#ffd174';
+    for(const crossing of horizontalCrossings(isoStart,k,visibleSegments)){
+     if(crossing<min-drawingEpsilon||crossing>max+drawingEpsilon)continue;
+     const atEnd=Math.abs(crossing-isoHover.x)<drawingEpsilon;
+     if(atEnd)joined=true;
+     g.beginPath();g.arc(...P(crossing,isoStart.y,isoStart.z),atEnd?5:3.5,0,2*Math.PI);g.fill();g.stroke();
+    }
+   }
+  }
+  g.fillStyle='#df8a12';g.beginPath();g.arc(...A,5,0,Math.PI*2);g.fill();
+ }
+ if(k.cavalier&&isoHover&&!isoEraser&&!joined){
   g.beginPath();g.arc(...P(isoHover.x,isoHover.y,isoHover.z),4,0,2*Math.PI);
   g.strokeStyle='#d88520';g.lineWidth=1.5;g.stroke();
  }
@@ -236,14 +294,31 @@ function isoDraw(){
  g.fillStyle='#aa3948';g.fillText('← ALZADO',Math.max(12,w-125),h-17);
 }
 function distanceToSegment(p,a,b){const dx=b[0]-a[0],dy=b[1]-a[1],m=dx*dx+dy*dy||1,t=Math.max(0,Math.min(1,((p[0]-a[0])*dx+(p[1]-a[1])*dy)/m));return Math.hypot(p[0]-a[0]-dx*t,p[1]-a[1]-dy*t)}
-// Each axis-aligned grid edge is a separate editable segment, even after a long drag.
-function isoParts(a,b){let dx=b.x-a.x,dy=b.y-a.y,dz=b.z-a.z;const gcd=(u,v)=>v?gcd(v,u%v):u;const steps=gcd(gcd(Math.abs(dx),Math.abs(dy)),Math.abs(dz));if(!steps)return [];return Array.from({length:steps},(_,i)=>[{x:a.x+dx*i/steps,y:a.y+dy*i/steps,z:a.z+dz*i/steps},{x:a.x+dx*(i+1)/steps,y:a.y+dy*(i+1)/steps,z:a.z+dz*(i+1)/steps}])}
+// Crossings can end between grid columns. Keep the fractional remainder editable.
+function isoParts(a,b){
+ const dx=b.x-a.x,dy=b.y-a.y,dz=b.z-a.z;
+ if(Math.max(Math.abs(dx),Math.abs(dy),Math.abs(dz))<drawingEpsilon)return [];
+ const points=[a];
+ if(dy===0&&dz===0){
+  const min=Math.min(a.x,b.x),max=Math.max(a.x,b.x);
+  const columns=[];
+  for(let x=Math.floor(min)+1;x<max-drawingEpsilon;x++)columns.push(x);
+  if(dx<0)columns.reverse();
+  for(const x of columns)points.push({...a,x});
+ }else if([dx,dy,dz].every(Number.isInteger)){
+  const gcd=(u,v)=>v?gcd(v,u%v):u;
+  const steps=gcd(gcd(Math.abs(dx),Math.abs(dy)),Math.abs(dz));
+  for(let i=1;i<steps;i++)points.push({x:a.x+dx*i/steps,y:a.y+dy*i/steps,z:a.z+dz*i/steps});
+ }
+ points.push(b);
+ return points.slice(1).map((point,i)=>[points[i],point]);
+}
 function eraseIsoAt(x,y){const k=coordinate();let idx=-1,min=Infinity;isoSegments.forEach((segment,i)=>{if(!segmentFits(segment,k))return;const [a,b]=segment;const d=distanceToSegment([x,y],lattice(a.x,a.y,a.z,k),lattice(b.x,b.y,b.z,k));if(d<min){min=d;idx=i}});if(idx>=0&&min<Math.max(11,k.unit*.22))isoSegments.splice(idx,1)}
 function updateFixedHint(){
  const mode=projection.value==='caballera'?caballeraSnap.value:'free';
  $('fixedIsoHint').textContent=isoEraser?'Pulsa sobre un tramo para borrarlo.':
-  mode==='horizontal'?'El extremo conserva la altura y la profundidad del inicio.':
-  mode==='auto'?'El lápiz alinea las horizontales. Usa Libre para elegir un vértice cercano de otro plano.':
+  mode==='horizontal'?'El extremo se ajusta a los cruces con aristas dibujadas.':
+  mode==='auto'?'Al trazar una horizontal, pulsa un punto naranja para acabarla en una arista.':
   'Pulsa un vértice para empezar y otro para terminar. Suelta el lápiz con el botón derecho.';
 }
 $('fixedIsoErase').onclick=()=>{isoEraser=!isoEraser;isoStart=null;isoHover=null;$('fixedIsoErase').classList.toggle('selected',isoEraser);updateFixedHint();isoDraw()};
