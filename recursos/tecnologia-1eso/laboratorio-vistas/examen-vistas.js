@@ -17,7 +17,7 @@
  }
  function mount({loadFigure,savePDF,getMode}) {
   const api=window.MAD_CONTROL, navigation=window.MADExamNavigation;
-  const form=$('viewExamStart'), workspace=document.querySelector('.workspace'), sheets=$('viewExamSheets');
+  const form=$('viewExamStart'), workspace=document.querySelector('.workspace'), sheets=$('viewExamSheets'), toolbar=sheets.parentElement;
   const status=$('viewExamStatus'), countdown=$('viewExamClock'), download=$('viewExamDownload'), notice=$('viewExamError');
   const dismiss=$('viewExamDismiss'), reset=$('viewExamReset'), back=$('viewExamBack'), warning=$('viewExamWarning');
   const request=window.MADLamina.request;
@@ -79,8 +79,10 @@
    const planned=schedule(), attempt=record?.attempt;
    const canStart=open(planned)&&(!matches(planned)||!attempt)&&!(record?.closed&&matches(planned));
    const busy=starting||resetting||!!delivery, dismissed=!!record?.dismissed;
+   const showWorkspace=!!attempt&&!dismissed&&!canStart;
    form.hidden=!canStart;
    form.querySelector('button').disabled=busy;
+   toolbar.hidden=canStart;
    download.hidden=!attempt&&!record?.closed;
    download.disabled=busy;
    download.textContent=sealed()?'Volver a descargar PDF':record?.closed?'Descargar PDF':'Entregar y descargar PDF';
@@ -89,9 +91,9 @@
    reset.hidden=!canReset();
    reset.disabled=busy;
    back.hidden=!dismissed;
-   warning.hidden=dismissed;
-   sheets.hidden=!attempt||dismissed||record.figures.length<=1;
-   if(!attempt||dismissed)delete document.body.dataset.viewExamReady;
+   warning.hidden=dismissed&&!canStart;
+   sheets.hidden=!showWorkspace||record.figures.length<=1;
+   document.body.toggleAttribute('data-view-exam-ready',showWorkspace);
    workspace.inert=!canEdit();
    let description;
    if(canStart){
@@ -111,7 +113,7 @@
    else if(planned&&api.now()<planned.startsAt)description='El examen abre el '+api.dateLabel(planned.startsAt)+'.';
    else description='El examen está cerrado. El horario se configura en Profesor.';
    if(status.textContent!==description)status.textContent=description;
-   const left=attempt&&active()?Math.max(0,Math.ceil((attempt.deadline-api.now())/1000)):0;
+   const left=!canStart&&attempt&&active()?Math.max(0,Math.ceil((attempt.deadline-api.now())/1000)):0;
    countdown.hidden=!left;
    if(left)countdown.textContent='Tiempo restante '+Math.floor(left/60)+':'+String(left%60).padStart(2,'0');
   }
