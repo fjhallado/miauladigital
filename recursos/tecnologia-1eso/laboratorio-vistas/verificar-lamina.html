@@ -7,11 +7,12 @@
  <link rel="stylesheet" href="../../../estilos.css?v=1.4.98">
  <script src="../../../control-config.js?v=1.4.95" defer></script>
  <script src="lamina-vistas.js?v=1.4.127" defer></script>
- <script src="verificar-lamina.js?v=1.4.127" defer></script>
+ <script src="verificar-lamina.js?v=1.4.129" defer></script>
  <style>
   .seal-form:not([hidden]){display:grid;gap:.75rem;max-width:24rem;margin:1.25rem 0;justify-items:start}
   .seal-form label,.seal-form input{width:100%}
   .seal-form input{display:block;margin-top:.4rem;padding:.65rem .8rem;border:1px solid #638bbb;border-radius:.5rem;background:#102442;color:#edf4ff;font:inherit}
+  #sealId{overflow-wrap:anywhere}
  </style>
 </head>
 <body>
@@ -28,6 +29,7 @@
   <div id="sealDetails" hidden>
    <p id="sealTime"></p>
    <p id="sealFigure"></p>
+   <p>Identificador de la lámina <code id="sealId"></code></p>
    <p>Compara esta fecha y hora con las que aparecen en el cajetín. El sello confirma la hora de generación registrada por Mi Aula Digital.</p>
   </div>
   <a class="btn secondary" href="index.html">Volver al Laboratorio de vistas</a>

@@ -1,7 +1,7 @@
 (() => {
  'use strict';
  const $ = id => document.getElementById(id);
- const status = $('sealStatus'), details = $('sealDetails');
+ const status = $('sealStatus'), details = $('sealDetails'), identifier = $('sealId');
  const form = $('sealForm'), password = $('sealPassword'), submit = form.querySelector('button');
  const validCode = code => /^[A-Za-z0-9_.-]{40,90}$/.test(code);
  let revision = 0;
@@ -11,6 +11,7 @@
   details.hidden = true;
   $('sealTime').textContent = '';
   $('sealFigure').textContent = '';
+  identifier.textContent = '';
   form.reset();
   form.hidden = !validCode(code);
   submit.disabled = false;
@@ -30,6 +31,7 @@
    if (current !== revision) return;
    $('sealTime').textContent = window.MADLamina.formatTime(stamp.createdAt) + ' (hora peninsular)';
    $('sealFigure').textContent = (stamp.kind === 'e' ? 'Examen' : 'Práctica') + ' · Figura ' + stamp.figure + ' de la Ficha 1';
+   identifier.textContent = stamp.id;
    status.textContent = 'Sello de hora verificado';
    form.hidden = true;
    details.hidden = false;
