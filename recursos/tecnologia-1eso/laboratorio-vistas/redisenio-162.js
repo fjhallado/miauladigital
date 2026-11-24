@@ -73,12 +73,35 @@ function lattice(x,y,z,k){
 }
 function nearest(x,y){
  const k=coordinate();
+ let horizontal=null,horizontalDistance=Infinity;
+ if(k.cavalier&&isoStart){
+  // Una arista horizontal conserva la profundidad y la altura, aunque salga del plano visible de la rejilla.
+  const [startX,startY]=lattice(isoStart.x,isoStart.y,isoStart.z,k);
+  const columns=(startX-x)/k.unit,step=Math.round(columns),targetX=isoStart.x+step;
+  const band=Math.min(14,Math.max(6,k.unit*.2));
+  if(step&&targetX>=0&&targetX<=k.n&&Math.abs(y-startY)<=band&&Math.abs(columns-step)<=.45){
+   horizontal={...isoStart,x:targetX};
+   horizontalDistance=Math.hypot((columns-step)*k.unit,y-startY);
+  }
+ }
  let best=null,dist=1e6;
- for(let a=0;a<=k.n;a++)for(let b=0;b<=k.n;b++)for(let z=0;z<=k.n;z++){
-  if(a!==k.side&&b!==k.n&&z!==k.n)continue;
+ function consider(a,b,z){
   const [u,v]=lattice(a,b,z,k),d=Math.hypot(u-x,v-y);
   if(d<dist){dist=d;best={x:a,y:b,z}}
  }
+ if(k.cavalier){
+  // Recupera también los vértices interiores que el alumno ya ha dibujado.
+  for(const [a,b] of isoSegments){
+   consider(a.x,a.y,a.z);
+   consider(b.x,b.y,b.z);
+  }
+ }
+ for(let a=0;a<=k.n;a++)for(let b=0;b<=k.n;b++)for(let z=0;z<=k.n;z++){
+  if(a!==k.side&&b!==k.n&&z!==k.n)continue;
+  consider(a,b,z);
+ }
+ // A direct click on a drawn or visible vertex can still start or finish a diagonal.
+ if(horizontal&&(horizontalDistance<=dist||dist>Math.min(4,k.unit*.1)))return horizontal;
  return dist<Math.max(18,k.unit*.5)?best:null;
 }
 function isoDraw(){
@@ -123,6 +146,10 @@ function isoDraw(){
  g.lineJoin='round';g.lineCap='round';g.lineWidth=2.7;g.strokeStyle='#90344d';
  for(const [a,b,dash] of isoSegments){g.setLineDash(dash?[6,5]:[]);let A=P(a.x,a.y,a.z),B=P(b.x,b.y,b.z);g.beginPath();g.moveTo(...A);g.lineTo(...B);g.stroke()}g.setLineDash([]);
  if(isoStart){const A=P(isoStart.x,isoStart.y,isoStart.z);if(isoHover){const B=P(isoHover.x,isoHover.y,isoHover.z);g.setLineDash([5,4]);g.strokeStyle='#d88520';g.lineWidth=2.5;g.beginPath();g.moveTo(...A);g.lineTo(...B);g.stroke();g.setLineDash([])}g.fillStyle='#df8a12';g.beginPath();g.arc(...A,5,0,Math.PI*2);g.fill()}
+ if(k.cavalier&&isoHover&&!isoEraser){
+  g.beginPath();g.arc(...P(isoHover.x,isoHover.y,isoHover.z),4,0,2*Math.PI);
+  g.strokeStyle='#d88520';g.lineWidth=1.5;g.stroke();
+ }
  g.fillStyle='#536980';g.font='700 13px system-ui';g.fillText(k.cavalier?'CABALLERA · DIBUJA AQUÍ':'ISOMÉTRICA · DIBUJA AQUÍ',16,25);g.textAlign='right';g.fillStyle='#4b708f';g.font='700 12px system-ui';g.fillText('Rejilla '+n+' × '+n+' × '+n,w-17,25);g.textAlign='left';
  g.fillStyle='#aa3948';g.fillText('← ALZADO',Math.max(12,w-125),h-17);
 }
@@ -186,7 +213,7 @@ function refreshOverlays(){if(document.body.dataset.training!=='build')return;fo
 // Clear pen state when a new exercise is generated; all mode controls remain in the original engine.
 const size=$('size');size.addEventListener('change',()=>{isoSegments=[];isoStart=null;for(const k of Object.keys(lines)){lines[k]=[];start[k]=null}status.textContent='Dibuja los tres contornos completos para crear el sólido.';requestAnimationFrame(()=>{isoDraw();refreshOverlays()})});
 for(const b of document.querySelectorAll('[data-work]'))b.addEventListener('click',()=>{if(b.dataset.work==='isometric'){isoSegments=[];isoStart=null;isoSol=false;isoSolutionBtn.textContent='◈ Ver solución'}if(b.dataset.work==='identify'){identifySol=false;identifySolutionBtn.textContent='◈ Ver solución'}if(b.dataset.work!=='build')setPencil(false);requestAnimationFrame(()=>{if(b.dataset.work==='isometric')$('viewHeading').innerHTML='<span class="heading-icon">▦</span> Vistas diédricas de referencia';if(b.dataset.work==='build')$('viewHeading').innerHTML='<span class="heading-icon">▦</span> Construye sobre las vistas';if(b.dataset.work==='views')$('viewHeading').innerHTML='<span class="heading-icon">▦</span> Dibuja alzado, planta y perfil';isoDraw();refreshOverlays()})});
-$('newViewExercise').addEventListener('click',()=>{if(document.body.dataset.training==='isometric'){isoSegments=[];isoStart=null;isoSol=false;isoSolutionBtn.textContent='◈ Ver solución';requestAnimationFrame(isoDraw)}else if(document.body.dataset.training==='identify'){identifySol=false;identifySolutionBtn.textContent='◈ Ver solución'}});
+window.addEventListener('mad-library-figure-selected',()=>{if(document.body.dataset.training==='identify'){identifySol=false;identifySolutionBtn.textContent='◈ Ver solución'}});
 let pending=false;const observe=new ResizeObserver(()=>{if(pending)return;pending=true;requestAnimationFrame(()=>{pending=false;isoDraw();refreshOverlays()})});observe.observe(isoWrap);for(const c of Object.values(ov))observe.observe(c.parentElement);
 window.addEventListener('resize',()=>{isoDraw();refreshOverlays()});window.addEventListener('mad-grid-resize',()=>requestAnimationFrame(()=>{isoDraw();refreshOverlays()}));
 requestAnimationFrame(()=>{isoDraw();refreshOverlays()});

@@ -15,7 +15,6 @@ body[data-training="menu"] .workflow-task,body[data-training="menu"] .workflow-f
 body[data-training="menu"] #fullscreenViews,body:not([data-training="identify"]) .accessible-views{display:none!important}
 body[data-training="isometric"][data-drawn-views="empty"] .layout,
 body[data-training="isometric"][data-drawn-views="empty"] #fullscreenViews{display:none!important}
-body[data-collection-open="true"]:not([data-training="menu"]) #exerciseLibrary{display:block}
 body[data-training="isometric"][data-drawn-views] #globalGridControl,
 body[data-training="isometric"] .views[hidden]{display:none!important}
 .saved-views{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
@@ -27,7 +26,7 @@ body[data-training="isometric"] .views[hidden]{display:none!important}
 .saved-exercise p{flex-basis:100%;font-size:12px;color:#c4dcf5;margin:0}
 .saved-exercise a{color:#a9d9ff}
 .collection-practice{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}
-body[data-training="isometric"] .collection-practice{display:none}
+.exercise-picker[hidden],.collection-practice[hidden],#newViewExercise[hidden]{display:none}
 .worksheet-page{padding-block:35px 55px}
 .worksheet-page h1{margin:8px 0}
 .worksheet-files{list-style:none;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr));gap:14px}

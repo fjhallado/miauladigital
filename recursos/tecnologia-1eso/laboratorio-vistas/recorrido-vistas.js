@@ -29,6 +29,8 @@
  $('activityDescription').parentElement.append(options);
  const selector = $('savedExercise');
  const notice = $('savedExerciseStatus');
+ const picker = $('exerciseFigurePicker');
+ const pickerButton = $('newViewExercise');
  let currentExercise = null;
  let usingLibrary = false;
  const routes = {isometric: '#representar', build: '#construccion', identify: '#coleccion-caras', views: '#coleccion-vistas'};
@@ -71,21 +73,35 @@
   history.replaceState(null, '', url);
  }
 
- function showLibrary() {
+ function setFigurePicker(open) {
+  const show = open && !pickerButton.hidden;
+  picker.hidden = !show;
+  pickerButton.setAttribute('aria-expanded', String(show));
+ }
+
+ pickerButton.addEventListener('click', () => {
+  setFigurePicker(picker.hidden);
+  if (!picker.hidden) {
+   picker.focus({preventScroll: true});
+   picker.scrollIntoView({behavior: 'smooth', block: 'start'});
+  }
+ });
+
+ window.addEventListener('mad-library-figure-selected', () => {
+  setFigurePicker(false);
+  if (document.body.dataset.training !== 'isometric') return;
   usingLibrary = true;
   currentExercise = null;
   references.hidden = true;
   originalViews.hidden = false;
   delete document.body.dataset.drawnViews;
-  document.body.dataset.collectionOpen = 'true';
   fixed.setReferenceSize(null);
-  $('exerciseLibrary').scrollIntoView({behavior: 'smooth', block: 'start'});
- }
- $('newViewExercise').addEventListener('click', showLibrary);
+  updateUrl('isometric');
+ });
 
  selector.addEventListener('change', () => {
   usingLibrary = false;
-  delete document.body.dataset.collectionOpen;
+  setFigurePicker(false);
   chooseExercise(loadExercises(Number(selector.value)));
   updateUrl('isometric', currentExercise?.number);
  });
@@ -97,17 +113,16 @@
   references.hidden = true;
   originalViews.hidden = false;
   delete document.body.dataset.drawnViews;
-  delete document.body.dataset.collectionOpen;
+  setFigurePicker(false);
   options.hidden = mode !== 'isometric';
   if (mode === 'isometric') {
    $('activityTitle').textContent = '03 · Representar en perspectiva';
    $('activityDescription').textContent = 'Reconstruye la pieza a partir de tus vistas en cuadrícula isométrica o caballera.';
-   $('newViewExercise').textContent = 'Elegir una figura de la biblioteca';
    $('activityFeedback').textContent = '';
    chooseExercise(loadExercises(Number(new URLSearchParams(location.search).get('figura'))));
   } else {
    fixed.setReferenceSize(null);
-   if (mode !== 'build') document.body.dataset.collectionOpen = 'true';
+   if (mode !== 'build') setFigurePicker(true);
   }
   updateUrl(mode, currentExercise?.number);
  });
@@ -134,7 +149,7 @@
    return;
   }
   document.body.dataset.training = 'menu';
-  delete document.body.dataset.collectionOpen;
+  setFigurePicker(false);
  }
  window.addEventListener('hashchange', openRoute);
  openRoute();
