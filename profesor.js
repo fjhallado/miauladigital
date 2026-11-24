@@ -15,6 +15,7 @@ let labFormDirty=false,labFormKey='';
 let commentPage=null,commentLoad=0;
 let gradePage=null,gradeLoad=0;
 let accountBusy=false,editingAccount='';
+let worksheetUpload=false;
 const commentDate=new Intl.DateTimeFormat('es-ES',{timeZone:'Europe/Madrid',dateStyle:'short',timeStyle:'short'});
 function dateField(at){
  const parts=Object.fromEntries(madridFields.formatToParts(at).map(({type,value})=>[type,value]));
@@ -98,6 +99,7 @@ function render(){
  $('teacherComments').hidden=!admin;
  $('teacherPeriodicGrades').hidden=!admin;
  $('teacherAccounts').hidden=!admin;
+ $('teacherWorksheets').hidden=!admin;
  if(admin){
   for(const [id,key] of Object.entries(fields)){
    if(!busy)$(id).checked=state[key];
@@ -110,7 +112,7 @@ function render(){
   renderLabDeadline(state,unavailable);
  }
  $('teacherReset').disabled=busy||unavailable;
- $('teacherLogout').disabled=busy||accountBusy;
+ $('teacherLogout').disabled=busy||accountBusy||worksheetUpload;
  $('teacherMode').textContent=unavailable?'Sin conexión con el servidor':'Sincronización entre ordenadores';
  $('teacherSecurityNote').textContent='Los cambios llegan al abrir las páginas y se comprueban cada 20 segundos mientras están abiertas.';
 }
@@ -146,9 +148,10 @@ async function logIn(event){
  }
 }
 function request(path,method,body){
- const headers={'Content-Type':'application/json'};
+ const form=body instanceof FormData;
+ const headers=form?{}:{'Content-Type':'application/json'};
  if(session)headers.Authorization='Bearer '+session.token;
- return fetch(api.url+path,{method,headers,body:JSON.stringify(body),signal:AbortSignal.timeout(10000)});
+ return fetch(api.url+path,{method,headers,body:form?body:JSON.stringify(body),signal:AbortSignal.timeout(form?30000:10000)});
 }
 async function save(path,method,body,success){
  if(busy||!session)return;
@@ -195,7 +198,11 @@ function closeSession(){
  closeSalesPreview();
  session=null;
  accountBusy=false;
+ worksheetUpload=false;
  $('teacherAccounts').disabled=false;
+ $('teacherWorksheets').disabled=false;
+ $('teacherWorksheetForm').reset();
+ $('teacherWorksheetStatus').textContent='';
  commentLoad++;
  gradeLoad++;
  timetableDirty=false;
@@ -506,8 +513,49 @@ $('teacherAccountCancel').addEventListener('click',()=>{
  editAccount('');
  $('teacherNewUsername').focus();
 });
+$('teacherWorksheetForm').addEventListener('submit',async event=>{
+ event.preventDefault();
+ if(session?.role!=='admin'||worksheetUpload)return;
+ const activeSession=session;
+ const form=event.currentTarget;
+ const status=$('teacherWorksheetStatus');
+ const title=$('teacherWorksheetTitle').value.trim();
+ const pdf=$('teacherWorksheetFile').files[0];
+ if(!title||!pdf){
+  status.textContent='Escribe un título y selecciona un archivo PDF.';
+  return;
+ }
+ if(pdf.size>8*1024*1024){
+  status.textContent='El PDF supera el máximo de 8 MB.';
+  return;
+ }
+ const payload=new FormData();
+ payload.set('title',title);
+ payload.set('pdf',pdf);
+ worksheetUpload=true;
+ $('teacherWorksheets').disabled=true;
+ render();
+ status.textContent='Publicando PDF…';
+ try{
+  const response=await request('/view-worksheets','POST',payload);
+  if(session!==activeSession||!checkTeacherSession(response))return;
+  const data=await response.json();
+  if(session!==activeSession)return;
+  if(!response.ok)throw Error(data.error||'No se pudo publicar el PDF.');
+  form.reset();
+  status.textContent='Ficha publicada en el apartado 05.';
+ }catch(error){
+  if(session===activeSession)status.textContent=error.message;
+ }finally{
+  if(session===activeSession){
+   worksheetUpload=false;
+   $('teacherWorksheets').disabled=false;
+   render();
+  }
+ }
+});
 $('teacherLogout').addEventListener('click',()=>{
- if(busy||accountBusy||!session)return;
+ if(busy||accountBusy||worksheetUpload||!session)return;
  request('/logout','POST').catch(()=>{});
  closeSession();
 });

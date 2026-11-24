@@ -1,0 +1,43 @@
+.ficha-steps{display:flex;flex-wrap:wrap;gap:7px;margin:0 0 15px}
+.ficha-steps a,.ficha-action{display:inline-block;padding:8px 11px;border:1px solid #5279b1;border-radius:8px;background:#183a64;color:#edf6ff;text-decoration:none;font-size:13px;font-weight:700}
+.ficha-steps a[aria-current],.ficha-action:hover,.ficha-steps a:hover{background:#29639e;border-color:#96cbff}
+.ficha-steps a:focus-visible,.ficha-action:focus-visible{outline:3px solid #91ccff;outline-offset:3px}
+.ficha-action[hidden],.saved-views[hidden],.saved-exercise[hidden]{display:none}
+.ficha-export{display:flex;flex-wrap:wrap;align-items:center;gap:6px}
+.ficha-status{grid-column:1/-1;margin:0}
+body[data-ficha-mode="identify"] .project-only,body[data-ficha-mode="project"] .identify-only{display:none}
+body[data-ficha-mode="identify"] .workspace{grid-template-columns:minmax(0,1fr);max-width:960px}
+body[data-ficha-mode="identify"] .figure-frame{height:clamp(320px,60vh,650px)}
+body[data-ficha-mode="project"] #vectorFigure #faceRaster{cursor:default}
+.projection-next{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin-top:12px}
+.projection-next p{margin:0}
+body[data-training="menu"] .layout,body[data-training="menu"] .toolbar,
+body[data-training="menu"] .workflow-task,body[data-training="menu"] .workflow-feedback,
+body[data-training="menu"] #fullscreenViews,body:not([data-training="identify"]) .accessible-views{display:none!important}
+body[data-training="isometric"][data-drawn-views="empty"] .layout,
+body[data-training="isometric"][data-drawn-views="empty"] #fullscreenViews{display:none!important}
+body[data-collection-open="true"]:not([data-training="menu"]) #exerciseLibrary{display:block}
+body[data-training="isometric"][data-drawn-views] #globalGridControl,
+body[data-training="isometric"] .views[hidden]{display:none!important}
+.saved-views{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.saved-views>div:last-child{grid-column:1}
+.saved-views canvas{width:100%;height:clamp(135px,24vh,260px);display:block;border-radius:9px;background:#f9fbff}
+.saved-exercise{display:flex;flex-wrap:wrap;gap:7px;align-items:center;margin-bottom:10px}
+.saved-exercise label{font-size:13px;font-weight:700}
+.saved-exercise select,#fixedProjection{min-width:0;max-width:100%;color:white;background:#183a64;border:1px solid #85b3e9;border-radius:7px;padding:6px}
+.saved-exercise p{flex-basis:100%;font-size:12px;color:#c4dcf5;margin:0}
+.saved-exercise a{color:#a9d9ff}
+.collection-practice{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}
+body[data-training="isometric"] .collection-practice{display:none}
+.worksheet-page{padding-block:35px 55px}
+.worksheet-page h1{margin:8px 0}
+.worksheet-files{list-style:none;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr));gap:14px}
+.worksheet-files li{display:grid;justify-items:start;align-content:start;gap:7px;padding:16px;border:1px solid #436991;border-radius:12px;background:#142d4e}
+.worksheet-files strong{overflow-wrap:anywhere}
+.worksheet-files small{color:#bed3ed}
+@media(max-width:650px){
+ .saved-views canvas{height:145px}
+ body[data-ficha-mode="identify"] .figure-frame{height:clamp(260px,54vh,500px);min-height:260px}
+ body[data-ficha-mode="project"] .grid-views{grid-template-columns:minmax(0,1fr)}
+ body[data-ficha-mode="project"] .vhead .vgrid{flex-wrap:wrap;max-width:100%}
+}

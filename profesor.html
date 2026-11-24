@@ -148,6 +148,16 @@
 <p id="teacherAccountStatus" role="status"></p>
 <ul class="teacher-account-list" id="teacherAccountList" aria-label="Cuentas docentes"></ul>
 </fieldset>
+<fieldset class="teacher-schedule" id="teacherWorksheets" hidden>
+<legend>Publicar fichas del Laboratorio de vistas</legend>
+<form id="teacherWorksheetForm" class="teacher-form" method="post" enctype="multipart/form-data">
+ <label>Título de la ficha<input id="teacherWorksheetTitle" maxlength="120" required></label>
+ <label>Archivo PDF (máximo 8 MB)<input id="teacherWorksheetFile" type="file" accept="application/pdf,.pdf" required></label>
+ <button type="submit">Publicar PDF</button>
+</form>
+<p id="teacherWorksheetStatus" role="status"></p>
+<a class="btn secondary" href="recursos/tecnologia-1eso/laboratorio-vistas/fichas.html">Ver fichas publicadas</a>
+</fieldset>
 <div class="teacher-actions"><span id="teacherStatus" role="status">Cargando ajustes…</span><button type="button" id="teacherLogout">Cerrar sesión</button></div>
 <p class="teacher-hint" id="teacherSecurityNote"></p></section>
-</div></main><footer class="container"><strong>Mi Aula Digital</strong><span>Creada por Francisco José Hallado Fernández</span></footer><script src="profesor.js?v=1.4.117"></script></body></html>
+</div></main><footer class="container"><strong>Mi Aula Digital</strong><span>Creada por Francisco José Hallado Fernández</span></footer><script src="profesor.js?v=1.4.120"></script></body></html>

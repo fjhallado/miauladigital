@@ -33,12 +33,44 @@ const isoWrap=$('iso').parentElement;
 const fixed=document.createElement('canvas');fixed.id='fixedIsoSurface';fixed.setAttribute('aria-label','Cuadrícula isométrica interactiva, haz clic para conectar vértices');isoWrap.append(fixed);
 const controls=document.createElement('div');controls.id='fixedIsoControls';controls.innerHTML='<button type="button" id="fixedIsoLine" class="selected">━ Continua</button><button type="button" id="fixedIsoDash">┄ Discontinua</button><button type="button" id="fixedIsoErase">⌫ Borrar tramo</button><button type="button" id="fixedIsoUndo">↶ Deshacer</button><button type="button" id="fixedIsoClear">⌫ Limpiar dibujo</button><span id="fixedIsoHint">Pulsa un vértice y mueve el lápiz para ver la línea provisional.</span>';
 left.insertBefore(controls,isoWrap);
+const projectionLabel=document.createElement('label');
+projectionLabel.innerHTML='Cuadrícula <select id="fixedProjection"><option value="iso">Isométrica</option><option value="caballera">Caballera (45°, profundidad ½)</option></select>';
+controls.prepend(projectionLabel);
+const projection=$('fixedProjection');
 controls.insertBefore(isoSolutionBtn,controls.querySelector('#fixedIsoUndo'));isoSolutionBtn.onclick=()=>{isoSol=!isoSol;isoSolutionBtn.textContent=isoSol?'✎ Ocultar solución':'◈ Ver solución';isoDraw()};
 let isoSegments=[],isoStart=null,isoHover=null,isoEraser=false,isoDashed=false;
+let referenceSize=null;
+projection.addEventListener('change',()=>{
+ isoStart=null;isoHover=null;
+ fixed.setAttribute('aria-label','Cuadrícula '+(projection.value==='caballera'?'caballera':'isométrica')+' interactiva. Pulsa para conectar vértices.');
+ isoDraw();
+});
+window.MADFixedDrawing={
+ setReferenceSize(n){
+  referenceSize=n;
+  isoSegments=[];isoStart=null;isoHover=null;isoSol=false;
+  isoSolutionBtn.hidden=n!==null;
+  isoSolutionBtn.textContent='◈ Ver solución';
+  isoDraw();
+ }
+};
 $('fixedIsoLine').onclick=()=>{isoDashed=false;$('fixedIsoLine').classList.add('selected');$('fixedIsoDash').classList.remove('selected')};
 $('fixedIsoDash').onclick=()=>{isoDashed=true;$('fixedIsoDash').classList.add('selected');$('fixedIsoLine').classList.remove('selected')};
-const coordinate=()=>{const n=Number($('size').value)||4,w=fixed.clientWidth,h=fixed.clientHeight,pad=44,unit=Math.max(5,Math.min((w-2*pad)/(n*1.732),(h-2*pad)/(n*2)));return{n,w,h,unit,ox:w/2,oy:h/2}};
-function lattice(x,y,z,k){return[k.ox+(y-x)*k.unit*.866,k.oy+(x+y)*k.unit*.5-z*k.unit]}
+const depth45=Math.SQRT1_2/2;
+const coordinate=()=>{
+ const n=referenceSize??(Number($('size').value)||4),w=fixed.clientWidth,h=fixed.clientHeight,pad=44;
+ const cavalier=projection.value==='caballera';
+ const spanX=cavalier?1+depth45:1.732,spanY=cavalier?1+depth45:2;
+ const unit=Math.max(5,Math.min((w-2*pad)/(n*spanX),(h-2*pad)/(n*spanY)));
+ return {n,w,h,unit,ox:w/2,oy:h/2,cavalier};
+};
+function lattice(x,y,z,k){
+ if(k.cavalier){
+  const half=k.n/2,depth=(half-y)*depth45;
+  return [k.ox+(half-x-depth)*k.unit,k.oy+(half-z-depth)*k.unit];
+ }
+ return [k.ox+(y-x)*k.unit*.866,k.oy+(x+y)*k.unit*.5-z*k.unit];
+}
 function nearest(x,y){const k=coordinate();let best=null,dist=1e6;for(let a=0;a<=k.n;a++)for(let b=0;b<=k.n;b++)for(let z=0;z<=k.n;z++){if(a!==k.n&&b!==k.n&&z!==k.n)continue;let [u,v]=lattice(a,b,z,k),d=Math.hypot(u-x,v-y);if(d<dist){dist=d;best={x:a,y:b,z}}}return dist<Math.max(18,k.unit*.5)?best:null}
 function isoDraw(){
  if(document.body.dataset.training!=='isometric')return;
@@ -78,7 +110,7 @@ function isoDraw(){
  g.lineJoin='round';g.lineCap='round';g.lineWidth=2.7;g.strokeStyle='#90344d';
  for(const [a,b,dash] of isoSegments){g.setLineDash(dash?[6,5]:[]);let A=P(a.x,a.y,a.z),B=P(b.x,b.y,b.z);g.beginPath();g.moveTo(...A);g.lineTo(...B);g.stroke()}g.setLineDash([]);
  if(isoStart){const A=P(isoStart.x,isoStart.y,isoStart.z);if(isoHover){const B=P(isoHover.x,isoHover.y,isoHover.z);g.setLineDash([5,4]);g.strokeStyle='#d88520';g.lineWidth=2.5;g.beginPath();g.moveTo(...A);g.lineTo(...B);g.stroke();g.setLineDash([])}g.fillStyle='#df8a12';g.beginPath();g.arc(...A,5,0,Math.PI*2);g.fill()}
- g.fillStyle='#536980';g.font='700 13px system-ui';g.fillText('ISOMÉTRICA · DIBUJA AQUÍ',16,25);g.textAlign='right';g.fillStyle='#4b708f';g.font='700 12px system-ui';g.fillText('Rejilla '+n+' × '+n+' × '+n,w-17,25);g.textAlign='left';
+ g.fillStyle='#536980';g.font='700 13px system-ui';g.fillText(k.cavalier?'CABALLERA · DIBUJA AQUÍ':'ISOMÉTRICA · DIBUJA AQUÍ',16,25);g.textAlign='right';g.fillStyle='#4b708f';g.font='700 12px system-ui';g.fillText('Rejilla '+n+' × '+n+' × '+n,w-17,25);g.textAlign='left';
  g.fillStyle='#aa3948';g.fillText('← ALZADO',Math.max(12,w-125),h-17);
 }
 function distanceToSegment(p,a,b){const dx=b[0]-a[0],dy=b[1]-a[1],m=dx*dx+dy*dy||1,t=Math.max(0,Math.min(1,((p[0]-a[0])*dx+(p[1]-a[1])*dy)/m));return Math.hypot(p[0]-a[0]-dx*t,p[1]-a[1]-dy*t)}
