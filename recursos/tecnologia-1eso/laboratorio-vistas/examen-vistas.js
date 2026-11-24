@@ -1,6 +1,7 @@
 (() => {
  'use strict';
  const key='mad-examen-vistas-v1';
+ const archiveKey=id=>'mad-examen-vistas-archivo-v1:'+id;
  const $=id=>document.getElementById(id);
  const figuresOf=value=>value?.figures??(value?.figure?[value.figure]:[]);
  function readRecord(){
@@ -17,22 +18,29 @@
   const api=window.MAD_CONTROL, navigation=window.MADExamNavigation;
   const form=$('viewExamStart'), workspace=document.querySelector('.workspace'), sheets=$('viewExamSheets');
   const status=$('viewExamStatus'), countdown=$('viewExamClock'), download=$('viewExamDownload'), notice=$('viewExamError');
+  const dismiss=$('viewExamDismiss'), reset=$('viewExamReset'), back=$('viewExamBack'), warning=$('viewExamWarning');
   const request=window.MADLamina.request;
-  let record=readRecord(),starting=false,delivery=null,automatic=false;
+  let record=readRecord(),starting=false,resetting=false,delivery=null,automatic=false;
   const schedule=()=>api.status.schedules.vistas;
-  const matches=(planned,saved=record)=>!!(planned&&saved&&saved.startsAt===planned.startsAt&&
-   figuresOf(planned).join(',')===saved.figures.join(','));
-  const open=planned=>planned&&api.remote&&api.ready&&!api.error&&api.labAccess('vistas').allowed&&
-   api.now()>=planned.startsAt&&api.now()<planned.endsAt;
+  const matches=(planned,saved=record)=>!!(saved&&saved.startsAt===(planned?.startsAt??null)&&
+   (!planned||figuresOf(planned).join(',')===saved.figures.join(',')));
+  const open=planned=>api.remote&&api.ready&&!api.error&&api.labAccess('vistas').allowed&&
+   (planned?api.now()>=planned.startsAt&&api.now()<planned.endsAt:!!api.status.viewExamDefaultMinutes);
+  const canReset=()=>!!record&&open(schedule())&&api.examVersion('vistas')>(record.attempt?.resetVersion??record.resetVersion??0);
   const sealed=()=>!!record?.attempt?.stamp;
   const active=()=>!!(record&&(record.attempt||starting)&&!record.closed&&!sealed());
-  function persist(){
+  function persist(replace=false){
    try{
     const latest=readRecord();
+    if(!replace&&(localStorage.getItem(archiveKey(record.id))!==null||(latest&&latest.id!==record.id)))return false;
     if(latest?.id===record.id&&(latest.closed||latest.attempt?.stamp)&&!record.closed&&!sealed())return false;
     localStorage.setItem(key,JSON.stringify(record));return true;
    }
    catch{notice.textContent='No se pudo guardar en este navegador. Descarga el examen antes de cerrar la página.';return false;}
+  }
+  function archive(){
+   try{localStorage.setItem(archiveKey(record.id),JSON.stringify(record));return true;}
+   catch{notice.textContent='No se ha podido archivar el intento anterior. Descarga una copia antes de repetir.';return false;}
   }
   function canEdit(){
    const attempt=record?.attempt;
@@ -49,6 +57,7 @@
    persist();
   }
   function showAttempt(){
+   if(record.dismissed){render();return;}
    document.body.dataset.viewExamReady='';
    sheets.replaceChildren(...record.figures.map((figure,i)=>{
     const button=document.createElement('button');
@@ -58,24 +67,34 @@
     button.onclick=()=>selectSheet(figure);
     return button;
    }));
-   sheets.hidden=record.figures.length<=1;
    selectSheet(record.figures.includes(record.selected)?record.selected:record.figures[0]);
    render();
   }
   function render(){
    const planned=schedule(), attempt=record?.attempt;
    const canStart=open(planned)&&(!matches(planned)||!attempt)&&!(record?.closed&&matches(planned));
+   const busy=starting||resetting||!!delivery, dismissed=!!record?.dismissed;
    form.hidden=!canStart;
-   form.querySelector('button').disabled=starting||!!delivery;
+   form.querySelector('button').disabled=busy;
    download.hidden=!attempt&&!record?.closed;
-   download.disabled=starting||!!delivery;
+   download.disabled=busy;
    download.textContent=sealed()?'Volver a descargar PDF':record?.closed?'Descargar PDF':'Entregar y descargar PDF';
+   dismiss.hidden=!sealed()||!record.downloaded||dismissed;
+   dismiss.disabled=busy;
+   reset.hidden=!canReset();
+   reset.disabled=busy;
+   back.hidden=!dismissed;
+   warning.hidden=dismissed;
+   sheets.hidden=!attempt||dismissed||record.figures.length<=1;
+   if(!attempt||dismissed)delete document.body.dataset.viewExamReady;
    workspace.inert=!canEdit();
    let description;
    if(canStart){
     const count=figuresOf(planned).length;
-    description=count+(count===1?' lámina':' láminas')+' · '+planned.minutes+' min. El intento empieza al pulsar Comenzar.';
+    description=planned?count+(count===1?' lámina':' láminas')+' · '+planned.minutes+' min. El intento empieza al pulsar Comenzar.':
+     'Examen aleatorio · 5 láminas · '+api.status.viewExamDefaultMinutes+' min. El intento empieza al pulsar Comenzar.';
    }
+   else if(dismissed)description='Examen cerrado. Puedes volver a descargar tu PDF para subirlo a Teams.';
    else if(record?.closed===navigation.reason)description='Examen finalizado por intento de navegación. '+(delivery?'Preparando el PDF del trabajo guardado…':'Si el PDF no se descargó, pulsa «'+download.textContent+'» para recuperarlo.');
    else if(record?.closed==='tiempo agotado')description='Examen finalizado por tiempo agotado. Puedes descargar el trabajo guardado.';
    else if(sealed())description='Examen entregado. Puedes volver a descargar el PDF con el mismo sello.';
@@ -93,7 +112,7 @@
   function update(){
    const attempt=record?.attempt,planned=schedule();
    if(attempt&&active()&&api.ready&&!api.error){
-    const expiry=matches(planned)&&api.labAccess('vistas').allowed?Math.min(planned.endsAt,api.status.labDeadlines.vistas??Infinity):api.now();
+    const expiry=matches(planned)&&api.labAccess('vistas').allowed?Math.min(planned?.endsAt??Infinity,api.status.labDeadlines.vistas??Infinity):api.now();
     attempt.deadline=Math.min(attempt.deadline,Math.floor(expiry));
    }
    if(attempt&&active()&&api.now()>=attempt.deadline)close('tiempo agotado');
@@ -101,7 +120,9 @@
   }
   function recoverClosed(){
    const other=readRecord();
-   if(!other||!record||other.id!==record.id||!(other.closed||other.attempt?.stamp)||record.closed||sealed())return false;
+   if(!other||!record||other.id!==record.id)return false;
+   const ended=(other.closed||other.attempt?.stamp)&&!record.closed&&!sealed();
+   if(!ended&&!(other.attempt&&!record.attempt)&&(!other.dismissed||record.dismissed))return false;
    record=other;
    if(record.attempt)showAttempt();
    else render();
@@ -125,9 +146,13 @@
        (saved.figures.length>1&&saved.attempt.stamps?.length!==saved.figures.length)){
      saved.attempt=await request('/view-exam/finish',{id:saved.id,reason:saved.closed},{keepalive:true});
      saved.closed=saved.attempt.reason??saved.closed;
-     persist();
+     if(record===saved)persist();
     }
-    if(wantsDownload)await savePDF({...saved,mode:saved.mode??getMode(),reason:saved.closed});
+    if(wantsDownload){
+     await savePDF({...saved,mode:saved.mode??getMode(),reason:saved.closed});
+     saved.downloaded=true;
+     if(record===saved)persist();
+    }
    })().catch(error=>{
     notice.textContent=error.message+' El intento queda cerrado. Puedes volver a intentar la descarga.';
    }).finally(()=>{delivery=null;render();});
@@ -138,11 +163,12 @@
    starting=true;render();
    const saved=record;
    try{
-    const {id,startsAt,figures}=saved;
-    const attempt=await request('/view-exam/start',{id,startsAt,figures},{keepalive:true});
+    const {id,startsAt,figures,resetVersion}=saved;
+    const attempt=await request('/view-exam/start',{id,startsAt,figures,resetVersion},{keepalive:true});
     if(record!==saved||recoverClosed())return;
     if(saved.attempt)attempt.deadline=Math.min(attempt.deadline,saved.attempt.deadline);
     saved.attempt=attempt;
+    saved.figures=figuresOf(attempt);
     saved.closed=attempt.reason??saved.closed;
     showAttempt();
     if(downloadAfter||(saved.closed&&!sealed()))deliver(downloadAfter||(automatic&&!restore));
@@ -153,7 +179,7 @@
   form.addEventListener('submit',event=>{
    event.preventDefault();
    const planned=schedule();
-   if(starting||delivery||!open(planned))return;
+   if(starting||resetting||delivery||!open(planned))return;
    const latest=readRecord();
    if(matches(planned,latest)&&(latest.attempt||latest.closed)){
     record=latest;
@@ -166,10 +192,12 @@
     notice.textContent='Escribe el nombre, el curso y el grupo.';
     return;
    }
-   const id=matches(planned)?record.id:crypto.randomUUID();
-   record={id,startsAt:planned.startsAt,figures:figuresOf(planned),drawings:{},student};
+   const previous=record, continuing=matches(planned);
+   if(previous&&!continuing&&!archive())return;
+   const id=continuing?record.id:crypto.randomUUID();
+   record={id,startsAt:planned?.startsAt??null,figures:figuresOf(planned),resetVersion:api.examVersion('vistas'),drawings:{},student};
    notice.textContent='';
-   persist();
+   if(!persist(true)){record=previous;render();return;}
    startAttempt();
   });
   download.addEventListener('click',()=>{
@@ -183,6 +211,31 @@
    }
    deliver(true);
   });
+  dismiss.addEventListener('click',()=>{
+   if(!sealed()||!record.downloaded||starting||resetting||delivery)return;
+   record.dismissed=true;
+   if(!persist())record.dismissed=false;
+   render();
+   if(record.dismissed)back.focus();
+  });
+  reset.addEventListener('click',async()=>{
+   if(starting||resetting||delivery||!canReset())return;
+   const previous=record;
+   resetting=true;render();
+   try{
+    await api.refresh(true);
+    if(record!==previous||!canReset())return;
+    if(!confirm('¿Iniciar un nuevo intento? El examen anterior quedará archivado en este navegador.'))return;
+    if(readRecord()?.id!==previous.id||!archive())return;
+    localStorage.removeItem(key);
+    record=null;
+    automatic=false;
+    form.reset();
+    notice.textContent='Reinicio autorizado. Introduce tus datos para comenzar.';
+   }catch{
+    notice.textContent='No se pudo preparar el nuevo intento. Vuelve a intentarlo.';
+   }finally{resetting=false;render();if(!form.hidden&&record===null)form.elements.name.focus();}
+  });
   const checkVisibility=navigation.watch({active,leave:close,returnToExam(){
    if(record?.closed&&!sealed()&&record.attempt)deliver(automatic);
    update();
@@ -193,7 +246,13 @@
    },true);
   }
   window.addEventListener('storage',event=>{
-   if(event.key===key)recoverClosed();
+   if(event.key!==key)return;
+   const latest=readRecord();
+   if(latest?.id===record?.id){recoverClosed();return;}
+   record=latest;
+   automatic=false;
+   if(record?.attempt)showAttempt();
+   else render();
   });
   if(record?.attempt){
    showAttempt();

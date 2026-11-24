@@ -3,7 +3,7 @@
 const $=id=>document.getElementById(id);
 const api=window.MAD_CONTROL;
 const fields={teacherGames:'gamesEnabled',teacherLabs:'labsEnabled',teacherExams:'examsUnlocked',teacherCommentsAuto:'commentsAutoPublish',teacherSales:'salesEnabled'};
-const examNames={tic:'Programación TIC II',periodica:'Tabla Periódica',both:'ambos exámenes'};
+const examNames={tic:'Programación TIC II',periodica:'Tabla Periódica',vistas:'Vistas',both:'TIC II y Tabla Periódica'};
 const figureNumbers=Array.from({length:24},(_,i)=>i+1);
 const figureFields=Array.from({length:5},(_,i)=>{
  const label=document.createElement('label'),select=document.createElement('select');
@@ -82,7 +82,9 @@ function renderTimetable(state,unavailable){
  const text=schedule?label+'. '+api.dateLabel(schedule.startsAt)+' → '+api.dateLabel(schedule.endsAt)+
   (cafe?(schedule.mode==='open'?' · Apertura':' · Cierre'):' · '+schedule.minutes+' min por intento.')+
   (vistas?' · Figuras '+(schedule.figures??[schedule.figure]).join(', '):''):
-  'Sin horario programado.';
+  vistas&&state.viewExamDefaultMinutes?
+   'Sin horario programado. Examen aleatorio de 5 láminas · '+state.viewExamDefaultMinutes+' min.':
+   'Sin horario programado.';
  if($('teacherScheduleInfo').textContent!==text)$('teacherScheduleInfo').textContent=text;
 }
 
@@ -310,7 +312,8 @@ $('teacherScheduleForm').addEventListener('submit',event=>{
 $('teacherCancelSchedule').addEventListener('click',()=>{
  if(!api.remote||api.error||busy)return;
  const target=$('teacherScheduleTarget').value;
- if(confirm('¿Quitar el horario programado?'))save('/schedules','PUT',{target,schedule:null},'Horario eliminado.');
+ const prompt=target==='vistas'?'¿Quitar el horario y volver al examen aleatorio de Vistas?':'¿Quitar el horario programado?';
+ if(confirm(prompt))save('/schedules','PUT',{target,schedule:null},'Horario eliminado.');
 });
 $('teacherLabTarget').addEventListener('change',()=>{
  labFormDirty=false;
