@@ -5,10 +5,9 @@
 .ficha-action[hidden],.saved-views[hidden],.saved-exercise[hidden]{display:none}
 .ficha-export{display:flex;flex-wrap:wrap;align-items:center;gap:6px}
 .ficha-status{grid-column:1/-1;margin:0}
-body[data-ficha-mode="identify"] .project-only,body[data-ficha-mode="project"] .identify-only{display:none}
+body[data-ficha-mode="identify"] .project-only{display:none}
 body[data-ficha-mode="identify"] .workspace{grid-template-columns:minmax(0,1fr);max-width:960px}
 body[data-ficha-mode="identify"] .figure-frame{height:clamp(320px,60vh,650px)}
-body[data-ficha-mode="project"] #vectorFigure #faceRaster{cursor:default}
 .projection-next{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin-top:12px}
 .projection-next p{margin:0}
 body[data-training="menu"] .layout,body[data-training="menu"] .toolbar,

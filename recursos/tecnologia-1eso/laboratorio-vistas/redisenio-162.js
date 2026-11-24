@@ -62,30 +62,42 @@ const coordinate=()=>{
  const cavalier=projection.value==='caballera';
  const spanX=cavalier?1+depth45:1.732,spanY=cavalier?1+depth45:2;
  const unit=Math.max(5,Math.min((w-2*pad)/(n*spanX),(h-2*pad)/(n*spanY)));
- return {n,w,h,unit,ox:w/2,oy:h/2,cavalier};
+ return {n,w,h,unit,ox:w/2,oy:h/2,cavalier,side:cavalier?0:n};
 };
 function lattice(x,y,z,k){
  if(k.cavalier){
   const half=k.n/2,depth=(half-y)*depth45;
-  return [k.ox+(half-x-depth)*k.unit,k.oy+(half-z-depth)*k.unit];
+  return [k.ox+(half-x+depth)*k.unit,k.oy+(half-z-depth)*k.unit];
  }
  return [k.ox+(y-x)*k.unit*.866,k.oy+(x+y)*k.unit*.5-z*k.unit];
 }
-function nearest(x,y){const k=coordinate();let best=null,dist=1e6;for(let a=0;a<=k.n;a++)for(let b=0;b<=k.n;b++)for(let z=0;z<=k.n;z++){if(a!==k.n&&b!==k.n&&z!==k.n)continue;let [u,v]=lattice(a,b,z,k),d=Math.hypot(u-x,v-y);if(d<dist){dist=d;best={x:a,y:b,z}}}return dist<Math.max(18,k.unit*.5)?best:null}
+function nearest(x,y){
+ const k=coordinate();
+ let best=null,dist=1e6;
+ for(let a=0;a<=k.n;a++)for(let b=0;b<=k.n;b++)for(let z=0;z<=k.n;z++){
+  if(a!==k.side&&b!==k.n&&z!==k.n)continue;
+  const [u,v]=lattice(a,b,z,k),d=Math.hypot(u-x,v-y);
+  if(d<dist){dist=d;best={x:a,y:b,z}}
+ }
+ return dist<Math.max(18,k.unit*.5)?best:null;
+}
 function isoDraw(){
  if(document.body.dataset.training!=='isometric')return;
- const k=coordinate(),{w,h,n,unit}=k;if(w<10||h<10)return;
+ const k=coordinate(),{w,h,n,side}=k;if(w<10||h<10)return;
  const dpr=Math.min(2,window.devicePixelRatio||1);fixed.width=Math.round(w*dpr);fixed.height=Math.round(h*dpr);
  const g=fixed.getContext('2d');g.setTransform(dpr,0,0,dpr,0,0);g.fillStyle='#f9fbff';g.fillRect(0,0,w,h);
  const P=(a,b,c)=>lattice(a,b,c,k);
- // Exact lattice grid: all boundary points coincide with the integer snapping nodes.
- const vertices=[[0,0,n],[n,0,n],[n,0,0],[n,n,0],[0,n,0],[0,n,n]].map(p=>P(...p));
+ // The right side (x=0) is visible when the reduced axis recedes to the right.
+ const outline=k.cavalier?
+  [[n,n,0],[0,n,0],[0,0,0],[0,0,n],[n,0,n],[n,n,n]]:
+  [[0,0,n],[n,0,n],[n,0,0],[n,n,0],[0,n,0],[0,n,n]];
+ const vertices=outline.map(p=>P(...p));
  const edge=(a,b)=>{const A=P(...a),B=P(...b);g.beginPath();g.moveTo(...A);g.lineTo(...B);g.stroke()};
  g.strokeStyle='#a3bed8';g.lineWidth=1.05;g.setLineDash([4,5]);
  for(let i=0;i<=n;i++){
   edge([0,i,n],[n,i,n]);edge([i,0,n],[i,n,n]); // roof z=n
-  edge([0,n,i],[n,n,i]);edge([i,n,0],[i,n,n]); // left visible y=n
-  edge([n,0,i],[n,n,i]);edge([n,i,0],[n,i,n]); // side x=n
+  edge([0,n,i],[n,n,i]);edge([i,n,0],[i,n,n]); // front y=n
+  edge([side,0,i],[side,n,i]);edge([side,i,0],[side,i,n]);
  }
  g.setLineDash([]);g.beginPath();vertices.forEach((p,i)=>i?g.lineTo(...p):g.moveTo(...p));g.closePath();g.strokeStyle='#607f9f';g.lineWidth=1.75;g.stroke();
  if(isoSol){
@@ -98,7 +110,8 @@ function isoDraw(){
   for(const code of active){const [x,y,z]=code.split(',').map(Number);
    if(!active.has(`${x},${y},${z+1}`))addFace([[x,y,z+1],[x+1,y,z+1],[x+1,y+1,z+1],[x,y+1,z+1]],'top');
    if(!active.has(`${x},${y+1},${z}`))addFace([[x,y+1,z],[x+1,y+1,z],[x+1,y+1,z+1],[x,y+1,z+1]],'front');
-   if(!active.has(`${x+1},${y},${z}`))addFace([[x+1,y,z],[x+1,y+1,z],[x+1,y+1,z+1],[x+1,y,z+1]],'side');
+   const neighborX=k.cavalier?x-1:x+1, faceX=k.cavalier?x:x+1;
+   if(!active.has(`${neighborX},${y},${z}`))addFace([[faceX,y,z],[faceX,y+1,z],[faceX,y+1,z+1],[faceX,y,z+1]],'side');
   }
   g.save();g.strokeStyle='#1778c6';g.lineWidth=3;g.lineCap='round';g.lineJoin='round';g.setLineDash([]);
   for(const e of edges.values()){

@@ -29,7 +29,7 @@
 .multi-ramp{display:inline-flex;gap:7px;align-items:center;border:1px solid #79a9d8;border-radius:8px;padding:7px 10px;font-size:12px;font-weight:750;color:#fff;background:#19426d}.multi-ramp input{accent-color:#60c0ff;width:16px;height:16px}</style><style id="access-ficha-style">
 .ficha-access{display:flex;flex-wrap:wrap;align-items:center;gap:9px;margin:5px 0 12px;padding:10px;background:#1e436b;border:1px solid #648eb9;border-radius:9px;color:#fff;font-size:12px}
 .ficha-access label{font-weight:750}.ficha-access select{padding:7px 9px;border-radius:7px;background:#102e54;color:#fff;border:1px solid #8abbeb}.ficha-access span{font-size:11px;color:#e1edf9}.ficha-access .legend-v{display:inline-flex;gap:4px;align-items:center}.ficha-swatch{display:inline-block;width:21px;height:21px;border:1px solid #152b41;background-color:#fff;border-radius:3px}.ficha-diag{background-image:repeating-linear-gradient(125deg,transparent 0px,transparent 5px,#3a5166 5px,#3a5166 6.5px)}.ficha-cross{background-image:repeating-linear-gradient(45deg,transparent 0 6px,#3a5166 6px,#3a5166 7.5px),repeating-linear-gradient(-45deg,transparent 0 6px,#3a5166 6px,#3a5166 7.5px)}.ficha-dots{background-image:radial-gradient(#3a5166 1.6px,transparent 2px);background-size:9px 9px}
-</style><link rel="stylesheet" href="recorrido-vistas.css?v=1.4.120"></head><body>
+</style><link rel="stylesheet" href="recorrido-vistas.css?v=1.4.121"></head><body>
 <nav class="site" aria-label="Laboratorio de vistas"><strong>Mi Aula Digital · Laboratorio de vistas</strong><a href="index.html">← Todas las actividades</a></nav>
 <section class="intro">
 <nav class="ficha-steps" aria-label="Actividades de la ficha">
@@ -38,11 +38,11 @@
  <a href="index.html#representar">03 · Perspectivas</a>
  <a href="fichas.html">05 · Fichas y ejercicios</a>
 </nav>
-<h1 id="fichaTitle">02 · Proyectar · Dibujar las vistas</h1><p id="fichaDescription">Traza el alzado, el perfil izquierdo y la planta de una figura de la Ficha 1. El dibujo se guarda en este navegador.</p>
+<h1 id="fichaTitle">02 · Proyectar · Dibujar las vistas</h1><p id="fichaDescription">Identifica las caras de la figura y dibuja su alzado, perfil izquierdo y planta. Las marcas y los trazos se guardan en este navegador.</p>
 <div class="tabs"><button id="prev">← Anterior</button><button id="next">Siguiente →</button><button id="toggleGallery">▦ Ir al catálogo de 24 figuras</button><span class="project-only ficha-export"><button id="download">⇩ Descargar mi plano (PDF)</button><label class="logo-control" for="logoFile">⇧ Cargar logo</label><input type="file" id="logoFile" accept="image/png,image/jpeg,image/webp" class="hidden"><label class="logo-choice"><input type="checkbox" id="logoEnabled" checked> Incluir logo</label><small id="logoStatus" class="muted"></small></span></div></section>
 <section class="workspace">
-<div class="panel ficha-figure"><h2 id="figTitle">Figura 1 de 24</h2><div class="identify-only"><div class="ficha-access"><label for="fichaAccessMode">◈ Identificación accesible:</label><select id="fichaAccessMode" aria-label="Representación de caras sin depender de los colores"><option value="color">Colores originales</option><option value="pattern">Tramas en blanco y negro</option><option value="number">Números grandes</option><option value="both">Tramas y números</option></select><span class="legend-v"><i class="ficha-swatch ficha-diag"></i><b>1</b> Alzado</span><span class="legend-v"><i class="ficha-swatch ficha-cross"></i><b>2</b> Perfil</span><span class="legend-v"><i class="ficha-swatch ficha-dots"></i><b>3</b> Planta</span></div><div class="row colors" id="colors"><button type="button" data-color="front" class="active"><i class="dot" style="background:#ef7389"></i> 1 · Alzado</button><button type="button" data-color="side"><i class="dot" style="background:#e8bf45"></i> 2 · Perfil izquierdo</button><button type="button" data-color="top"><i class="dot" style="background:#60abea"></i> 3 · Planta</button><button type="button" data-color="erase">⌫ Borrar marca</button></div>
-<div class="row"><label class="multi-ramp"><input type="checkbox" id="fichaMixRamp"> ◩ Combinar vistas en una misma cara (rampas)</label><small>Actívalo y pulsa la misma superficie con 1, 2 y/o 3. Repite para quitar una marca.</small></div><div class="row"><button id="clearColor">Limpiar marcas</button><small>Pulsa una cara para identificarla: 1 alzado, 2 perfil, 3 planta. Puedes usar colores, tramas o números.</small></div></div>
+<div class="panel ficha-figure"><h2 id="figTitle">Figura 1 de 24</h2><div class="ficha-access"><label for="fichaAccessMode">◈ Identificación accesible:</label><select id="fichaAccessMode" aria-label="Representación de caras sin depender de los colores"><option value="color">Colores originales</option><option value="pattern">Tramas en blanco y negro</option><option value="number">Números grandes</option><option value="both">Tramas y números</option></select><span class="legend-v"><i class="ficha-swatch ficha-diag"></i><b>1</b> Alzado</span><span class="legend-v"><i class="ficha-swatch ficha-cross"></i><b>2</b> Perfil</span><span class="legend-v"><i class="ficha-swatch ficha-dots"></i><b>3</b> Planta</span></div><div class="row colors" id="colors"><button type="button" data-color="front" class="active"><i class="dot" style="background:#ef7389"></i> 1 · Alzado</button><button type="button" data-color="side"><i class="dot" style="background:#e8bf45"></i> 2 · Perfil izquierdo</button><button type="button" data-color="top"><i class="dot" style="background:#60abea"></i> 3 · Planta</button><button type="button" data-color="erase">⌫ Borrar marca</button></div>
+<div class="row"><label class="multi-ramp"><input type="checkbox" id="fichaMixRamp"> ◩ Combinar vistas en una misma cara (rampas)</label><small>Actívalo y pulsa la misma superficie con 1, 2 y/o 3. Repite para quitar una marca.</small></div><div class="row"><button id="clearColor">Limpiar marcas</button><small>Pulsa una cara para identificarla: 1 alzado, 2 perfil, 3 planta. Puedes usar colores, tramas o números.</small></div>
 <div class="figure-frame" id="frame"><div id="vectorFigure" role="group" aria-label="Ilustración original con superficies coloreables. Haz clic sobre una cara."></div><div id="scaleGuide" class="scale-guide" aria-hidden="true"></div></div><div id="figRef" class="fig-ref muted"></div>
 
 </div>
@@ -80,7 +80,7 @@ $(identifying?'identifyStep':'projectStep').setAttribute('aria-current','page');
 if(identifying){
  document.title='Identificar caras · Laboratorio de vistas · Mi Aula Digital';
  $('fichaTitle').textContent='01 · Identificar las caras';
- $('fichaDescription').textContent='Elige una de las 24 figuras de la Ficha 1. Marca las caras de alzado, perfil izquierdo y planta con colores, tramas o números.';
+ $('fichaDescription').textContent='Elige una de las 24 figuras de la Ficha 1. Marca las caras de alzado, perfil izquierdo y planta con colores, tramas o números. El trabajo de esta práctica se guarda por separado.';
 }
 // Las miniaturas usan las 24 ilustraciones ya incrustadas: no se necesitan PNG duplicados.
 const urls=Array.from({length:figureCount},(_,i)=>window.MAD_FICHA1_ORIGINALES?.[i]||'');
@@ -123,6 +123,8 @@ function applyLinkedAxis(grids,dimension,value){
  return next;
 }
 const state=Array.from({length:figureCount},(_,i)=>({faces:{},lines:emptyLines(),n:defaultGrids(i)}));
+const practiceKey='mad-ficha1-identificacion-v1';
+let practiceMarks=[];
 let startingFigure=0;try{startingFigure=Number(localStorage.getItem('mad-ficha1-current')||0)||0}catch(e){}
 const cursor=Object.fromEntries(views.map(v=>[v,null]));
 const hover=Object.fromEntries(views.map(v=>[v,null]));
@@ -139,12 +141,27 @@ function updatePracticeLink() {
   ?'Las tres vistas están guardadas como ejercicio del apartado 03.'
   :drawn===3?'El navegador no ha podido guardar estas vistas.':drawn+' de 3 vistas con trazos. Completa las tres para reutilizarlas en el apartado 03.';
 }
-function save(){
+function readPracticeMarks(){
+ try{
+  const saved=JSON.parse(localStorage.getItem(practiceKey));
+  if(Array.isArray(saved))return saved;
+ }catch(e){}
+ return practiceMarks;
+}
+function save(kind='views'){
+ const figure=state[current];
+ if(identifying){
+  if(kind!=='faces')return;
+  practiceMarks=readPracticeMarks();
+  practiceMarks[current]=figure.faces;
+  try{localStorage.setItem(practiceKey,JSON.stringify(practiceMarks))}catch(e){}
+  return;
+ }
  try{
   const {storageKey,figures}=window.MADSavedViews.read();
   const latest=storageKey===window.MADSavedViews.key?figures:state.slice();
-  const figure=state[current], previous=latest[current]||figure;
-  latest[current]=identifying?{...previous,faces:figure.faces}:{...previous,lines:figure.lines,n:figure.n};
+  const previous=latest[current]||figure;
+  latest[current]=kind==='faces'?{...previous,faces:figure.faces}:{...previous,lines:figure.lines,n:figure.n};
   localStorage.setItem(window.MADSavedViews.key,JSON.stringify(latest));
  }catch(e){}
  updatePracticeLink();
@@ -161,6 +178,12 @@ try{
    state[i].n=saved.n&&(savedKey==='mad-ficha1-v9'||anyTraces)?coupleGrids(saved.n):gridsForFigure(i);
  });
 }catch(e){console.warn('No se pudo recuperar el trabajo anterior',e)}
+// El trabajo previo queda disponible en ambos apartados. Las marcas nuevas se guardan por separado.
+practiceMarks=readPracticeMarks();
+if(!practiceMarks.length){
+ practiceMarks=state.map(figure=>({...figure.faces}));
+ try{localStorage.setItem(practiceKey,JSON.stringify(practiceMarks))}catch(e){}
+}
 const roleOrder=['front','side','top'];
 const asRoles=value=>Array.isArray(value)?roleOrder.filter(r=>value.includes(r)):(roleOrder.includes(value)?[value]:[]);
 function setRole(s){role=s;document.querySelectorAll('#colors button').forEach(b=>b.classList.toggle('active',b.dataset.color===s))}
@@ -256,7 +279,7 @@ async function renderFigure(){
  }catch(err){console.error(err);if(figure===current){vector.textContent='No se ha podido mostrar la figura.';message('Error al cargar la figura: '+err.message)}}
 }
 vector.addEventListener('click',e=>{
- if(!identifying||e.target!==faceCanvas||!maskLabels)return;
+ if(e.target!==faceCanvas||!maskLabels)return;
  const r=faceCanvas.getBoundingClientRect(),x=Math.floor((e.clientX-r.left)*faceCanvas.width/r.width),y=Math.floor((e.clientY-r.top)*faceCanvas.height/r.height);
  if(x<0||y<0||x>=faceCanvas.width||y>=faceCanvas.height)return;
  let index=maskLabels[y*faceCanvas.width+x];
@@ -271,7 +294,7 @@ vector.addEventListener('click',e=>{
  else if($('fichaMixRamp').checked){const updated=previous.includes(role)?previous.filter(r=>r!==role):[...previous,role];
   if(updated.length)state[current].faces[index]=roleOrder.filter(r=>updated.includes(r));else delete state[current].faces[index];
  }else state[current].faces[index]=role;
- redrawColored();save();
+ redrawColored();save('faces');
  const total=asRoles(state[current].faces[index]);
  message(role==='erase'?'Marcas eliminadas de la cara.':total.length>1?'Cara compartida: '+total.map(v=>({front:'alzado',side:'perfil',top:'planta'})[v]).join(' + ')+'.':'Cara identificada.');
 });
@@ -309,6 +332,7 @@ function loadFig(i){
    state[current].n=coupleGrids(previous.n);
    for(const v of views)for(const line of state[current].lines[v])strokeClock=Math.max(strokeClock,Number(line.timestamp)||0);
   }
+  if(identifying)state[current].faces=readPracticeMarks()[current]||{};
   $('figTitle').textContent='Figura '+(current+1)+' de 24';
   $('figNum').textContent=String(current+1);
   syncGridControls();
@@ -321,7 +345,7 @@ function loadFig(i){
   updatePracticeLink();
   message(identifying?'Figura '+(current+1)+' cargada. Selecciona una cara para marcarla.':'Figura '+(current+1)+' cargada.');
 }
-$('clearColor').onclick=()=>{state[current].faces={};renderFigure();save();message('Marcas eliminadas.')};
+$('clearColor').onclick=()=>{state[current].faces={};renderFigure();save('faces');message('Marcas eliminadas.')};
 // Misma escala gráfica por cuadrado en todas las vistas.
 function commonCell(){return Math.max(1,Math.min(...views.map(v=>{
  const r=cvs[v].getBoundingClientRect(),g=state[current].n[v];
