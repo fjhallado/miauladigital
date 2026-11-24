@@ -46,7 +46,7 @@
   originalViews.hidden = true;
   document.body.dataset.drawnViews = exercise ? 'active' : 'empty';
   $('isoHeading').textContent = 'Dibuja la perspectiva';
-  fixed.setReferenceSize(exercise ? Math.max(...Object.values(exercise.grids).flatMap(({w, h}) => [w, h])) : null);
+  fixed.setReferenceGrids(exercise?.grids ?? null);
   $('isoSolution160').hidden = true;
   $('solutionViewExercise').hidden = true;
   notice.textContent = exercise
@@ -95,7 +95,7 @@
   references.hidden = true;
   originalViews.hidden = false;
   delete document.body.dataset.drawnViews;
-  fixed.setReferenceSize(null);
+  fixed.setReferenceGrids(null);
   updateUrl('isometric');
  });
 
@@ -121,7 +121,7 @@
    $('activityFeedback').textContent = '';
    chooseExercise(loadExercises(Number(new URLSearchParams(location.search).get('figura'))));
   } else {
-   fixed.setReferenceSize(null);
+   fixed.setReferenceGrids(null);
    if (mode !== 'build') setFigurePicker(true);
   }
   updateUrl(mode, currentExercise?.number);
