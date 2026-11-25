@@ -30,7 +30,7 @@
    const stamp = await window.MADLamina.request('/view-stamp/verify', {code, password: entered});
    if (current !== revision) return;
    $('sealTime').textContent = window.MADLamina.formatTime(stamp.createdAt) + ' (hora peninsular)';
-   $('sealFigure').textContent = (stamp.kind === 'e' ? 'Examen' : 'Práctica') + ' · Figura ' + stamp.figure + ' de la Ficha 1';
+   $('sealFigure').textContent = (stamp.kind === 'e' ? 'Examen' : 'Práctica') + ' · Figura ' + stamp.figure + ' de la Ficha ' + (stamp.figure <= 24 ? 1 : 2);
    identifier.textContent = stamp.id;
    status.textContent = 'Sello de hora verificado';
    form.hidden = true;

@@ -2,6 +2,9 @@
 (() => {
  'use strict';
  const key = 'mad-ficha1-v9';
+ const basicFigureCount = 24;
+ const practiceFigureCount = 48;
+ const sheetNumber = figure => figure <= basicFigureCount ? 1 : 2;
  const views = ['front', 'side', 'top'];
  const names = {front: 'Alzado', side: 'Perfil izquierdo', top: 'Planta'};
 
@@ -21,7 +24,7 @@
 
  function completed() {
   const {figures} = read();
-  return figures.slice(0, 24).flatMap((figure, index) => {
+  return figures.slice(0, practiceFigureCount).flatMap((figure, index) => {
    if (!views.every(view => Array.isArray(figure?.lines?.[view]) && figure.lines[view].length)) return [];
    const grids = {};
    for (const view of views) {
@@ -75,5 +78,5 @@
   }
  }
 
- window.MADSavedViews = {key, views, names, read, completed, show};
+ window.MADSavedViews = {key, basicFigureCount, practiceFigureCount, sheetNumber, views, names, read, completed, show};
 })();

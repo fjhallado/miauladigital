@@ -25,7 +25,7 @@
  options.className = 'saved-exercise';
  options.hidden = true;
  options.innerHTML = '<label for="savedExercise">Ejercicios de Proyectar</label> <select id="savedExercise"></select>' +
-  '<p id="savedExerciseStatus" role="status"></p><a class="ficha-action" href="ficha-1.html?modo=proyectar">Ir a Proyectar</a>';
+  '<p id="savedExerciseStatus" role="status"></p><a class="ficha-action" href="ficha-1.html?modo=proyectar&amp;v=1.4.138">Ir a Proyectar</a>';
  $('activityDescription').parentElement.append(options);
  const selector = $('savedExercise');
  const notice = $('savedExerciseStatus');
@@ -50,14 +50,14 @@
   $('isoSolution160').hidden = true;
   $('solutionViewExercise').hidden = true;
   notice.textContent = exercise
-   ? 'Figura ' + exercise.number + ' de la Ficha 1. Usa tus vistas de referencia para dibujar la perspectiva.'
+   ? 'Figura ' + exercise.number + ' de la Ficha ' + saved.sheetNumber(exercise.number) + '. Usa tus vistas de referencia para dibujar la perspectiva.'
    : 'Dibuja el alzado, el perfil y la planta en Proyectar para que el ejercicio aparezca aquí.';
   drawReference();
  }
 
  function loadExercises(requested) {
   const exercises = saved.completed();
-  selector.replaceChildren(...exercises.map(exercise => new Option('Figura ' + exercise.number + ' · Ficha 1', exercise.number)));
+  selector.replaceChildren(...exercises.map(exercise => new Option('Figura ' + exercise.number + ' · Ficha ' + saved.sheetNumber(exercise.number), exercise.number)));
   selector.disabled = exercises.length === 0;
   if (!exercises.length) selector.add(new Option('Sin ejercicios guardados', ''));
   const chosen = exercises.find(exercise => exercise.number === requested) || exercises[0] || null;
