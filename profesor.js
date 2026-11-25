@@ -23,7 +23,7 @@ const madridFields=new Intl.DateTimeFormat('en-CA',{
 let timetableDirty=false,timetableKey='';
 let labFormDirty=false,labFormKey='';
 let commentPage=null,commentLoad=0;
-let gradePage=null,gradeLoad=0;
+let gradePage=null,gradeRevision=null,gradeBusy=false;
 let accountBusy=false,editingAccount='';
 let worksheetUpload=false;
 const commentDate=new Intl.DateTimeFormat('es-ES',{timeZone:'Europe/Madrid',dateStyle:'short',timeStyle:'short'});
@@ -227,7 +227,13 @@ function closeSession(){
  $('teacherWorksheetForm').reset();
  $('teacherWorksheetStatus').textContent='';
  commentLoad++;
- gradeLoad++;
+ gradePage=null;
+ gradeRevision=null;
+ gradeBusy=false;
+ $('teacherPeriodicGrades').disabled=false;
+ $('teacherGradesMore').hidden=true;
+ $('teacherGradesDownload').disabled=true;
+ $('teacherGradesClear').disabled=true;
  timetableDirty=false;
  timetableKey='';
  labFormDirty=false;
@@ -337,42 +343,134 @@ $('teacherLabRemove').addEventListener('click',()=>{
 function gradeRow(grade){
  const row=document.createElement('tr');
  for(const value of [grade.alumno,grade.nota.toFixed(2).replace('.',','),grade.aciertos+' / '+grade.preguntas,api.dateLabel(Date.parse(grade.fin))]){
-  const cell=document.createElement('td');
-  cell.textContent=value;
-  row.append(cell);
+  row.insertCell().textContent=value;
  }
+ const remove=document.createElement('button');
+ remove.type='button';
+ remove.className='danger';
+ remove.textContent='Eliminar';
+ remove.setAttribute('aria-label','Eliminar nota de '+grade.alumno);
+ remove.addEventListener('click',()=>{
+  if(confirm('¿Eliminar la nota de '+grade.alumno+'? Esta acción es definitiva.'))removeGrades(grade.record);
+ });
+ row.insertCell().append(remove);
  return row;
 }
-async function loadPeriodicGrades(append=false){
- if(session?.role!=='admin')return;
- const generation=++gradeLoad;
- const rows=$('teacherGradeRows'), notice=$('teacherGradesStatus'), more=$('teacherGradesMore');
- const cursor=append?gradePage:null;
- more.disabled=true;
- $('teacherGradesRefresh').disabled=true;
- notice.textContent='Cargando notas…';
+
+async function withGrades(action){
+ if(session?.role!=='admin'||gradeBusy)return;
+ const activeSession=session;
+ const panel=$('teacherPeriodicGrades');
+ const notice=$('teacherGradesStatus');
+ gradeBusy=true;
+ panel.disabled=true;
  try{
-  const response=await request('/periodic-grades'+(cursor?'?before='+encodeURIComponent(cursor):''),'GET');
-  if(generation!==gradeLoad||!checkTeacherSession(response))return;
-  if(!response.ok)throw Error('No se pudieron cargar las notas. Vuelve a intentarlo.');
-  const data=await response.json();
-  if(generation!==gradeLoad)return;
-  if(!append)rows.replaceChildren();
-  rows.append(...data.grades.map(gradeRow));
-  gradePage=data.nextBefore;
-  more.hidden=!gradePage;
-  notice.textContent=rows.childElementCount?'':'Todavía no hay notas registradas.';
+  return await action(async (method='GET',body,before)=>{
+   const path='/periodic-grades'+(before?'?before='+encodeURIComponent(before):'');
+   const response=await request(path,method,body);
+   if(session!==activeSession||!checkTeacherSession(response))return null;
+   const data=await response.json();
+   if(session!==activeSession)return null;
+   if(!response.ok)throw Error(data.error||'No se pudo consultar el registro de notas.');
+   return data;
+  },notice);
  }catch(error){
-  if(generation===gradeLoad)notice.textContent=error.message;
+  if(session===activeSession)notice.textContent=error.message;
  }finally{
-  if(generation===gradeLoad){
-   more.disabled=false;
-   $('teacherGradesRefresh').disabled=false;
+  if(session===activeSession){
+   gradeBusy=false;
+   panel.disabled=false;
   }
  }
 }
+
+function showGradePage(data,append){
+ const rows=$('teacherGradeRows');
+ if(!append)rows.replaceChildren();
+ rows.append(...data.grades.map(gradeRow));
+ gradePage=data.nextBefore;
+ gradeRevision=data.revision;
+ $('teacherGradesMore').hidden=!gradePage;
+ $('teacherGradesDownload').disabled=!rows.childElementCount;
+ $('teacherGradesClear').disabled=!rows.childElementCount;
+ return rows.childElementCount?'':'Todavía no hay notas registradas.';
+}
+
+async function loadPeriodicGrades(append=false){
+ await withGrades(async (get,notice)=>{
+  notice.textContent='Cargando notas…';
+  let data=await get('GET',undefined,append?gradePage:null);
+  if(!data)return;
+  if(append&&data.revision!==gradeRevision){
+   data=await get();
+   if(data)notice.textContent=showGradePage(data,false)||'El registro ha cambiado. Se muestran las notas más recientes.';
+  }else{
+   notice.textContent=showGradePage(data,append);
+  }
+ });
+}
+
+async function removeGrades(record){
+ const removed=await withGrades(async (send,notice)=>{
+  notice.textContent=record===null?'Vaciando el registro…':'Eliminando la nota…';
+  const result=await send('DELETE',{record,revision:gradeRevision});
+  if(!result)return;
+  const data=await send();
+  if(!data)return;
+  showGradePage(data,false);
+  notice.textContent=record===null?'Registro vaciado. Notas eliminadas: '+result.removed+'.':
+   result.removed?'Nota eliminada.':'La nota ya no figura en el registro.';
+  return true;
+ });
+ if(removed)$('teacherGradesRefresh').focus();
+}
+
+function csvCell(value){
+ const text=String(value);
+ const safe=/^\s*[=+@−－＋＝＠-]/u.test(text)?"'"+text:text;
+ return '"'+safe.replaceAll('"','""')+'"';
+}
+
+function downloadGrades(){
+ return withGrades(async (get,notice)=>{
+  notice.textContent='Preparando la descarga de todas las notas…';
+  const lines=[['Identificador','Nota / 10','Aciertos','Preguntas','Inicio (hora peninsular)','Finalización (hora peninsular)'].map(csvCell).join(';')];
+  let before,revision,count=0;
+  do{
+   const data=await get('GET',undefined,before);
+   if(!data)return;
+   if(revision!==undefined&&data.revision!==revision)throw Error('El registro ha cambiado durante la descarga. Vuelve a descargarlo.');
+   revision=data.revision;
+   count+=data.grades.length;
+   for(const grade of data.grades){
+    const values=[grade.alumno,grade.nota.toFixed(2).replace('.',','),grade.aciertos,grade.preguntas,
+     commentDate.format(Date.parse(grade.inicio)),commentDate.format(Date.parse(grade.fin))];
+    lines.push(values.map(csvCell).join(';'));
+   }
+   before=data.nextBefore;
+  }while(before);
+  if(!count){
+   notice.textContent='Todavía no hay notas registradas.';
+   return;
+  }
+  const file=new Blob(['\uFEFF',lines.join('\r\n'),'\r\n'],{type:'text/csv;charset=utf-8'});
+  const url=URL.createObjectURL(file);
+  const link=document.createElement('a');
+  link.href=url;
+  link.download='notas-tabla-periodica-'+dateField(Date.now()).slice(0,10)+'.csv';
+  document.body.append(link);
+  link.click();
+  link.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),1000);
+  notice.textContent='Descarga preparada. Notas incluidas: '+count+'.';
+ });
+}
 $('teacherGradesRefresh').addEventListener('click',()=>loadPeriodicGrades());
 $('teacherGradesMore').addEventListener('click',()=>loadPeriodicGrades(true));
+$('teacherGradesDownload').addEventListener('click',downloadGrades);
+$('teacherGradesClear').addEventListener('click',()=>{
+ if(confirm('¿Vaciar todas las notas guardadas de Tabla Periódica? Esta acción es definitiva. Puedes cancelar para descargar el CSV primero.'))removeGrades(null);
+});
 
 function commentQuery(){
  return new URLSearchParams({board:$('teacherCommentBoard').value,state:$('teacherCommentState').value});
@@ -503,7 +601,15 @@ function accountRow(account){
   if(account.enabled&&!confirm('¿Desactivar el acceso de '+account.username+'?'))return;
   saveAccount('PUT',{username:account.username,enabled:!account.enabled},account.enabled?'Cuenta desactivada.':'Cuenta reactivada.');
  });
- actions.append(changePassword,changeAccess);
+ const remove=document.createElement('button');
+ remove.type='button';
+ remove.className='danger';
+ remove.textContent='Eliminar perfil';
+ remove.setAttribute('aria-label','Eliminar perfil de '+account.username);
+ remove.addEventListener('click',()=>{
+  if(confirm('¿Eliminar el perfil de '+account.username+'? Se cerrará su acceso y sus sesiones abiertas.'))saveAccount('DELETE',{username:account.username},'Perfil eliminado.');
+ });
+ actions.append(changePassword,changeAccess,remove);
  row.append(name,actions);
  return row;
 }

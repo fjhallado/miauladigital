@@ -7,6 +7,9 @@
 .teacher-schedule .teacher-form{margin-top:12px}
 .teacher-schedule .teacher-hint{margin:10px 0}
 #teacherComments[hidden],.teacher-schedule [hidden]{display:none}
+.teacher-schedule button.danger{background:#642e47;border-color:#b06a88;color:#fff0f5}
+.teacher-schedule button.danger:hover:enabled{background:#7b3956}
+.teacher-schedule button:disabled{opacity:.55;cursor:default}
 #teacherCommentList .teacher-actions{justify-content:flex-start;margin-top:10px}
 .teacher-form label{min-width:min(210px,100%)}
 .teacher-form button:disabled{opacity:.55;cursor:default}
@@ -102,15 +105,18 @@
 <button type="submit" id="teacherReset">Reiniciar intentos</button>
 </form>
 <p class="teacher-hint" id="teacherResetHelp">Autoriza un nuevo intento en cada navegador. Cuando el alumno elija repetir, el intento anterior se archiva en ese equipo.</p>
-<fieldset class="teacher-schedule" id="teacherPeriodicGrades" hidden>
+<fieldset class="teacher-schedule" id="teacherPeriodicGrades" aria-describedby="teacherGradesHelp" hidden>
 <legend>Notas de Tabla Periódica</legend>
 <div class="teacher-actions">
 <button type="button" id="teacherGradesRefresh">Actualizar notas</button>
+<button type="button" id="teacherGradesDownload" disabled>Descargar notas (CSV)</button>
+<button type="button" id="teacherGradesClear" class="danger" disabled>Vaciar registro</button>
 </div>
+<p class="teacher-hint" id="teacherGradesHelp">El CSV incluye todas las notas guardadas. Puedes borrar una nota o vaciar el registro completo. Las entregas nuevas se seguirán registrando.</p>
 <p id="teacherGradesStatus" role="status"></p>
 <div class="teacher-grade-scroll">
 <table>
-<thead><tr><th scope="col">Identificador</th><th scope="col">Nota / 10</th><th scope="col">Aciertos</th><th scope="col">Finalización</th></tr></thead>
+<thead><tr><th scope="col">Identificador</th><th scope="col">Nota / 10</th><th scope="col">Aciertos</th><th scope="col">Finalización</th><th scope="col">Acciones</th></tr></thead>
 <tbody id="teacherGradeRows"></tbody>
 </table>
 </div>
@@ -165,4 +171,4 @@
 </fieldset>
 <div class="teacher-actions"><span id="teacherStatus" role="status">Cargando ajustes…</span><button type="button" id="teacherLogout">Cerrar sesión</button></div>
 <p class="teacher-hint" id="teacherSecurityNote"></p></section>
-</div></main><footer class="container"><strong>Mi Aula Digital</strong><span>Creada por Francisco José Hallado Fernández</span></footer><script src="profesor.js?v=1.4.133"></script></body></html>
+</div></main><footer class="container"><strong>Mi Aula Digital</strong><span>Creada por Francisco José Hallado Fernández</span></footer><script src="profesor.js?v=1.4.142"></script></body></html>
