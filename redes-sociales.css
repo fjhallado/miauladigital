@@ -1,0 +1,43 @@
+.branding-title {
+ display: flex;
+ align-items: center;
+ gap: 4px;
+}
+.branding-home { color: inherit; text-decoration: none; }
+.youtube-icon {
+ display: inline-grid;
+ place-items: center;
+ flex: none;
+ width: 28px;
+ height: 20px;
+ border-radius: 26% / 35%;
+ background: #ff0033;
+ vertical-align: middle;
+}
+.youtube-icon::before {
+ content: "";
+ display: block;
+ width: 0;
+ height: 0;
+ margin-left: 1px;
+ border-block: 5px solid transparent;
+ border-left: 8px solid white;
+}
+.youtube-header {
+ display: inline-grid;
+ flex: none;
+ place-items: center;
+ width: 32px;
+ height: 24px;
+ border-radius: 8px;
+}
+.youtube-header:hover { background: #1a345d; }
+.youtube-header:focus-visible {
+ outline: 3px solid #9ddaff;
+ outline-offset: 2px;
+}
+.youtube-header .youtube-icon { width: 20px; height: 14px; }
+.youtube-header .youtube-icon::before {
+ border-block-width: 3px;
+ border-left-width: 5px;
+}
