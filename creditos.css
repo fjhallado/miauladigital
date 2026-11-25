@@ -1,0 +1,12 @@
+.mad-credit-footer {
+ box-sizing: border-box;
+ width: min(1100px, calc(100% - 36px));
+ margin: 12px auto 22px;
+ padding: 12px 0 0;
+ border-top: 1px solid currentColor;
+ border-color: color-mix(in srgb, currentColor 25%, transparent);
+ color: inherit;
+ font-size: .85rem;
+ line-height: 1.5;
+ text-align: center;
+}
