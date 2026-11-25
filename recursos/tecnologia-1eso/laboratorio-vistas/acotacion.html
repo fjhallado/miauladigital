@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="es">
+<head>
+ <meta charset="utf-8">
+ <meta name="viewport" content="width=device-width,initial-scale=1">
+ <title>Acotación · Laboratorio de vistas · Mi Aula Digital</title>
+ <link rel="stylesheet" href="../../../estilos.css?v=1.4.98">
+ <link rel="stylesheet" href="acotacion.css?v=1.4.137">
+ <script src="../../../control-config.js?v=1.4.95"></script>
+ <script src="../../../control-acceso.js?v=1.4.133"></script>
+ <script src="../../../laboratorio-acceso.js?v=1.4.100" data-lab="vistas"></script>
+ <script src="vistas-guardadas.js?v=1.4.137" defer></script>
+ <script src="acotacion.js?v=1.4.137" defer></script>
+</head>
+<body>
+ <header class="site-header">
+  <div class="container header-row">
+   <a class="branding" href="../../../index.html"><strong>Mi Aula Digital</strong></a>
+   <nav class="header-nav" aria-label="Navegación principal"><a href="index.html">← Laboratorio de vistas</a></nav>
+  </div>
+ </header>
+ <main class="container acotacion">
+  <header class="acotacion-heading">
+   <p class="eyebrow">05 · Laboratorio de vistas</p>
+   <h1>Acotación</h1>
+   <p>Indica las medidas de la pieza en el alzado, la planta y el perfil que guardaste en Proyectar.</p>
+  </header>
+  <section class="acotacion-panel" id="dim-empty" hidden>
+   <h2>Completa las tres vistas de una figura</h2>
+   <p>Cuando dibujes alzado, planta y perfil en Proyectar, la figura aparecerá aquí en este navegador.</p>
+   <a class="btn primary" href="ficha-1.html?modo=proyectar">Ir a Proyectar →</a>
+  </section>
+  <div id="dim-work" hidden>
+   <section class="acotacion-panel" aria-label="Herramientas de acotación">
+    <div class="dim-toolbar">
+     <label>Figura guardada <select id="dim-figure"></select></label>
+     <label>Milímetros por cuadrado <input id="dim-scale" type="number" min="0.1" max="10000" step="any" value="10" inputmode="decimal"></label>
+     <label>Dirección de la cota <select id="dim-mode">
+      <option value="horizontal">Horizontal</option><option value="vertical">Vertical</option><option value="aligned">Alineada (inclinada)</option>
+     </select></label>
+     <a class="btn secondary" id="dim-edit" href="ficha-1.html?modo=proyectar">Editar vistas</a>
+    </div>
+    <p class="dim-hint" id="dim-keys">Pulsa dos vértices visibles de la misma vista y luego indica dónde irá la línea de cota. Con teclado, usa las flechas y pulsa Intro para confirmar, o Escape para cancelar.</p>
+    <p id="dim-status" class="dim-status" role="status"></p>
+    <div class="dim-toolbar">
+     <button class="btn secondary" id="dim-cancel" type="button" disabled>Cancelar trazado</button>
+     <button class="btn secondary" id="dim-undo" type="button" disabled>Deshacer última cota</button>
+     <button class="btn primary" id="dim-review" type="button">Revisar cotas</button>
+    </div>
+    <section class="dim-review" id="dim-results" aria-labelledby="dim-review-title" tabindex="-1" hidden>
+     <h2 id="dim-review-title">Revisión</h2><ul id="dim-issues"></ul>
+    </section>
+   </section>
+   <div class="dim-boards">
+    <section class="acotacion-panel dim-board">
+     <h2>Alzado</h2>
+     <canvas data-dimension-view="front" tabindex="0" aria-label="Acotar alzado" aria-describedby="dim-keys"></canvas>
+    </section>
+    <section class="acotacion-panel dim-board">
+     <h2>Perfil izquierdo</h2>
+     <canvas data-dimension-view="side" tabindex="0" aria-label="Acotar perfil izquierdo" aria-describedby="dim-keys"></canvas>
+    </section>
+    <section class="acotacion-panel dim-board">
+     <h2>Planta</h2>
+     <canvas data-dimension-view="top" tabindex="0" aria-label="Acotar planta" aria-describedby="dim-keys"></canvas>
+    </section>
+    <section class="acotacion-panel dim-guide" aria-labelledby="dim-guide-title">
+     <h2 id="dim-guide-title">Criterios de acotación</h2>
+     <ol>
+      <li>Elige la vista donde se vea mejor la medida. Usa vértices de aristas visibles.</li>
+      <li>Incluye las medidas que definen la pieza y la posición de sus detalles. Revisa anchura, altura y profundidad totales.</li>
+      <li>Procura acotar fuera de la pieza y coloca las cotas parciales más cerca que las totales.</li>
+      <li>Traza la línea de cota paralela a la medida y las líneas auxiliares perpendiculares. Evita cruces con la pieza y entre cotas.</li>
+      <li>Coloca flechas en los extremos y una cifra legible sobre la línea. Con todas las medidas en milímetros, la cifra va sin unidad.</li>
+      <li>Da cada medida una sola vez. Si ya has acotado el total, deja libre la parcial que se puede deducir de las demás. En piezas curvas, usa R para radios y Ø para diámetros.</li>
+     </ol>
+    </section>
+   </div>
+   <section class="acotacion-panel dim-details" aria-labelledby="dim-edit-title">
+    <h2 id="dim-edit-title">Cotas de la figura</h2>
+    <div class="dim-toolbar">
+     <label>Cota <select id="dim-list" disabled></select></label>
+     <label>Cifra en milímetros <input id="dim-value" type="number" min="0.01" max="170000" step="any" inputmode="decimal" disabled></label>
+     <button class="btn secondary" id="dim-apply" type="button" disabled>Aplicar cifra</button>
+     <button class="btn secondary" id="dim-delete" type="button" disabled>Quitar cota</button>
+    </div>
+    <p class="dim-hint" id="dim-saved">Las cotas se guardan en este navegador.</p>
+   </section>
+  </div>
+ </main>
+</body>
+</html>

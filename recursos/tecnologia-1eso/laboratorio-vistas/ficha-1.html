@@ -36,7 +36,7 @@
  <a id="identifyStep" href="ficha-1.html?modo=identificar">01 · Identificar caras</a>
  <a id="projectStep" href="ficha-1.html?modo=proyectar">02 · Dibujar las vistas</a>
  <a href="index.html#representar">03 · Perspectivas</a>
- <a href="fichas.html">05 · Fichas y ejercicios</a>
+ <a href="acotacion.html?v=1.4.137">05 · Acotación</a>
  <a href="ficha-1.html?modo=examen&amp;v=1.4.136">06 · Examen</a>
 </nav>
 <h1 id="fichaTitle">02 · Proyectar · Dibujar las vistas</h1><p id="fichaDescription">Identifica las caras de la figura y dibuja su alzado, perfil izquierdo y planta. Las marcas y los trazos se guardan en este navegador.</p>
@@ -75,8 +75,9 @@
 </div>
 <div class="grid-views"><div class="vbox"><div class="vhead"><label for="grid-front-w">Alzado · frontal</label><div class="vgrid"><span>Rejilla</span><span>Ancho</span><select id="grid-front-w" data-grid-view="front" data-grid-axis="w" aria-label="Ancho de la cuadrícula del alzado"><option value="2">2</option><option value="3">3</option><option value="4" selected>4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option></select><span>×</span><span>Alto</span><select id="grid-front-h" data-grid-view="front" data-grid-axis="h" aria-label="Alto de la cuadrícula del alzado"><option value="2">2</option><option value="3">3</option><option value="4" selected>4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option></select></div></div><canvas data-view="front" aria-label="Dibujo del alzado"></canvas></div><div class="vbox"><div class="vhead"><label for="grid-side-w">Perfil izquierdo</label><div class="vgrid"><span>Rejilla</span><span>Ancho</span><select id="grid-side-w" data-grid-view="side" data-grid-axis="w" aria-label="Ancho de la cuadrícula del perfil izquierdo"><option value="2">2</option><option value="3">3</option><option value="4" selected>4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option></select><span>×</span><span>Alto</span><select id="grid-side-h" data-grid-view="side" data-grid-axis="h" aria-label="Alto de la cuadrícula del perfil izquierdo"><option value="2">2</option><option value="3">3</option><option value="4" selected>4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option></select></div></div><canvas data-view="side" aria-label="Dibujo del perfil izquierdo"></canvas></div><div class="vbox"><div class="vhead"><label for="grid-top-w">Planta · superior</label><div class="vgrid"><span>Rejilla</span><span>Ancho</span><select id="grid-top-w" data-grid-view="top" data-grid-axis="w" aria-label="Ancho de la cuadrícula de la planta"><option value="2">2</option><option value="3">3</option><option value="4" selected>4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option></select><span>×</span><span>Alto</span><select id="grid-top-h" data-grid-view="top" data-grid-axis="h" aria-label="Alto de la cuadrícula de la planta"><option value="2">2</option><option value="3">3</option><option value="4" selected>4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option></select></div></div><canvas data-view="top" aria-label="Dibujo de la planta"></canvas></div></div>
 <div class="tip">Las dimensiones se comparten entre las vistas (ancho: alzado/planta; alto: alzado/perfil; fondo: perfil/planta). Todos los cuadrados conservan la misma escala. Primer clic: inicio de la arista. Segundo clic: punto final. Después puedes continuar desde el último vértice. Botón derecho para soltar el lápiz. El borrador elimina un tramo de cuadrícula y respeta los demás.</div><div class="projection-next">
- <p id="projectionProgress" class="muted" role="status">Dibuja las tres vistas para reutilizarlas en el apartado 03.</p>
+ <p id="projectionProgress" class="muted" role="status">Dibuja las tres vistas para reutilizarlas en Representar y Acotación.</p>
  <a id="practiceProjection" class="ficha-action" href="index.html#representar" hidden>Practicar desde estas vistas →</a>
+ <a id="practiceDimensions" class="ficha-action" href="acotacion.html?v=1.4.137" hidden>Acotar estas vistas →</a>
 </div>
 </div><p class="status ficha-status" id="status" role="status"></p></section>
 <section class="gallery"><div id="gallery" class="catalog-always-open"><h2 class="catalog-heading">Catálogo de la ficha · 24 figuras originales</h2><div id="galleryGrid" class="gallery-grid"></div></div></section>
@@ -171,9 +172,11 @@ function updatePracticeLink() {
  const completed=drawn===3&&window.MADSavedViews.completed().some(item=>item.number===current+1);
  $('practiceProjection').hidden=!completed;
  $('practiceProjection').href='index.html?figura='+(current+1)+'#representar';
+ $('practiceDimensions').hidden=!completed;
+ $('practiceDimensions').href='acotacion.html?figura='+(current+1)+'&v=1.4.137';
  $('projectionProgress').textContent=completed
-  ?'Las tres vistas están guardadas como ejercicio del apartado 03.'
-  :drawn===3?'El navegador no ha podido guardar estas vistas.':drawn+' de 3 vistas con trazos. Completa las tres para reutilizarlas en el apartado 03.';
+  ?'Tus tres vistas están listas para Representar y Acotación.'
+  :drawn===3?'El navegador no ha podido guardar estas vistas.':drawn+' de 3 vistas con trazos. Completa las tres para reutilizarlas en Representar y Acotación.';
 }
 function readPracticeMarks(){
  try{
