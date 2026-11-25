@@ -2,7 +2,7 @@ export const R = 8.314462618;
 const referenceAmount = 100 * 4 / (R * 300);
 export const bounds = {
  volume: { min: 1, max: 8, step: 0.1 },
- temperature: { min: 150, max: 600, step: 5 },
+ temperature: { min: 0, max: 600, step: 5 },
  amount: { min: 0, max: 160, step: 1 }
 };
 
@@ -67,6 +67,9 @@ export function setControl(state, mode, name, value) {
 export function measure(state, mode) {
  const { temperature, amount } = state;
  const moles = amount / 80 * referenceAmount;
- const volume = mode === 'charles' ? moles * R * temperature / 100 : state.volume;
- return { volume, temperature, amount, moles, pressure: moles * R * temperature / volume };
+ const thermalProduct = moles * R * temperature;
+ const atConstantPressure = mode === 'charles';
+ const volume = atConstantPressure ? thermalProduct / 100 : state.volume;
+ const pressure = atConstantPressure ? 100 : thermalProduct / volume;
+ return { volume, temperature, amount, moles, pressure };
 }

@@ -1,10 +1,14 @@
+import { bounds } from './modelo.js?v=2';
+
 export const chamberSize = { width: 760, height: 390 };
 const left = 94;
 const top = 95;
 const bottom = 293;
 const pixelsPerLiter = 60;
 const clamp = (value, min, max) => Math.max(min, Math.min(value, max));
-const rightWall = volume => left + volume * pixelsPerLiter;
+export const minimumVisibleVolume = 0.3;
+const volumeX = volume => left + volume * pixelsPerLiter;
+const rightWall = volume => volumeX(Math.max(minimumVisibleVolume, volume));
 const tau = Math.PI * 2;
 
 function box(ctx, x, y, width, height, radius, fill, stroke) {
@@ -76,7 +80,7 @@ function gauge(ctx, pressure, format) {
 
 function thermometer(ctx, temperature) {
  const x = 47, y = 135, height = 121;
- const fill = (temperature - 150) / 450;
+ const fill = temperature / bounds.temperature.max;
  box(ctx, x - 9, y, 18, height, 9, '#0d253d', '#5c85a8');
  circle(ctx, x, y + height - 3, 14, '#23405c');
  box(ctx, x - 4, y + height - (9 + fill * 102), 8, 9 + fill * 102, 4, '#ffa68b');
@@ -118,7 +122,7 @@ export function makeChamber(canvas, format, onDrag) {
    particles = [];
    flashes = [];
   } else if (previous && previous.volume !== next.volume) {
-   const ratio = next.volume / previous.volume;
+   const ratio = (rightWall(next.volume) - left) / (rightWall(previous.volume) - left);
    particles.forEach(particle => {
     particle.x = clamp(left + (particle.x - left) * ratio, left + 5, rightWall(next.volume) - 5);
    });
@@ -126,11 +130,12 @@ export function makeChamber(canvas, format, onDrag) {
   }
   while (particles.length < next.amount) particles.push(spawn());
   particles.length = next.amount;
+  if (!next.temperature) flashes = [];
   canvas.dataset.drag = String(movable);
  }
 
  function moveParticles(seconds) {
-  const factor = Math.sqrt(reading.temperature / 300);
+  const factor = 1.6 * Math.sqrt(reading.temperature / 300);
   const right = rightWall(reading.volume);
   flashes = flashes.filter(hit => {
    hit.age -= seconds;
@@ -162,7 +167,7 @@ export function makeChamber(canvas, format, onDrag) {
  }
 
  function draw(seconds = 0) {
-  if (seconds) moveParticles(seconds);
+  if (seconds && reading.temperature) moveParticles(seconds);
   const { volume, temperature, pressure, amount } = reading;
   const right = rightWall(volume);
   ctx.clearRect(0, 0, width, height);
@@ -206,11 +211,11 @@ export function makeChamber(canvas, format, onDrag) {
 
   line(ctx, 94, 329, 574, 329, '#7b9abc');
   for (let liter = 0; liter <= 8; liter++) {
-   const x = rightWall(liter);
+   const x = volumeX(liter);
    line(ctx, x, 329, x, 336, '#a8c3df');
    label(ctx, String(liter), x, 351, { size: 14, color: '#b7cfea' });
   }
-  line(ctx, left, 314, right, 314, '#8ecbfb', 3);
+  line(ctx, left, 314, volumeX(volume), 314, '#8ecbfb', 3);
   label(ctx, 'Volumen (L)', 336, 373, { size: 14, color: '#e0edfb' });
   label(ctx, amount ? (locked ? 'CÁMARA DE GAS' : 'PISTÓN MÓVIL') : 'CÁMARA VACÍA',
    94, 42, { size: 14, align: 'left', color: '#b8d4ed', weight: 750 });

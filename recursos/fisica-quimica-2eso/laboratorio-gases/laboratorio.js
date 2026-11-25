@@ -1,5 +1,5 @@
-import { bounds, initialState, modes, measure, setControl } from './modelo.js?v=1';
-import { makeChamber, makePlot } from './visualizacion.js?v=1';
+import { bounds, initialState, modes, measure, setControl } from './modelo.js?v=2';
+import { makeChamber, makePlot, minimumVisibleVolume } from './visualizacion.js?v=2';
 
 const $ = id => document.getElementById(id);
 const modeInputs = [...document.querySelectorAll('input[name="mode"]')];
@@ -48,7 +48,8 @@ function animate(time) {
  frame = requestAnimationFrame(animate);
 }
 function syncAnimation() {
- if (visible && !paused && !document.hidden) {
+ const { temperature, amount } = states[mode];
+ if (visible && !paused && !document.hidden && temperature > 0 && amount > 0) {
   if (!frame) frame = requestAnimationFrame(animate);
  } else if (frame) {
   cancelAnimationFrame(frame);
@@ -87,7 +88,7 @@ function drawGraph(reading) {
   .map(sample => ({ x: sample[x], y: sample[y] }));
  const xUnit = units[x].name + ' (' + units[x].symbol + ')';
  const yUnit = units[y].name + ' (' + units[y].symbol + ')';
- const xTicks = x === 'volume' ? [1, 2, 4, 6, 8] : [150, 300, 450, 600];
+ const xTicks = x === 'volume' ? [1, 2, 4, 6, 8] : [0, 150, 300, 450, 600];
  plot.draw({ xMin, xMax, xTicks, xUnit, yUnit, current, curve, samples, format });
 }
 
@@ -104,24 +105,31 @@ function render({ reset = false } = {}) {
  for (const variable of Object.keys(bounds)) {
   const control = $(variable);
   const locked = !active.controls.includes(variable);
-  const description = variable === 'volume' && mode === 'charles' ? 'Se ajusta para mantener la presión' : 'Constante en este experimento';
+  const calculatedVolume = variable === 'volume' && mode === 'charles';
+  const atAbsoluteZero = variable === 'temperature' && !reading.temperature;
+  control.min = calculatedVolume ? 0 : bounds[variable].min;
+  control.step = calculatedVolume ? 'any' : bounds[variable].step;
   control.disabled = locked;
   control.closest('.slider').dataset.locked = String(locked);
   control.value = reading[variable];
   control.setAttribute('aria-valuetext', readingText(reading, variable));
   $(variable + '-out').textContent = readingText(reading, variable);
-  $(variable + '-state').textContent = locked ? description : adjustText[variable];
+  $(variable + '-state').textContent = atAbsoluteZero ? 'Cero absoluto · límite teórico del modelo'
+   : calculatedVolume ? 'Se ajusta para mantener la presión'
+   : locked ? 'Constante en este experimento' : adjustText[variable];
  }
  $('pressure-note').textContent = active.pressure;
  $('volume-note').textContent = movable ? 'Ajustable' : mode === 'charles' ? 'Se ajusta automáticamente' : 'Constante';
  $('amount-note').textContent = mode === 'libre' ? 'Ajustable' : 'Constante';
  $('celsius-value').textContent = format(reading.temperature - 273.15, 1) + ' °C' + (reading.amount ? '' : ' · ajuste');
- $('chamber-hint').textContent = movable
-  ? 'Arrastra el pistón sobre la cámara o ajusta el volumen con su control.'
+ const chamberHint = movable ? 'Arrastra el pistón sobre la cámara o ajusta el volumen con su control.'
   : mode === 'charles' ? 'El pistón se mueve para mantener 100 kPa.' : 'El recipiente permanece fijo en 2,50 L.';
+ $('chamber-hint').textContent = reading.volume < minimumVisibleVolume
+  ? 'La cámara se amplía en el dibujo para que se vean las partículas.' : chamberHint;
  $('plot-current').textContent = 'Punto actual · ' + readingText(reading, active.x) + ' → ' + readingText(reading, active.y);
  chamber.setReading(reading, movable, reset);
  chamber.draw();
+ syncAnimation();
  drawGraph(reading);
 }
 
@@ -209,4 +217,3 @@ function selectMode(key, updateUrl = true) {
 modeInputs.forEach(input => input.addEventListener('change', () => selectMode(input.value)));
 new ResizeObserver(() => drawGraph(measure(states[mode], mode))).observe($('plot'));
 selectMode(modeFromUrl(), false);
-syncAnimation();
