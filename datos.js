@@ -190,6 +190,13 @@ window.AULA_MATERIAS = [
         "unit": "La materia y sus estados"
       },
       {
+        "type": "Laboratorio interactivo · 2.º ESO",
+        "title": "Laboratorio de gases",
+        "description": "Explora el gas ideal y comprueba las leyes de Boyle–Mariotte, Charles y Gay-Lussac con partículas animadas, una gráfica y un cuaderno de medidas.",
+        "url": "../recursos/fisica-quimica-2eso/laboratorio-gases/index.html",
+        "unit": "La materia y sus estados"
+      },
+      {
         "type": "Ficha PDF",
         "title": "0201 · Propiedades de la materia y densidad",
         "description": "Clasifica las propiedades de la materia y resuelve problemas de masa, volumen y densidad.",

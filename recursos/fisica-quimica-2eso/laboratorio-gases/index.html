@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="es">
+<head>
+ <meta charset="utf-8">
+ <meta name="viewport" content="width=device-width,initial-scale=1">
+ <meta name="theme-color" content="#0c1830">
+ <meta name="description" content="Explora las leyes de los gases en una cámara interactiva para Física y Química de 2.º ESO.">
+ <title>Laboratorio de gases · Mi Aula Digital</title>
+ <link rel="stylesheet" href="gases.css?v=1">
+ <script type="module" src="laboratorio.js?v=1"></script>
+</head>
+<body>
+<a class="skip" href="#experimento">Saltar al simulador</a>
+<header class="site-header">
+ <div class="site-inner wrap">
+  <a href="../../../index.html" class="brand">Mi Aula Digital</a>
+  <nav aria-label="Navegación principal">
+   <a href="../../../laboratorio.html">Laboratorio</a>
+   <a href="../tema2-materia-estados/index.html?lab=gases#apartado-5">Apuntes de Física y Química</a>
+  </nav>
+ </div>
+</header>
+<main class="wrap">
+ <section class="hero" aria-labelledby="title">
+  <div class="hero-copy">
+   <p class="eyebrow">Física y Química · 2.º ESO</p>
+   <h1 id="title">Laboratorio <span>de gases</span></h1>
+   <p>Comprime el gas, caliéntalo o añade partículas. Observa qué cambia dentro del recipiente y compara tus medidas con las leyes de los gases.</p>
+   <a class="button primary" href="#experimento">Empezar a experimentar <span aria-hidden="true">↓</span></a>
+  </div>
+  <div class="hero-mark" aria-hidden="true">
+   <div class="hero-formula"><b>p<span>V</span></b><i>=</i><b>n<span>RT</span></b></div>
+   <span class="orb orb-one"></span><span class="orb orb-two"></span><span class="orb orb-three"></span><span class="orb orb-four"></span>
+  </div>
+ </section>
+
+ <section class="experiment" id="experimento" aria-labelledby="experiment-title">
+  <h2 id="experiment-title">Cámara de experimentación</h2>
+  <fieldset class="mode-switch">
+   <legend>Elige un experimento</legend>
+   <label><input type="radio" name="mode" value="libre" checked><span>Exploración libre</span></label>
+   <label><input type="radio" name="mode" value="boyle"><span>Boyle–Mariotte</span></label>
+   <label><input type="radio" name="mode" value="charles"><span>Charles</span></label>
+   <label><input type="radio" name="mode" value="gay"><span>Gay-Lussac</span></label>
+  </fieldset>
+
+  <div class="rig">
+   <section class="instrument panel" aria-labelledby="chamber-title">
+    <div class="panel-header">
+     <h3 id="chamber-title">Recipiente de gas</h3>
+     <div class="instrument-actions">
+      <button class="button" id="motion" type="button" aria-controls="chamber">Pausar partículas</button>
+      <button class="button" id="reset" type="button">Restablecer</button>
+     </div>
+    </div>
+    <canvas id="chamber" width="760" height="390" role="img" aria-label="Modelo de partículas con pistón, termómetro y manómetro" aria-describedby="chamber-hint model-note"></canvas>
+    <p id="chamber-hint" class="chamber-hint">Arrastra el pistón sobre la cámara o ajusta el volumen con su control.</p>
+    <dl class="readouts" aria-label="Medidas del gas">
+     <div class="pressure-readout"><dt>Presión</dt><dd><strong id="pressure-value">100,0</strong> <span>kPa</span><small id="pressure-note">Calculada</small></dd></div>
+     <div><dt>Volumen</dt><dd><strong id="volume-value">4,00</strong> <span>L</span><small id="volume-note">Ajustable</small></dd></div>
+     <div class="temperature-readout"><dt>Temperatura</dt><dd><strong id="temperature-value">300</strong> <span>K</span><small id="celsius-value">26,9 °C</small></dd></div>
+     <div><dt>Cantidad de gas</dt><dd><strong id="amount-value">0,160</strong> <span>mol</span><small id="amount-note">Ajustable</small></dd></div>
+    </dl>
+   </section>
+
+   <section class="lab-controls panel" aria-labelledby="controls-title">
+    <div class="panel-header"><h3 id="controls-title">Controles</h3><span id="constant" class="chip">Variables libres</span></div>
+    <p id="mode-intro" class="muted">Cambia una magnitud a la vez y observa el efecto sobre la presión.</p>
+    <div class="slider">
+     <div class="slider-heading"><label for="volume">Volumen</label><output id="volume-out" for="volume">4,00 L</output></div>
+     <input id="volume" type="range" min="1" max="8" step="0.1" value="4" aria-describedby="volume-state">
+     <p class="control-state" id="volume-state">Mueve el pistón</p>
+    </div>
+    <div class="slider heat-slider">
+     <div class="slider-heading"><label for="temperature">Temperatura</label><output id="temperature-out" for="temperature">300 K</output></div>
+     <input id="temperature" type="range" min="150" max="600" step="5" value="300" aria-describedby="temperature-state">
+     <p class="control-state" id="temperature-state">Enfría o calienta el gas</p>
+    </div>
+    <div class="slider">
+     <div class="slider-heading"><label for="amount">Cantidad de gas</label><output id="amount-out" for="amount">0,160 mol</output></div>
+     <input id="amount" type="range" min="0" max="160" step="1" value="80" aria-describedby="amount-state">
+     <p class="control-state" id="amount-state">Introduce o retira gas</p>
+    </div>
+    <div class="law">
+     <strong id="formula">p · V = n · R · T</strong>
+     <p id="law-description">La presión absoluta se calcula con la ecuación del gas ideal.</p>
+    </div>
+   </section>
+  </div>
+
+  <section class="analysis" aria-labelledby="analysis-title">
+   <h2 id="analysis-title">Analiza los resultados</h2>
+   <div class="analysis-grid">
+    <section class="panel plot-panel" aria-labelledby="plot-title">
+     <h3 id="plot-title">Presión frente a volumen</h3>
+     <p class="muted" id="plot-caption"></p>
+     <canvas id="plot" width="640" height="300" role="img" aria-labelledby="plot-title" aria-describedby="plot-caption plot-current"></canvas>
+     <p id="plot-current" class="plot-key"></p>
+    </section>
+    <section class="panel measurements" aria-labelledby="measures-title">
+     <div class="panel-header"><h3 id="measures-title">Cuaderno de medidas</h3><button type="button" class="button primary" id="record">Registrar medida</button></div>
+     <p id="challenge" class="challenge"></p>
+     <p class="muted" id="record-feedback" role="status">Registra varias medidas para compararlas.</p>
+     <div class="table-frame" id="recorded" hidden>
+      <table>
+       <caption class="sr-only">Medidas del experimento actual</caption>
+       <thead><tr><th scope="col">N.º</th><th scope="col">V (L)</th><th scope="col">T (K)</th><th scope="col">p (kPa)</th><th scope="col">n (mol)</th><th scope="col"><span class="sr-only">Quitar</span></th></tr></thead>
+       <tbody id="measurements"></tbody>
+      </table>
+     </div>
+    </section>
+   </div>
+  </section>
+
+  <p id="model-note" class="model-note">Modelo de gas ideal en equilibrio. El movimiento y el tamaño de las partículas se representan de forma esquemática. La presión del manómetro es absoluta.</p>
+ </section>
+ <noscript><p>Activa JavaScript para usar la cámara, los controles y el cuaderno de medidas.</p></noscript>
+</main>
+<footer class="wrap">
+ <span>Mi Aula Digital · Francisco José Hallado Fernández</span>
+ <a href="https://phet.colorado.edu/es/simulations/gases-intro" rel="noopener">Referencia didáctica · PhET, Universidad de Colorado Boulder</a>
+</footer>
+</body>
+</html>

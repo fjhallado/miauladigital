@@ -103,6 +103,7 @@ function readParticles(id) {
 
 function setLaw(key) {
  activeLaw = key;
+ $('open-gas-lab').href = `../laboratorio-gases/index.html?modo=${key}#experimento`;
  const law = laws[key];
  lawButtons.forEach(button => button.setAttribute('aria-pressed', String(button.dataset.law === key)));
  gasVisuals.forEach(group => {
