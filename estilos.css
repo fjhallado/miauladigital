@@ -116,11 +116,11 @@ body[data-course="matematicas-1eso"] .unit-card .unit-cover {
 
 .about-hero p{max-width:64ch;line-height:1.6}
 .about-story{display:grid;grid-template-columns:minmax(0,1.85fr) minmax(240px,1fr);gap:16px}
-.about-copy,.about-author,.about-ai{min-width:0;padding:clamp(19px,3.5vw,34px);border:1px solid #45668d;border-radius:18px;background:#102743}
+.about-copy,.about-author,.about-detail{min-width:0;padding:clamp(19px,3.5vw,34px);border:1px solid #45668d;border-radius:18px;background:#102743}
 .about-author{background:linear-gradient(145deg,#214568,#27264e)}
 .about-author h2{line-height:1.18;margin:.45em 0;font-size:clamp(1.45rem,3vw,2rem)}
-.about-copy h2,.about-ai h2{margin:0 0 10px}
-.about-copy p,.about-author p,.about-ai p{margin:10px 0 0;color:#ccdef2;line-height:1.65}
-.about-ai{margin-top:16px}
-.about-ai p{max-width:84ch}
-@media(max-width:720px){.about-story{grid-template-columns:1fr}}
+.about-copy h2,.about-detail h2{margin:0 0 10px}
+.about-copy p,.about-author p,.about-detail p{margin:10px 0 0;color:#ccdef2;line-height:1.65}
+.about-methods{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:16px}
+.about-detail a{color:#a4d7ff;text-decoration:underline;text-underline-offset:3px}
+@media(max-width:720px){.about-story,.about-methods{grid-template-columns:1fr}}
