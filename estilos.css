@@ -124,3 +124,9 @@ body[data-course="matematicas-1eso"] .unit-card .unit-cover {
 .about-methods{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:16px}
 .about-detail a{color:#a4d7ff;text-decoration:underline;text-underline-offset:3px}
 @media(max-width:720px){.about-story,.about-methods{grid-template-columns:1fr}}
+
+.social-links{display:flex;align-items:center;flex-wrap:wrap;gap:8px 12px;flex-basis:100%;line-height:1.4}
+.social-links>span{font-weight:700;color:#dce9ff}
+.social-links>a{display:inline-flex;align-items:center;flex-wrap:wrap;gap:4px 8px;padding:8px 12px;border:1px solid #4a6b95;border-radius:9px;background:#152d4c;color:#edf4ff;font-weight:750}
+.social-links>a:hover{background:#22436d}
+.social-links>a small{color:#b9d4f0;font-size:.83rem;font-weight:500;overflow-wrap:anywhere}
