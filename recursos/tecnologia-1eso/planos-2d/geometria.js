@@ -8,6 +8,8 @@ export const rounded = value => Math.round(value * 1000) / 1000 || 0;
 export const point = (x, y) => ({ x, y });
 export const distance = (a, b) => Math.hypot(b.x - a.x, b.y - a.y);
 export const samePoint = (a, b) => a.x === b.x && a.y === b.y;
+export const dimensionAxes = ['horizontal', 'vertical', 'aligned'];
+const dimensionNames = { horizontal: 'horizontal', vertical: 'vertical', aligned: 'alineada' };
 
 export function svg(tag, attributes = {}, label) {
   const element = document.createElementNS(svgNamespace, tag);
@@ -36,14 +38,14 @@ const validPoint = value => value && validCoordinate(value.x) && validCoordinate
 
 export function validEntity(entity) {
   if (!entity || typeof entity !== 'object') return false;
-  const { type, a, b, r, axis, offset, points, closed } = entity;
+  const { type, a, b, r, axis, offset, points, closed, dash, value } = entity;
   if (type === 'polyline') return Array.isArray(points) && points.length >= (closed ? 3 : 2) && points.length <= nodeLimit && points.every(validPoint) && typeof closed === 'boolean';
   if (!validPoint(a)) return false;
   if (type === 'circle') return validCoordinate(r) && r > 0;
   if (!validPoint(b) || samePoint(a, b)) return false;
-  if (type === 'line') return true;
+  if (type === 'line') return dash === undefined || typeof dash === 'boolean';
   if (type === 'rect') return a.x !== b.x && a.y !== b.y;
-  if (type === 'dimension') return ['horizontal', 'vertical'].includes(axis) && validCoordinate(offset) && dimensionValue(entity) > 0;
+  if (type === 'dimension') return dimensionAxes.includes(axis) && validCoordinate(offset) && dimensionValue(entity) > 0 && (value === undefined || (validCoordinate(value) && value > 0));
   return false;
 }
 
@@ -52,7 +54,15 @@ export function readDrawing(content) {
   if (!data || data.format !== 'Mi Aula Digital · Planos 2D' || data.version !== 1 || typeof data.title !== 'string' || data.title.length > 80 || !Array.isArray(data.entities) || data.entities.length > entityLimit || !data.entities.every(validEntity)) {
     throw new Error('Formato de plano incompatible');
   }
-  return { title: data.title.trim() || 'Plano sin título', entities: data.entities };
+  const drawing = { title: data.title.trim() || 'Plano sin título', entities: data.entities };
+  if (data.projection !== undefined) {
+    const { figure, cell, width, height, depth, revision } = data.projection ?? {};
+    if (!Number.isInteger(figure) || figure < 1 || figure > 48 || !validCoordinate(cell) || cell < .1 || cell > 10000 ||
+        ![width, height, depth].every(value => Number.isInteger(value) && value >= 2 && value <= 12) ||
+        typeof revision !== 'string' || !/^[0-9a-f]{8}$/.test(revision)) throw new Error('Vistas diédricas incompatibles');
+    drawing.projection = { figure, cell, width, height, depth, revision };
+  }
+  return drawing;
 }
 
 export function writeDrawing(drawing) {
@@ -60,14 +70,28 @@ export function writeDrawing(drawing) {
 }
 
 export function dimensionValue({ axis, a, b }) {
+  if (axis === 'aligned') return distance(a, b);
   return Math.abs(axis === 'horizontal' ? a.x - b.x : a.y - b.y);
 }
 
+function dimensionBasis(axis, a, b) {
+  if (axis === 'horizontal') return { tangent: point(1, 0), normal: point(0, 1), labelSide: 1 };
+  if (axis === 'vertical') return { tangent: point(0, 1), normal: point(1, 0), labelSide: -1 };
+  const length = distance(a, b);
+  const sign = b.x > a.x || (b.x === a.x && b.y >= a.y) ? 1 : -1;
+  const tangent = point((b.x - a.x) * sign / length, (b.y - a.y) * sign / length);
+  return { tangent, normal: point(-tangent.y, tangent.x), labelSide: 1 };
+}
+
+const dot = (a, b) => a.x * b.x + a.y * b.y;
+
+export const dimensionOffset = (axis, a, b, p) => rounded(dot(p, dimensionBasis(axis, a, b).normal));
+
 function dimensionLayout({ axis, a, b, offset }, fontSize) {
-  const horizontal = axis === 'horizontal';
-  const project = (along, across) => horizontal ? point(along, across) : point(across, along);
-  const along = p => horizontal ? p.x : p.y;
-  const across = p => horizontal ? p.y : p.x;
+  const { tangent, normal, labelSide } = dimensionBasis(axis, a, b);
+  const project = (u, v) => point(tangent.x * u + normal.x * v, tangent.y * u + normal.y * v);
+  const along = p => dot(p, tangent);
+  const across = p => dot(p, normal);
   const arrowsInside = Math.abs(along(a) - along(b)) >= fontSize * 2.2;
   const arrowSize = fontSize * .64;
   const anchors = [a, b].sort((first, second) => along(first) - along(second));
@@ -77,14 +101,15 @@ function dimensionLayout({ axis, a, b, offset }, fontSize) {
     const gap = Math.min(fontSize * .28, Math.abs(offset - across(p)));
     return [project(along(p), across(p) + direction * gap), project(along(p), offset + direction * fontSize * .52)];
   });
-  const label = project((along(a) + along(b)) / 2, offset + (horizontal ? 1 : -1) * fontSize * .39);
+  const label = project((along(a) + along(b)) / 2, offset + labelSide * fontSize * .39);
   const arrows = ticks.map((p, index) => {
     const direction = (index === 0 ? 1 : -1) * (arrowsInside ? 1 : -1);
     const base = along(p) + direction * arrowSize;
     return [p, project(base, offset + arrowSize * .21), project(base, offset - arrowSize * .21)];
   });
   const line = arrowsInside ? ticks : [project(along(ticks[0]) - arrowSize * 1.25, offset), project(along(ticks[1]) + arrowSize * 1.25, offset)];
-  return { horizontal, line, extensions, label, arrows };
+  const angle = -Math.atan2(tangent.y, tangent.x) * 180 / Math.PI;
+  return { angle, line, extensions, label, arrows };
 }
 
 export function anchorsOf(entity) {
@@ -102,7 +127,24 @@ export function anchorsOf(entity) {
   }
 }
 
-export function boundsOf(entities) {
+export function projectionLayout({ cell, width, depth, height }) {
+  const gap = 2 * cell;
+  const mainX = -gap - width * cell;
+  const upperY = gap + height * cell;
+  const right = gap + depth * cell;
+  const bottom = -gap - depth * cell;
+  return {
+    origins: { front: point(mainX, upperY), side: point(gap, upperY), top: point(mainX, -gap) },
+    labels: [
+      ['Alzado', point(mainX + width * cell / 2, upperY + cell)],
+      ['Perfil izquierdo', point(gap + depth * cell / 2, upperY + cell)],
+      ['Planta', point(mainX + width * cell / 2, bottom - cell)]
+    ],
+    bounds: { left: mainX - cell, right: right + cell, top: upperY + cell * 2, bottom: bottom - cell * 2 }
+  };
+}
+
+export function boundsOf(entities, projection) {
   let left = Infinity, right = -Infinity, top = -Infinity, bottom = Infinity;
   function include({ x, y }) {
     left = Math.min(left, x);
@@ -110,10 +152,15 @@ export function boundsOf(entities) {
     bottom = Math.min(bottom, y);
     top = Math.max(top, y);
   }
+  if (projection) {
+    const frame = projectionLayout(projection).bounds;
+    include(point(frame.left, frame.bottom));
+    include(point(frame.right, frame.top));
+  }
   for (const entity of entities) {
     anchorsOf(entity).forEach(include);
     if (entity.type === 'dimension') {
-      const { line, extensions, label } = dimensionLayout(entity, 4);
+      const { line, extensions, label } = dimensionLayout(entity, (projection?.cell ?? 10) * .4);
       [...line, ...extensions.flat(), label].forEach(include);
     }
   }
@@ -148,7 +195,7 @@ export function moveEntity(entity, dx, dy) {
   const shift = p => point(rounded(p.x + dx), rounded(p.y + dy));
   if (entity.type === 'polyline') return { ...entity, points: entity.points.map(shift) };
   if (entity.type === 'circle') return { ...entity, a: shift(entity.a) };
-  if (entity.type === 'dimension') return { ...entity, offset: rounded(entity.offset + (entity.axis === 'horizontal' ? dy : dx)) };
+  if (entity.type === 'dimension') return { ...entity, offset: rounded(entity.offset + dimensionOffset(entity.axis, entity.a, entity.b, point(dx, dy))) };
   return { ...entity, a: shift(entity.a), b: shift(entity.b) };
 }
 
@@ -156,10 +203,10 @@ export function properties(entity) {
   const mm = value => `${format(value)} mm`;
   let details;
   switch (entity.type) {
-    case 'line': return [['Tipo', 'Línea'], ['Longitud', mm(distance(entity.a, entity.b))]];
+    case 'line': return [['Tipo', entity.dash ? 'Arista oculta' : 'Línea'], ['Longitud', mm(distance(entity.a, entity.b))]];
     case 'rect': return [['Tipo', 'Rectángulo'], ['Ancho', mm(Math.abs(entity.a.x - entity.b.x))], ['Alto', mm(Math.abs(entity.a.y - entity.b.y))]];
     case 'circle': return [['Tipo', 'Círculo'], ['Radio', mm(entity.r)], ['Diámetro', mm(2 * entity.r)]];
-    case 'dimension': return [['Tipo', `Cota ${entity.axis}`], ['Medida', mm(dimensionValue(entity))]];
+    case 'dimension': return [['Tipo', `Cota ${dimensionNames[entity.axis]}`], ['Medida', mm(entity.value ?? dimensionValue(entity))]];
     case 'polyline':
       details = segmentsOf(entity.points, entity.closed);
       return [['Tipo', 'Polilínea'], ['Trazado', entity.closed ? 'Cerrado' : 'Abierto'], ['Tramos', details.length], ['Longitud', mm(details.reduce((total, [a, b]) => total + distance(a, b), 0))]];
@@ -191,9 +238,13 @@ export function renderEntity(entity, { fontSize, print = false, preview = false,
       'font-family': 'ui-monospace, Consolas, monospace', 'paint-order': 'stroke',
       stroke: print ? '#fff' : '#102039', 'stroke-width': fontSize * .26, 'stroke-linejoin': 'round'
     };
-    if (!layout.horizontal) label.transform = `rotate(-90 ${x} ${-y})`;
-    group.append(svg('text', label, format(dimensionValue(entity))));
+    if (layout.angle) label.transform = `rotate(${layout.angle} ${x} ${-y})`;
+    group.append(svg('text', label, format(entity.value ?? dimensionValue(entity))));
   } else if (entity.type === 'line') {
+    if (entity.dash) {
+      stroke['stroke-dasharray'] = print ? '2 1.2' : '6 4';
+      stroke['stroke-opacity'] = .66;
+    }
     group.append(drawLine(entity.a, entity.b, stroke));
   } else if (entity.type === 'circle') {
     const { a, r } = entity;
@@ -210,14 +261,33 @@ export function renderEntity(entity, { fontSize, print = false, preview = false,
   return group;
 }
 
+export function renderProjection(projection, { print = false, fontSize = 3.5 } = {}) {
+  const { labels, bounds } = projectionLayout(projection);
+  const group = svg('g', { 'data-projection-guides': '' });
+  const line = {
+    stroke: print ? '#65839b' : '#70aad1', 'stroke-width': print ? .26 : 1.2,
+    'stroke-opacity': .72, 'stroke-dasharray': print ? '3 1.8' : '8 6'
+  };
+  if (!print) line['vector-effect'] = 'non-scaling-stroke';
+  group.append(drawLine(point(bounds.left, 0), point(bounds.right, 0), line));
+  group.append(drawLine(point(0, bounds.bottom), point(0, bounds.top), line));
+  const caption = {
+    fill: print ? '#284d69' : '#a9d4ee', 'font-family': 'system-ui, sans-serif',
+    'font-size': fontSize, 'font-weight': 700, 'text-anchor': 'middle', 'dominant-baseline': 'central'
+  };
+  for (const [name, p] of labels) group.append(svg('text', { ...caption, x: p.x, y: -p.y }, name));
+  return group;
+}
+
 export function exportDrawing(drawing) {
-  const { left, right, top, bottom } = boundsOf(drawing.entities);
-  const padding = 13;
+  const { left, right, top, bottom } = boundsOf(drawing.entities, drawing.projection);
+  const padding = drawing.projection ? drawing.projection.cell * 1.3 : 13;
   const width = right - left + padding * 2;
   const height = top - bottom + padding * 2;
   const x = left - padding, y = -top - padding;
   const image = svg('svg', { width: `${width}mm`, height: `${height}mm`, viewBox: `${x} ${y} ${width} ${height}`, role: 'img' });
   image.append(svg('title', {}, drawing.title), svg('rect', { x, y, width, height, fill: '#fff' }));
-  for (const entity of drawing.entities) image.append(renderEntity(entity, { print: true, fontSize: 3.5 }));
+  if (drawing.projection) image.append(renderProjection(drawing.projection, { print: true, fontSize: drawing.projection.cell * .38 }));
+  for (const entity of drawing.entities) image.append(renderEntity(entity, { print: true, fontSize: (drawing.projection?.cell ?? 10) * .35 }));
   return new XMLSerializer().serializeToString(image);
 }

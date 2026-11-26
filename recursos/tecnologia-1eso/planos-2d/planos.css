@@ -24,7 +24,14 @@
 .cad-intro p:last-child { color: var(--muted); font-size: .94rem; line-height: 1.5; }
 .cad-app-mark { width: 63px; height: 63px; flex: 0 0 63px; display: grid; place-items: center; border-radius: 17px; background: linear-gradient(145deg, #215076, #1b2c55); color: #a6eaff; border: 1px solid #416085; box-shadow: 0 6px 22px #06101e80; }
 .cad-app-mark svg { width: 35px; height: 35px; }
-.cad-example { margin-left: auto; }
+.cad-intro-actions { display: flex; flex-wrap: wrap; gap: 7px; margin-left: auto; }
+.cad-projection-bar { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 11px; margin: -8px 0 14px; padding: 10px 13px; border: 1px solid #375776; border-radius: 10px; background: #142742; }
+.cad-projection-summary, .cad-projection-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 8px 12px; }
+.cad-projection-summary { font-size: .85rem; }
+.cad-projection-summary label { font-weight: 700; }
+.cad-projection-summary select { min-height: 34px; max-width: 100%; padding: 4px 7px; border: 1px solid #4a6988; border-radius: 6px; background: #1d3553; color: #edf5ff; }
+.cad-projection-summary p { margin: 0; color: #b4cee6; }
+.cad-projection-actions { margin-left: auto; }
 
 .cad-workspace { border: 1px solid var(--line); border-radius: 18px; background: var(--surface); overflow: hidden; box-shadow: 0 22px 68px #03081366; }
 .cad-toolbar { min-height: 63px; padding: 9px 14px; display: flex; align-items: center; gap: 12px; background: #182840; border-bottom: 1px solid var(--line); }
@@ -129,7 +136,9 @@
   .cad-app-mark svg { width: 26px; height: 26px; }
   .cad-intro .eyebrow { font-size: .62rem; }
   .cad-intro p:last-child { font-size: .8rem; }
-  .cad-example { margin-left: 0; }
+  .cad-intro-actions { margin-left: 0; }
+  .cad-projection-bar { margin-top: 0; }
+  .cad-projection-actions { margin-left: 0; }
   .cad-workspace { border-radius: 12px; }
   .cad-toolbar { flex-wrap: wrap; padding: 7px; gap: 6px 9px; }
   .cad-button { padding-inline: 8px; }

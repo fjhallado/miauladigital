@@ -4,6 +4,7 @@ const script=document.currentScript;
 const lab=script.dataset.lab;
 const access=window.MAD_CONTROL;
 if(location.protocol==='file:')return;
+if(script.dataset.modeParam&&new URLSearchParams(location.search).get(script.dataset.modeParam)!=='1')return;
 
 if(lab){
  const root=document.documentElement;

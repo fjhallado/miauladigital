@@ -9,8 +9,12 @@
   <title>Dibujo de planos 2D · Mi Aula Digital</title>
   <link rel="stylesheet" href="../../../estilos.css?v=1.4.148">
   <link rel="stylesheet" href="../../../redes-sociales.css">
-  <link rel="stylesheet" href="planos.css?v=1">
-  <script type="module" src="planos.js?v=2"></script>
+  <link rel="stylesheet" href="planos.css?v=3">
+  <script src="../../../control-config.js?v=1.4.95" defer></script>
+  <script src="../../../control-acceso.js?v=1.4.133" defer></script>
+  <script src="../../../laboratorio-acceso.js?v=1.4.149" data-lab="vistas" data-mode-param="vistas" defer></script>
+  <script src="../laboratorio-vistas/vistas-guardadas.js?v=1.4.138" defer></script>
+  <script type="module" src="planos.js?v=3"></script>
 </head>
 <body class="cad-page">
   <svg class="cad-symbols" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -29,6 +33,7 @@
       <symbol id="i-circle" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 11v2m-1-1h2"/></symbol>
       <symbol id="i-horizontal" viewBox="0 0 24 24"><path d="M3 4v16m18-16v16M3 12h18m-14-3-4 3 4 3m10-6 4 3-4 3"/></symbol>
       <symbol id="i-vertical" viewBox="0 0 24 24"><path d="M4 3h16M4 21h16M12 3v18m-3-14 3-4 3 4m-6 10 3 4 3-4"/></symbol>
+      <symbol id="i-aligned" viewBox="0 0 24 24"><path d="m3 15 6 6M15 3l6 6M6 18 18 6m-8 12H6v-4m8-8h4v4"/></symbol>
       <symbol id="i-minus" viewBox="0 0 24 24"><path d="M5 12h14"/></symbol>
       <symbol id="i-plus" viewBox="0 0 24 24"><path d="M5 12h14m-7-7v14"/></symbol>
       <symbol id="i-fit" viewBox="0 0 24 24"><path d="M3 8V3h5m8 0h5v5m0 8v5h-5m-8 0H3v-5"/><rect x="8" y="8" width="8" height="8"/></symbol>
@@ -46,7 +51,7 @@
           <small class="branding-role">Profesor de ESO y Bachillerato</small>
         </div>
       </div>
-      <nav aria-label="Navegación principal"><a href="../../../laboratorio.html">Laboratorio</a><a href="../acotacion/index.html">Normas de acotación</a></nav>
+      <nav aria-label="Navegación principal"><a id="back-to-lab" href="../../../laboratorio.html">Laboratorio</a><a href="../acotacion/index.html">Normas de acotación</a></nav>
     </div>
   </header>
 
@@ -58,8 +63,24 @@
         <h1>Dibujo de planos 2D</h1>
         <p>Traza piezas a escala y acótalas en milímetros.</p>
       </div>
-      <button class="cad-button cad-example" type="button" id="load-example">Cargar plano de ejemplo</button>
+      <div class="cad-intro-actions">
+        <a class="cad-button" id="load-views" href="?vistas=1">Abrir vistas guardadas</a>
+        <button class="cad-button" type="button" id="load-example">Cargar plano de ejemplo</button>
+      </div>
     </div>
+
+    <section class="cad-projection-bar" id="projection-bar" aria-label="Vistas guardadas" hidden>
+      <div class="cad-projection-summary">
+        <label for="projection-figure">Figura guardada</label>
+        <select id="projection-figure"></select>
+        <p id="projection-scale"></p>
+      </div>
+      <div class="cad-projection-actions">
+        <button type="button" class="cad-button" id="refresh-projection" hidden>Recargar vistas de Proyectar</button>
+        <a class="cad-button" id="edit-projection" href="../laboratorio-vistas/ficha-1.html?modo=proyectar">Ir a Proyectar</a>
+        <a class="cad-button" href="index.html">Dibujo libre</a>
+      </div>
+    </section>
 
     <section class="cad-workspace" aria-label="Mesa de dibujo">
       <div class="cad-toolbar" role="group" aria-label="Archivo e historial">
@@ -96,6 +117,7 @@
             <h2 id="tool-dim-label">Cotas</h2>
             <button type="button" class="cad-tool" data-tool="horizontal" aria-pressed="false"><svg aria-hidden="true"><use href="#i-horizontal"/></svg>Horizontal<kbd aria-hidden="true">H</kbd></button>
             <button type="button" class="cad-tool" data-tool="vertical" aria-pressed="false"><svg aria-hidden="true"><use href="#i-vertical"/></svg>Vertical<kbd aria-hidden="true">T</kbd></button>
+            <button type="button" class="cad-tool" data-tool="aligned" aria-pressed="false"><svg aria-hidden="true"><use href="#i-aligned"/></svg>Alineada<kbd aria-hidden="true">A</kbd></button>
           </div>
           <button type="button" class="cad-tool cad-delete" id="delete-entity" disabled><svg aria-hidden="true"><use href="#i-trash"/></svg>Eliminar</button>
         </aside>
@@ -122,6 +144,7 @@
                 <rect id="major-field" fill="url(#major-grid)"/>
                 <path id="drawing-axes"/>
               </g>
+              <g id="projection-guides" pointer-events="none"></g>
               <g id="drawing-entities" pointer-events="none"></g>
               <g id="drawing-preview" pointer-events="none"></g>
             </svg>

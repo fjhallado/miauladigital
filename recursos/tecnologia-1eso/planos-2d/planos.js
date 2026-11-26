@@ -1,8 +1,10 @@
 import {
-  anchorsOf, boundsOf, demoDrawing, distance, entityLimit, exportDrawing, format,
-  hitDistance, moveEntity, nodeLimit, point, properties, readDrawing, renderEntity,
-  rounded, samePoint, svg, validEntity, writeDrawing
-} from './geometria.js';
+  anchorsOf, boundsOf, demoDrawing, dimensionAxes, dimensionOffset, dimensionValue,
+  distance, entityLimit, exportDrawing, format, hitDistance, moveEntity, nodeLimit,
+  point, properties, readDrawing, renderEntity, renderProjection, rounded, samePoint,
+  svg, validEntity, writeDrawing
+} from './geometria.js?v=3';
+import { buildProjection, projectionRevision } from './proyecciones.js?v=3';
 
 const byId = id => document.getElementById(id);
 const canvas = byId('drawing');
@@ -16,6 +18,14 @@ const title = byId('drawing-title');
 const coordinateLabel = byId('drawing-coordinates');
 const buttons = [...document.querySelectorAll('[data-tool]')];
 const storageKey = 'mi-aula-digital.planos-2d.v1';
+const url = new URL(location.href);
+const inProjectionMode = url.searchParams.get('vistas') === '1';
+const exercises = inProjectionMode ? (window.MADSavedViews?.completed() ?? []) : [];
+const requestedNumber = Number(url.searchParams.get('figura'));
+const requestedFigure = Number.isInteger(requestedNumber) && requestedNumber >= 1 && requestedNumber <= window.MADSavedViews?.practiceFigureCount ? requestedNumber : 0;
+const activeExercise = exercises.find(item => item.number === (requestedFigure || recentFigure())) ?? (requestedFigure ? undefined : exercises[0]);
+const draftKey = inProjectionMode ? `${storageKey}.figura-${activeExercise?.number ?? requestedFigure}` : storageKey;
+const activeRevision = activeExercise && projectionRevision(activeExercise);
 const toolInfo = {
   select: ['Seleccionar', 'Pulsa sobre un trazo para consultar sus medidas. Arrástralo para moverlo o recoloca una cota.'],
   pan: ['Mover vista', 'Arrastra el lienzo para recorrer el plano. Usa la rueda o los botones para cambiar el zoom.'],
@@ -24,10 +34,13 @@ const toolInfo = {
   rect: ['Rectángulo', 'Marca una esquina.', 'Marca la esquina opuesta.'],
   circle: ['Círculo', 'Marca el centro.', 'Marca un punto de la circunferencia para fijar el radio.'],
   horizontal: ['Cota horizontal', 'Marca el primer punto que quieres medir.', 'Marca el segundo punto.', 'Marca la altura a la que irá la línea de cota.'],
-  vertical: ['Cota vertical', 'Marca el primer punto que quieres medir.', 'Marca el segundo punto.', 'Marca la posición lateral de la línea de cota.']
+  vertical: ['Cota vertical', 'Marca el primer punto que quieres medir.', 'Marca el segundo punto.', 'Marca la posición lateral de la línea de cota.'],
+  aligned: ['Cota alineada', 'Marca el primer punto de la arista.', 'Marca el segundo punto de la arista.', 'Marca dónde irá la cota paralela a la arista.']
 };
-const shortcuts = { v: 'select', m: 'pan', l: 'line', p: 'polyline', r: 'rect', c: 'circle', h: 'horizontal', t: 'vertical' };
+const shortcuts = { v: 'select', m: 'pan', l: 'line', p: 'polyline', r: 'rect', c: 'circle', h: 'horizontal', t: 'vertical', a: 'aligned' };
 
+const blankDrawing = () => ({ title: 'Plano sin título', entities: [] });
+let projectionError = false;
 let drawing = restoredDrawing();
 const history = { previous: [], next: [] };
 const view = { center: point(60, 38), zoom: 1, fitted: true, scale: 1, width: 1, height: 1 };
@@ -37,16 +50,31 @@ let selected = -1;
 let interaction;
 let hovering;
 
+function recentFigure() {
+  try {
+    const saved = localStorage.getItem('mad-ficha1-current');
+    return saved === null ? 0 : Number(saved) + 1;
+  } catch { return 0; }
+}
+
 function restoredDrawing() {
   try {
-    const data = localStorage.getItem(storageKey);
-    if (data) return readDrawing(data);
+    const data = localStorage.getItem(draftKey);
+    if (data) {
+      const draft = readDrawing(data);
+      if (!activeExercise || draft.projection?.figure === activeExercise.number) return draft;
+    }
   } catch { /* An unavailable store or an outdated draft does not prevent drawing. */ }
-  return demoDrawing();
+  if (activeExercise) {
+    try { return buildProjection(activeExercise); }
+    catch { projectionError = true; }
+  }
+  return inProjectionMode ? blankDrawing() : demoDrawing();
 }
 
 function storeDrawing() {
-  try { localStorage.setItem(storageKey, writeDrawing(drawing)); }
+  if (activeExercise && drawing.projection?.figure !== activeExercise.number) return;
+  try { localStorage.setItem(draftKey, writeDrawing(drawing)); }
   catch { /* The user can still download the project as a file. */ }
 }
 
@@ -58,12 +86,58 @@ function message(text = '', error = false) {
 
 function useDrawing(next) {
   clearInteraction();
+  const changedScale = drawing.projection?.cell !== next.projection?.cell;
   drawing = next;
+  if (changedScale) setProjectionStep(next.projection);
   staged = [];
   selected = -1;
   title.value = drawing.title;
   storeDrawing();
   refresh();
+}
+
+function setProjectionStep(projection) {
+  gridStep.querySelector('[data-projection-step]')?.remove();
+  const step = projection?.cell ?? 5;
+  if (![...gridStep.options].some(option => Number(option.value) === step)) {
+    const option = new Option(`${format(step)} mm`, step);
+    option.dataset.projectionStep = '';
+    gridStep.append(option);
+  }
+  gridStep.value = String(step);
+  renderGrid();
+}
+
+function setupProjectionBar() {
+  if (!inProjectionMode) return;
+  byId('projection-bar').hidden = false;
+  byId('load-views').hidden = true;
+  byId('load-example').hidden = true;
+  const lab = byId('back-to-lab');
+  lab.href = '../laboratorio-vistas/index.html#actividades';
+  lab.textContent = 'Laboratorio de vistas';
+  const select = byId('projection-figure');
+  const unavailable = requestedFigure ? `Figura ${requestedFigure} sin vistas guardadas` : 'Sin figuras guardadas';
+  if (!activeExercise) select.append(new Option(unavailable, ''));
+  for (const { number } of exercises) select.append(new Option(`Figura ${number} · ${window.MADSavedViews.sheetNumber(number) === 1 ? 'Nivel fácil' : 'Nivel intermedio'}`, number));
+  select.value = activeExercise?.number ?? '';
+  select.disabled = !exercises.length;
+  select.addEventListener('change', () => {
+    if (!select.value) return;
+    url.searchParams.set('figura', select.value);
+    location.assign(url);
+  });
+  const number = activeExercise?.number || requestedFigure;
+  const edit = byId('edit-projection');
+  if (number && number <= window.MADSavedViews?.practiceFigureCount) edit.href += `&figura=${number}`;
+  if (activeExercise) edit.textContent = 'Editar vistas en Proyectar';
+  const help = byId('projection-scale');
+  if (!activeExercise) help.textContent = 'Completa el alzado, la planta y el perfil en Proyectar.';
+  else if (projectionError) help.textContent = 'La figura supera el límite de trazos de la mesa de dibujo.';
+  byId('refresh-projection').addEventListener('click', () => {
+    try { newSheet(buildProjection(activeExercise, drawing.projection?.cell), 'Vistas actualizadas. Pulsa Deshacer para recuperar el plano anterior.'); }
+    catch { message('No se pudieron importar los trazos de la figura.', true); }
+  });
 }
 
 function rememberDrawing() {
@@ -121,6 +195,14 @@ function updatePanel() {
   byId('delete-entity').disabled = selected < 0;
   byId('export-svg').disabled = !drawing.entities.length;
   byId('entity-count').textContent = `${drawing.entities.length} ${drawing.entities.length === 1 ? 'entidad' : 'entidades'}`;
+  if (activeExercise && !projectionError) {
+    const projection = drawing.projection;
+    const sameFigure = projection?.figure === activeExercise.number;
+    const current = sameFigure && projection.revision === activeRevision;
+    const scale = sameFigure ? `1 cuadro = ${format(projection.cell)} mm · Sistema europeo` : 'Archivo abierto en la mesa de dibujo';
+    byId('projection-scale').textContent = sameFigure && !current ? `${scale}. Hay cambios en Proyectar.` : scale;
+    byId('refresh-projection').hidden = current;
+  }
   renderProperties(drawing.entities[selected]);
 }
 
@@ -145,16 +227,17 @@ function dimensions() {
 }
 
 function baseScale({ width, height }) {
-  return Math.min(width / 170, height / 126);
+  return Math.min(width / 170, height / 126) * (10 / (drawing.projection?.cell ?? 10));
 }
 
 function fitView() {
   const size = dimensions();
   view.fitted = true;
-  if (drawing.entities.length) {
-    const { left, right, top, bottom } = boundsOf(drawing.entities);
+  if (drawing.entities.length || drawing.projection) {
+    const { left, right, top, bottom } = boundsOf(drawing.entities, drawing.projection);
     const inset = Math.min(65, Math.min(size.width, size.height) * .14);
-    const scale = Math.min((size.width - 2 * inset) / (right - left + 1), (size.height - 2 * inset) / (top - bottom + 1));
+    const padding = (drawing.projection?.cell ?? 10) * .1;
+    const scale = Math.min((size.width - 2 * inset) / (right - left + padding), (size.height - 2 * inset) / (top - bottom + padding));
     view.center = point((left + right) / 2, (bottom + top) / 2);
     view.zoom = Math.min(2, scale / baseScale(size));
   } else {
@@ -198,6 +281,7 @@ function renderGrid() {
     pattern.firstElementChild.setAttribute('d', `M${size} 0H0V${size}`);
   }
   byId('minor-field').style.display = step * view.scale < 7 ? 'none' : '';
+  byId('drawing-axes').style.display = drawing.projection ? 'none' : '';
   grid.style.display = showGrid.checked ? '' : 'none';
 }
 
@@ -241,6 +325,7 @@ function snapPoint(p) {
 }
 
 function fontSize() {
+  if (drawing.projection) return 13.5 / view.scale;
   return Math.min(16, Math.max(.55, 13.5 / view.scale));
 }
 
@@ -258,6 +343,9 @@ function entityIndex(p) {
 }
 
 function renderEntities() {
+  const guides = byId('projection-guides');
+  if (drawing.projection) guides.replaceChildren(renderProjection(drawing.projection, { fontSize: fontSize() * .92 }));
+  else if (guides.hasChildNodes()) guides.replaceChildren();
   const live = drawing.entities.map((entity, index) => {
     const updated = index === selected && interaction?.moved ? interaction.moved : entity;
     return renderEntity(updated, { fontSize: fontSize(), selected: index === selected });
@@ -273,8 +361,8 @@ function entityFrom(pointNow) {
     return { type: 'polyline', points, closed };
   }
   if (tool === 'circle') return { type: 'circle', a, r: rounded(distance(a, pointNow)) };
-  if (tool === 'horizontal' || tool === 'vertical') {
-    return b ? { type: 'dimension', a, b, axis: tool, offset: tool === 'horizontal' ? pointNow.y : pointNow.x } : { type: 'line', a, b: pointNow };
+  if (dimensionAxes.includes(tool)) {
+    return b ? { type: 'dimension', a, b, axis: tool, offset: dimensionOffset(tool, a, b, pointNow) } : { type: 'line', a, b: pointNow };
   }
   return { type: tool, a, b: pointNow };
 }
@@ -323,8 +411,8 @@ function choosePoint(p) {
     const polyline = entityFrom(p);
     if (polyline.closed || polyline.points.length === nodeLimit) addEntity(polyline);
     else staged = polyline.points;
-  } else if (['horizontal', 'vertical'].includes(tool) && staged.length === 1) {
-    const different = tool === 'horizontal' ? previous.x !== p.x : previous.y !== p.y;
+  } else if (dimensionAxes.includes(tool) && staged.length === 1) {
+    const different = dimensionValue({ axis: tool, a: previous, b: p }) > 0;
     if (different) staged = [...staged, p];
     else message('El segundo punto debe estar en otra posición en la dirección de la cota.', true);
   } else {
@@ -434,7 +522,14 @@ canvas.addEventListener('wheel', event => {
 }, { passive: false });
 
 for (const button of buttons) button.addEventListener('click', () => setTool(button.dataset.tool));
-byId('new-drawing').addEventListener('click', () => newSheet({ title: 'Plano sin título', entities: [] }, 'Plano nuevo. Pulsa Deshacer si quieres recuperar el anterior.'));
+function newBlank() {
+  newSheet(blankDrawing(), 'Plano nuevo. Pulsa Deshacer si quieres recuperar el anterior.');
+}
+
+byId('new-drawing').addEventListener('click', () => {
+  if (inProjectionMode) location.assign('index.html?nuevo=1');
+  else newBlank();
+});
 byId('load-example').addEventListener('click', () => newSheet(demoDrawing(), 'Plano de ejemplo cargado.'));
 byId('undo').addEventListener('click', undo);
 byId('redo').addEventListener('click', redo);
@@ -477,7 +572,11 @@ drawingFile.addEventListener('change', async () => {
     message('El archivo supera los 3 MB. Abre un plano más pequeño.', true);
     return;
   }
-  try { newSheet(readDrawing(await file.text()), `Plano abierto: ${file.name}`); }
+  try {
+    const imported = readDrawing(await file.text());
+    const note = activeExercise && imported.projection?.figure !== activeExercise.number ? ' Guarda una copia para conservar tus cambios.' : '';
+    newSheet(imported, `Plano abierto: ${file.name}.${note}`);
+  }
   catch { message('No se pudo abrir ese archivo. Selecciona un plano JSON guardado desde este editor.', true); }
 });
 
@@ -536,5 +635,13 @@ new ResizeObserver(() => {
   else renderView();
 }).observe(canvas);
 
-refresh();
-fitView();
+setupProjectionBar();
+if (drawing.projection) setProjectionStep(drawing.projection);
+if (!inProjectionMode && url.searchParams.get('nuevo') === '1') {
+  url.searchParams.delete('nuevo');
+  window.history.replaceState(null, '', url);
+  newBlank();
+} else {
+  refresh();
+  fitView();
+}

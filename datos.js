@@ -140,9 +140,9 @@ window.AULA_MATERIAS = [
       },
       {
         "type": "Actividad interactiva",
-        "title": "Practicar acotación en el Laboratorio de vistas",
-        "description": "Coloca y revisa las cotas de las vistas que has dibujado.",
-        "url": "../recursos/tecnologia-1eso/laboratorio-vistas/acotacion.html",
+        "title": "Practicar acotación en la Mesa de dibujo 2D",
+        "description": "Abre tus vistas guardadas en sistema diédrico y acótalas en la mesa de dibujo.",
+        "url": "../recursos/tecnologia-1eso/planos-2d/index.html?vistas=1",
         "unit": "Acotación en dibujo técnico"
       }
     ],
@@ -312,9 +312,9 @@ window.AULA_MATERIAS = [
       },
       {
         "type": "Actividad interactiva",
-        "title": "Practicar acotación en el Laboratorio de vistas",
-        "description": "Coloca y revisa las cotas de las vistas que has dibujado.",
-        "url": "../recursos/tecnologia-1eso/laboratorio-vistas/acotacion.html",
+        "title": "Practicar acotación en la Mesa de dibujo 2D",
+        "description": "Abre tus vistas guardadas en sistema diédrico y acótalas en la mesa de dibujo.",
+        "url": "../recursos/tecnologia-1eso/planos-2d/index.html?vistas=1",
         "unit": "Acotación en dibujo técnico"
       }
     ],
