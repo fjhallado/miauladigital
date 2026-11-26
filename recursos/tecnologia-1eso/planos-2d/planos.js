@@ -57,6 +57,7 @@ function message(text = '', error = false) {
 }
 
 function useDrawing(next) {
+  clearInteraction();
   drawing = next;
   staged = [];
   selected = -1;
@@ -352,6 +353,7 @@ function clearInteraction() {
 
 canvas.addEventListener('pointerdown', event => {
   if (!event.isPrimary || interaction || ![0, 1].includes(event.button)) return;
+  if (document.activeElement === title) title.blur();
   event.preventDefault();
   const raw = worldPoint(event.clientX, event.clientY);
   const mode = event.button === 1 ? 'pan' : tool;
