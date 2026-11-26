@@ -135,11 +135,6 @@ export function projectionLayout({ cell, width, depth, height }) {
   const bottom = -gap - depth * cell;
   return {
     origins: { front: point(mainX, upperY), side: point(gap, upperY), top: point(mainX, -gap) },
-    labels: [
-      ['Alzado', point(mainX + width * cell / 2, upperY + cell)],
-      ['Perfil izquierdo', point(gap + depth * cell / 2, upperY + cell)],
-      ['Planta', point(mainX + width * cell / 2, bottom - cell)]
-    ],
     bounds: { left: mainX - cell, right: right + cell, top: upperY + cell * 2, bottom: bottom - cell * 2 }
   };
 }
@@ -219,10 +214,10 @@ function drawLine(a, b, attributes = {}) {
 
 const svgPoints = points => points.map(p => `${p.x},${-p.y}`).join(' ');
 
-export function renderEntity(entity, { fontSize, print = false, preview = false, selected = false } = {}) {
+export function renderEntity(entity, { fontSize, print = false, scale = 1, preview = false, selected = false } = {}) {
   const dimension = entity.type === 'dimension';
   const color = print ? (dimension ? '#173652' : '#111d2b') : (selected || preview ? '#ffd394' : dimension ? '#96e4ff' : '#dcf1ff');
-  const lineWidth = print ? (dimension ? .25 : .45) : (dimension ? 1.15 : 2.15);
+  const lineWidth = print ? (dimension ? .25 : .45) / scale : (dimension ? 1.15 : 2.15);
   const stroke = { stroke: color, 'stroke-width': lineWidth, 'stroke-linejoin': 'round', 'stroke-linecap': 'round' };
   if (!print) stroke['vector-effect'] = 'non-scaling-stroke';
   if (preview) stroke['stroke-dasharray'] = '5 4';
@@ -242,7 +237,7 @@ export function renderEntity(entity, { fontSize, print = false, preview = false,
     group.append(svg('text', label, format(entity.value ?? dimensionValue(entity))));
   } else if (entity.type === 'line') {
     if (entity.dash) {
-      stroke['stroke-dasharray'] = print ? '2 1.2' : '6 4';
+      stroke['stroke-dasharray'] = print ? `${2 / scale} ${1.2 / scale}` : '6 4';
       stroke['stroke-opacity'] = .66;
     }
     group.append(drawLine(entity.a, entity.b, stroke));
@@ -251,7 +246,7 @@ export function renderEntity(entity, { fontSize, print = false, preview = false,
     group.append(svg('circle', { cx: a.x, cy: -a.y, r, fill: 'none', ...stroke }));
     if (!preview) {
       const arm = Math.min(r * .44, fontSize * .8);
-      const centerStroke = { ...stroke, 'stroke-width': print ? .2 : 1, 'stroke-opacity': .58 };
+      const centerStroke = { ...stroke, 'stroke-width': print ? .2 / scale : 1, 'stroke-opacity': .58 };
       group.append(drawLine(point(a.x - arm, a.y), point(a.x + arm, a.y), centerStroke), drawLine(point(a.x, a.y - arm), point(a.x, a.y + arm), centerStroke));
     }
   } else {
@@ -261,22 +256,24 @@ export function renderEntity(entity, { fontSize, print = false, preview = false,
   return group;
 }
 
-export function renderProjection(projection, { print = false, fontSize = 3.5 } = {}) {
-  const { labels, bounds } = projectionLayout(projection);
+export function renderProjection(projection, { print = false, scale = 1 } = {}) {
+  const { bounds } = projectionLayout(projection);
   const group = svg('g', { 'data-projection-guides': '' });
   const line = {
-    stroke: print ? '#65839b' : '#70aad1', 'stroke-width': print ? .26 : 1.2,
-    'stroke-opacity': .72, 'stroke-dasharray': print ? '3 1.8' : '8 6'
+    stroke: print ? '#65839b' : '#70aad1', 'stroke-width': print ? .26 / scale : 1.2,
+    'stroke-opacity': .72, 'stroke-dasharray': print ? `${3 / scale} ${1.8 / scale}` : '8 6'
   };
   if (!print) line['vector-effect'] = 'non-scaling-stroke';
   group.append(drawLine(point(bounds.left, 0), point(bounds.right, 0), line));
   group.append(drawLine(point(0, bounds.bottom), point(0, bounds.top), line));
-  const caption = {
-    fill: print ? '#284d69' : '#a9d4ee', 'font-family': 'system-ui, sans-serif',
-    'font-size': fontSize, 'font-weight': 700, 'text-anchor': 'middle', 'dominant-baseline': 'central'
-  };
-  for (const [name, p] of labels) group.append(svg('text', { ...caption, x: p.x, y: -p.y }, name));
   return group;
+}
+
+export function renderPrintDrawing(drawing, { scale = 1, fontSize = (drawing.projection?.cell ?? 10) * .35 } = {}) {
+  const content = svg('g');
+  if (drawing.projection) content.append(renderProjection(drawing.projection, { print: true, scale }));
+  for (const entity of drawing.entities) content.append(renderEntity(entity, { print: true, fontSize, scale }));
+  return content;
 }
 
 export function exportDrawing(drawing) {
@@ -287,7 +284,6 @@ export function exportDrawing(drawing) {
   const x = left - padding, y = -top - padding;
   const image = svg('svg', { width: `${width}mm`, height: `${height}mm`, viewBox: `${x} ${y} ${width} ${height}`, role: 'img' });
   image.append(svg('title', {}, drawing.title), svg('rect', { x, y, width, height, fill: '#fff' }));
-  if (drawing.projection) image.append(renderProjection(drawing.projection, { print: true, fontSize: drawing.projection.cell * .38 }));
-  for (const entity of drawing.entities) image.append(renderEntity(entity, { print: true, fontSize: (drawing.projection?.cell ?? 10) * .35 }));
+  image.append(renderPrintDrawing(drawing));
   return new XMLSerializer().serializeToString(image);
 }

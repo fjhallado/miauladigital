@@ -106,6 +106,7 @@ window.MAD_FICHA1_LOGO="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABLAAAAINCA
 </script><script src="vistas-guardadas.js?v=1.4.138"></script>
 <script src="vendor/qrcode-generator-1.4.4.js"></script>
 <script src="lamina-vistas.js?v=1.4.131"></script>
+<script src="lienzo-pdf.js?v=1"></script>
 <script src="../../../examen-navegacion.js?v=1.4.131"></script>
 <script src="examen-vistas.js?v=1.4.136"></script>
 <script>
@@ -506,7 +507,6 @@ logoInput.addEventListener('change',()=>{
 });
 refreshLogoStatus();
 function imgLoad(src){return new Promise((resolve,reject)=>{const im=new Image();im.onload=()=>resolve(im);im.onerror=reject;im.src=src})}
-function rect(g,x,y,w,h){g.strokeRect(x,y,w,h)}
 function printableViews(drawing){
  const n=normalizeGrids(drawing.n);
  const extents={width:Math.max(n.front.w,n.top.w),height:Math.max(n.front.h,n.side.h),depth:Math.max(n.side.w,n.top.h)};
@@ -530,52 +530,15 @@ function printableViews(drawing){
  }));
  return {grids,lines};
 }
-function jpgPage(canvas){
- const data=canvas.toDataURL('image/jpeg',.94).split(',')[1];
- return {bytes:Uint8Array.from(atob(data),char=>char.charCodeAt(0)),width:canvas.width,height:canvas.height};
-}
-function downloadPDF(pages,filename,createdAt){
- const [pageWidth,pageHeight]=[297,210].map(mm=>(mm*72/25.4).toFixed(4));
- const enc=new TextEncoder(),parts=[],offsets=[0];let length=0;
- function add(bytes){parts.push(bytes);length+=bytes.length}
- function txt(t){add(enc.encode(t))}
- function obj(id,content){offsets[id]=length;txt(id+' 0 obj\n'+content+'\nendobj\n')}
- txt('%PDF-1.4\n');
- obj(1,'<< /Type /Catalog /Pages 2 0 R >>');
- const children=pages.map((_,index)=>(3+index*3)+' 0 R').join(' ');
- obj(2,`<< /Type /Pages /Kids [${children}] /Count ${pages.length} >>`);
- const commands=`q\n${pageWidth} 0 0 ${pageHeight} 0 0 cm\n/Im1 Do\nQ\n`;
- pages.forEach(({bytes,width,height},index)=>{
-  const page=3+index*3,image=page+1,stream=page+2;
-  obj(page,`<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ${pageWidth} ${pageHeight}] /Resources << /XObject << /Im1 ${image} 0 R >> >> /Contents ${stream} 0 R >>`);
-  offsets[image]=length;
-  txt(`${image} 0 obj\n<< /Type /XObject /Subtype /Image /Width ${width} /Height ${height} /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length ${bytes.length} >>\nstream\n`);
-  add(bytes);txt('\nendstream\nendobj\n');
-  obj(stream,'<< /Length '+commands.length+' >>\nstream\n'+commands+'endstream');
- });
- const info=offsets.length;
- const pdfDate=new Date(createdAt).toISOString().slice(0,19).replace(/\D/g,'');
- obj(info,'<< /CreationDate (D:'+pdfDate+'Z) >>');
- const start=length;txt(`xref\n0 ${offsets.length}\n0000000000 65535 f \n`);
- for(const offset of offsets.slice(1))txt(String(offset).padStart(10,'0')+' 00000 n \n');
- txt(`trailer\n<< /Size ${offsets.length} /Root 1 0 R /Info ${info} 0 R >>\nstartxref\n${start}\n%%EOF`);
- const blob=new Blob(parts,{type:'application/pdf'}),url=URL.createObjectURL(blob);
- const link=document.createElement('a');link.href=url;link.download=filename;link.click();
- setTimeout(()=>URL.revokeObjectURL(url),12000);
-}
+const {createSheet,drawTitleBlock,jpgPage,downloadPDF}=window.MADSheetPDF;
 async function renderPDFPage({name,course,group},{figure,artwork,drawing,mode,stamp=null,exam=false,number=1,total=1,reason}){
  const logoSource=!exam&&logoEnabled.checked?(schoolLogo||DEFAULT_LOGO):null;
- const W=2480,H=1754,margin=50,report=document.createElement('canvas');report.width=W;report.height=H;
- const g=report.getContext('2d');g.fillStyle='#fff';g.fillRect(0,0,W,H);
- g.strokeStyle='#1b344d';g.lineWidth=4;rect(g,margin,margin,W-2*margin,H-2*margin);
- g.fillStyle='#163651';g.font='bold 43px system-ui';g.fillText('TECNOLOGÍA · VISTAS DIÉDRICAS',88,116);
  const sheet=sheetNumber(figure);
  const level=sheet===1?'FÁCIL':'INTERMEDIO';
  const subtitle=exam
   ? 'MI AULA DIGITAL / EXAMEN DE VISTAS'+(reason?' · '+reason.toUpperCase():'')
   : `MI AULA DIGITAL  /  FICHA ${sheet} · NIVEL ${level}`;
- g.font='25px system-ui';g.fillText(subtitle,90,162);
- g.lineWidth=2;g.beginPath();g.moveTo(70,190);g.lineTo(W-70,190);g.stroke();
+ const {canvas:report,ctx:g}=createSheet('TECNOLOGÍA · VISTAS DIÉDRICAS',subtitle);
  const figureArea={x:100,y:300,w:1085,h:1145};
  const ratio=Math.min(figureArea.w/artwork.width,figureArea.h/artwork.height);
  const fw=artwork.width*ratio,fh=artwork.height*ratio;
@@ -601,7 +564,7 @@ async function renderPDFPage({name,course,group},{figure,artwork,drawing,mode,st
   }
   g.setLineDash([]);
  }
- const left=margin+26,right=W-left,by=H-margin-219,bh=164,qrWidth=164;
+ const qrWidth=164;
  const fields=[
   ['ALUMNO / ALUMNA',660,name.trim()||'________________________'],
   ['CURSO / GRUPO',345,course.trim()+' · '+group.trim()],
@@ -610,22 +573,7 @@ async function renderPDFPage({name,course,group},{figure,artwork,drawing,mode,st
   ['FECHA Y HORA DE CREACIÓN',415],
   [exam?'MI AULA DIGITAL':'LOGOTIPO',null]
  ];
- g.strokeStyle='#1b344d';g.lineWidth=3;rect(g,left,by,right-left,bh);
- let column=left+qrWidth;
- const positions=fields.map(([label,span,value])=>{
-  g.beginPath();g.moveTo(column,by);g.lineTo(column,by+bh);g.stroke();
-  g.font='bold 19px system-ui';g.fillStyle='#536a81';
-  g.fillText(label,column+18,by+32);
-  g.font='bold 29px system-ui';g.fillStyle='#18334c';
-  if(value)g.fillText(value,column+18,by+92,span-36);
-  const position=column;
-  column+=span??right-column;
-  return position;
- });
- g.font='17px system-ui';g.textAlign='right';
- g.fillText('© Francisco José Hallado Fernández',right,by+bh+22);
- g.fillText('Profesor de ESO y Bachillerato',right,by+bh+42);
- g.textAlign='left';
+ const {left,right,top:by,height:bh,positions}=drawTitleBlock(g,fields,qrWidth);
  if(logoSource){
   try{
    const logo=await imgLoad(logoSource),logoLeft=positions[5],scale=Math.min((right-logoLeft-40)/logo.naturalWidth,88/logo.naturalHeight);

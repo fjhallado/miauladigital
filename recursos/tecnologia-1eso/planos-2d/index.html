@@ -9,12 +9,15 @@
   <title>Dibujo de planos 2D · Mi Aula Digital</title>
   <link rel="stylesheet" href="../../../estilos.css?v=1.4.148">
   <link rel="stylesheet" href="../../../redes-sociales.css">
-  <link rel="stylesheet" href="planos.css?v=3">
+  <link rel="stylesheet" href="planos.css?v=4">
   <script src="../../../control-config.js?v=1.4.95" defer></script>
   <script src="../../../control-acceso.js?v=1.4.133" defer></script>
   <script src="../../../laboratorio-acceso.js?v=1.4.149" data-lab="vistas" data-mode-param="vistas" defer></script>
   <script src="../laboratorio-vistas/vistas-guardadas.js?v=1.4.138" defer></script>
-  <script type="module" src="planos.js?v=3"></script>
+  <script src="../laboratorio-vistas/vendor/qrcode-generator-1.4.4.js" defer></script>
+  <script src="../laboratorio-vistas/lamina-vistas.js?v=1.4.131" defer></script>
+  <script src="../laboratorio-vistas/lienzo-pdf.js?v=1" defer></script>
+  <script type="module" src="planos.js?v=4"></script>
 </head>
 <body class="cad-page">
   <svg class="cad-symbols" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -95,7 +98,8 @@
         </div>
         <div class="cad-download-actions">
           <button type="button" class="cad-button" id="save-drawing"><svg aria-hidden="true"><use href="#i-save"/></svg>Guardar plano</button>
-          <button type="button" class="cad-button cad-primary" id="export-svg"><svg aria-hidden="true"><use href="#i-export"/></svg>Exportar SVG</button>
+          <button type="button" class="cad-button" id="export-svg">Exportar SVG</button>
+          <button type="button" class="cad-button cad-primary" id="export-pdf"><svg aria-hidden="true"><use href="#i-export"/></svg>Descargar PDF A4</button>
         </div>
       </div>
 
@@ -188,6 +192,20 @@
       </div>
     </section>
     <p class="cad-message" id="workspace-message" role="status"></p>
+    <dialog class="cad-dialog" id="pdf-dialog" aria-labelledby="pdf-title" aria-describedby="pdf-intro">
+      <h2 id="pdf-title">Descargar plano A4</h2>
+      <p id="pdf-intro">El dibujo se ajusta al marco en horizontal. Rellena los datos que quieras incluir en el cajetín.</p>
+      <form id="pdf-form">
+        <label class="cad-pdf-name">Nombre y apellidos <input name="name" autocomplete="name" maxlength="100" autofocus></label>
+        <label>Curso <input name="course" placeholder="1.º ESO" maxlength="40"></label>
+        <label>Grupo <input name="group" placeholder="A" maxlength="30"></label>
+        <p class="cad-pdf-status" id="pdf-status" role="status"></p>
+        <div class="cad-dialog-actions">
+          <button class="cad-button" type="button" id="cancel-pdf">Cancelar</button>
+          <button class="cad-button cad-primary" type="submit" id="confirm-pdf"><svg aria-hidden="true"><use href="#i-export"/></svg>Descargar PDF</button>
+        </div>
+      </form>
+    </dialog>
     <noscript>Activa JavaScript en el navegador para usar la mesa de dibujo.</noscript>
   </main>
   <footer class="cad-width cad-footer"><strong>Mi Aula Digital</strong><span>Creada por Francisco José Hallado Fernández · Profesor de ESO y Bachillerato</span></footer>

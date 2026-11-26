@@ -3,8 +3,9 @@ import {
   distance, entityLimit, exportDrawing, format, hitDistance, moveEntity, nodeLimit,
   point, properties, readDrawing, renderEntity, renderProjection, rounded, samePoint,
   svg, validEntity, writeDrawing
-} from './geometria.js?v=3';
-import { buildProjection, projectionRevision } from './proyecciones.js?v=3';
+} from './geometria.js?v=4';
+import { buildProjection, projectionRevision } from './proyecciones.js?v=4';
+import { downloadPlanPDF } from './plano-pdf.js?v=1';
 
 const byId = id => document.getElementById(id);
 const canvas = byId('drawing');
@@ -16,6 +17,7 @@ const snapGrid = byId('snap-grid');
 const gridStep = byId('grid-step');
 const title = byId('drawing-title');
 const coordinateLabel = byId('drawing-coordinates');
+const pdfDialog = byId('pdf-dialog');
 const buttons = [...document.querySelectorAll('[data-tool]')];
 const storageKey = 'mi-aula-digital.planos-2d.v1';
 const url = new URL(location.href);
@@ -194,6 +196,7 @@ function updatePanel() {
   byId('redo').disabled = !history.next.length;
   byId('delete-entity').disabled = selected < 0;
   byId('export-svg').disabled = !drawing.entities.length;
+  byId('export-pdf').disabled = !drawing.entities.length;
   byId('entity-count').textContent = `${drawing.entities.length} ${drawing.entities.length === 1 ? 'entidad' : 'entidades'}`;
   if (activeExercise && !projectionError) {
     const projection = drawing.projection;
@@ -344,7 +347,7 @@ function entityIndex(p) {
 
 function renderEntities() {
   const guides = byId('projection-guides');
-  if (drawing.projection) guides.replaceChildren(renderProjection(drawing.projection, { fontSize: fontSize() * .92 }));
+  if (drawing.projection) guides.replaceChildren(renderProjection(drawing.projection));
   else if (guides.hasChildNodes()) guides.replaceChildren();
   const live = drawing.entities.map((entity, index) => {
     const updated = index === selected && interaction?.moved ? interaction.moved : entity;
@@ -580,12 +583,16 @@ drawingFile.addEventListener('change', async () => {
   catch { message('No se pudo abrir ese archivo. Selecciona un plano JSON guardado desde este editor.', true); }
 });
 
+function drawingFilename(extension) {
+  const safeTitle = drawing.title.replace(/[<>:"/\\|?*\u0000-\u001f]/g, '-');
+  return `${safeTitle}.${extension}`;
+}
+
 function download(content, mime, extension) {
   const url = URL.createObjectURL(new Blob([content], { type: mime }));
   const link = document.createElement('a');
-  const safeTitle = drawing.title.replace(/[<>:"/\\|?*\u0000-\u001f]/g, '-');
   link.href = url;
-  link.download = `${safeTitle}.${extension}`;
+  link.download = drawingFilename(extension);
   link.click();
   setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
@@ -604,8 +611,35 @@ byId('export-svg').addEventListener('click', () => {
   message('Plano exportado como imagen SVG.');
 });
 
+const pdfStatus = byId('pdf-status');
+const pdfSubmit = byId('confirm-pdf');
+const pdfCancel = byId('cancel-pdf');
+byId('export-pdf').addEventListener('click', () => {
+  renameDrawing();
+  pdfStatus.textContent = '';
+  pdfDialog.showModal();
+});
+pdfCancel.addEventListener('click', () => pdfDialog.close());
+pdfDialog.addEventListener('cancel', event => { if (pdfSubmit.disabled) event.preventDefault(); });
+byId('pdf-form').addEventListener('submit', async event => {
+  event.preventDefault();
+  if (!drawing.entities.length || pdfSubmit.disabled) return;
+  const values = new FormData(event.currentTarget);
+  const student = Object.fromEntries([...values].map(([key, value]) => [key, value.trim()]));
+  pdfSubmit.disabled = pdfCancel.disabled = true;
+  pdfStatus.textContent = 'Preparando el plano…';
+  try {
+    message(await downloadPlanPDF(drawing, student, drawingFilename('pdf')));
+    pdfDialog.close();
+  } catch {
+    pdfStatus.textContent = 'No se pudo generar el plano. Vuelve a pulsar Descargar PDF.';
+  } finally {
+    pdfSubmit.disabled = pdfCancel.disabled = false;
+  }
+});
+
 document.addEventListener('keydown', event => {
-  if (event.defaultPrevented || event.target.closest('input, select, textarea, [contenteditable]')) return;
+  if (pdfDialog.open || event.defaultPrevented || event.target.closest('input, select, textarea, [contenteditable]')) return;
   const key = event.key.toLowerCase();
   if (event.ctrlKey || event.metaKey) {
     if (key === 'z') {

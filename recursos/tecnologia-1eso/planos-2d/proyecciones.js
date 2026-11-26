@@ -1,4 +1,4 @@
-import { dimensionAxes, dimensionOffset, distance, entityLimit, point, projectionLayout, rounded, samePoint, validEntity } from './geometria.js?v=3';
+import { dimensionAxes, dimensionOffset, distance, entityLimit, point, projectionLayout, rounded, samePoint, validEntity } from './geometria.js?v=4';
 
 const dashed = line => !!line.dash || line.style === 'dash';
 
