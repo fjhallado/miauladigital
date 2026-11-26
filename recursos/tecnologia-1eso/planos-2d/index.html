@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Francisco José Hallado Fernández">
+  <meta name="description" content="Traza, mide y acota planos 2D en la mesa de dibujo de Mi Aula Digital.">
+  <meta name="theme-color" content="#0b1425">
+  <title>Dibujo de planos 2D · Mi Aula Digital</title>
+  <link rel="stylesheet" href="../../../estilos.css?v=1.4.148">
+  <link rel="stylesheet" href="../../../redes-sociales.css">
+  <link rel="stylesheet" href="planos.css?v=1">
+  <script type="module" src="planos.js?v=1"></script>
+</head>
+<body class="cad-page">
+  <svg class="cad-symbols" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <defs>
+      <symbol id="i-new" viewBox="0 0 24 24"><path d="M13 3H6a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V9zm0 0v6h6m-7 3v6m-3-3h6"/></symbol>
+      <symbol id="i-open" viewBox="0 0 24 24"><path d="M3 19V6a1 1 0 0 1 1-1h5l2 2h8a1 1 0 0 1 1 1v3m-17 8 3-8h15a1 1 0 0 1 1 1l-3 7z"/></symbol>
+      <symbol id="i-save" viewBox="0 0 24 24"><path d="M5 3h12l3 3v14a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1zm3 0v6h8V3M8 21v-8h8v8"/></symbol>
+      <symbol id="i-export" viewBox="0 0 24 24"><path d="M12 3v12m-4-4 4 4 4-4M5 16v4h14v-4"/></symbol>
+      <symbol id="i-undo" viewBox="0 0 24 24"><path d="m9 5-6 6 6 6m-6-6h12a5 5 0 0 1 5 5v2"/></symbol>
+      <symbol id="i-redo" viewBox="0 0 24 24"><path d="m15 5 6 6-6 6m6-6H9a5 5 0 0 0-5 5v2"/></symbol>
+      <symbol id="i-select" viewBox="0 0 24 24"><path d="m5 3 14 11-7 1-4 6z"/></symbol>
+      <symbol id="i-hand" viewBox="0 0 24 24"><path d="M7 13V5a1.5 1.5 0 0 1 3 0v6-8a1.5 1.5 0 0 1 3 0v8-6a1.5 1.5 0 0 1 3 0v7-3a1.5 1.5 0 0 1 3 0v6a6 6 0 0 1-6 6h-1a6 6 0 0 1-5-2.7L3.5 13a1.5 1.5 0 0 1 2-2.1L7 13z"/></symbol>
+      <symbol id="i-line" viewBox="0 0 24 24"><path d="m6 18 12-12"/><circle cx="4" cy="20" r="2"/><circle cx="20" cy="4" r="2"/></symbol>
+      <symbol id="i-polyline" viewBox="0 0 24 24"><path d="m5 17 4-10 6 8 4-10"/><circle cx="4" cy="19" r="2"/><circle cx="20" cy="3" r="2"/></symbol>
+      <symbol id="i-rect" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="1"/></symbol>
+      <symbol id="i-circle" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 11v2m-1-1h2"/></symbol>
+      <symbol id="i-horizontal" viewBox="0 0 24 24"><path d="M3 4v16m18-16v16M3 12h18m-14-3-4 3 4 3m10-6 4 3-4 3"/></symbol>
+      <symbol id="i-vertical" viewBox="0 0 24 24"><path d="M4 3h16M4 21h16M12 3v18m-3-14 3-4 3 4m-6 10 3 4 3-4"/></symbol>
+      <symbol id="i-minus" viewBox="0 0 24 24"><path d="M5 12h14"/></symbol>
+      <symbol id="i-plus" viewBox="0 0 24 24"><path d="M5 12h14m-7-7v14"/></symbol>
+      <symbol id="i-fit" viewBox="0 0 24 24"><path d="M3 8V3h5m8 0h5v5m0 8v5h-5m-8 0H3v-5"/><rect x="8" y="8" width="8" height="8"/></symbol>
+      <symbol id="i-trash" viewBox="0 0 24 24"><path d="M4 6h16M9 6V3h6v3M6 6l1 15h10l1-15M10 10v6m4-6v6"/></symbol>
+      <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5m0-8h.01"/></symbol>
+      <symbol id="i-blueprint" viewBox="0 0 24 24"><path d="M7 17V6h6v5h5v6zM4 6v11M7 20h11M3 6h2M3 17h2m2 2v2m11-2v2"/></symbol>
+    </defs>
+  </svg>
+  <header class="cad-header">
+    <div class="cad-width cad-header-inner">
+      <div class="branding branding-links">
+        <div>
+          <div class="branding-title"><a class="branding-home" href="../../../index.html"><strong>Mi Aula Digital</strong></a><a class="youtube-header" href="https://www.youtube.com/@mi_aula_digital" aria-label="Canal de YouTube de Mi Aula Digital" title="YouTube"><span class="youtube-icon" aria-hidden="true"></span></a></div>
+          <small>Creada por Francisco José Hallado Fernández</small>
+          <small class="branding-role">Profesor de ESO y Bachillerato</small>
+        </div>
+      </div>
+      <nav aria-label="Navegación principal"><a href="../../../laboratorio.html">Laboratorio</a><a href="../acotacion/index.html">Normas de acotación</a></nav>
+    </div>
+  </header>
+
+  <main class="cad-width cad-main">
+    <div class="cad-intro">
+      <div class="cad-app-mark" aria-hidden="true"><svg><use href="#i-blueprint"/></svg></div>
+      <div>
+        <p class="eyebrow">Tecnología y Digitalización</p>
+        <h1>Dibujo de planos 2D</h1>
+        <p>Traza piezas a escala y acótalas en milímetros.</p>
+      </div>
+      <button class="cad-button cad-example" type="button" id="load-example">Cargar plano de ejemplo</button>
+    </div>
+
+    <section class="cad-workspace" aria-label="Mesa de dibujo">
+      <div class="cad-toolbar" role="group" aria-label="Archivo e historial">
+        <div class="cad-file-actions">
+          <button type="button" class="cad-button" id="new-drawing"><svg aria-hidden="true"><use href="#i-new"/></svg>Nuevo</button>
+          <button type="button" class="cad-button" id="open-drawing"><svg aria-hidden="true"><use href="#i-open"/></svg>Abrir</button>
+          <input id="drawing-file" type="file" accept=".json,application/json" hidden>
+        </div>
+        <div class="cad-history">
+          <button type="button" class="cad-icon-button" id="undo" aria-label="Deshacer" title="Deshacer (Ctrl+Z)"><svg aria-hidden="true"><use href="#i-undo"/></svg></button>
+          <button type="button" class="cad-icon-button" id="redo" aria-label="Rehacer" title="Rehacer (Ctrl+Mayús+Z)"><svg aria-hidden="true"><use href="#i-redo"/></svg></button>
+        </div>
+        <div class="cad-download-actions">
+          <button type="button" class="cad-button" id="save-drawing"><svg aria-hidden="true"><use href="#i-save"/></svg>Guardar plano</button>
+          <button type="button" class="cad-button cad-primary" id="export-svg"><svg aria-hidden="true"><use href="#i-export"/></svg>Exportar SVG</button>
+        </div>
+      </div>
+
+      <div class="cad-working-area">
+        <aside class="cad-tools" aria-label="Herramientas">
+          <div class="cad-tool-section" role="group" aria-labelledby="tool-edit-label">
+            <h2 id="tool-edit-label">Edición</h2>
+            <button type="button" class="cad-tool" data-tool="select" aria-pressed="true"><svg aria-hidden="true"><use href="#i-select"/></svg>Seleccionar<kbd aria-hidden="true">V</kbd></button>
+            <button type="button" class="cad-tool" data-tool="pan" aria-pressed="false"><svg aria-hidden="true"><use href="#i-hand"/></svg>Mover vista<kbd aria-hidden="true">M</kbd></button>
+          </div>
+          <div class="cad-tool-section" role="group" aria-labelledby="tool-draw-label">
+            <h2 id="tool-draw-label">Dibujo</h2>
+            <button type="button" class="cad-tool" data-tool="line" aria-pressed="false"><svg aria-hidden="true"><use href="#i-line"/></svg>Línea<kbd aria-hidden="true">L</kbd></button>
+            <button type="button" class="cad-tool" data-tool="polyline" aria-pressed="false"><svg aria-hidden="true"><use href="#i-polyline"/></svg>Polilínea<kbd aria-hidden="true">P</kbd></button>
+            <button type="button" class="cad-tool" data-tool="rect" aria-pressed="false"><svg aria-hidden="true"><use href="#i-rect"/></svg>Rectángulo<kbd aria-hidden="true">R</kbd></button>
+            <button type="button" class="cad-tool" data-tool="circle" aria-pressed="false"><svg aria-hidden="true"><use href="#i-circle"/></svg>Círculo<kbd aria-hidden="true">C</kbd></button>
+          </div>
+          <div class="cad-tool-section" role="group" aria-labelledby="tool-dim-label">
+            <h2 id="tool-dim-label">Cotas</h2>
+            <button type="button" class="cad-tool" data-tool="horizontal" aria-pressed="false"><svg aria-hidden="true"><use href="#i-horizontal"/></svg>Horizontal<kbd aria-hidden="true">H</kbd></button>
+            <button type="button" class="cad-tool" data-tool="vertical" aria-pressed="false"><svg aria-hidden="true"><use href="#i-vertical"/></svg>Vertical<kbd aria-hidden="true">T</kbd></button>
+          </div>
+          <button type="button" class="cad-tool cad-delete" id="delete-entity" disabled><svg aria-hidden="true"><use href="#i-trash"/></svg>Eliminar</button>
+        </aside>
+
+        <div class="cad-center">
+          <div class="cad-sheet-bar">
+            <label for="drawing-title" class="cad-sheet-label"><svg aria-hidden="true"><use href="#i-new"/></svg><span class="cad-visually-hidden">Nombre del plano</span></label>
+            <input id="drawing-title" value="Placa escalonada" maxlength="80" spellcheck="false">
+            <div class="cad-zoom" role="group" aria-label="Zoom">
+              <button type="button" class="cad-icon-button" id="zoom-out" title="Alejar" aria-label="Alejar"><svg aria-hidden="true"><use href="#i-minus"/></svg></button>
+              <output id="zoom-percent" aria-label="Nivel de zoom">100 %</output>
+              <button type="button" class="cad-icon-button" id="zoom-in" title="Acercar" aria-label="Acercar"><svg aria-hidden="true"><use href="#i-plus"/></svg></button>
+              <button type="button" class="cad-icon-button" id="fit-view" title="Encuadrar plano" aria-label="Encuadrar plano"><svg aria-hidden="true"><use href="#i-fit"/></svg></button>
+            </div>
+          </div>
+          <div class="cad-board" id="board">
+            <svg id="drawing" role="img" aria-label="Lienzo de dibujo técnico con cuadrícula en milímetros">
+              <defs>
+                <pattern id="minor-grid" width="5" height="5" patternUnits="userSpaceOnUse"><path d="M5 0H0V5" fill="none" stroke="#203653" stroke-width=".9" vector-effect="non-scaling-stroke"/></pattern>
+                <pattern id="major-grid" width="25" height="25" patternUnits="userSpaceOnUse"><path d="M25 0H0V25" fill="none" stroke="#304b6c" stroke-width="1" vector-effect="non-scaling-stroke"/></pattern>
+              </defs>
+              <g id="drawing-grid" pointer-events="none">
+                <rect id="minor-field" fill="url(#minor-grid)"/>
+                <rect id="major-field" fill="url(#major-grid)"/>
+                <path id="drawing-axes"/>
+              </g>
+              <g id="drawing-entities" pointer-events="none"></g>
+              <g id="drawing-preview" pointer-events="none"></g>
+            </svg>
+            <div class="cad-scale" aria-hidden="true"><div id="scale-line"></div><span id="scale-value">20 mm</span></div>
+          </div>
+          <div class="cad-status-bar" aria-label="Estado del plano">
+            <span class="cad-coordinate" id="drawing-coordinates">X — · Y —</span>
+            <span id="entity-count">7 entidades</span>
+            <span class="cad-unit">mm</span>
+          </div>
+        </div>
+
+        <aside class="cad-properties" aria-label="Configuración y propiedades">
+          <div class="cad-panel-section cad-current-tool">
+            <h2>Herramienta activa</h2>
+            <div class="cad-current-heading"><svg aria-hidden="true"><use id="active-icon" href="#i-select"/></svg><h3 id="active-tool">Seleccionar</h3></div>
+            <p id="tool-hint" aria-live="polite">Pulsa sobre un trazo o una cota para seleccionarlos. Arrastra un elemento para moverlo.</p>
+            <button type="button" class="cad-button cad-finish" id="finish-polyline" hidden>Terminar polilínea</button>
+          </div>
+          <div class="cad-panel-section">
+            <h2>Ajustes del plano</h2>
+            <label class="cad-option"><span>Mostrar cuadrícula</span><input id="show-grid" type="checkbox" checked></label>
+            <label class="cad-option"><span>Ajustar a cuadrícula</span><input id="snap-grid" type="checkbox" checked></label>
+            <label class="cad-option"><span>Paso</span><select id="grid-step"><option value="1">1 mm</option><option value="2">2 mm</option><option value="5" selected>5 mm</option><option value="10">10 mm</option></select></label>
+            <details class="cad-exact">
+              <summary>Introducir coordenadas</summary>
+              <form id="exact-point">
+                <label>X <input type="number" name="x" min="-1000000" max="1000000" step="0.001" required></label>
+                <label>Y <input type="number" name="y" min="-1000000" max="1000000" step="0.001" required></label>
+                <button type="submit" class="cad-button">Marcar punto</button>
+              </form>
+            </details>
+          </div>
+          <div class="cad-panel-section cad-selection">
+            <h2>Propiedades</h2>
+            <p id="empty-selection">Selecciona un elemento para consultar sus medidas.</p>
+            <dl id="entity-properties" hidden></dl>
+          </div>
+          <div class="cad-help"><svg aria-hidden="true"><use href="#i-info"/></svg><p>Para acotar, marca dos puntos y luego pulsa donde quieras colocar la línea de cota.</p></div>
+        </aside>
+      </div>
+    </section>
+    <p class="cad-message" id="workspace-message" role="status"></p>
+    <noscript>Activa JavaScript en el navegador para usar la mesa de dibujo.</noscript>
+  </main>
+  <footer class="cad-width cad-footer"><strong>Mi Aula Digital</strong><span>Creada por Francisco José Hallado Fernández · Profesor de ESO y Bachillerato</span></footer>
+</body>
+</html>
