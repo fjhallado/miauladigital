@@ -37,3 +37,15 @@
 .td-detail .td-links{display:flex;gap:10px;flex-wrap:wrap;margin-top:25px}
 @media(max-width:850px){.td-hero{grid-template-columns:1fr}.td-hero-mark{display:none}.td-products{grid-template-columns:1fr}.td-subgrid{grid-template-columns:1fr}}
 @media(max-width:630px){.td-categories,.td-steps{grid-template-columns:1fr}.td-hero{padding:23px}.td-group{padding:16px}}
+
+.td-page [hidden]{display:none!important}
+.td-gate{width:min(100% - 32px,500px);margin:clamp(38px,9vh,94px) auto;padding:clamp(22px,5vw,38px);border:1px solid #537caf;border-radius:20px;background:#142d50;color:#eef6ff;box-shadow:0 18px 50px #05132a70}
+.td-gate-lock{font-size:2rem;display:block;margin-bottom:10px}
+.td-gate h1{margin:0 0 8px;font-size:clamp(1.7rem,5vw,2.25rem)}
+.td-gate form{display:grid;gap:10px;margin-top:22px}
+.td-gate label{font-weight:700}
+.td-gate input{width:100%;box-sizing:border-box;min-height:44px;padding:10px 12px;border-radius:9px;border:1px solid #7b9ec7;background:#0d213c;color:#fff;font:inherit}
+.td-gate form button{justify-self:start}
+.td-gate-message{min-height:1.5em;margin-bottom:10px;color:#fad9a7}
+.td-session{display:flex;justify-content:flex-end;margin-bottom:10px}
+.td-session:has(button[hidden]){display:none}

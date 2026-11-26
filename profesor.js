@@ -208,7 +208,10 @@ function closeSalesPreview(){
  salesPreview.setAttribute('aria-expanded','false');
  salesPreview.textContent='Ver catálogo';
 }
-window.madTeacherSalesPreview=frame=>session?.role==='admin'&&!salesFrame.hidden&&frame===salesFrame.contentWindow;
+window.madTeacherSalesPreview=(frame,documentId)=>{
+ if(session?.role!=='admin'||salesFrame.hidden||frame!==salesFrame.contentWindow)return null;
+ return request('/private-resources/document?document='+encodeURIComponent(documentId),'GET');
+};
 salesPreview.addEventListener('click',()=>{
  if(session?.role!=='admin')return;
  if(!salesFrame.hidden){closeSalesPreview();return;}

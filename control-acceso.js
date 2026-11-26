@@ -150,50 +150,11 @@ function markGameLinks(){
  links.forEach(link=>{if(!gamesEnabled()){link.setAttribute('aria-disabled','true');link.style.opacity='.45';link.style.pointerEvents='none';link.title='Cafetería desactivada por el profesor'}else{link.removeAttribute('aria-disabled');link.style.opacity='';link.style.pointerEvents='';link.removeAttribute('title')}})
 }
 
-function salesPreview(){
- try{return parent!==window&&parent.madTeacherSalesPreview?.(window)===true;}
- catch{return false;}
-}
-function markSalesLinks(){
- const show=ready&&!error&&status.salesEnabled===true;
- const preview=document.body.hasAttribute('data-sales-page')&&salesPreview();
- document.querySelectorAll('[data-sales-menu]').forEach(link=>{
-  if(show||preview)link.setAttribute('href',link.dataset.salesMenu);
-  else link.removeAttribute('href');
-  link.style.opacity=show||preview?'':'.65';
-  link.style.cursor=show||preview?'':'default';
-  link.setAttribute('aria-disabled',show||preview?'false':'true');
- });
- document.querySelectorAll('a[href*="otros-recursos.html"],a[href*="recursos-docentes/"]').forEach(link=>{
-  if(link.hasAttribute('data-sales-menu'))return;
-  link.style.display=show||preview?'':'none';
-  link.setAttribute('aria-hidden',show||preview?'false':'true');
- });
- document.querySelectorAll('[data-sales-home]').forEach(el=>{el.hidden=!show;});
-}
-function protectSales(){
- const body=document.body;
- if(!body||!body.hasAttribute('data-sales-page'))return;
- const main=body.querySelector('main');
- if(!main)return;
- if(salesPreview()){
-  document.querySelectorAll('a[href]').forEach(link=>{
-   if(!link.hasAttribute('data-sales-menu')&&!link.getAttribute('href').startsWith('recursos-docentes/'))link.target='_top';
-  });
- }
- const notice=document.createElement('section');
- notice.hidden=true;
- notice.id='mad-sales-closed';
- notice.style.cssText='max-width:680px;margin:70px auto;padding:32px 24px;background:#142d50;color:#eef6ff;border:1px solid #537caf;border-radius:18px;font:16px/1.6 system-ui,sans-serif;text-align:center';
- notice.innerHTML='<div style="font-size:38px">🔒</div><h1>Recursos para docentes</h1><p>El catálogo aún no está disponible al público.</p><a href="'+(body.getAttribute('data-home-url')||'index.html')+'" style="display:inline-block;padding:10px 16px;margin-top:12px;background:#3079c9;color:white;border-radius:10px;text-decoration:none">Volver a Mi Aula Digital</a>';
- main.parentNode.insertBefore(notice,main);
- onChange(()=>{const show=salesPreview()||(ready&&!error&&status.salesEnabled===true);main.hidden=!show;notice.hidden=show;});
-}
 window.MAD_CONTROL={get url(){return url},get remote(){return !!url},get salesSupported(){return salesSupported},get ready(){return ready},get error(){return error},get status(){return {...status}},gamesEnabled,salesEnabled:()=>ready&&!error&&status.salesEnabled===true,examUnlimited:()=>ready&&status.examsUnlocked,refresh,onChange,examVersion,canResetExam,now,dateLabel,timeLabel,phase,labAccess,examWindow,prepareAttempt,attemptNow,attemptDeadline,updateTiming,protectGames,markGameLinks,markSalesLinks,protectSales,localUpdate(data){if(url)throw Error('La sincronización remota está activada');status=parse(data);localStorage.setItem(LOCAL_KEY,JSON.stringify(status));ready=true;notify();return status}};
 window.addEventListener('storage',e=>{if(!url&&e.key===LOCAL_KEY)refresh()});
 window.addEventListener('focus',()=>{if(url)refresh()});
 window.addEventListener('pageshow',()=>{if(url)refresh()});
 document.addEventListener('visibilitychange',()=>{if(url&&!document.hidden){notify();refresh()}});
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>{onChange(markGameLinks);onChange(markSalesLinks);protectSales()},{once:true});else{onChange(markGameLinks);onChange(markSalesLinks);protectSales();}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>{onChange(markGameLinks)},{once:true});else{onChange(markGameLinks);}
 refresh();if(url)setInterval(refresh,20000);
 })();
