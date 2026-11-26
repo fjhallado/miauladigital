@@ -5,11 +5,11 @@ const url=/^https?:\/\//i.test(raw)?raw.replace(/\/+$/,''):'';
 const LOCAL_KEY='mad-profesor-controles-v1';
 const DEFAULT_SCHEDULES={cafeteria:null,tic:null,periodica:null,vistas:null};
 const DEFAULT_LAB_DEADLINES={periodica:null,factorlab:null,vistas:null,htmlcss:null};
-const DEFAULT={gamesEnabled:true,labsEnabled:true,examsUnlocked:false,salesEnabled:false,commentsAutoPublish:false,examResets:{tic:0,periodica:0,vistas:0},schedules:DEFAULT_SCHEDULES,labDeadlines:DEFAULT_LAB_DEADLINES,viewExamDefaultMinutes:null};
+const DEFAULT={gamesEnabled:true,labsEnabled:true,examsUnlocked:false,commentsAutoPublish:false,examResets:{tic:0,periodica:0,vistas:0},schedules:DEFAULT_SCHEDULES,labDeadlines:DEFAULT_LAB_DEADLINES,viewExamDefaultMinutes:null};
 const madridDate=new Intl.DateTimeFormat('es-ES',{timeZone:'Europe/Madrid',dateStyle:'short',timeStyle:'short'});
 const madridTime=new Intl.DateTimeFormat('es-ES',{timeZone:'Europe/Madrid',hour:'2-digit',minute:'2-digit',hourCycle:'h23'});
 let clock=null,boundary=null;
-let status={...DEFAULT}, ready=false, error=null, observers=[], salesSupported=!url;
+let status={...DEFAULT}, ready=false, error=null, observers=[];
 function parse(value){
  const examResets={...DEFAULT.examResets};
  for(const exam of Object.keys(examResets)){
@@ -30,7 +30,7 @@ function parse(value){
  }
  const minutes=value?.viewExamDefaultMinutes;
  const viewExamDefaultMinutes=Number.isSafeInteger(minutes)&&minutes>0?minutes:null;
- return {gamesEnabled:value?.gamesEnabled===true,labsEnabled:value?.labsEnabled!==false,examsUnlocked:value?.examsUnlocked===true,salesEnabled:value?.salesEnabled===true,commentsAutoPublish:value?.commentsAutoPublish===true,examResets,schedules,labDeadlines,viewExamDefaultMinutes};
+ return {gamesEnabled:value?.gamesEnabled===true,labsEnabled:value?.labsEnabled!==false,examsUnlocked:value?.examsUnlocked===true,commentsAutoPublish:value?.commentsAutoPublish===true,examResets,schedules,labDeadlines,viewExamDefaultMinutes};
 }
 function readLocal(){try{return {...DEFAULT,...JSON.parse(localStorage.getItem(LOCAL_KEY)||'{}')}}catch(e){return {...DEFAULT}}}
 function notify(){
@@ -51,11 +51,10 @@ function refresh(fresh=false){
    if(!res.ok)throw Error('El servidor respondió '+res.status);
    const data=await res.json();
    if(!data.examResets)throw Error('Actualiza el servidor de control del profesor.');
-   salesSupported=typeof data.salesEnabled==='boolean';
    const received=performance.now();
    if(Number.isSafeInteger(data.serverTime))clock={time:data.serverTime+(received-requested)/2,received};
    status=parse(data);error=null;
-  }catch(e){error=e.message;status={...status,gamesEnabled:false,examsUnlocked:false,salesEnabled:false}}
+  }catch(e){error=e.message;status={...status,gamesEnabled:false,examsUnlocked:false}}
   finally{pending=null}
   ready=true;notify();return status;
  })();
@@ -150,7 +149,7 @@ function markGameLinks(){
  links.forEach(link=>{if(!gamesEnabled()){link.setAttribute('aria-disabled','true');link.style.opacity='.45';link.style.pointerEvents='none';link.title='Cafetería desactivada por el profesor'}else{link.removeAttribute('aria-disabled');link.style.opacity='';link.style.pointerEvents='';link.removeAttribute('title')}})
 }
 
-window.MAD_CONTROL={get url(){return url},get remote(){return !!url},get salesSupported(){return salesSupported},get ready(){return ready},get error(){return error},get status(){return {...status}},gamesEnabled,salesEnabled:()=>ready&&!error&&status.salesEnabled===true,examUnlimited:()=>ready&&status.examsUnlocked,refresh,onChange,examVersion,canResetExam,now,dateLabel,timeLabel,phase,labAccess,examWindow,prepareAttempt,attemptNow,attemptDeadline,updateTiming,protectGames,markGameLinks,markSalesLinks,protectSales,localUpdate(data){if(url)throw Error('La sincronización remota está activada');status=parse(data);localStorage.setItem(LOCAL_KEY,JSON.stringify(status));ready=true;notify();return status}};
+window.MAD_CONTROL={get url(){return url},get remote(){return !!url},get ready(){return ready},get error(){return error},get status(){return {...status}},gamesEnabled,examUnlimited:()=>ready&&status.examsUnlocked,refresh,onChange,examVersion,canResetExam,now,dateLabel,timeLabel,phase,labAccess,examWindow,prepareAttempt,attemptNow,attemptDeadline,updateTiming,protectGames,markGameLinks,localUpdate(data){if(url)throw Error('La sincronización remota está activada');status=parse(data);localStorage.setItem(LOCAL_KEY,JSON.stringify(status));ready=true;notify();return status}};
 window.addEventListener('storage',e=>{if(!url&&e.key===LOCAL_KEY)refresh()});
 window.addEventListener('focus',()=>{if(url)refresh()});
 window.addEventListener('pageshow',()=>{if(url)refresh()});

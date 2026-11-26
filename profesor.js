@@ -2,7 +2,11 @@
 'use strict';
 const $=id=>document.getElementById(id);
 const api=window.MAD_CONTROL;
-const fields={teacherGames:'gamesEnabled',teacherLabs:'labsEnabled',teacherExams:'examsUnlocked',teacherCommentsAuto:'commentsAutoPublish',teacherSales:'salesEnabled'};
+if(!api){
+ $('teacherError').textContent='No se ha podido cargar el acceso docente. Recarga la página.';
+ return;
+}
+const fields={teacherGames:'gamesEnabled',teacherLabs:'labsEnabled',teacherExams:'examsUnlocked',teacherCommentsAuto:'commentsAutoPublish'};
 const examNames={tic:'Programación TIC II',periodica:'Tabla Periódica',vistas:'Vistas',both:'TIC II y Tabla Periódica'};
 const figureNumbers=Array.from({length:24},(_,i)=>i+1);
 const figureFields=Array.from({length:5},(_,i)=>{
@@ -128,9 +132,6 @@ function render(){
    if(!busy)$(id).checked=state[key];
    $(id).disabled=busy||unavailable;
   }
-  const salesUnavailable=!unavailable&&!api.salesSupported;
-  $('teacherSales').disabled=busy||unavailable||salesUnavailable;
-  $('teacherSalesNotice').hidden=!salesUnavailable;
   renderTimetable(state,unavailable);
   renderLabDeadline(state,unavailable);
  }
@@ -200,28 +201,7 @@ async function save(path,method,body,success){
   render();
  }
 }
-const salesFrame=$('teacherSalesFrame');
-const salesPreview=$('teacherSalesPreview');
-function closeSalesPreview(){
- salesFrame.hidden=true;
- salesFrame.removeAttribute('src');
- salesPreview.setAttribute('aria-expanded','false');
- salesPreview.textContent='Ver catálogo';
-}
-window.madTeacherSalesPreview=(frame,documentId)=>{
- if(session?.role!=='admin'||salesFrame.hidden||frame!==salesFrame.contentWindow)return null;
- return request('/private-resources/document?document='+encodeURIComponent(documentId),'GET');
-};
-salesPreview.addEventListener('click',()=>{
- if(session?.role!=='admin')return;
- if(!salesFrame.hidden){closeSalesPreview();return;}
- salesFrame.hidden=false;
- salesFrame.src='otros-recursos.html';
- salesPreview.setAttribute('aria-expanded','true');
- salesPreview.textContent='Cerrar vista previa';
-});
 function closeSession(){
- closeSalesPreview();
  session=null;
  accountBusy=false;
  worksheetUpload=false;
@@ -268,7 +248,6 @@ function settingsPayload(key,value){
   gamesEnabled:next.gamesEnabled===true,
   labsEnabled:next.labsEnabled!==false,
   examsUnlocked:next.examsUnlocked===true,
-  ...(api.salesSupported?{salesEnabled:next.salesEnabled===true}:{}),
   commentsAutoPublish:next.commentsAutoPublish===true
  };
 }

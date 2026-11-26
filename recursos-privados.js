@@ -51,12 +51,10 @@
   content.innerHTML = data.html;
   gate.hidden = true;
   main.hidden = false;
-  lock.hidden = !session;
+  lock.hidden = false;
   message.textContent = '';
-  if (session) {
-   clearTimeout(timer);
-   timer = setTimeout(() => close('La sesión ha caducado. Introduce de nuevo la contraseña.'), Math.max(0, session.expiresAt - Date.now()));
-  }
+  clearTimeout(timer);
+  timer = setTimeout(() => close('La sesión ha caducado. Introduce de nuevo la contraseña.'), Math.max(0, session.expiresAt - Date.now()));
   const target = location.hash.slice(1);
   if (target) byId(target)?.scrollIntoView();
  }
@@ -87,14 +85,6 @@
   }
  });
 
- function previewRequest() {
-  if (window.parent === window) return null;
-  try { return window.parent.madTeacherSalesPreview?.(window, documentId) || null; }
-  catch { return null; }
- }
-
- const preview = previewRequest();
  const session = readSession();
- if (preview) preview.then(responseData).then(data => show(data)).catch(error => close(error.message));
- else if (session?.expiresAt > Date.now()) open(session).catch(error => close(error.message));
+ if (session?.expiresAt > Date.now()) open(session).catch(error => close(error.message));
 })();
