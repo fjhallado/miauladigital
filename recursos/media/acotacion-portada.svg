@@ -1,0 +1,113 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="480" viewBox="0 0 1440 480" role="img" aria-labelledby="titulo descripcion">
+  <title id="titulo">Acotación en dibujo técnico</title>
+  <desc id="descripcion">Una pieza escalonada en perspectiva junto a su alzado con cotas de 80, 55, 40 y 35 milímetros.</desc>
+  <defs>
+    <linearGradient id="fondo" x1="0" y1="0" x2="1" y2="1" gradientUnits="objectBoundingBox">
+      <stop stop-color="#0b3568"/>
+      <stop offset=".5" stop-color="#192565"/>
+      <stop offset="1" stop-color="#4d2489"/>
+    </linearGradient>
+    <radialGradient id="luz-azul">
+      <stop stop-color="#2574e7" stop-opacity=".38"/>
+      <stop offset="1" stop-color="#143bb7" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="luz-violeta">
+      <stop stop-color="#aa43eb" stop-opacity=".34"/>
+      <stop offset="1" stop-color="#8931d9" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="cuadricula" width="62" height="62" patternUnits="userSpaceOnUse">
+      <path d="M62 0H0V62" fill="none" stroke="#77acfa" stroke-opacity=".18"/>
+    </pattern>
+    <pattern id="reticula" width="26" height="26" patternUnits="userSpaceOnUse">
+      <path d="M26 0H0V26" fill="none" stroke="#9cc4ff" stroke-opacity=".17"/>
+    </pattern>
+    <linearGradient id="contorno" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#64ecff"/>
+      <stop offset=".47" stop-color="#81b6ff"/>
+      <stop offset="1" stop-color="#d28cff"/>
+    </linearGradient>
+    <linearGradient id="frente" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#286bc3"/>
+      <stop offset="1" stop-color="#2a2378"/>
+    </linearGradient>
+    <linearGradient id="superior" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#408dff"/>
+      <stop offset=".47" stop-color="#404cc8"/>
+      <stop offset="1" stop-color="#672bc0"/>
+    </linearGradient>
+    <linearGradient id="lateral" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#372e9a"/>
+      <stop offset="1" stop-color="#241b62"/>
+    </linearGradient>
+    <linearGradient id="papel" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#10355e" stop-opacity=".75"/>
+      <stop offset="1" stop-color="#291b54" stop-opacity=".66"/>
+    </linearGradient>
+    <linearGradient id="alzado" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#3d93ed" stop-opacity=".46"/>
+      <stop offset="1" stop-color="#7655d4" stop-opacity=".34"/>
+    </linearGradient>
+    <marker id="flecha" viewBox="0 0 10 8" refX="9" refY="4" markerWidth="9" markerHeight="7" markerUnits="userSpaceOnUse" orient="auto-start-reverse">
+      <path d="M0 0 9 4 0 8Z" fill="#9eeaff"/>
+    </marker>
+    <clipPath id="marco"><rect width="1440" height="480" rx="36"/></clipPath>
+  </defs>
+
+  <g clip-path="url(#marco)">
+    <rect width="1440" height="480" fill="url(#fondo)"/>
+    <ellipse cx="464" cy="501" rx="693" ry="320" fill="url(#luz-azul)"/>
+    <ellipse cx="1331" cy="420" rx="632" ry="415" fill="url(#luz-violeta)"/>
+    <rect width="1440" height="480" fill="url(#cuadricula)"/>
+    <path d="M0 384H1440M0 62H1440M683 0V480M1364 0V480" fill="none" stroke="#5285d2" stroke-opacity=".18"/>
+
+    <g fill="none" stroke="url(#contorno)">
+      <path d="M699 168a175 150 0 1 1 329 68M777 404a155 106 0 0 0 240 18M1113 80a164 169 0 0 1 254 111M1094 406a168 146 0 0 0 237 18" stroke-dasharray="4 7" opacity=".29"/>
+      <path d="m710 269 92 54 99-57 141 80-113 66-165-95-54-31Zm54 48v19l165 95 113-65v-20M929 412v19M1038 122v-49l41-24h54m-443 160h33m-44 0v33m645 166h34l29-18m-354 26-30 18h-41" opacity=".33"/>
+      <path d="M736 72h16m-8-8v16m237-35h14m-7-7v14m331 37h18m-9-9v18M696 359h18m-9-9v18m299 56h16m-8-8v16m356-90h18m-9-9v18" opacity=".64"/>
+      <circle cx="698" cy="128" r="8" opacity=".82"/>
+      <circle cx="1060" cy="56" r="4" opacity=".68"/>
+      <circle cx="1383" cy="193" r="8" opacity=".64"/>
+      <circle cx="730" cy="404" r="5" opacity=".56"/>
+      <circle cx="1302" cy="434" r="4" opacity=".7"/>
+    </g>
+
+    <text x="68" y="215" fill="#f9fbff" font-family="Inter, system-ui, 'Segoe UI', sans-serif" font-size="82" font-weight="800" letter-spacing="-2.3">Acotación<tspan x="68" y="305" font-size="74">en dibujo técnico</tspan></text>
+
+    <g stroke-linejoin="round">
+      <path d="M740 138.75 811.45 97.5 906.71 152.5V207.5L1001.97 262.5V358.75L930.53 400 740 290Z" fill="none" stroke="#56b5ff" stroke-width="13" opacity=".15"/>
+      <g stroke="url(#contorno)" stroke-width="2.7">
+        <path d="M740 138.75 835.26 193.75V248.75L930.53 303.75V400L740 290Z" fill="url(#frente)"/>
+        <path d="M740 138.75 811.45 97.5 906.71 152.5 835.26 193.75Z" fill="url(#superior)"/>
+        <path d="M835.26 193.75 906.71 152.5V207.5L835.26 248.75Z" fill="url(#lateral)"/>
+        <path d="M835.26 248.75 906.71 207.5 1001.97 262.5 930.53 303.75Z" fill="url(#superior)"/>
+        <path d="M930.53 303.75 1001.97 262.5V358.75L930.53 400Z" fill="url(#lateral)"/>
+      </g>
+      <path d="m752 139 59-34 76 44-18 11-47-27-59 34-17-10Zm98 110 56-32 76 44-18 10-47-27-56 32-16-9Z" fill="#8fd7ff" opacity=".15"/>
+      <path d="m763 125 96 55m-73-68 96 55m-43 79 96 55m-73-68 96 55m-73-68 96 55" fill="none" stroke="#a1d7ff" opacity=".33"/>
+      <path d="M753 173v110l158 92m32 4 46-27v-59" fill="none" stroke="#90b8fb" opacity=".36"/>
+    </g>
+
+    <g transform="translate(1041 113)">
+      <rect x="6" y="8" width="324" height="267" rx="16" fill="#160d48" opacity=".22"/>
+      <rect width="324" height="267" rx="16" fill="url(#papel)" stroke="url(#contorno)" stroke-opacity=".56"/>
+      <rect x="12" y="12" width="300" height="243" rx="10" fill="url(#reticula)"/>
+      <path d="M22 35V22h13m254 0h13v13m0 197v13h-13m-254 0H22v-13" fill="none" stroke="#a8cfff" stroke-opacity=".4"/>
+      <path d="M58 207V64h104v52h104v91Z" fill="url(#alzado)" stroke="#78c3ff" stroke-width="8" stroke-linejoin="round" opacity=".18"/>
+      <path d="M58 207V64h104v52h104v91Z" fill="url(#alzado)" stroke="#d6edff" stroke-width="2.7" stroke-linejoin="round"/>
+      <path d="M58 61V36m104 25V36M55 64H28m27 143H28m241-91h27m-27 91h27M58 210v28m208-28v28" fill="none" stroke="#a8caff" stroke-opacity=".67"/>
+      <g fill="none" stroke="#9eeaff" stroke-width="1.4" marker-start="url(#flecha)" marker-end="url(#flecha)">
+        <path d="M58 42H162"/>
+        <path d="M33 64V207"/>
+        <path d="M291 116V207"/>
+        <path d="M58 232H266"/>
+      </g>
+      <g fill="#b4efff" font-family="Inter, system-ui, sans-serif" font-size="19" font-weight="700" text-anchor="middle">
+        <text x="110" y="35">40</text>
+        <text x="162" y="226">80</text>
+        <text x="27" y="135.5" transform="rotate(-90 27 135.5)">55</text>
+        <text x="285" y="161.5" transform="rotate(-90 285 161.5)">35</text>
+      </g>
+    </g>
+    <rect x="1" y="1" width="1438" height="478" rx="35" fill="none" stroke="url(#contorno)" stroke-width="2" opacity=".4"/>
+  </g>
+</svg>

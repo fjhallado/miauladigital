@@ -168,7 +168,7 @@ window.AULA_MATERIAS = [
       {
         "title": "Acotación en dibujo técnico",
         "description": "Indica las dimensiones reales de las piezas con cotas claras. Aprende las normas, los sistemas de acotación y los símbolos de radio, diámetro y ángulo.",
-        "image": "../recursos/tecnologia-1eso/acotacion/diagramas/portada.svg",
+        "image": "../recursos/media/acotacion-portada.svg",
         "trimester": 1
       }
     ]
@@ -327,7 +327,7 @@ window.AULA_MATERIAS = [
       {
         "title": "Acotación en dibujo técnico",
         "description": "Indica las dimensiones reales de las piezas con cotas claras. Aprende las normas, los sistemas de acotación y los símbolos de radio, diámetro y ángulo.",
-        "image": "../recursos/tecnologia-1eso/acotacion/diagramas/portada.svg"
+        "image": "../recursos/media/acotacion-portada.svg"
       }
     ]
   },

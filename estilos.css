@@ -85,7 +85,8 @@ body:has(.unit-card) .units{grid-template-columns:repeat(2,minmax(0,1fr))}
 body[data-course="tecnologia-1eso"] .unit-card .unit-cover{display:block;width:100%;height:auto;max-height:none;aspect-ratio:auto;object-fit:contain;object-position:center;background:transparent;}
 
 /* V1.4.7: imágenes aprobadas sin editar, encajadas a escala proporcional. */
-body[data-course="tecnologia-1eso"] .unit-card .unit-cover{display:block;width:100%;height:auto!important;aspect-ratio:3/1!important;object-fit:contain!important;max-height:none!important;background:transparent;}
+body[data-course="tecnologia-1eso"] .unit-card .unit-cover,
+body[data-course="tecnologia-3eso"] .unit-card .unit-cover{display:block;width:100%;height:auto!important;aspect-ratio:3/1!important;object-fit:contain!important;max-height:none!important;background:transparent;}
 .topic-cover.technology-cover{height:auto!important;max-height:none!important;aspect-ratio:auto!important;overflow:visible;}
 .topic-cover.technology-cover img{display:block;width:100%;height:auto!important;aspect-ratio:3/1!important;max-height:none!important;object-fit:contain!important;}
 
