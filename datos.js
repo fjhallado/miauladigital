@@ -130,6 +130,20 @@ window.AULA_MATERIAS = [
         "description": "Construye figuras en isométrico y relaciónalas con su alzado, planta y perfil. Practica con las herramientas de dibujo, la órbita y la representación de vistas.",
         "url": "../recursos/tecnologia-1eso/laboratorio-vistas/index.html",
         "unit": "Expresión y comunicación técnica"
+      },
+      {
+        "type": "Apuntes y teoría",
+        "title": "Normas de acotación en dibujo técnico",
+        "description": "Apuntes ilustrados con un ejemplo resuelto, las normas básicas y ocho preguntas de repaso autocorregibles.",
+        "url": "../recursos/tecnologia-1eso/acotacion/index.html",
+        "unit": "Acotación en dibujo técnico"
+      },
+      {
+        "type": "Actividad interactiva",
+        "title": "Practicar acotación en el Laboratorio de vistas",
+        "description": "Coloca y revisa las cotas de las vistas que has dibujado.",
+        "url": "../recursos/tecnologia-1eso/laboratorio-vistas/acotacion.html",
+        "unit": "Acotación en dibujo técnico"
       }
     ],
     "units": [
@@ -149,6 +163,12 @@ window.AULA_MATERIAS = [
         "title": "Materiales de uso técnico",
         "description": "Conoce los materiales más utilizados, sus propiedades, usos y criterios para elegirlos de manera responsable.",
         "image": "../recursos/media/tecnologia-1eso-tema-03-miniatura.png",
+        "trimester": 1
+      },
+      {
+        "title": "Acotación en dibujo técnico",
+        "description": "Indica las dimensiones reales de las piezas con cotas claras. Aprende las normas, los sistemas de acotación y los símbolos de radio, diámetro y ángulo.",
+        "image": "../recursos/tecnologia-1eso/acotacion/diagramas/portada.svg",
         "trimester": 1
       }
     ]
@@ -282,13 +302,33 @@ window.AULA_MATERIAS = [
     "glyph": "⌘",
     "tone": "tec3",
     "desc": "Diseño 3D, electrónica y proyectos",
-    "resources": [],
+    "resources": [
+      {
+        "type": "Apuntes y teoría",
+        "title": "Normas de acotación en dibujo técnico",
+        "description": "Apuntes ilustrados con un ejemplo resuelto, las normas básicas y ocho preguntas de repaso autocorregibles.",
+        "url": "../recursos/tecnologia-1eso/acotacion/index.html",
+        "unit": "Acotación en dibujo técnico"
+      },
+      {
+        "type": "Actividad interactiva",
+        "title": "Practicar acotación en el Laboratorio de vistas",
+        "description": "Coloca y revisa las cotas de las vistas que has dibujado.",
+        "url": "../recursos/tecnologia-1eso/laboratorio-vistas/acotacion.html",
+        "unit": "Acotación en dibujo técnico"
+      }
+    ],
     "units": [
       "Diseño 3D con SketchUp",
       "Mecanismos",
       "Electricidad y electrónica",
       "Programación",
-      "Proyecto tecnológico"
+      "Proyecto tecnológico",
+      {
+        "title": "Acotación en dibujo técnico",
+        "description": "Indica las dimensiones reales de las piezas con cotas claras. Aprende las normas, los sistemas de acotación y los símbolos de radio, diámetro y ángulo.",
+        "image": "../recursos/tecnologia-1eso/acotacion/diagramas/portada.svg"
+      }
     ]
   },
   {

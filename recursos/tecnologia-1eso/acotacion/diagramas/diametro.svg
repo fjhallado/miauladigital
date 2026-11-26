@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 175" role="img" aria-labelledby="title">
+ <title id="title">Diámetro 40 sobre una línea que pasa por el centro</title>
+ <defs>
+  <marker id="arrow" viewBox="0 0 10 8" refX="9" refY="4" markerWidth="8" markerHeight="6" orient="auto-start-reverse" markerUnits="userSpaceOnUse">
+   <path d="M0 0L9 4L0 8Z" fill="#286586"/>
+  </marker>
+ </defs>
+ <rect width="280" height="175" rx="14" fill="#eff6ff"/>
+ <g font-family="system-ui, sans-serif">
+ <circle cx="140" cy="90" r="56" fill="#d7e9fa" stroke="#203a55" stroke-width="3"/><path d="M71 90L209 90" fill="none" stroke="#6e5e98" stroke-width="1" stroke-dasharray="10 4 2 4"/><path d="M140 22L140 158" fill="none" stroke="#6e5e98" stroke-width="1" stroke-dasharray="10 4 2 4"/><path d="M84 90L196 90" fill="none" stroke="#286586" stroke-width="1.5" marker-start="url(#arrow)" marker-end="url(#arrow)"/><text x="140" y="73" fill="#163653" font-size="18" font-weight="700" text-anchor="middle">Ø40</text>
+ </g>
+</svg>

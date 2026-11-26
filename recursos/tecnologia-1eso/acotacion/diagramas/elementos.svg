@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 402 268" role="img" aria-labelledby="title">
+ <title id="title">Cota de 60 con línea de cota, auxiliares, flechas y cifra numeradas</title>
+ <defs>
+  <marker id="arrow" viewBox="0 0 10 8" refX="9" refY="4" markerWidth="8" markerHeight="6" orient="auto-start-reverse" markerUnits="userSpaceOnUse">
+   <path d="M0 0L9 4L0 8Z" fill="#286586"/>
+  </marker>
+ </defs>
+ <rect width="402" height="268" rx="14" fill="#eff6ff"/>
+ <g font-family="system-ui, sans-serif">
+ <path d="M112 52H292V157H112Z" fill="#d7e9fa" stroke="#203a55" stroke-width="3" stroke-linejoin="round"/><path d="M112 161L112 210" fill="none" stroke="#6e5e98" stroke-width="1.25" /><path d="M292 161L292 210" fill="none" stroke="#6e5e98" stroke-width="1.25" /><path d="M112 203L292 203" fill="none" stroke="#286586" stroke-width="1.5" marker-start="url(#arrow)" marker-end="url(#arrow)"/><text x="202.0" y="197" fill="#286586" font-size="17" font-weight="700" text-anchor="middle">60</text><path d="M235 240L225 203" fill="none" stroke="#204e6c" stroke-width="1.1" /><circle cx="235" cy="240" r="13" fill="#204e6c"/><text x="235" y="245" fill="#fff" font-size="14" font-weight="700" text-anchor="middle">1</text><path d="M331 163L292 180" fill="none" stroke="#6e5e98" stroke-width="1.1" /><circle cx="331" cy="163" r="13" fill="#6e5e98"/><text x="331" y="168" fill="#fff" font-size="14" font-weight="700" text-anchor="middle">2</text><path d="M75 226L118 203" fill="none" stroke="#246a66" stroke-width="1.1" /><circle cx="75" cy="226" r="13" fill="#246a66"/><text x="75" y="231" fill="#fff" font-size="14" font-weight="700" text-anchor="middle">3</text><path d="M199 150L201 181" fill="none" stroke="#8a4f28" stroke-width="1.1" /><circle cx="199" cy="150" r="13" fill="#8a4f28"/><text x="199" y="155" fill="#fff" font-size="14" font-weight="700" text-anchor="middle">4</text>
+ </g>
+</svg>

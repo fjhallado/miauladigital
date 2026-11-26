@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 440 278" role="img" aria-labelledby="title">
+ <title id="title">Cotas de 20, 60 y 90 respecto al extremo izquierdo</title>
+ <defs>
+  <marker id="arrow" viewBox="0 0 10 8" refX="9" refY="4" markerWidth="8" markerHeight="6" orient="auto-start-reverse" markerUnits="userSpaceOnUse">
+   <path d="M0 0L9 4L0 8Z" fill="#286586"/>
+  </marker>
+ </defs>
+ <rect width="440" height="278" rx="14" fill="#eff6ff"/>
+ <g font-family="system-ui, sans-serif">
+ <path d="M39 155H119V174H279V194H399V249H39Z" fill="#d7e9fa" stroke="#203a55" stroke-width="3" stroke-linejoin="round"/><path d="M39 151L39 115" fill="none" stroke="#6e5e98" stroke-width="1.25" /><path d="M119 151L119 115" fill="none" stroke="#6e5e98" stroke-width="1.25" /><path d="M39 122L119 122" fill="none" stroke="#286586" stroke-width="1.5" marker-start="url(#arrow)" marker-end="url(#arrow)"/><text x="79.0" y="116" fill="#286586" font-size="17" font-weight="700" text-anchor="middle">20</text><path d="M39 151L39 80" fill="none" stroke="#6e5e98" stroke-width="1.25" /><path d="M279 170L279 80" fill="none" stroke="#6e5e98" stroke-width="1.25" /><path d="M39 87L279 87" fill="none" stroke="#286586" stroke-width="1.5" marker-start="url(#arrow)" marker-end="url(#arrow)"/><text x="159.0" y="81" fill="#286586" font-size="17" font-weight="700" text-anchor="middle">60</text><path d="M39 151L39 45" fill="none" stroke="#6e5e98" stroke-width="1.25" /><path d="M399 190L399 45" fill="none" stroke="#6e5e98" stroke-width="1.25" /><path d="M39 52L399 52" fill="none" stroke="#286586" stroke-width="1.5" marker-start="url(#arrow)" marker-end="url(#arrow)"/><text x="219.0" y="46" fill="#286586" font-size="17" font-weight="700" text-anchor="middle">90</text>
+ </g>
+</svg>

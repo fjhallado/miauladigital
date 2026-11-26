@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 450 285" role="img" aria-labelledby="title">
+ <title id="title">Pieza de 80 por 55 milímetros, con escalón superior de 40 y escalón inferior de 35</title>
+ <defs>
+  <marker id="arrow" viewBox="0 0 10 8" refX="9" refY="4" markerWidth="8" markerHeight="6" orient="auto-start-reverse" markerUnits="userSpaceOnUse">
+   <path d="M0 0L9 4L0 8Z" fill="#286586"/>
+  </marker>
+ </defs>
+ <rect width="450" height="285" rx="14" fill="#eff6ff"/>
+ <g font-family="system-ui, sans-serif">
+ <path d="M105 226V61H225V121H345V226Z" fill="#d7e9fa" stroke="#203a55" stroke-width="3" stroke-linejoin="round"/><path d="M105 57L105 25" fill="none" stroke="#6e5e98" stroke-width="1.25" /><path d="M225 57L225 25" fill="none" stroke="#6e5e98" stroke-width="1.25" /><path d="M105 32L225 32" fill="none" stroke="#286586" stroke-width="1.5" marker-start="url(#arrow)" marker-end="url(#arrow)"/><text x="165.0" y="26" fill="#286586" font-size="17" font-weight="700" text-anchor="middle">40</text><path d="M105 230L105 265" fill="none" stroke="#6e5e98" stroke-width="1.25" /><path d="M345 230L345 265" fill="none" stroke="#6e5e98" stroke-width="1.25" /><path d="M105 258L345 258" fill="none" stroke="#286586" stroke-width="1.5" marker-start="url(#arrow)" marker-end="url(#arrow)"/><text x="225.0" y="252" fill="#286586" font-size="17" font-weight="700" text-anchor="middle">80</text><path d="M101 61L55 61" fill="none" stroke="#6e5e98" stroke-width="1.25" /><path d="M101 226L55 226" fill="none" stroke="#6e5e98" stroke-width="1.25" /><path d="M62 61L62 226" fill="none" stroke="#286586" stroke-width="1.5" marker-start="url(#arrow)" marker-end="url(#arrow)"/><text x="56" y="143.5" fill="#286586" font-size="17" font-weight="700" text-anchor="middle" transform="rotate(-90 56 143.5)">55</text><path d="M349 121L395 121" fill="none" stroke="#6e5e98" stroke-width="1.25" /><path d="M349 226L395 226" fill="none" stroke="#6e5e98" stroke-width="1.25" /><path d="M388 121L388 226" fill="none" stroke="#286586" stroke-width="1.5" marker-start="url(#arrow)" marker-end="url(#arrow)"/><text x="382" y="173.5" fill="#286586" font-size="17" font-weight="700" text-anchor="middle" transform="rotate(-90 382 173.5)">35</text>
+ </g>
+</svg>

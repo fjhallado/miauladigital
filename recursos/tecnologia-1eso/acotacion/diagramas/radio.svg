@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 175" role="img" aria-labelledby="title">
+ <title id="title">Radio R20 de un arco con una flecha en la circunferencia</title>
+ <defs>
+  <marker id="arrow" viewBox="0 0 10 8" refX="9" refY="4" markerWidth="8" markerHeight="6" orient="auto-start-reverse" markerUnits="userSpaceOnUse">
+   <path d="M0 0L9 4L0 8Z" fill="#286586"/>
+  </marker>
+ </defs>
+ <rect width="280" height="175" rx="14" fill="#eff6ff"/>
+ <g font-family="system-ui, sans-serif">
+ <path d="M64 128L175 128" fill="none" stroke="#6e5e98" stroke-width="1" stroke-dasharray="10 4 2 4"/><path d="M76 33L76 144" fill="none" stroke="#6e5e98" stroke-width="1" stroke-dasharray="10 4 2 4"/><path d="M76 42A86 86 0 0 1 162 128" fill="none" stroke="#203a55" stroke-width="3"/><path d="M76 128L136.8 67.2" fill="none" stroke="#286586" stroke-width="1.5" marker-end="url(#arrow)"/><text x="104" y="90" fill="#163653" font-size="18" font-weight="700" text-anchor="middle" transform="rotate(-45 104 90)">R20</text>
+ </g>
+</svg>

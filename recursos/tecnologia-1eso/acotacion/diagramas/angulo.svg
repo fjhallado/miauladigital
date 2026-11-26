@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 175" role="img" aria-labelledby="title">
+ <title id="title">Ángulo de 45 grados acotado mediante un arco centrado en el vértice</title>
+ <defs>
+  <marker id="arrow" viewBox="0 0 10 8" refX="9" refY="4" markerWidth="8" markerHeight="6" orient="auto-start-reverse" markerUnits="userSpaceOnUse">
+   <path d="M0 0L9 4L0 8Z" fill="#286586"/>
+  </marker>
+ </defs>
+ <rect width="280" height="175" rx="14" fill="#eff6ff"/>
+ <g font-family="system-ui, sans-serif">
+ <path d="M51 135L215 135" fill="none" stroke="#203a55" stroke-width="3" /><path d="M51 135L157 29" fill="none" stroke="#203a55" stroke-width="3" /><path d="M133 135A82 82 0 0 0 109 77" fill="none" stroke="#286586" stroke-width="1.5" marker-start="url(#arrow)" marker-end="url(#arrow)"/><text x="148" y="95" fill="#163653" font-size="18" font-weight="700" text-anchor="middle">45°</text>
+ </g>
+</svg>
