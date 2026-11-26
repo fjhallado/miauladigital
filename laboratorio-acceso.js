@@ -33,6 +33,7 @@ if(lab){
  document.addEventListener('DOMContentLoaded',()=>{
   const gate=document.createElement('section');
   gate.id='mad-lab-gate';
+  gate.hidden=true;
   gate.setAttribute('aria-labelledby','mad-lab-title');
   gate.innerHTML='<div><h1 id="mad-lab-title">Acceso al laboratorio</h1><p role="status"></p><a>Volver a Laboratorio</a></div>';
   const title=gate.querySelector('h1'), note=gate.querySelector('p'), back=gate.querySelector('a');
@@ -42,23 +43,29 @@ if(lab){
   let lastAllowed;
   function update(){
    const result=access?.labAccess(lab)??{allowed:false,message:'No se pudo comprobar el plazo. Recarga la página.'};
-   gate.hidden=result.allowed;
-   if(note.textContent!==result.message)note.textContent=result.message;
-   title.textContent=result.closed?'Laboratorio cerrado':'Acceso al laboratorio';
-   if(lastAllowed===result.allowed)return;
-   root.toggleAttribute('data-lab-blocked',!result.allowed);
-   if(result.allowed){
-    for(const node of disabled)node.inert=false;
-    disabled.clear();
-   }else{
-    document.querySelectorAll('dialog[open]').forEach(dialog=>dialog.close());
-    if(document.fullscreenElement)document.exitFullscreen().catch(()=>{});
-    for(const node of document.body.children){
-     if(node!==gate&&!node.inert){node.inert=true;disabled.add(node)}
-    }
-    back.focus();
+   const checking=access?.remote&&!access.ready;
+   const showNotice=!result.allowed&&(result.closed||!checking);
+   const revealNotice=showNotice&&gate.hidden;
+   if(showNotice){
+    if(note.textContent!==result.message)note.textContent=result.message;
+    title.textContent=result.closed?'Laboratorio cerrado':'Acceso al laboratorio';
    }
-   lastAllowed=result.allowed;
+   gate.hidden=!showNotice;
+   if(lastAllowed!==result.allowed){
+    lastAllowed=result.allowed;
+    root.toggleAttribute('data-lab-blocked',!result.allowed);
+    if(result.allowed){
+     for(const node of disabled)node.inert=false;
+     disabled.clear();
+    }else{
+     document.querySelectorAll('dialog[open]').forEach(dialog=>dialog.close());
+     if(document.fullscreenElement)document.exitFullscreen().catch(()=>{});
+     for(const node of document.body.children){
+      if(node!==gate&&!node.inert){node.inert=true;disabled.add(node)}
+     }
+    }
+   }
+   if(revealNotice)back.focus();
   }
   if(access)access.onChange(update);
   else update();
