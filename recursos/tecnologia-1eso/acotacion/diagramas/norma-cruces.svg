@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 158" role="img" aria-labelledby="title">
-  <title id="title">Cotas a ambos lados y por encima de la placa, sin cruces</title>
+  <title id="title">Cotas de la placa ranurada sin cruces</title>
   <style>
     .outline { fill: #e3edf7; stroke: #273f58; stroke-width: 2.8; stroke-linejoin: round }
     .hole { fill: #f7faff }
@@ -12,23 +12,23 @@
     .view { fill: #3d566d; font-size: 14px; font-weight: 600; text-anchor: start }
   </style>
   <rect width="340" height="158" rx="8" fill="#f7faff"/>
-  <path class="outline" d="M74 136V48H133.4V78Q133.4 85 140.4 85H183.6Q190.6 85 190.6 78V48H250V136Z"/>
-  <path class="aux" d="M133.4 45L133.4 24"/>
-  <path class="aux" d="M190.6 45L190.6 24"/>
-  <path class="dim" d="M133.4 29L190.6 29"/>
-  <polygon class="arrow" points="133.4,29 139.4,31.3 139.4,26.7"/>
-  <polygon class="arrow" points="190.6,29 184.6,26.7 184.6,31.3"/>
-  <text class="measure" x="162" y="25">26</text>
-  <path class="aux" d="M74 139L74 153"/>
-  <path class="aux" d="M250 139L250 153"/>
-  <path class="dim" d="M74 148L250 148"/>
-  <polygon class="arrow" points="74,148 80,150.3 80,145.7"/>
-  <polygon class="arrow" points="250,148 244,145.7 244,150.3"/>
-  <text class="measure" x="162" y="144">80</text>
-  <path class="aux" d="M253 48L286 48"/>
-  <path class="aux" d="M253 136L286 136"/>
-  <path class="dim" d="M281 48L281 136"/>
-  <polygon class="arrow" points="281,48 278.7,54 283.3,54"/>
-  <polygon class="arrow" points="281,136 283.3,130 278.7,130"/>
-  <text class="measure" x="276" y="92" transform="rotate(-90 276 92)">40</text>
+  <path class="outline" d="M76 124V48H127.3V75Q127.3 82 134.3 82H169.7Q176.7 82 176.7 75V48H228V124Z"/>
+  <path class="aux" d="M127.3 45L127.3 20"/>
+  <path class="aux" d="M176.7 45L176.7 20"/>
+  <path class="dim" d="M127.3 25L176.7 25"/>
+  <polygon class="arrow" points="127.3,25 133.3,27.3 133.3,22.7"/>
+  <polygon class="arrow" points="176.7,25 170.7,22.7 170.7,27.3"/>
+  <text class="measure" x="152" y="21">26</text>
+  <path class="aux" d="M76 127L76 152"/>
+  <path class="aux" d="M228 127L228 152"/>
+  <path class="dim" d="M76 147L228 147"/>
+  <polygon class="arrow" points="76,147 82,149.3 82,144.7"/>
+  <polygon class="arrow" points="228,147 222,144.7 222,149.3"/>
+  <text class="measure" x="152" y="143">80</text>
+  <path class="aux" d="M231 48L272 48"/>
+  <path class="aux" d="M231 124L272 124"/>
+  <path class="dim" d="M267 48L267 124"/>
+  <polygon class="arrow" points="267,48 264.7,54 269.3,54"/>
+  <polygon class="arrow" points="267,124 269.3,118 264.7,118"/>
+  <text class="measure" x="262" y="86" transform="rotate(-90 262 86)">40</text>
 </svg>

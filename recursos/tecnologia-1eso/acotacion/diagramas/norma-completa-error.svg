@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 158" role="img" aria-labelledby="title">
+  <title id="title">La placa tiene las cotas de tamaño y diámetro, pero faltan las que localizan el taladro</title>
+  <style>
+    .outline { fill: #e3edf7; stroke: #273f58; stroke-width: 2.8; stroke-linejoin: round }
+    .hole { fill: #f7faff }
+    .aux, .dim, .axis, .hidden { fill: none; stroke: #6c839a; stroke-width: .9 }
+    .dim { stroke: #215980; stroke-width: 1.15 }
+    .axis { stroke-dasharray: 7 2 1 2 }
+    .hidden { stroke: #536d8b; stroke-width: 1.3; stroke-dasharray: 4 3 }
+    .arrow { fill: #215980 }
+    .measure, .view { fill: #15476d; font: 700 13px system-ui, sans-serif; text-anchor: middle }
+    .view { fill: #3d566d; font-size: 14px; font-weight: 600; text-anchor: start }
+  </style>
+  <rect width="340" height="158" rx="8" fill="#f7faff"/>
+  <rect class="outline" x="88" y="34" width="144" height="90"/>
+  <circle class="outline hole" cx="127.6" cy="88" r="10.8"/>
+  <path class="axis" d="M108 88L148 88"/>
+  <path class="axis" d="M127.6 68L127.6 107"/>
+  <path class="aux" d="M88 127L88 152"/>
+  <path class="aux" d="M232 127L232 152"/>
+  <path class="dim" d="M88 147L232 147"/>
+  <polygon class="arrow" points="88,147 94,149.3 94,144.7"/>
+  <polygon class="arrow" points="232,147 226,144.7 226,149.3"/>
+  <text class="measure" x="160" y="143">80</text>
+  <path class="aux" d="M235 34L272 34"/>
+  <path class="aux" d="M235 124L272 124"/>
+  <path class="dim" d="M267 34L267 124"/>
+  <polygon class="arrow" points="267,34 264.7,40 269.3,40"/>
+  <polygon class="arrow" points="267,124 269.3,118 264.7,118"/>
+  <text class="measure" x="262" y="79" transform="rotate(-90 262 79)">50</text>
+  <path class="dim" d="M136.83 82.39L172 61"/>
+  <path class="dim" d="M172 61L207 61"/>
+  <polygon class="arrow" points="136.83,82.39 143.15,81.24 140.76,77.31"/>
+  <text class="measure" x="190" y="57">Ø12</text>
+</svg>

@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 158" role="img" aria-labelledby="title">
+  <title id="title">La cota de 40 corta la de 26 en la ranura</title>
+  <style>
+    .outline { fill: #e3edf7; stroke: #273f58; stroke-width: 2.8; stroke-linejoin: round }
+    .hole { fill: #f7faff }
+    .aux, .dim, .axis, .hidden { fill: none; stroke: #6c839a; stroke-width: .9 }
+    .dim { stroke: #215980; stroke-width: 1.15 }
+    .axis { stroke-dasharray: 7 2 1 2 }
+    .hidden { stroke: #536d8b; stroke-width: 1.3; stroke-dasharray: 4 3 }
+    .arrow { fill: #215980 }
+    .measure, .view { fill: #15476d; font: 700 13px system-ui, sans-serif; text-anchor: middle }
+    .view { fill: #3d566d; font-size: 14px; font-weight: 600; text-anchor: start }
+    .error .dim { stroke: #9d3442 }
+    .error .arrow, .error .measure { fill: #972e3a }
+  </style>
+  <rect width="340" height="158" rx="8" fill="#f7faff"/>
+  <path class="outline" d="M76 124V48H127.3V75Q127.3 82 134.3 82H169.7Q176.7 82 176.7 75V48H228V124Z"/>
+  <path class="aux" d="M76 127L76 152"/>
+  <path class="aux" d="M228 127L228 152"/>
+  <path class="dim" d="M76 147L228 147"/>
+  <polygon class="arrow" points="76,147 82,149.3 82,144.7"/>
+  <polygon class="arrow" points="228,147 222,144.7 222,149.3"/>
+  <text class="measure" x="152" y="143">80</text>
+  <g class="error">
+    <path class="dim" d="M127.3 61L176.7 61"/>
+    <polygon class="arrow" points="127.3,61 133.3,63.3 133.3,58.7"/>
+    <polygon class="arrow" points="176.7,61 170.7,58.7 170.7,63.3"/>
+    <text class="measure" x="139" y="57">26</text>
+    <path class="aux" d="M178 48L162 48"/>
+    <path class="aux" d="M127 124L172 124"/>
+    <path class="dim" d="M167 48L167 124"/>
+    <polygon class="arrow" points="167,48 164.7,54 169.3,54"/>
+    <polygon class="arrow" points="167,124 169.3,118 164.7,118"/>
+    <text class="measure" x="162" y="86" transform="rotate(-90 162 86)">40</text>
+  </g>
+</svg>

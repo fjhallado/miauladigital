@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 158" role="img" aria-labelledby="title">
-  <title id="title">El ancho de 70 solo aparece en la planta</title>
+  <title id="title">El ancho de 70 figura una vez en la planta</title>
   <style>
     .outline { fill: #e3edf7; stroke: #273f58; stroke-width: 2.8; stroke-linejoin: round }
     .hole { fill: #f7faff }
@@ -12,14 +12,14 @@
     .view { fill: #3d566d; font-size: 14px; font-weight: 600; text-anchor: start }
   </style>
   <rect width="340" height="158" rx="8" fill="#f7faff"/>
-  <rect class="outline" x="65" y="21" width="147" height="36"/>
-  <rect class="outline" x="65" y="73" width="147" height="47"/>
-  <text class="view" x="232" y="44">Alzado</text>
-  <text class="view" x="232" y="101">Planta</text>
-  <path class="aux" d="M65 123L65 148"/>
-  <path class="aux" d="M212 123L212 148"/>
-  <path class="dim" d="M65 143L212 143"/>
-  <polygon class="arrow" points="65,143 71,145.3 71,140.7"/>
-  <polygon class="arrow" points="212,143 206,140.7 206,145.3"/>
-  <text class="measure" x="138.5" y="139">70</text>
+  <rect class="outline" x="65" y="40" width="147" height="31"/>
+  <rect class="outline" x="65" y="87" width="147" height="35"/>
+  <text class="view" x="232" y="61">Alzado</text>
+  <text class="view" x="232" y="110">Planta</text>
+  <path class="aux" d="M65 125L65 150"/>
+  <path class="aux" d="M212 125L212 150"/>
+  <path class="dim" d="M65 145L212 145"/>
+  <polygon class="arrow" points="65,145 71,147.3 71,142.7"/>
+  <polygon class="arrow" points="212,145 206,142.7 206,147.3"/>
+  <text class="measure" x="138.5" y="141">70</text>
 </svg>

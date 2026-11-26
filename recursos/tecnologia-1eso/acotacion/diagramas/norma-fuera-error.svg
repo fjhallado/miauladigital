@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 158" role="img" aria-labelledby="title">
+  <title id="title">La línea de cota de 64 atraviesa ambos agujeros</title>
+  <style>
+    .outline { fill: #e3edf7; stroke: #273f58; stroke-width: 2.8; stroke-linejoin: round }
+    .hole { fill: #f7faff }
+    .aux, .dim, .axis, .hidden { fill: none; stroke: #6c839a; stroke-width: .9 }
+    .dim { stroke: #215980; stroke-width: 1.15 }
+    .axis { stroke-dasharray: 7 2 1 2 }
+    .hidden { stroke: #536d8b; stroke-width: 1.3; stroke-dasharray: 4 3 }
+    .arrow { fill: #215980 }
+    .measure, .view { fill: #15476d; font: 700 13px system-ui, sans-serif; text-anchor: middle }
+    .view { fill: #3d566d; font-size: 14px; font-weight: 600; text-anchor: start }
+    .error .dim { stroke: #9d3442 }
+    .error .arrow, .error .measure { fill: #972e3a }
+  </style>
+  <rect width="340" height="158" rx="8" fill="#f7faff"/>
+  <rect class="outline" x="75" y="55" width="192" height="66"/>
+  <circle class="outline hole" cx="128" cy="88" r="14"/>
+  <circle class="outline hole" cx="214" cy="88" r="14"/>
+  <g class="error">
+    <path class="dim" d="M75 88L267 88"/>
+    <polygon class="arrow" points="75,88 81,90.3 81,85.7"/>
+    <polygon class="arrow" points="267,88 261,85.7 261,90.3"/>
+    <text class="measure" x="171" y="84">64</text>
+  </g>
+</svg>

@@ -113,6 +113,7 @@
 .cot-rules { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 14px 34px; }
 .cot-rules li { min-width: 0; padding: 12px; border: 1px solid #3a5d86; border-radius: 10px; background: #112642; }
 .cot-rules p { margin-bottom: 9px; }
+.cot-rule-examples { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 12px; }
 .cot-rules figure { width: min(100%, 420px); margin-inline: auto; }
 .cot-rules figcaption { color: #cfdfef; }
 .cot-normas-aplicacion { margin-top: 16px; }
@@ -141,10 +142,16 @@
 .cot-question [data-result="wrong"] { color: #ffc3c5; }
 .cot-question .cot-feedback { margin: 5px 0 0; font-size: .87rem; }
 #quiz-result { margin: 9px 0 0; min-height: 1.45em; font-weight: 750; }
+@media screen and (max-width:980px) {
+ .cot-rules { grid-template-columns: minmax(0,1fr); }
+}
 @media(max-width:720px) {
  .cot-hero,.cot-two,.cot-three,.cot-rules,#quiz-questions { grid-template-columns: minmax(0,1fr); }
  .cot-errors { columns: 1; }
  .cot-table { font-size: .88rem; }
+}
+@media screen and (max-width:480px) {
+ .cot-rule-examples { grid-template-columns: minmax(0,1fr); }
 }
 
 @media print {
@@ -185,14 +192,16 @@
  .cot-normas-aplicacion { margin-top: 0; }
  .cot-card, .cot-rules li { padding: 2mm; border: .65pt solid #9fb1c1; border-radius: 1.5mm; background: none; }
  .cot-rules { gap: 2mm 6mm; margin-bottom: 0; font-size: 9.5pt; }
+ .cot-rules li:nth-child(5) { break-before: page; }
  .cot-rules p { margin-bottom: 1.5mm; }
+ .cot-rule-examples { grid-template-columns: minmax(0,1fr); gap: 2mm; }
  .cot-rules figure { width: 100%; }
- .cot-rules figure img { width: min(100%, 63mm); margin-inline: auto; }
+ .cot-rules figure img { width: min(100%, 70mm); margin-inline: auto; }
  .cot-page figure img { border-radius: 1mm; }
  .cot-page figcaption { margin-top: 1mm; color: #334c60; font-size: 9pt; line-height: 1.38; }
  .cot-card p { margin: 1.5mm 0 0; font-size: 9pt; }
  .cot-three figure { width: 83%; margin-inline: auto; }
- .cot-comparison figure img { width: 75%; margin-inline: auto; }
+ .cot-comparison figure img { width: 70%; margin-inline: auto; }
  .cot-comparison { margin-block: 2mm; }
  .cot-table { margin-block: 1mm; font-size: 9.5pt; }
  .cot-table caption { padding: 1mm 0; font-size: 9pt; }

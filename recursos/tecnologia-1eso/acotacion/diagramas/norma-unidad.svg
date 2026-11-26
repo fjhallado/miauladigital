@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 158" role="img" aria-labelledby="title">
-  <title id="title">Rampa con base de 60 y pendiente de 30 grados</title>
+  <title id="title">Rampa con cota lineal 60 y cota angular 30 grados</title>
   <style>
     .outline { fill: #e3edf7; stroke: #273f58; stroke-width: 2.8; stroke-linejoin: round }
     .hole { fill: #f7faff }
@@ -12,15 +12,17 @@
     .view { fill: #3d566d; font-size: 14px; font-weight: 600; text-anchor: start }
   </style>
   <rect width="340" height="158" rx="8" fill="#f7faff"/>
-  <path class="outline" d="M85 118H236V30.82Z"/>
-  <path class="aux" d="M85 121L85 148"/>
-  <path class="aux" d="M236 121L236 148"/>
-  <path class="dim" d="M85 143L236 143"/>
-  <polygon class="arrow" points="85,143 91,145.3 91,140.7"/>
-  <polygon class="arrow" points="236,143 230,140.7 230,145.3"/>
-  <text class="measure" x="160.5" y="139">60</text>
-  <path class="dim" d="M138.69 87A62 62 0 0 1 147 118"/>
-  <polygon class="arrow" points="138.69,87 139.7,93.35 143.69,91.05"/>
-  <polygon class="arrow" points="147,118 149.3,112 144.7,112"/>
-  <text class="measure" x="172" y="97">30°</text>
+  <path class="outline" d="M72 111H184V46.34Z"/>
+  <path class="aux" d="M72 114L72 143"/>
+  <path class="aux" d="M184 114L184 143"/>
+  <path class="dim" d="M72 138L184 138"/>
+  <polygon class="arrow" points="72,138 78,140.3 78,135.7"/>
+  <polygon class="arrow" points="184,138 178,135.7 178,140.3"/>
+  <text class="measure" x="128" y="134">60</text>
+  <path class="aux" d="M187.46 44.34L205.37 34"/>
+  <path class="aux" d="M188 111L226 111"/>
+  <path class="dim" d="M199.31 37.5A147 147 0 0 1 219 111"/>
+  <polygon class="arrow" points="199.31,37.5 200.31,43.85 204.3,41.55"/>
+  <polygon class="arrow" points="219,111 221.3,105 216.7,105"/>
+  <text class="measure" x="236" y="76">30°</text>
 </svg>

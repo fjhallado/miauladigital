@@ -9,7 +9,7 @@
  <title>Acotación en dibujo técnico · Mi Aula Digital</title>
  <link rel="stylesheet" href="../../../estilos.css?v=1.4.145">
  <link rel="stylesheet" href="../../../redes-sociales.css">
- <link rel="stylesheet" href="acotacion-tema.css?v=2">
+ <link rel="stylesheet" href="acotacion-tema.css?v=3">
  <script src="repaso.js?v=1" defer></script>
  <script src="imprimir.js?v=1" defer></script>
 </head>
@@ -95,7 +95,7 @@
      <div><dt>4. Cifra de cota</dt><dd>Indica la dimensión real. Se centra sobre la línea y queda separada de los trazos. La cifra vertical va girada a la izquierda de la línea y se lee desde el lado derecho del dibujo.</dd></div>
     </dl>
     <figure>
-     <img src="diagramas/elementos.svg" width="402" height="268" alt="Cota de 60 con cuatro llamadas numeradas que señalan la línea de cota, las auxiliares, una flecha y la cifra">
+     <img src="diagramas/elementos.svg?v=2" width="402" height="268" alt="Cota de 60 con cuatro llamadas numeradas que señalan la línea de cota, las auxiliares, una flecha y la cifra">
      <figcaption>Las cifras corresponden a los cuatro elementos descritos.</figcaption>
     </figure>
    </div>
@@ -107,63 +107,112 @@
    <ol class="cot-rules">
     <li>
      <p><strong>Da cada medida una sola vez.</strong> Coloca la cota donde se entienda mejor.</p>
-     <figure>
-      <img src="diagramas/norma-una-cota.svg" width="340" height="158" alt="Alzado y planta del mismo ancho. Solo la planta lleva la cota de 70">
-      <figcaption>El ancho de 70 mm se ve en el alzado y en la planta. Basta con escribirlo una vez en la planta.</figcaption>
-     </figure>
+     <div class="cot-rule-examples">
+      <figure>
+       <img src="diagramas/norma-una-cota.svg?v=2" width="340" height="158" alt="Alzado y planta del mismo ancho. Solo la planta lleva la cota de 70">
+       <figcaption><strong class="cot-ok">Correcto.</strong> El ancho de 70 mm se ve en el alzado y en la planta. Basta con escribirlo una vez en la planta.</figcaption>
+      </figure>
+      <figure>
+       <img src="diagramas/norma-una-cota-error.svg" width="340" height="158" alt="El ancho de 70 aparece en las dos vistas">
+       <figcaption><strong class="cot-error">Incorrecto.</strong> El ancho de 70 se repite en el alzado y en la planta.</figcaption>
+      </figure>
+     </div>
     </li>
     <li>
      <p><strong>Coloca las cotas preferentemente fuera de la pieza.</strong> Así el contorno queda despejado.</p>
-     <figure>
-      <img src="diagramas/norma-fuera.svg" width="340" height="158" alt="Pletina con dos taladros y una cota de 64 situada por encima del contorno">
-      <figcaption>Sitúa la cota de 64 mm encima de la pletina para dejar despejado el espacio entre los dos taladros.</figcaption>
-     </figure>
+     <div class="cot-rule-examples">
+      <figure>
+       <img src="diagramas/norma-fuera.svg?v=2" width="340" height="158" alt="Pletina con dos taladros y una cota de 64 situada por encima del contorno">
+       <figcaption><strong class="cot-ok">Correcto.</strong> Sitúa la cota de 64 mm encima de la pletina para dejar despejado el espacio entre los dos taladros.</figcaption>
+      </figure>
+      <figure>
+       <img src="diagramas/norma-fuera-error.svg" width="340" height="158" alt="La línea de cota de 64 atraviesa los dos taladros">
+       <figcaption><strong class="cot-error">Incorrecto.</strong> Al poner el 64 dentro de la pletina, la línea atraviesa los taladros.</figcaption>
+      </figure>
+     </div>
     </li>
     <li>
      <p><strong>Acerca las cotas parciales al contorno.</strong> Cuando hay varias cotas paralelas en la misma zona, las totales quedan más alejadas.</p>
-     <figure>
-      <img src="diagramas/norma-parciales.svg" width="340" height="158" alt="Perfil escalonado con la cota de 30 próxima al resalte y la cota de 90 más alejada">
-      <figcaption>En una pieza de 90 mm con un resalte de 30 mm, sitúa el 30 junto al contorno y el 90 por encima.</figcaption>
-     </figure>
+     <div class="cot-rule-examples">
+      <figure>
+       <img src="diagramas/norma-parciales.svg?v=2" width="340" height="158" alt="Perfil escalonado con la cota de 30 próxima al resalte y la cota de 90 más alejada">
+       <figcaption><strong class="cot-ok">Correcto.</strong> En una pieza de 90 mm con un resalte de 30 mm, sitúa el 30 junto al contorno y el 90 por encima.</figcaption>
+      </figure>
+      <figure>
+       <img src="diagramas/norma-parciales-error.svg" width="340" height="158" alt="La cota total de 90 queda más cerca del contorno que la de 30">
+       <figcaption><strong class="cot-error">Incorrecto.</strong> El 90 queda junto a la pieza y cruza la auxiliar de la cota parcial de 30.</figcaption>
+      </figure>
+     </div>
     </li>
     <li>
      <p><strong>Evita cruces.</strong> Ordena las cotas para que sus líneas queden libres de cruces con otras líneas de cota y, si es posible, con las auxiliares.</p>
-     <figure>
-      <img src="diagramas/norma-cruces.svg" width="340" height="158" alt="Cotas de una placa ranurada repartidas entre la parte superior, la inferior y el lado derecho">
-      <figcaption>Coloca los 26 mm de la ranura arriba, los 80 mm de anchura abajo y los 40 mm de altura a la derecha. Así las cotas no se cruzan.</figcaption>
-     </figure>
+     <div class="cot-rule-examples">
+      <figure>
+       <img src="diagramas/norma-cruces.svg?v=2" width="340" height="158" alt="Cotas de una placa ranurada repartidas entre la parte superior, la inferior y el lado derecho">
+       <figcaption><strong class="cot-ok">Correcto.</strong> Coloca los 26 mm de la ranura arriba, los 80 mm de anchura abajo y los 40 mm de altura a la derecha. Así las cotas no se cruzan.</figcaption>
+      </figure>
+      <figure>
+       <img src="diagramas/norma-cruces-error.svg" width="340" height="158" alt="La cota vertical de 40 corta la cota horizontal de 26">
+       <figcaption><strong class="cot-error">Incorrecto.</strong> La línea de cota de 40 corta la de 26 en la ranura.</figcaption>
+      </figure>
+     </div>
     </li>
     <li>
      <p><strong>Traza líneas de cota independientes.</strong> Desplázalas respecto a las aristas del dibujo.</p>
-     <figure>
-      <img src="diagramas/norma-independientes.svg" width="340" height="158" alt="Bloque biselado con la cota de 58 paralela y separada de la arista inferior">
-      <figcaption>Para indicar los 58 mm de la base de un bloque biselado, traza una línea fina por debajo de la arista y únela a sus extremos con auxiliares.</figcaption>
-     </figure>
+     <div class="cot-rule-examples">
+      <figure>
+       <img src="diagramas/norma-independientes.svg?v=2" width="340" height="158" alt="Bloque biselado con la cota de 58 paralela y separada de la arista inferior">
+       <figcaption><strong class="cot-ok">Correcto.</strong> Para indicar los 58 mm de la base de un bloque biselado, traza una línea fina por debajo de la arista y únela a sus extremos con auxiliares.</figcaption>
+      </figure>
+      <figure>
+       <img src="diagramas/norma-independientes-error.svg" width="340" height="158" alt="Las flechas de la cota 58 están sobre la arista inferior">
+       <figcaption><strong class="cot-error">Incorrecto.</strong> La propia arista se usa como línea de cota para el 58.</figcaption>
+      </figure>
+     </div>
     </li>
     <li>
      <p><strong>Incluye todas las dimensiones necesarias.</strong> Deben quedar definidos el tamaño y la posición de los detalles.</p>
-     <figure>
-      <img src="diagramas/norma-completa.svg" width="340" height="158" alt="Placa de 80 por 50 con un taladro Ø12 cuyo centro se sitúa a 22 del borde izquierdo y a 20 del inferior">
-      <figcaption>Una placa de 80 × 50 mm lleva un taladro Ø12. Para poder colocarlo, indica que su centro queda a 22 mm del borde izquierdo y a 20 mm del inferior.</figcaption>
-     </figure>
+     <div class="cot-rule-examples">
+      <figure>
+       <img src="diagramas/norma-completa.svg?v=2" width="340" height="158" alt="Placa de 80 por 50 con un taladro Ø12 cuyo centro se sitúa a 22 del borde izquierdo y a 20 del inferior">
+       <figcaption><strong class="cot-ok">Correcto.</strong> Una placa de 80 × 50 mm lleva un taladro Ø12. Para poder colocarlo, indica que su centro queda a 22 mm del borde izquierdo y a 20 mm del inferior.</figcaption>
+      </figure>
+      <figure>
+       <img src="diagramas/norma-completa-error.svg" width="340" height="158" alt="Taladro con el diámetro indicado y sin cotas de posición">
+       <figcaption><strong class="cot-error">Incorrecto.</strong> El Ø12 define el tamaño del taladro. Faltan las dos cotas que sitúan su centro.</figcaption>
+      </figure>
+     </div>
     </li>
     <li>
      <p><strong>Usa una misma unidad para las dimensiones lineales.</strong> En clase usamos milímetros. Los ángulos llevan el símbolo de grado.</p>
-     <figure>
-      <img src="diagramas/norma-unidad.svg" width="340" height="158" alt="Rampa con cota de 60 en la base y un ángulo de 30°">
-      <figcaption>La base de la rampa mide 6 cm. En el plano escribe 60 para la base y 30° para la inclinación.</figcaption>
-     </figure>
+     <div class="cot-rule-examples">
+      <figure>
+       <img src="diagramas/norma-unidad.svg?v=2" width="340" height="158" alt="Rampa con cota de 60 en la base y un ángulo de 30°">
+       <figcaption><strong class="cot-ok">Correcto.</strong> La base de la rampa mide 6 cm. En el plano escribe 60 para la base y 30° para la inclinación.</figcaption>
+      </figure>
+      <figure>
+       <img src="diagramas/norma-unidad-error.svg" width="340" height="158" alt="La base aparece como 6 cm y el ángulo como 30 sin símbolo de grado">
+       <figcaption><strong class="cot-error">Incorrecto.</strong> La base está en centímetros y a la cifra del ángulo le falta el símbolo °.</figcaption>
+      </figure>
+     </div>
     </li>
     <li>
      <p><strong>Elige la vista más representativa.</strong> Reparte las cotas entre alzado, planta y perfil según dónde se vea mejor cada detalle. Evita acotar sobre aristas ocultas.</p>
-     <figure>
-      <img src="diagramas/norma-vista.svg" width="340" height="158" alt="Taladro representado con líneas ocultas en el alzado y acotado con Ø16 en la planta">
-      <figcaption>En la planta se ve la forma circular del taladro. Coloca ahí la cota Ø16. En el alzado, el taladro se indica con líneas ocultas.</figcaption>
-     </figure>
+     <div class="cot-rule-examples">
+      <figure>
+       <img src="diagramas/norma-vista.svg?v=2" width="340" height="158" alt="Taladro representado con líneas ocultas en el alzado y acotado con Ø16 en la planta">
+       <figcaption><strong class="cot-ok">Correcto.</strong> En la planta se ve la forma circular del taladro. Coloca ahí la cota Ø16. En el alzado, el taladro se indica con líneas ocultas.</figcaption>
+      </figure>
+      <figure>
+       <img src="diagramas/norma-vista-error.svg" width="340" height="158" alt="El Ø16 está entre las líneas ocultas del alzado">
+       <figcaption><strong class="cot-error">Incorrecto.</strong> El Ø16 se indica sobre las aristas ocultas del alzado. La forma circular se aprecia en la planta.</figcaption>
+      </figure>
+     </div>
     </li>
    </ol>
    <div class="cot-normas-aplicacion">
     <h3>Colocación y escritura de las cotas</h3>
+    <p>En una cota lineal, deja un pequeño hueco entre el contorno y el inicio de las auxiliares. Las flechas de radio y diámetro llegan al arco o a la circunferencia que miden.</p>
     <div class="cot-two cot-comparison">
      <figure>
       <img src="diagramas/rectangulo.svg" width="390" height="221" alt="Cotas de 60 y 35 separadas del rectángulo">
@@ -214,7 +263,7 @@
    <div class="cot-three">
     <article class="cot-card">
      <h3>Diámetro · Ø</h3>
-     <figure><img src="diagramas/diametro.svg" width="280" height="175" alt="Circunferencia acotada con Ø40 mediante una línea que atraviesa su centro"></figure>
+     <figure><img src="diagramas/diametro.svg?v=2" width="280" height="175" alt="Circunferencia acotada con Ø40 mediante una línea que atraviesa su centro"></figure>
      <p>Se escribe Ø delante de la cifra, por ejemplo <strong>Ø40</strong>. Cuando la línea de cota atraviesa la circunferencia, pasa por su centro.</p>
     </article>
     <article class="cot-card">
@@ -224,7 +273,7 @@
     </article>
     <article class="cot-card">
      <h3>Ángulo · °</h3>
-     <figure><img src="diagramas/angulo.svg" width="280" height="175" alt="Ángulo de 45° con la línea de cota en forma de arco"></figure>
+     <figure><img src="diagramas/angulo.svg?v=2" width="280" height="175" alt="Ángulo de 45° con la línea de cota en forma de arco"></figure>
      <p>Se dibuja una línea de cota curva con centro en el vértice y se expresa la cifra en grados, por ejemplo <strong>45°</strong>.</p>
     </article>
    </div>

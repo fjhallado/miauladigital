@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 158" role="img" aria-labelledby="title">
+  <title id="title">Cota 58 dibujada sobre la arista inferior del bloque</title>
+  <style>
+    .outline { fill: #e3edf7; stroke: #273f58; stroke-width: 2.8; stroke-linejoin: round }
+    .hole { fill: #f7faff }
+    .aux, .dim, .axis, .hidden { fill: none; stroke: #6c839a; stroke-width: .9 }
+    .dim { stroke: #215980; stroke-width: 1.15 }
+    .axis { stroke-dasharray: 7 2 1 2 }
+    .hidden { stroke: #536d8b; stroke-width: 1.3; stroke-dasharray: 4 3 }
+    .arrow { fill: #215980 }
+    .measure, .view { fill: #15476d; font: 700 13px system-ui, sans-serif; text-anchor: middle }
+    .view { fill: #3d566d; font-size: 14px; font-weight: 600; text-anchor: start }
+    .error .dim { stroke: #9d3442 }
+    .error .arrow, .error .measure { fill: #972e3a }
+  </style>
+  <rect width="340" height="158" rx="8" fill="#f7faff"/>
+  <path class="outline" d="M83 46H220L257 82V111H83Z"/>
+  <g class="error">
+    <path class="dim" d="M83 111L257 111"/>
+    <polygon class="arrow" points="83,111 89,113.3 89,108.7"/>
+    <polygon class="arrow" points="257,111 251,108.7 251,113.3"/>
+    <text class="measure" x="170" y="106">58</text>
+  </g>
+</svg>

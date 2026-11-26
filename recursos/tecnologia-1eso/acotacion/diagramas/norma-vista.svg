@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 158" role="img" aria-labelledby="title">
-  <title id="title">El taladro se acota con diámetro 16 en la planta, donde se ve como un círculo</title>
+  <title id="title">El taladro se acota con diámetro 16 en la planta</title>
   <style>
     .outline { fill: #e3edf7; stroke: #273f58; stroke-width: 2.8; stroke-linejoin: round }
     .hole { fill: #f7faff }
@@ -21,8 +21,8 @@
   <path class="axis" d="M139.5 88L139.5 136"/>
   <text class="view" x="239" y="45">Alzado</text>
   <text class="view" x="245" y="109">Planta</text>
-  <path class="dim" d="M154.58 106.65L179 98"/>
-  <path class="dim" d="M179 98L214 98"/>
-  <polygon class="arrow" points="154.58,106.65 161,106.82 159.47,102.48"/>
-  <text class="measure" x="197" y="94">Ø16</text>
+  <path class="dim" d="M154.36 106.06L172 99"/>
+  <path class="dim" d="M172 99L207 99"/>
+  <polygon class="arrow" points="154.36,106.06 160.78,105.96 159.07,101.69"/>
+  <text class="measure" x="190" y="95">Ø16</text>
 </svg>
