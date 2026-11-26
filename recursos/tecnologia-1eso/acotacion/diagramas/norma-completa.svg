@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 158" role="img" aria-labelledby="title">
+  <title id="title">Placa de 80 por 50 con taladro de diámetro 12, localizado a 22 y 20 de los bordes</title>
+  <style>
+    .outline { fill: #e3edf7; stroke: #273f58; stroke-width: 2.8; stroke-linejoin: round }
+    .hole { fill: #f7faff }
+    .aux, .dim, .axis, .hidden { fill: none; stroke: #6c839a; stroke-width: .9 }
+    .dim { stroke: #215980; stroke-width: 1.15 }
+    .axis { stroke-dasharray: 7 2 1 2 }
+    .hidden { stroke: #536d8b; stroke-width: 1.3; stroke-dasharray: 4 3 }
+    .arrow { fill: #215980 }
+    .measure, .view { fill: #15476d; font: 700 13px system-ui, sans-serif; text-anchor: middle }
+    .view { fill: #3d566d; font-size: 14px; font-weight: 600; text-anchor: start }
+  </style>
+  <rect width="340" height="158" rx="8" fill="#f7faff"/>
+  <rect class="outline" x="88" y="42" width="152" height="95"/>
+  <circle class="outline hole" cx="129.8" cy="99" r="11.4"/>
+  <path class="axis" d="M109 99L151 99"/>
+  <path class="axis" d="M129.8 77L129.8 120"/>
+  <path class="aux" d="M88 39L88 19"/>
+  <path class="aux" d="M129.8 80L129.8 19"/>
+  <path class="dim" d="M88 24L129.8 24"/>
+  <polygon class="arrow" points="88,24 94,26.3 94,21.7"/>
+  <polygon class="arrow" points="129.8,24 123.8,21.7 123.8,26.3"/>
+  <text class="measure" x="108.9" y="20">22</text>
+  <path class="aux" d="M88 140L88 154"/>
+  <path class="aux" d="M240 140L240 154"/>
+  <path class="dim" d="M88 149L240 149"/>
+  <polygon class="arrow" points="88,149 94,151.3 94,146.7"/>
+  <polygon class="arrow" points="240,149 234,146.7 234,151.3"/>
+  <text class="measure" x="164" y="145">80</text>
+  <path class="aux" d="M105 99L55 99"/>
+  <path class="aux" d="M85 137L55 137"/>
+  <path class="dim" d="M60 99L60 137"/>
+  <polygon class="arrow" points="60,99 57.7,105 62.3,105"/>
+  <polygon class="arrow" points="60,137 62.3,131 57.7,131"/>
+  <text class="measure" x="55" y="118" transform="rotate(-90 55 118)">20</text>
+  <path class="aux" d="M243 42L272 42"/>
+  <path class="aux" d="M243 137L272 137"/>
+  <path class="dim" d="M267 42L267 137"/>
+  <polygon class="arrow" points="267,42 264.7,48 269.3,48"/>
+  <polygon class="arrow" points="267,137 269.3,131 264.7,131"/>
+  <text class="measure" x="262" y="89.5" transform="rotate(-90 262 89.5)">50</text>
+  <path class="dim" d="M139.52 93.04L182 67"/>
+  <path class="dim" d="M182 67L217 67"/>
+  <polygon class="arrow" points="139.52,93.04 145.84,91.87 143.43,87.95"/>
+  <text class="measure" x="200" y="63">Ø12</text>
+</svg>

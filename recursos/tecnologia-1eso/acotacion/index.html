@@ -9,8 +9,9 @@
  <title>Acotación en dibujo técnico · Mi Aula Digital</title>
  <link rel="stylesheet" href="../../../estilos.css?v=1.4.145">
  <link rel="stylesheet" href="../../../redes-sociales.css">
- <link rel="stylesheet" href="acotacion-tema.css?v=1">
+ <link rel="stylesheet" href="acotacion-tema.css?v=2">
  <script src="repaso.js?v=1" defer></script>
+ <script src="imprimir.js?v=1" defer></script>
 </head>
 <body class="cot-page">
 <a href="#contenido" class="cot-skip">Saltar a los apuntes</a>
@@ -32,6 +33,7 @@
    <p>Indica las medidas reales de una pieza para que se pueda interpretar y fabricar a partir de su plano.</p>
    <div class="cot-actions">
     <a class="btn" href="#contenido">Empezar el tema</a>
+    <button class="btn secondary cot-print-button" type="button" id="imprimir-teoria" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 8V3h10v5M7 17H4V8h16v9h-3M7 14h10v7H7zM16 11h1"/></svg>Imprimir teoría en PDF</button>
     <a class="btn secondary" href="#test">Hacer el test</a>
     <a class="btn secondary" href="../planos-2d/index.html">Dibujar un plano 2D</a>
    </div>
@@ -62,7 +64,7 @@
      <p class="cot-note"><strong>La cifra de cota expresa siempre la medida real.</strong> Un lado de 60 mm se acota con 60 aunque el dibujo esté a escala 2:1 y el lado mida 120 mm sobre el papel.</p>
     </div>
     <figure>
-     <img src="diagramas/rectangulo.svg" width="390" height="221" loading="lazy" alt="Rectángulo con cota horizontal de 60 y vertical de 35">
+     <img src="diagramas/rectangulo.svg" width="390" height="221" alt="Rectángulo con cota horizontal de 60 y vertical de 35">
      <figcaption>Pieza rectangular de 60 mm de longitud y 35 mm de altura.</figcaption>
     </figure>
    </div>
@@ -93,7 +95,7 @@
      <div><dt>4. Cifra de cota</dt><dd>Indica la dimensión real. Se centra sobre la línea y queda separada de los trazos. La cifra vertical va girada a la izquierda de la línea y se lee desde el lado derecho del dibujo.</dd></div>
     </dl>
     <figure>
-     <img src="diagramas/elementos.svg" width="402" height="268" loading="lazy" alt="Cota de 60 con cuatro llamadas numeradas que señalan la línea de cota, las auxiliares, una flecha y la cifra">
+     <img src="diagramas/elementos.svg" width="402" height="268" alt="Cota de 60 con cuatro llamadas numeradas que señalan la línea de cota, las auxiliares, una flecha y la cifra">
      <figcaption>Las cifras corresponden a los cuatro elementos descritos.</figcaption>
     </figure>
    </div>
@@ -103,35 +105,86 @@
   <section class="cot-panel" id="normas" aria-labelledby="titulo-normas">
    <h2 id="titulo-normas">4. Normas básicas de acotación</h2>
    <ol class="cot-rules">
-    <li><strong>Da cada medida una sola vez.</strong> Coloca la cota donde se entienda mejor.</li>
-    <li><strong>Coloca las cotas preferentemente fuera de la pieza.</strong> Así el contorno queda despejado.</li>
-    <li><strong>Acerca las cotas parciales al contorno.</strong> Cuando hay varias cotas paralelas en la misma zona, las totales quedan más alejadas.</li>
-    <li><strong>Evita cruces.</strong> Ordena las cotas para que sus líneas queden libres de cruces con otras líneas de cota y, si es posible, con las auxiliares.</li>
-    <li><strong>Traza líneas de cota independientes.</strong> Desplázalas respecto a las aristas del dibujo.</li>
-    <li><strong>Incluye todas las dimensiones necesarias.</strong> Deben quedar definidos el tamaño y la posición de los detalles.</li>
-    <li><strong>Usa una misma unidad para las dimensiones lineales.</strong> En clase usamos milímetros. Los ángulos llevan el símbolo de grado.</li>
-    <li><strong>Elige la vista más representativa.</strong> Reparte las cotas entre alzado, planta y perfil según dónde se vea mejor cada detalle. Evita acotar sobre aristas ocultas.</li>
+    <li>
+     <p><strong>Da cada medida una sola vez.</strong> Coloca la cota donde se entienda mejor.</p>
+     <figure>
+      <img src="diagramas/norma-una-cota.svg" width="340" height="158" alt="Alzado y planta del mismo ancho. Solo la planta lleva la cota de 70">
+      <figcaption>El ancho de 70 mm se ve en el alzado y en la planta. Basta con escribirlo una vez en la planta.</figcaption>
+     </figure>
+    </li>
+    <li>
+     <p><strong>Coloca las cotas preferentemente fuera de la pieza.</strong> Así el contorno queda despejado.</p>
+     <figure>
+      <img src="diagramas/norma-fuera.svg" width="340" height="158" alt="Pletina con dos taladros y una cota de 64 situada por encima del contorno">
+      <figcaption>Sitúa la cota de 64 mm encima de la pletina para dejar despejado el espacio entre los dos taladros.</figcaption>
+     </figure>
+    </li>
+    <li>
+     <p><strong>Acerca las cotas parciales al contorno.</strong> Cuando hay varias cotas paralelas en la misma zona, las totales quedan más alejadas.</p>
+     <figure>
+      <img src="diagramas/norma-parciales.svg" width="340" height="158" alt="Perfil escalonado con la cota de 30 próxima al resalte y la cota de 90 más alejada">
+      <figcaption>En una pieza de 90 mm con un resalte de 30 mm, sitúa el 30 junto al contorno y el 90 por encima.</figcaption>
+     </figure>
+    </li>
+    <li>
+     <p><strong>Evita cruces.</strong> Ordena las cotas para que sus líneas queden libres de cruces con otras líneas de cota y, si es posible, con las auxiliares.</p>
+     <figure>
+      <img src="diagramas/norma-cruces.svg" width="340" height="158" alt="Cotas de una placa ranurada repartidas entre la parte superior, la inferior y el lado derecho">
+      <figcaption>Coloca los 26 mm de la ranura arriba, los 80 mm de anchura abajo y los 40 mm de altura a la derecha. Así las cotas no se cruzan.</figcaption>
+     </figure>
+    </li>
+    <li>
+     <p><strong>Traza líneas de cota independientes.</strong> Desplázalas respecto a las aristas del dibujo.</p>
+     <figure>
+      <img src="diagramas/norma-independientes.svg" width="340" height="158" alt="Bloque biselado con la cota de 58 paralela y separada de la arista inferior">
+      <figcaption>Para indicar los 58 mm de la base de un bloque biselado, traza una línea fina por debajo de la arista y únela a sus extremos con auxiliares.</figcaption>
+     </figure>
+    </li>
+    <li>
+     <p><strong>Incluye todas las dimensiones necesarias.</strong> Deben quedar definidos el tamaño y la posición de los detalles.</p>
+     <figure>
+      <img src="diagramas/norma-completa.svg" width="340" height="158" alt="Placa de 80 por 50 con un taladro Ø12 cuyo centro se sitúa a 22 del borde izquierdo y a 20 del inferior">
+      <figcaption>Una placa de 80 × 50 mm lleva un taladro Ø12. Para poder colocarlo, indica que su centro queda a 22 mm del borde izquierdo y a 20 mm del inferior.</figcaption>
+     </figure>
+    </li>
+    <li>
+     <p><strong>Usa una misma unidad para las dimensiones lineales.</strong> En clase usamos milímetros. Los ángulos llevan el símbolo de grado.</p>
+     <figure>
+      <img src="diagramas/norma-unidad.svg" width="340" height="158" alt="Rampa con cota de 60 en la base y un ángulo de 30°">
+      <figcaption>La base de la rampa mide 6 cm. En el plano escribe 60 para la base y 30° para la inclinación.</figcaption>
+     </figure>
+    </li>
+    <li>
+     <p><strong>Elige la vista más representativa.</strong> Reparte las cotas entre alzado, planta y perfil según dónde se vea mejor cada detalle. Evita acotar sobre aristas ocultas.</p>
+     <figure>
+      <img src="diagramas/norma-vista.svg" width="340" height="158" alt="Taladro representado con líneas ocultas en el alzado y acotado con Ø16 en la planta">
+      <figcaption>En la planta se ve la forma circular del taladro. Coloca ahí la cota Ø16. En el alzado, el taladro se indica con líneas ocultas.</figcaption>
+     </figure>
+    </li>
    </ol>
-   <div class="cot-two cot-comparison">
-    <figure>
-     <img src="diagramas/rectangulo.svg" width="390" height="221" loading="lazy" alt="Cotas de 60 y 35 separadas del rectángulo">
-     <figcaption><strong class="cot-ok">Correcto.</strong> La cota de 60 se apoya en dos líneas auxiliares y queda fuera de la pieza.</figcaption>
-    </figure>
-    <figure>
-     <img src="diagramas/uso-arista.svg" width="390" height="221" loading="lazy" alt="La cota de 60 coincide con la arista inferior del rectángulo">
-     <figcaption><strong class="cot-error">Incorrecto.</strong> La arista inferior hace de línea de cota.</figcaption>
-    </figure>
+   <div class="cot-normas-aplicacion">
+    <h3>Colocación y escritura de las cotas</h3>
+    <div class="cot-two cot-comparison">
+     <figure>
+      <img src="diagramas/rectangulo.svg" width="390" height="221" alt="Cotas de 60 y 35 separadas del rectángulo">
+      <figcaption><strong class="cot-ok">Correcto.</strong> La cota de 60 se apoya en dos líneas auxiliares y queda fuera de la pieza.</figcaption>
+     </figure>
+     <figure>
+      <img src="diagramas/uso-arista.svg" width="390" height="221" alt="La cota de 60 coincide con la arista inferior del rectángulo">
+      <figcaption><strong class="cot-error">Incorrecto.</strong> La arista inferior hace de línea de cota.</figcaption>
+     </figure>
+    </div>
+    <table class="cot-table">
+     <caption>Cómo escribir las cifras cuando la unidad lineal es el milímetro</caption>
+     <thead><tr><th scope="col">Medida</th><th scope="col">Correcto</th><th scope="col">Incorrecto</th></tr></thead>
+     <tbody>
+      <tr><th scope="row">50 milímetros</th><td>50</td><td>50 mm</td></tr>
+      <tr><th scope="row">3 centímetros</th><td>30</td><td>3 cm</td></tr>
+      <tr><th scope="row">1 decímetro</th><td>100</td><td>10 cm</td></tr>
+      <tr><th scope="row">45 grados</th><td>45°</td><td>45</td></tr>
+     </tbody>
+    </table>
    </div>
-   <table class="cot-table">
-    <caption>Cómo escribir las cifras cuando la unidad lineal es el milímetro</caption>
-    <thead><tr><th scope="col">Medida</th><th scope="col">Correcto</th><th scope="col">Incorrecto</th></tr></thead>
-    <tbody>
-     <tr><th scope="row">50 milímetros</th><td>50</td><td>50 mm</td></tr>
-     <tr><th scope="row">3 centímetros</th><td>30</td><td>3 cm</td></tr>
-     <tr><th scope="row">1 decímetro</th><td>100</td><td>10 cm</td></tr>
-     <tr><th scope="row">45 grados</th><td>45°</td><td>45</td></tr>
-    </tbody>
-   </table>
   </section>
 
   <section class="cot-panel" id="sistemas" aria-labelledby="titulo-sistemas">
@@ -140,17 +193,17 @@
    <div class="cot-three">
     <article class="cot-card">
      <h3>En serie</h3>
-     <figure><img src="diagramas/serie.svg" width="440" height="278" loading="lazy" alt="Tres cotas consecutivas de 20, 40 y 30"></figure>
+     <figure><img src="diagramas/serie.svg" width="440" height="278" alt="Tres cotas consecutivas de 20, 40 y 30"></figure>
      <p>Cada cota empieza donde termina la anterior. La longitud total es <strong>20 + 40 + 30 = 90 mm</strong>.</p>
     </article>
     <article class="cot-card">
      <h3>En paralelo</h3>
-     <figure><img src="diagramas/paralelo.svg" width="440" height="278" loading="lazy" alt="Cotas de 20, 60 y 90 desde el extremo izquierdo"></figure>
+     <figure><img src="diagramas/paralelo.svg" width="440" height="278" alt="Cotas de 20, 60 y 90 desde el extremo izquierdo"></figure>
      <p>Todas las cotas parten de un mismo origen y se escalonan. Se lee directamente la posición de cada escalón respecto al extremo izquierdo.</p>
     </article>
     <article class="cot-card">
      <h3>Mixta</h3>
-     <figure><img src="diagramas/mixta.svg" width="440" height="278" loading="lazy" alt="Dos cotas desde el mismo origen, de 20 y 60, y el tramo final de 30"></figure>
+     <figure><img src="diagramas/mixta.svg" width="440" height="278" alt="Dos cotas desde el mismo origen, de 20 y 60, y el tramo final de 30"></figure>
      <p>Combina los dos sistemas. Las cotas de 20 y 60 comparten origen. El último tramo mide 30 y permite deducir el total.</p>
     </article>
    </div>
@@ -161,17 +214,17 @@
    <div class="cot-three">
     <article class="cot-card">
      <h3>Diámetro · Ø</h3>
-     <figure><img src="diagramas/diametro.svg" width="280" height="175" loading="lazy" alt="Circunferencia acotada con Ø40 mediante una línea que atraviesa su centro"></figure>
+     <figure><img src="diagramas/diametro.svg" width="280" height="175" alt="Circunferencia acotada con Ø40 mediante una línea que atraviesa su centro"></figure>
      <p>Se escribe Ø delante de la cifra, por ejemplo <strong>Ø40</strong>. Cuando la línea de cota atraviesa la circunferencia, pasa por su centro.</p>
     </article>
     <article class="cot-card">
      <h3>Radio · R</h3>
-     <figure><img src="diagramas/radio.svg" width="280" height="175" loading="lazy" alt="Arco acotado con R20 mediante una flecha radial"></figure>
+     <figure><img src="diagramas/radio.svg" width="280" height="175" alt="Arco acotado con R20 mediante una flecha radial"></figure>
      <p>Se escribe R delante de la cifra. Una sola flecha señala el arco. Como regla general, los arcos de hasta 180° se acotan por su radio. Para circunferencias y arcos mayores suele indicarse el diámetro.</p>
     </article>
     <article class="cot-card">
      <h3>Ángulo · °</h3>
-     <figure><img src="diagramas/angulo.svg" width="280" height="175" loading="lazy" alt="Ángulo de 45° con la línea de cota en forma de arco"></figure>
+     <figure><img src="diagramas/angulo.svg" width="280" height="175" alt="Ángulo de 45° con la línea de cota en forma de arco"></figure>
      <p>Se dibuja una línea de cota curva con centro en el vértice y se expresa la cifra en grados, por ejemplo <strong>45°</strong>.</p>
     </article>
    </div>
@@ -194,7 +247,7 @@
    <h2 id="titulo-ejemplo">8. Ejemplo resuelto</h2>
    <div class="cot-two">
     <figure>
-     <img src="diagramas/escalon.svg" width="450" height="285" loading="lazy" alt="Perfil escalonado de 80 mm de longitud y 55 de altura, con 40 mm de longitud del escalón superior y 35 de altura del inferior">
+     <img src="diagramas/escalon.svg" width="450" height="285" alt="Perfil escalonado de 80 mm de longitud y 55 de altura, con 40 mm de longitud del escalón superior y 35 de altura del inferior">
      <figcaption>Las cuatro cotas definen las dimensiones del perfil escalonado.</figcaption>
     </figure>
     <div>
@@ -240,7 +293,7 @@
   </section>
 
   <section class="cot-panel" id="resumen" aria-labelledby="titulo-resumen">
-   <h2 id="titulo-resumen">11. Resumen de las normas</h2>
+   <h2 id="titulo-resumen"><span class="cot-summary-number">11. </span>Resumen de las normas</h2>
    <table class="cot-table">
     <caption class="cot-visually-hidden">Referencia rápida para acotar</caption>
     <thead><tr><th scope="col">Elemento</th><th scope="col">Convención</th></tr></thead>

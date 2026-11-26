@@ -54,6 +54,8 @@
  box-shadow: 0 16px 34px #080d254c;
 }
 .cot-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.cot-print-button[hidden] { display: none; }
+.cot-print-button svg { width: 1.12em; height: 1.12em; fill: none; stroke: currentColor; stroke-width: 1.65; stroke-linecap: round; stroke-linejoin: round; }
 .cot-index {
  display: flex;
  flex-wrap: wrap;
@@ -108,6 +110,12 @@
 .cot-rules, .cot-steps, .cot-list, .cot-errors { padding-left: 1.36em; color: #d1e1f5; margin-block: 0 10px; }
 .cot-rules li, .cot-steps li, .cot-errors li { padding: 3px 0; }
 .cot-rules li::marker, .cot-steps li::marker { color: #9bd4ff; font-weight: 800; }
+.cot-rules { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 14px 34px; }
+.cot-rules li { min-width: 0; padding: 12px; border: 1px solid #3a5d86; border-radius: 10px; background: #112642; }
+.cot-rules p { margin-bottom: 9px; }
+.cot-rules figure { width: min(100%, 420px); margin-inline: auto; }
+.cot-rules figcaption { color: #cfdfef; }
+.cot-normas-aplicacion { margin-top: 16px; }
 .cot-errors { columns: 2; }
 .cot-errors li { break-inside: avoid; }
 .cot-practice { display: flex; align-items: center; flex-wrap: wrap; justify-content: space-between; gap: 12px; background: #1b3b5f; }
@@ -134,7 +142,71 @@
 .cot-question .cot-feedback { margin: 5px 0 0; font-size: .87rem; }
 #quiz-result { margin: 9px 0 0; min-height: 1.45em; font-weight: 750; }
 @media(max-width:720px) {
- .cot-hero,.cot-two,.cot-three,#quiz-questions { grid-template-columns: minmax(0,1fr); }
+ .cot-hero,.cot-two,.cot-three,.cot-rules,#quiz-questions { grid-template-columns: minmax(0,1fr); }
  .cot-errors { columns: 1; }
  .cot-table { font-size: .88rem; }
+}
+
+@media print {
+ @page { size: A4 portrait; margin: 12mm 14mm; }
+
+ .cot-page { min-height: 0; background: #fff; color: #172633; font-size: 9.8pt; }
+ .cot-page .container { width: 100%; max-width: none; }
+ .cot-page .site-header, .cot-skip, .cot-actions, .cot-index, .cot-hero > img,
+ #test, .cot-practice, .cot-summary-number { display: none !important; }
+
+ .cot-hero { display: block; margin: 0 0 5mm; padding: 0 0 4mm; background: none; border: 0; border-bottom: 1pt solid #426582; border-radius: 0; }
+ .cot-hero .eyebrow { color: #365a77; margin-bottom: 2mm; font-size: 8.5pt; }
+ .cot-hero h1 { margin-bottom: 2mm; font-size: 26pt; }
+ .cot-hero h1 span { color: inherit; }
+ .cot-hero p:not(.eyebrow) { max-width: none; margin-bottom: 0; color: #304658; font-size: 10.75pt; }
+
+ .cot-lessons { display: block; }
+ .cot-panel, .cot-references { margin: 0 0 3mm; padding: 0; border: 0; border-radius: 0; background: none; }
+ .cot-page h2 { margin-bottom: 2mm; color: #142d43; font-size: 15pt; break-after: avoid; }
+ .cot-page h3 { margin-bottom: 1.5mm; font-size: 11pt; break-after: avoid; }
+ .cot-page p, .cot-panel li, .cot-definitions dd { line-height: 1.35; }
+ .cot-page p { margin-bottom: 2mm; orphans: 2; widows: 2; }
+ .cot-panel p, .cot-panel strong, .cot-definitions dd, .cot-table, .cot-table caption, .cot-rules, .cot-steps, .cot-list, .cot-errors, .cot-references { color: #172633; }
+ .cot-definitions dt { color: #264e6c; }
+ .cot-definitions { gap: 2mm; }
+ .cot-note { margin-block: 2mm 0; padding: 1.6mm 3mm; border-left: 1.5pt solid #6689a4; border-radius: 0; background: none; }
+ .cot-panel .cot-ok { color: #166149; }
+ .cot-panel .cot-error { color: #8a2e32; }
+ .cot-rules li::marker, .cot-steps li::marker { color: #315b7c; }
+ .cot-two, .cot-rules { grid-template-columns: repeat(2,minmax(0,1fr)); }
+ .cot-two, .cot-three { gap: 3.5mm; }
+ .cot-three { grid-template-columns: repeat(3,minmax(0,1fr)); }
+ .cot-two, .cot-three, .cot-page figure, .cot-rules li, .cot-table tr { break-inside: avoid; }
+ #concepto .cot-two, #elementos .cot-two { grid-template-columns: minmax(0,1.34fr) minmax(0,.66fr); }
+ #ejemplo .cot-two { grid-template-columns: minmax(0,.8fr) minmax(0,1.2fr); }
+ #ejemplo figure img { width: 92%; margin-inline: auto; }
+ #normas, #procedimiento, .cot-normas-aplicacion { break-before: page; }
+ .cot-normas-aplicacion { margin-top: 0; }
+ .cot-card, .cot-rules li { padding: 2mm; border: .65pt solid #9fb1c1; border-radius: 1.5mm; background: none; }
+ .cot-rules { gap: 2mm 6mm; margin-bottom: 0; font-size: 9.5pt; }
+ .cot-rules p { margin-bottom: 1.5mm; }
+ .cot-rules figure { width: 100%; }
+ .cot-rules figure img { width: min(100%, 63mm); margin-inline: auto; }
+ .cot-page figure img { border-radius: 1mm; }
+ .cot-page figcaption { margin-top: 1mm; color: #334c60; font-size: 9pt; line-height: 1.38; }
+ .cot-card p { margin: 1.5mm 0 0; font-size: 9pt; }
+ .cot-three figure { width: 83%; margin-inline: auto; }
+ .cot-comparison figure img { width: 75%; margin-inline: auto; }
+ .cot-comparison { margin-block: 2mm; }
+ .cot-table { margin-block: 1mm; font-size: 9.5pt; }
+ .cot-table caption { padding: 1mm 0; font-size: 9pt; }
+ .cot-table th, .cot-table td { padding: 1.3mm 2mm; border-color: #b1c1ce; }
+ .cot-table thead th { border-bottom-color: #71899d; background: none; }
+ .line-sample { width: 15mm; margin-top: 2mm; background: #1b3246; print-color-adjust: exact; }
+ .line-dashed { background: repeating-linear-gradient(90deg, #1b3246 0 8px, transparent 8px 13px); }
+ .line-axis { background: repeating-linear-gradient(90deg, #1b3246 0 11px, transparent 11px 15px, #1b3246 15px 17px, transparent 17px 21px); }
+ .cot-steps li, .cot-errors li { padding-block: .55mm; }
+ .cot-errors { columns: 2; }
+ #titulo-resumen::before { content: '10. '; }
+ .cot-references h2 { font-size: 11pt; }
+ .cot-references ul { margin-block: 0; }
+ .cot-references a { color: #244a68; }
+ .cot-page footer { margin-top: 0; padding: 2mm 0 0; border-top: .7pt solid #9fb1c1; color: #334c60; font-size: 8.5pt; break-inside: avoid; }
+ .cot-page footer strong { color: #243f54; }
 }

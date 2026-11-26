@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 158" role="img" aria-labelledby="title">
+  <title id="title">Cota parcial de 30 cerca del resalte y cota total de 90 más alejada</title>
+  <style>
+    .outline { fill: #e3edf7; stroke: #273f58; stroke-width: 2.8; stroke-linejoin: round }
+    .hole { fill: #f7faff }
+    .aux, .dim, .axis, .hidden { fill: none; stroke: #6c839a; stroke-width: .9 }
+    .dim { stroke: #215980; stroke-width: 1.15 }
+    .axis { stroke-dasharray: 7 2 1 2 }
+    .hidden { stroke: #536d8b; stroke-width: 1.3; stroke-dasharray: 4 3 }
+    .arrow { fill: #215980 }
+    .measure, .view { fill: #15476d; font: 700 13px system-ui, sans-serif; text-anchor: middle }
+    .view { fill: #3d566d; font-size: 14px; font-weight: 600; text-anchor: start }
+  </style>
+  <rect width="340" height="158" rx="8" fill="#f7faff"/>
+  <path class="outline" d="M60 136V76H130V106H270V136Z"/>
+  <path class="aux" d="M60 73L60 48"/>
+  <path class="aux" d="M130 73L130 48"/>
+  <path class="dim" d="M60 53L130 53"/>
+  <polygon class="arrow" points="60,53 66,55.3 66,50.7"/>
+  <polygon class="arrow" points="130,53 124,50.7 124,55.3"/>
+  <text class="measure" x="95" y="49">30</text>
+  <path class="aux" d="M60 73L60 24"/>
+  <path class="aux" d="M270 103L270 24"/>
+  <path class="dim" d="M60 29L270 29"/>
+  <polygon class="arrow" points="60,29 66,31.3 66,26.7"/>
+  <polygon class="arrow" points="270,29 264,26.7 264,31.3"/>
+  <text class="measure" x="165" y="25">90</text>
+</svg>
