@@ -1,0 +1,117 @@
+.lab-catalog {
+  --lab-accent: #92cbff;
+  --lab-fill: #1e4773;
+}
+.lab-catalog .lab-hero {
+  padding: clamp(28px, 5vw, 54px) 0 20px;
+}
+.lab-catalog .breadcrumb {
+  flex-wrap: wrap;
+  align-items: baseline;
+  margin-bottom: 18px;
+}
+.lab-hero h1 {
+  margin: 0 0 8px;
+  color: #f6faff;
+  font-size: clamp(2.1rem, 5.2vw, 3.55rem);
+  line-height: 1.08;
+  letter-spacing: -.035em;
+}
+.lab-hero p {
+  margin: 0;
+  max-width: 46rem;
+  color: #c8ddfa;
+  line-height: 1.65;
+}
+.subject-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 315px), 1fr));
+  gap: 16px;
+  margin: 0;
+  padding: 10px 0 60px;
+  list-style: none;
+}
+.subject-link {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: clamp(11px, 2vw, 18px);
+  height: 100%;
+  min-height: 132px;
+  padding: clamp(13px, 2vw, 20px);
+  background: linear-gradient(142deg, var(--lab-fill), #101e3a 95%);
+  border: 1px solid #5474a0;
+  border-radius: 16px;
+  color: #f5faff;
+  text-decoration: none;
+}
+.subject-link:hover,
+.subject-link:focus-visible {
+  border-color: var(--lab-accent);
+  box-shadow: 0 8px 20px #06102460;
+}
+.lab-catalog a:focus-visible {
+  outline: 3px solid #cae5ff;
+  outline-offset: 3px;
+}
+.subject-symbol {
+  display: grid;
+  place-items: center;
+  width: clamp(44px, 6vw, 58px);
+  aspect-ratio: 1;
+  border: 1px solid currentColor;
+  border-radius: 12px;
+  background: #0e203dbb;
+  color: var(--lab-accent);
+  font-weight: 800;
+  font-size: clamp(1.01rem, 2vw, 1.23rem);
+  white-space: nowrap;
+}
+.subject-link h2 {
+  font-size: clamp(1.03rem, 1.8vw, 1.25rem);
+  line-height: 1.25;
+  margin: 0 0 6px;
+}
+.subject-link p {
+  color: #cbdcf3;
+  font-size: .88rem;
+  line-height: 1.45;
+  margin: 0;
+}
+.subject-arrow {
+  color: var(--lab-accent);
+  font-size: 1.22rem;
+}
+.lab-physics { --lab-accent: #98dcff; --lab-fill: #193e6b; }
+.lab-maths { --lab-accent: #ded1ff; --lab-fill: #3a326f; }
+.lab-chemistry { --lab-accent: #a8ead8; --lab-fill: #194f56; }
+.lab-technology { --lab-accent: #bedcff; --lab-fill: #2d4678; }
+.lab-computing { --lab-accent: #b4e9ff; --lab-fill: #204760; }
+.lab-resources { padding: 10px 0 50px; }
+.lab-catalog .lab-grid {
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 290px), 355px));
+}
+.lab-catalog .game-visual {
+  aspect-ratio: 2.55;
+  font-size: clamp(2.4rem, 5vw, 3.45rem);
+  color: var(--lab-accent);
+  background: linear-gradient(125deg, var(--lab-fill), #202b59);
+}
+.lab-catalog .game-detail h2 { margin-top: 0; }
+.lab-catalog .game-detail p { margin: 0 0 16px; }
+.lab-catalog .game-detail .lab-deadline {
+  color: #ffdfad;
+  font-size: .88rem;
+}
+.lab-catalog .game-detail .btn[aria-disabled="true"] {
+  background: #233753;
+  border-color: #597499;
+  color: #c8d7ec;
+  cursor: default;
+}
+@media (max-width: 520px) {
+  .subject-list { gap: 12px; padding-bottom: 35px; }
+  .subject-link { min-height: 105px; }
+  .lab-catalog .lab-grid { grid-template-columns: 1fr; }
+}
