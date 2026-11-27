@@ -125,6 +125,13 @@ window.AULA_MATERIAS = [
     "desc": "Aprende a diseñar, representar y construir soluciones tecnológicas",
     "resources": [
       {
+        "type": "Apuntes y teoría",
+        "title": "Tema 1 · El proceso tecnológico",
+        "description": "Plantea un reto, compara diseños y aprende a construir, probar y presentar un prototipo. Incluye una matriz interactiva y un repaso autocorregible.",
+        "url": "../recursos/tecnologia-1eso/proceso-tecnologico/index.html",
+        "unit": "Proceso tecnológico"
+      },
+      {
         "type": "Actividad interactiva",
         "title": "Laboratorio de vistas isométricas y diédricas",
         "description": "Construye figuras en isométrico y relaciónalas con su alzado, planta y perfil. Practica con las herramientas de dibujo, la órbita y la representación de vistas.",
